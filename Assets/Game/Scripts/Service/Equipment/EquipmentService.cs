@@ -25,6 +25,12 @@ namespace Game.Scripts.Service.Equipment
 
         private void Create() // тест в дальнейшем исправим(переписать логику)
         {
+            for (int i = 0; i < _data.Configs[EquipmentType.Gloves].Count; i++)
+            {
+                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Mythical],
+                    _data.Configs[EquipmentType.Gloves][i].Icon, _container);
+            }
+            
             for (int i = 0; i < _data.Configs[EquipmentType.Weapon].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Legendary],
@@ -53,12 +59,6 @@ namespace Game.Scripts.Service.Equipment
             {
                 _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Usual],
                     _data.Configs[EquipmentType.Suit][i].Icon, _container);
-            }
-            
-            for (int i = 0; i < _data.Configs[EquipmentType.Gloves].Count; i++)
-            {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Usual],
-                    _data.Configs[EquipmentType.Gloves][i].Icon, _container);
             }
         }
     }

@@ -8,5 +8,6 @@
         Rare,
         Epic,
         Legendary,
+        Mythical,
     }
 }
