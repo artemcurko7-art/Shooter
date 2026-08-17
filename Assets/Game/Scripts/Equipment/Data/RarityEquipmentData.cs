@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment.Data
     public class RarityEquipmentData
     {
         private readonly RarityEquipmentConfig[] _configs;
-        private readonly Dictionary<RarityEquipmentType, RarityEquipmentView> _views = new();
+        private readonly Dictionary<RarityEquipmentType, RarityEquipmentConfig> _rarityConfigs = new();
         
         public RarityEquipmentData()
         {
@@ -18,7 +18,7 @@ namespace Game.Scripts.Equipment.Data
             Fill();
         }
         
-        public IReadOnlyDictionary<RarityEquipmentType, RarityEquipmentView> Views => _views;
+        public IReadOnlyDictionary<RarityEquipmentType, RarityEquipmentConfig> Configs => _rarityConfigs;
         
         private void Fill()
         {
@@ -27,10 +27,10 @@ namespace Game.Scripts.Equipment.Data
                 if (config.Type == RarityEquipmentType.None)
                     throw new InvalidOperationException($"Not type: {config.Type}");
 
-                if (_views.ContainsKey(config.Type))
+                if (_rarityConfigs.ContainsKey(config.Type))
                     throw new InvalidOperationException($"Duplicate type: {config.Type}");
                 
-                _views.Add(config.Type, config.View);
+                _rarityConfigs.Add(config.Type, config);
             }
         }
     }

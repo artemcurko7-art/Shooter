@@ -1,12 +1,16 @@
 ﻿using Game.Scripts.Configs;
+using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Factory;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 {
     public class GlobalEquipmentInstaller : MonoInstaller
     {
+        [SerializeField] private Slot _slot;
+        
         public override void InstallBindings()
         {
             Container
@@ -18,8 +22,9 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
                 .AsSingle();
             
             Container
-                .Bind<RarityEquipmentViewFactory>()
-                .AsSingle();
+                .Bind<SlotFactory>()
+                .AsSingle()
+                .WithArguments(_slot);
         }
     }
 }

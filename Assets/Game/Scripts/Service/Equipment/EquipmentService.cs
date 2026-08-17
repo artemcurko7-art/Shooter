@@ -10,10 +10,10 @@ namespace Game.Scripts.Service.Equipment
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
-        private readonly RarityEquipmentViewFactory _rarityFactory;
+        private readonly SlotFactory _rarityFactory;
         private readonly Transform _container;
         
-        public EquipmentService(EquipmentData data, RarityEquipmentData rarityData, RarityEquipmentViewFactory rarityFactory, Transform container)
+        public EquipmentService(EquipmentData data, RarityEquipmentData rarityData, SlotFactory rarityFactory, Transform container)
         {
             _data = data;
             _rarityData = rarityData;
@@ -25,39 +25,39 @@ namespace Game.Scripts.Service.Equipment
 
         private void Create() // тест в дальнейшем исправим(переписать логику)
         {
-            for (int i = 0; i < _data.Configs[EquipmentType.Gloves].Count; i++)
-            {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Mythical],
-                    _data.Configs[EquipmentType.Gloves][i].Icon, _container);
-            }
-            
             for (int i = 0; i < _data.Configs[EquipmentType.Weapon].Count; i++)
             {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Legendary],
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                     _data.Configs[EquipmentType.Weapon][i].Icon, _container);
+            }
+            
+            for (int i = 0; i < _data.Configs[EquipmentType.Gloves].Count; i++)
+            {
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+                    _data.Configs[EquipmentType.Gloves][i].Icon, _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Helmet].Count; i++)
             {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Epic],
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                     _data.Configs[EquipmentType.Helmet][i].Icon, _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Amulet].Count; i++)
             {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Rare],
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                     _data.Configs[EquipmentType.Amulet][i].Icon, _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Boots].Count; i++)
             {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Unusual],
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                     _data.Configs[EquipmentType.Boots][i].Icon, _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Suit].Count; i++)
             {
-                _rarityFactory.Create(_rarityData.Views[RarityEquipmentType.Usual],
+                _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                     _data.Configs[EquipmentType.Suit][i].Icon, _container);
             }
         }
