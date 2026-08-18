@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Unusual
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 2
-  <View>k__BackingField: {fileID: 2829416996237454751, guid: d20757568982fdd47a099b5bb7900702, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: e6eea4f7cbb9f46f79c0fe06180fa5b3, type: 3}
