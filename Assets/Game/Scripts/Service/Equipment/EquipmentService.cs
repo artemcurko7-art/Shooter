@@ -28,37 +28,37 @@ namespace Game.Scripts.Service.Equipment
             for (int i = 0; i < _data.Configs[EquipmentType.Weapon].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
-                    _data.Configs[EquipmentType.Weapon][i].Icon, _container);
+                    _data.Configs[EquipmentType.Weapon][i], _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Gloves].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
-                    _data.Configs[EquipmentType.Gloves][i].Icon, _container);
+                    _data.Configs[EquipmentType.Gloves][i], _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Helmet].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
-                    _data.Configs[EquipmentType.Helmet][i].Icon, _container);
+                    _data.Configs[EquipmentType.Helmet][i], _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Amulet].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
-                    _data.Configs[EquipmentType.Amulet][i].Icon, _container);
+                    _data.Configs[EquipmentType.Amulet][i], _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Boots].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
-                    _data.Configs[EquipmentType.Boots][i].Icon, _container);
+                    _data.Configs[EquipmentType.Boots][i], _container);
             }
             
             for (int i = 0; i < _data.Configs[EquipmentType.Suit].Count; i++)
             {
                 _rarityFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
-                    _data.Configs[EquipmentType.Suit][i].Icon, _container);
+                    _data.Configs[EquipmentType.Suit][i], _container);
             }
         }
     }
