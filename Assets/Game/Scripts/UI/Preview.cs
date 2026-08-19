@@ -12,6 +12,7 @@ public class Preview : MonoBehaviour
     [SerializeField] private Image _iconFrame;
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _title;
+    [SerializeField] private Button _buyStatButton;
 
     private PreviewTransition _transition;
 
