@@ -14,32 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Stats:
   - name: AttackStrength
-    maxCount: 10
-    SkinNameTranslations:
+    icon: {fileID: 21300000, guid: 413710b631bd5493ebbf1a29b2d82eb3, type: 3}
+    frame: {fileID: 0}
+    StatNameTranslations:
       Ru: "\u0421\u0438\u043B\u0430 \u0430\u0442\u0430\u043A\u0438"
       En: Attack Strength
       Tr: '!'
   - name: CriticalDamage
-    maxCount: 6
-    SkinNameTranslations:
+    icon: {fileID: 21300000, guid: 3c6f5b7a54bd84489ba7d655c5b7b812, type: 3}
+    frame: {fileID: 0}
+    StatNameTranslations:
       Ru: "\u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0443\u0440\u043E\u043D"
       En: Critical Damage
       Tr: '!'
   - name: Armor
-    maxCount: 5
-    SkinNameTranslations:
+    icon: {fileID: 21300000, guid: b3d8dbe835c404179842f9f9595f2bf0, type: 3}
+    frame: {fileID: 0}
+    StatNameTranslations:
       Ru: "\u0411\u0440\u043E\u043D\u044F"
       En: Armor
       Tr: '!'
   - name: MovementSpeed
-    maxCount: 8
-    SkinNameTranslations:
+    icon: {fileID: 21300000, guid: c3189121f7e3342a3b2fcc2f495c9e31, type: 3}
+    frame: {fileID: 0}
+    StatNameTranslations:
       Ru: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C"
       En: Movement Speed
       Tr: '!'
   - name: ViewRange
-    maxCount: 3
-    SkinNameTranslations:
+    icon: {fileID: 21300000, guid: 1763c140e7caf4eb2a38686bf8a790ec, type: 3}
+    frame: {fileID: 0}
+    StatNameTranslations:
       Ru: "\u0414\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u044C \u043E\u0431\u0437\u043E\u0440\u0430"
       En: View Range
       Tr: '!'

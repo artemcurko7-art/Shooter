@@ -52,8 +52,8 @@ namespace YG
         public static void SetDefaultSaves()
         {
             Message("Set Default Saves");
-            int idSave = saves.idSave;
-            saves = new GeneticSavesYG { idSave = idSave };
+            int idSave = saves.IdSavedStatCount;
+            saves = new GeneticSavesYG { IdSavedStatCount = idSave };
 
             if (Time.unscaledTime < 0.5f)
             {
@@ -78,7 +78,7 @@ namespace YG
                 return;
             }
 
-            saves.idSave++;
+            saves.IdSavedStatCount++;
 #if !UNITY_EDITOR
             if (infoYG.Storage.saveLocal)
                 YGInsides.SaveLocal();
@@ -109,7 +109,7 @@ namespace YG.Insides
 #else
             LoadEditor();
 #endif
-            if (YG2.saves.idSave > 0)
+            if (YG2.saves.IdSavedStatCount > 0)
                 GetDataInvoke();
         }
 
@@ -273,14 +273,14 @@ namespace YG.Insides
 
             if (cloudDataState == DataState.Exist && localDataState == DataState.Exist)
             {
-                if (cloudData.idSave >= localData.idSave)
+                if (cloudData.IdSavedStatCount >= localData.IdSavedStatCount)
                 {
-                    Message($"Load Cloud Complete! ID Cloud Save: {cloudData.idSave}, ID Local Save: {localData.idSave}");
+                    Message($"Load Cloud Complete! ID Cloud Save: {cloudData.IdSavedStatCount}, ID Local Save: {localData.IdSavedStatCount}");
                     YG2.saves = cloudData;
                 }
                 else
                 {
-                    Message($"Load Local Complete! ID Cloud Save: {cloudData.idSave}, ID Local Save: {localData.idSave}");
+                    Message($"Load Local Complete! ID Cloud Save: {cloudData.IdSavedStatCount}, ID Local Save: {localData.IdSavedStatCount}");
                     YG2.saves = localData;
                 }
             }
