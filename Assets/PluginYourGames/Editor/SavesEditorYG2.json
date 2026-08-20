@@ -1,9 +1,9 @@
 {
-    "IdSavedStatCount": 4,
+    "IdSavedStatCount": 3,
     "AttackStrength": 1.5,
     "CriticalDamage": 1.5,
     "Armor": 1.5,
-    "MovementSpeed": 1.5,
+    "MovementSpeed": 1.0,
     "ViewRange": 1.0,
     "intExample": 5,
     "strExample": "Hello!",

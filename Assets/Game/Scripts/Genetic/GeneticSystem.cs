@@ -1,6 +1,7 @@
 ﻿using Game.Scripts.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using YG;
 
 namespace Game.Scripts.Genetic
@@ -15,7 +16,8 @@ namespace Game.Scripts.Genetic
         [SerializeField] private Preview _preview;
         [SerializeField] private StatsData _statsData;
         [SerializeField] private StatBar _statBarPrefab;
-        [SerializeField] private Transform _gridContainer;
+        [SerializeField] private RectTransform _gridContainer;
+        [SerializeField] private RawImage _background;
 
         public float IncreaseNumber => _statIncreaseNumber;
 
@@ -23,6 +25,15 @@ namespace Game.Scripts.Genetic
         {
             InitializeStats();
         }
+
+        private void LateUpdate()
+        {
+            Rect rect = _background.uvRect;
+            rect.y = _gridContainer.anchoredPosition.y / 2000f;
+            _background.uvRect = rect;
+        }
+
+
 
         private void InitializeStats()
         {
