@@ -1,4 +1,4 @@
-using Game.Scripts.Genetic;
+ï»¿using Game.Scripts.Genetic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +12,7 @@ namespace Game.Scripts.UI
         [SerializeField] private GeneticSystem _geneticSystem;
         [SerializeField] private ImageBlicker _imageBlicker;
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] private Image _background;
+        [SerializeField] private RawImage _background;
         [SerializeField] private Image _iconFrame;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
@@ -74,7 +74,7 @@ namespace Game.Scripts.UI
         {
             if (_stat == null)
             {
-                Debug.LogError("[Prview] _stat íå ïåðåäàåòñÿ â open!");
+                Debug.LogError("[Prview] _stat Ð½Ðµ Ð¿ÐµÑ€ÐµÐ´Ð°ÐµÑ‚ÑÑ Ð² open!");
                 return;
             }
 
@@ -107,7 +107,7 @@ namespace Game.Scripts.UI
 
             return languageCode switch
             {
-                "ru" => "Ïîëó÷èòü!",
+                "ru" => "ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ!",
                 "en" => "Receive!",
                 "tr" => "almakt?r",
                 _ => "Receive!",
