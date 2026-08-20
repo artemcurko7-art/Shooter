@@ -2,46 +2,65 @@ using DG.Tweening;
 using System;
 using UnityEngine;
 
-public class PreviewTransition : MonoBehaviour
+namespace Game.Scripts.UI
 {
-    [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private RectTransform _previewRectTransform;
-    [SerializeField] private Vector3 _targetPreviewPosition;
-    [SerializeField] private Vector3 _targetPreviewScale;
-
-    [SerializeField] private float _animationDuration = 0.5f;
-    [SerializeField] private Ease _positionEase = Ease.OutBack;
-    [SerializeField] private Ease _scaleEase = Ease.OutBounce;
-    [SerializeField] private Ease _fadeEase = Ease.Linear;
-
-    private Vector3 _startPreviewScale = Vector3.one * 0.1f;
-
-    private void Awake()
+    public class PreviewTransition : MonoBehaviour
     {
-        if (_canvasGroup != null)
-            _canvasGroup.alpha = 0f;
-    }
+        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private RectTransform _previewRectTransform;
+        [SerializeField] private Vector3 _targetPreviewPosition;
+        [SerializeField] private Vector3 _targetPreviewScale;
 
-    public void Open(Vector3 startPreviewPosition)
-    {
-        if (_canvasGroup == null)
-            throw new ArgumentException("_canvasGroup не может быть null.", nameof(_canvasGroup));
+        [SerializeField] private float _duration = 0.5f;
+        [SerializeField] private Ease _positionEase = Ease.OutBack;
+        [SerializeField] private Ease _scaleEase = Ease.OutBounce;
+        [SerializeField] private Ease _fadeEase = Ease.Linear;
 
-        _previewRectTransform.position = startPreviewPosition;
-        _previewRectTransform.localScale = _startPreviewScale;
-        _canvasGroup.alpha = 0;
+        private float _closeDuration = 0.25f;
+        private Vector3 _startPreviewScale = Vector3.one * 0.1f;
 
-        if (_canvasGroup != null)
-            _canvasGroup.interactable = false;
-
-        _canvasGroup.DOFade(1f, _animationDuration / 2).SetEase(_fadeEase);
-
-        _previewRectTransform.DOAnchorPos(_targetPreviewPosition, _animationDuration).SetEase(_positionEase);
-
-        _previewRectTransform.DOScale(_targetPreviewScale, _animationDuration).SetEase(_scaleEase).OnComplete(() =>
+        private void Awake()
         {
             if (_canvasGroup != null)
-                _canvasGroup.interactable = true;
-        });
+                _canvasGroup.alpha = 0f;
+        }
+
+        public void Open(Vector3 startPreviewPosition)
+        {
+            if (_canvasGroup == null)
+                throw new ArgumentException("_canvasGroup не может быть null.", nameof(_canvasGroup));
+
+            _targetPreviewScale = Vector3.one;
+
+            _previewRectTransform.position = startPreviewPosition;
+            _previewRectTransform.localScale = _startPreviewScale;
+            _canvasGroup.alpha = 0;
+
+            if (_canvasGroup != null)
+                _canvasGroup.interactable = false;
+
+            _canvasGroup.DOFade(1f, _duration / 2).SetEase(_fadeEase);
+
+            _previewRectTransform.DOAnchorPos(_targetPreviewPosition, _duration).SetEase(_positionEase);
+
+            _previewRectTransform.DOScale(_targetPreviewScale, _duration).SetEase(_scaleEase).OnComplete(() =>
+            {
+                if (_canvasGroup != null)
+                    _canvasGroup.interactable = true;
+            });
+        }
+
+        public void Close()
+        {
+            _targetPreviewScale = Vector3.zero;
+
+            _previewRectTransform.DOScale(_targetPreviewScale, _closeDuration).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                if (_canvasGroup != null)
+                    _canvasGroup.interactable = false;
+
+                gameObject.SetActive(false);
+            });
+        }
     }
 }

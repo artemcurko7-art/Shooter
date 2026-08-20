@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Game.Scripts.UI;
+using System.Collections.Generic;
 using UnityEngine;
 using YG;
-using static Game.Scripts.Character.Genetic.StatsData;
 
-namespace Game.Scripts.Character.Genetic
+namespace Game.Scripts.Genetic
 {
     public class GeneticSystem : MonoBehaviour
     {
+        private readonly List<StatBar> _statBars = new List<StatBar>();
+
         [SerializeField] private float _statIncreaseNumber = 0.5f;
 
         [Header("Зависимости")]
@@ -15,7 +17,7 @@ namespace Game.Scripts.Character.Genetic
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private Transform _gridContainer;
 
-        private List<StatBar> _statBars = new List<StatBar>();
+        public float IncreaseNumber => _statIncreaseNumber;
 
         private void Start()
         {
@@ -68,12 +70,6 @@ namespace Game.Scripts.Character.Genetic
             return statIndex < nextIndex;
         }
 
-        public void OpenPreview(Stat stat, Vector3 startPosition)
-        {
-            _preview.gameObject.SetActive(true);
-            _preview.Open(stat, startPosition);
-        }
-
         public void IncreaseStat(string statName)
         {
             switch (statName)
@@ -101,6 +97,12 @@ namespace Game.Scripts.Character.Genetic
 
             foreach (var bar in _statBars)
                 bar.UpdateDisplay();
+        }
+
+        public void OpenPreview(StatsData.Stat stat, Vector3 startPosition)
+        {
+            _preview.gameObject.SetActive(true);
+            _preview.Open(stat, startPosition);
         }
     }
 }

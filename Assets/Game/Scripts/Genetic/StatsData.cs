@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Game.Scripts.Character.Genetic
+namespace Game.Scripts.Genetic
 {
     [CreateAssetMenu(fileName = "StatsData", menuName = "Genetic/StatsData")]
     public class StatsData : ScriptableObject
@@ -15,6 +14,7 @@ namespace Game.Scripts.Character.Genetic
         {
             public string name;
             public Sprite icon;
+            public int value;
 
             public LocalizedName StatNameTranslations;
 

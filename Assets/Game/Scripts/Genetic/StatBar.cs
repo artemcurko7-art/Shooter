@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Scripts.Character.Genetic
+namespace Game.Scripts.Genetic
 {
     public class StatBar : MonoBehaviour
     {
