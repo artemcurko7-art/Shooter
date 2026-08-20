@@ -19,7 +19,7 @@ namespace Game.Scripts.Factory
         public Slot Create(RarityEquipmentConfig rarityEquipmentConfig, EquipmentConfig equipmentConfig, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<Slot>(_slot, Vector3.zero, Quaternion.identity, container);
-            view.Initialize(equipmentConfig.Type, rarityEquipmentConfig.Icon, equipmentConfig.Icon);
+            view.Initialize(rarityEquipmentConfig.Type, equipmentConfig.Type, rarityEquipmentConfig.Icon, equipmentConfig.Icon);
             view.transform.localScale = Vector3.one;
             
             return view;

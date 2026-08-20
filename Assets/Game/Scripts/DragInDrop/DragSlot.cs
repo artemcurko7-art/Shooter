@@ -41,16 +41,10 @@ namespace Game.Scripts.DragInDrop
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot) == false)
+            if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot) == false || dropSlot.EquipmentType != _slot.EquipmentType)
             {
-                if (dropSlot.EquipmentType != _slot.EquipmentType)
-                {
-                    _rectTransform.SetParent(_gridLayoutGroup.transform);
-                    _rectTransform.SetSiblingIndex(_indexHierarchy);
-                    Debug.Log("Отпустил");
-                }
-                
-                Debug.Log($"Drop slot type: {dropSlot.EquipmentType}, slot: {_slot.EquipmentType}");
+                _rectTransform.SetParent(_gridLayoutGroup.transform);
+                _rectTransform.SetSiblingIndex(_indexHierarchy);
             }
             
             _canvasGroup.blocksRaycasts = true;

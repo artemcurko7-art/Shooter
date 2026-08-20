@@ -9,6 +9,7 @@ namespace Game.Scripts.Equipment
         [SerializeField] private Image _rarity;
         [SerializeField] private Image _icon;
         
+        public RarityEquipmentType RarityEquipmentType { get; private set; }
         public EquipmentType EquipmentType { get; private set; }
         public RectTransform RectTransform { get; private set; }
         public RectTransform ChildRectTransform { get; private set; }
@@ -19,11 +20,12 @@ namespace Game.Scripts.Equipment
             ChildRectTransform = _icon.GetComponent<RectTransform>();
         }
 
-        public void Initialize(EquipmentType equipmentType, Sprite rarity, Sprite icon)
+        public void Initialize(RarityEquipmentType rarityEquipmentType, EquipmentType equipmentType, Sprite rarity, Sprite icon)
         {
+            RarityEquipmentType = rarityEquipmentType;
             EquipmentType = equipmentType;
             _rarity.sprite = rarity;
-            this._icon.sprite = icon;
+            _icon.sprite = icon;
             RectTransform = GetComponent<RectTransform>();
         }
     }
