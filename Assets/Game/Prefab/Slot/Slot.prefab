@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rarity: {fileID: 86988228125094084}
   _icon: {fileID: 7491679380106939048}
+  <Drag>k__BackingField: {fileID: 466925935106712617}
 --- !u!114 &466925935106712617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,4 +193,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b75e2fd75484f9eb843f50d3090b3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slot: {fileID: 5765095746818369731}

@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment;
+﻿using Game.Scripts.DragInDrop;
+using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
@@ -10,6 +11,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class EquipmentInstaller : MonoInstaller
     {
+        [SerializeField] private DropSlot[] _dropSlots;
         [SerializeField] private Slot _slot;
         [SerializeField] private Transform _container;
         
@@ -34,9 +36,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_container);
 
             Container
-                .Bind<EquipmentService>()
+                .Bind<ISubscriber>()
+                .To<EquipmentService>()
                 .AsSingle()
-                .WithArguments(_container);
+                .WithArguments(_dropSlots, _container)
+                .NonLazy();
         }
     }
 }

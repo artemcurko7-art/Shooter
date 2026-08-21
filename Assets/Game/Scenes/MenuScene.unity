@@ -9565,6 +9565,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360f8a8681ae4db58448aac42e24792a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dropSlots:
+  - {fileID: 1730367945}
+  - {fileID: 927891765}
+  - {fileID: 689451065}
+  - {fileID: 1688680381}
+  - {fileID: 1718016890}
+  - {fileID: 1332360271}
   _slot: {fileID: 5765095746818369731, guid: 1951f59bcb43e8443a05e4b7d017898d, type: 3}
   _container: {fileID: 79560375}
 --- !u!1 &1982729759

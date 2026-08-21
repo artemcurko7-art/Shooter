@@ -1,27 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.Scripts.Equipment.Type;
-using Game.Scripts.Service.Equipment;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment
 {
     public class SortingEquipmentByParameters 
     {
-        private readonly EquipmentService _equipmentService;
         private readonly Transform _container;
         private int _index;
         
-        public SortingEquipmentByParameters(EquipmentService equipmentService, Transform container)
+        public SortingEquipmentByParameters(Transform container)
         {
-            _equipmentService = equipmentService;
             _container = container;
-            
-            Sort();
         }
         
-        public void Sort()
+        public void Sort(IReadOnlyList<Slot> slots)
         {
-            _index = _equipmentService.Slots.Count - 1;
+            _index = slots.Count - 1;
             
             foreach (var rarityType in Enum.GetValues(typeof(RarityEquipmentType)))
             {
@@ -35,7 +31,7 @@ namespace Game.Scripts.Equipment
                     if ((EquipmentType)type == EquipmentType.None)
                         continue;
                 
-                    foreach (var slot in _equipmentService.Slots)
+                    foreach (var slot in slots)
                     {
                         if ((RarityEquipmentType)rarityType == slot.RarityEquipmentType && (EquipmentType)type == slot.EquipmentType)
                         {

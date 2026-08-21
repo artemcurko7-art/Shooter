@@ -1,21 +1,15 @@
 ﻿using System;
 using Game.Scripts.Equipment;
-using Game.Scripts.Equipment.Type;
-using Game.Scripts.Service.Equipment;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Zenject;
 
 namespace Game.Scripts.DragInDrop
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class DragSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [SerializeField] private Slot _slot;
-        
-        private LazyInject<EquipmentService> _equipmentService;
-        private LazyInject<SortingEquipmentByParameters> _sorting;
+        private Slot _slot;
         private Canvas _canvas;
         private CanvasGroup _canvasGroup;
         private GridLayoutGroup _gridLayoutGroup;
@@ -23,12 +17,7 @@ namespace Game.Scripts.DragInDrop
         private Vector2 _sizeDelta;
         private int _indexHierarchy;
 
-        [Inject]
-        public void Construct(LazyInject<EquipmentService> equipmentService, LazyInject<SortingEquipmentByParameters> sorting)
-        {
-            _equipmentService = equipmentService;
-            _sorting = sorting;
-        }
+        public event Action<Slot> Dragged;
         
         private void Awake()
         {
@@ -36,6 +25,11 @@ namespace Game.Scripts.DragInDrop
             _canvasGroup = GetComponent<CanvasGroup>();
             _gridLayoutGroup = GetComponentInParent<GridLayoutGroup>();
             _rectTransform = GetComponent<RectTransform>();
+        }
+
+        public void Initialize(Slot slot)
+        {
+            _slot = slot;
             _sizeDelta = _slot.ChildRectTransform.sizeDelta;
         }
 
@@ -60,12 +54,8 @@ namespace Game.Scripts.DragInDrop
                 _rectTransform.SetParent(_gridLayoutGroup.transform);
                 _rectTransform.SetSiblingIndex(_indexHierarchy);
                 _slot.ChildRectTransform.sizeDelta = _sizeDelta;
-
-                if (_equipmentService.Value.IsCheckerSlot(_slot) == false)
-                {
-                    _equipmentService.Value.AddSlot(_slot);
-                    _sorting.Value.Sort();
-                }
+                
+                Dragged?.Invoke(_slot);
             }
             
             _canvasGroup.blocksRaycasts = true;
