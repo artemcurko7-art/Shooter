@@ -2,6 +2,7 @@
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
+using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 using Zenject;
 
@@ -31,12 +32,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<SortingEquipmentByParameters>()
                 .AsSingle()
                 .WithArguments(_container);
-            
+
             Container
                 .Bind<EquipmentService>()
                 .AsSingle()
-                .WithArguments(_container)
-                .NonLazy();
+                .WithArguments(_container);
         }
     }
 }

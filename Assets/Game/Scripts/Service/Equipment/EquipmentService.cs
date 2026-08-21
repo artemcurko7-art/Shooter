@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public class EquipmentService
+    public class EquipmentService 
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
@@ -26,8 +26,23 @@ namespace Game.Scripts.Service.Equipment
             Create();
         }
 
-        public List<Slot> Slots => _slots;
+        public IReadOnlyList<Slot> Slots => _slots;
 
+        public void AddSlot(Slot slot)
+        {
+            _slots.Add(slot);
+        }
+
+        public void RemoveSlot(Slot slot)
+        {
+            _slots.Remove(slot);
+        }
+
+        public bool IsCheckerSlot(Slot slot)
+        {
+            return _slots.Contains(slot);
+        }
+        
         private void Create() // тест в дальнейшем исправим(переписать логику)
         {
             CreateUsual();

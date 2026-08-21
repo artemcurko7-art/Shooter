@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Service.Equipment;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment
 {
-    public class SortingEquipmentByParameters
+    public class SortingEquipmentByParameters 
     {
         private readonly EquipmentService _equipmentService;
         private readonly Transform _container;
@@ -16,8 +15,10 @@ namespace Game.Scripts.Equipment
         {
             _equipmentService = equipmentService;
             _container = container;
+            
+            Sort();
         }
-
+        
         public void Sort()
         {
             _index = _equipmentService.Slots.Count - 1;
@@ -27,39 +28,23 @@ namespace Game.Scripts.Equipment
                 if ((RarityEquipmentType)rarityType == RarityEquipmentType.None)
                     continue;
                 
-                for (int i = 0; i < _equipmentService.Slots.Count; i++)
-                {
-                    for (int j = 0; j < _equipmentService.Slots.Count; j++)
-                    {
-                        if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType)
-                        {
-                            _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
-                            _index--;
-                        }  
-                    }  
-                }
+                var types = Enum.GetValues(typeof(EquipmentType));
                 
-                // foreach (var type in Enum.GetValues(typeof(EquipmentType)))
-                // {
-                //     if ((EquipmentType)type == EquipmentType.None)
-                //         continue;
-                //     
-                //     for (int i = 0; i < _equipmentService.Slots.Count; i++)
-                //     {
-                //         for (int j = 0; j < _equipmentService.Slots.Count; j++)
-                //         {
-                //             if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType && 
-                //                 (EquipmentType)type == _equipmentService.Slots[i].EquipmentType)
-                //             {
-                //                 _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
-                //                 _index--;
-                //             }  
-                //         }  
-                //     }
-                // }
+                for (int type = types.Length - 1; type >= 0; type--)
+                {
+                    if ((EquipmentType)type == EquipmentType.None)
+                        continue;
+                
+                    foreach (var slot in _equipmentService.Slots)
+                    {
+                        if ((RarityEquipmentType)rarityType == slot.RarityEquipmentType && (EquipmentType)type == slot.EquipmentType)
+                        {
+                            slot.transform.SetSiblingIndex(_index);
+                            _index--;
+                        }
+                    }
+                }
             }
-            
-            Debug.Log($"index: {_index}");
         }
     }
 }

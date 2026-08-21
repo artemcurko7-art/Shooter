@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Type;
+using Game.Scripts.Service.Equipment;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,19 +13,20 @@ namespace Game.Scripts.DragInDrop
         [SerializeField] private Image _childRectTransform;
         [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
         
-        private SortingEquipmentByParameters _sortingEquipmentByParameters;
+        private EquipmentService _equipmentService;
+        private SortingEquipmentByParameters _sorting;
         private RectTransform _rectTransform;
 
         [Inject]
-        public void Construct(SortingEquipmentByParameters sortingEquipmentByParameters)
+        public void Construct(EquipmentService equipmentService, SortingEquipmentByParameters sorting)
         {
-            _sortingEquipmentByParameters = sortingEquipmentByParameters;
+            _equipmentService = equipmentService;
+            _sorting = sorting;
         }
         
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _sortingEquipmentByParameters.Sort();
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -37,6 +39,8 @@ namespace Game.Scripts.DragInDrop
                     slot.transform.localPosition = Vector3.zero;
                     slot.RectTransform.sizeDelta = _rectTransform.sizeDelta;
                     slot.ChildRectTransform.sizeDelta = _childRectTransform.rectTransform.sizeDelta;
+                    _equipmentService.RemoveSlot(slot);
+                    _sorting.Sort();
                 }
             }
         }
