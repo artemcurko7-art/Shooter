@@ -27,25 +27,39 @@ namespace Game.Scripts.Equipment
                 if ((RarityEquipmentType)rarityType == RarityEquipmentType.None)
                     continue;
                 
-                foreach (var type in Enum.GetValues(typeof(EquipmentType)))
+                for (int i = 0; i < _equipmentService.Slots.Count; i++)
                 {
-                    if ((EquipmentType)type == EquipmentType.None)
-                        continue;
-                    
-                    for (int i = 0; i < _equipmentService.Slots.Count; i++)
+                    for (int j = 0; j < _equipmentService.Slots.Count; j++)
                     {
-                        for (int j = 0; j < _equipmentService.Slots.Count; j++)
+                        if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType)
                         {
-                            if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType && 
-                                (EquipmentType)type == _equipmentService.Slots[i].EquipmentType)
-                            {
-                                _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
-                                _index--;
-                            }  
+                            _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
+                            _index--;
                         }  
-                    }
+                    }  
                 }
+                
+                // foreach (var type in Enum.GetValues(typeof(EquipmentType)))
+                // {
+                //     if ((EquipmentType)type == EquipmentType.None)
+                //         continue;
+                //     
+                //     for (int i = 0; i < _equipmentService.Slots.Count; i++)
+                //     {
+                //         for (int j = 0; j < _equipmentService.Slots.Count; j++)
+                //         {
+                //             if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType && 
+                //                 (EquipmentType)type == _equipmentService.Slots[i].EquipmentType)
+                //             {
+                //                 _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
+                //                 _index--;
+                //             }  
+                //         }  
+                //     }
+                // }
             }
+            
+            Debug.Log($"index: {_index}");
         }
     }
 }

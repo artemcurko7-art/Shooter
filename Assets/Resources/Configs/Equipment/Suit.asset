@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447396a1b8834f3ca7874bdbee0c0b24, type: 3}
   m_Name: Suit
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
-  <Icon>k__BackingField: {fileID: 21300000, guid: 18c8e162a6e9710489e77211e03d3bd4, type: 3}
+  <Type>k__BackingField: 5
+  <Icon>k__BackingField: {fileID: 21300000, guid: 99f09433d4acb784d8108ad18c427a06, type: 3}
