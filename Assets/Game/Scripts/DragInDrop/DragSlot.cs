@@ -1,5 +1,5 @@
-﻿using System;
-using Game.Scripts.Equipment;
+﻿using Game.Scripts.Equipment;
+using Game.Scripts.Equipment.Type;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,15 +9,13 @@ namespace Game.Scripts.DragInDrop
     [RequireComponent(typeof(CanvasGroup))]
     public class DragSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private Slot _slot;
+        [SerializeField] private Slot _slot;
+        
         private Canvas _canvas;
         private CanvasGroup _canvasGroup;
         private GridLayoutGroup _gridLayoutGroup;
         private RectTransform _rectTransform;
-        private Vector2 _sizeDelta;
         private int _indexHierarchy;
-
-        public event Action<Slot> Dragged;
         
         private void Awake()
         {
@@ -25,12 +23,6 @@ namespace Game.Scripts.DragInDrop
             _canvasGroup = GetComponent<CanvasGroup>();
             _gridLayoutGroup = GetComponentInParent<GridLayoutGroup>();
             _rectTransform = GetComponent<RectTransform>();
-        }
-
-        public void Initialize(Slot slot)
-        {
-            _slot = slot;
-            _sizeDelta = _slot.ChildRectTransform.sizeDelta;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -53,9 +45,6 @@ namespace Game.Scripts.DragInDrop
             {
                 _rectTransform.SetParent(_gridLayoutGroup.transform);
                 _rectTransform.SetSiblingIndex(_indexHierarchy);
-                _slot.ChildRectTransform.sizeDelta = _sizeDelta;
-                
-                Dragged?.Invoke(_slot);
             }
             
             _canvasGroup.blocksRaycasts = true;

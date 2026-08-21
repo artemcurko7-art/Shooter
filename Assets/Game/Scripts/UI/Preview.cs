@@ -21,7 +21,9 @@ namespace Game.Scripts.UI
         [SerializeField] private Button _exitButton;
 
         private PreviewTransition _transition;
-        private StatsData.Stat _stat;
+        private string _statName;
+        private Color _originColor;
+        private Color _activeColor;
 
         private void OnEnable()
         {
@@ -38,16 +40,25 @@ namespace Game.Scripts.UI
         private void Awake()
         {
             _transition = GetComponent<PreviewTransition>();
+
+            Color color = Color.black;
+
+            color.a = 0;
+            _originColor = color;
+
+            color.a = 0.7f;
+            _activeColor = color;
         }
 
         public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
-            _stat = stat;
+            _statName = stat.name;
 
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
             _buyButtonText.text = GetLocalizedBuyText();
-            _background.color = Color.grey;
+
+            _background.color = _activeColor;
             _scrollRect.enabled = false;
 
             bool canBuy = _buyStatButton.interactable;
@@ -72,13 +83,7 @@ namespace Game.Scripts.UI
 
         private void OnBuyButtonClick()
         {
-            if (_stat == null)
-            {
-                Debug.LogError("[Prview] _stat не передается в open!");
-                return;
-            }
-
-            _geneticSystem.IncreaseStat(_stat.name);
+            _geneticSystem.IncreaseStat(_statName);
             Close();
         }
 
@@ -89,10 +94,10 @@ namespace Game.Scripts.UI
                 _imageBlicker.Disable();
             }
 
-            _background.color = Color.white;
+            _background.color = _originColor;
             _scrollRect.enabled = true;
             _transition.Close();
-            _stat = null;
+            _statName = string.Empty;
         }
 
 
