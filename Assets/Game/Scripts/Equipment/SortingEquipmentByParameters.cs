@@ -51,8 +51,8 @@ namespace Game.Scripts.Equipment
                 //             if ((RarityEquipmentType)rarityType == _equipmentService.Slots[i].RarityEquipmentType && 
                 //                 (EquipmentType)type == _equipmentService.Slots[i].EquipmentType)
                 //             {
-                //                 _equipmentService.Slots[i].transform.SetSiblingIndex(_index);
-                //                 _index--;
+                //                 _equipmentService.Slots[i].transform.SetSiblingIndex(Id);
+                //                 Id--;
                 //             }  
                 //         }  
                 //     }

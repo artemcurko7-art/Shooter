@@ -7,7 +7,7 @@ namespace Game.Scripts.Genetic
     [CreateAssetMenu(fileName = "StatsData", menuName = "Genetic/StatsData")]
     public class StatsData : ScriptableObject
     {
-        public List<Stat> Stats = new List<Stat>();
+        public List<Stat> Stats = new ();
 
         [Serializable]
         public class Stat
@@ -15,6 +15,14 @@ namespace Game.Scripts.Genetic
             public string name;
             public Sprite icon;
             public int value;
+
+            public Stat(string name, Sprite icon, int value, LocalizedName statNameTranslations)
+            {
+                this.name = name;
+                this.icon = icon;
+                this.value = value;
+                StatNameTranslations = statNameTranslations;
+            }
 
             public LocalizedName StatNameTranslations;
 
