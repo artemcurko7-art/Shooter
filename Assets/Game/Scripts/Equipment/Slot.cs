@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.Type;
+﻿using Game.Scripts.DragInDrop;
+using Game.Scripts.Equipment.Type;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace Game.Scripts.Equipment
     {
         [SerializeField] private Image _rarity;
         [SerializeField] private Image _icon;
+        [field: SerializeField] public DragSlot Drag { get; private set; }
         
         public RarityEquipmentType RarityEquipmentType { get; private set; }
         public EquipmentType EquipmentType { get; private set; }
@@ -26,7 +28,7 @@ namespace Game.Scripts.Equipment
             EquipmentType = equipmentType;
             _rarity.sprite = rarity;
             _icon.sprite = icon;
-            RectTransform = GetComponent<RectTransform>();
+            Drag.Initialize(this);
         }
     }
 }

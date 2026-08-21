@@ -13,23 +13,23 @@ namespace Game.Scripts.Genetic
 
         private GeneticSystem _geneticSystem;
         private StatsData.Stat _stat;
+        private int _index;
 
-        public int Id { get; private set; }
-
-        public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int id)
+        public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int index)
         {
             _geneticSystem = geneticSystem;
             _stat = stat;
-            Id = id;
+            _index = index;
 
-            _icon.sprite = _stat.icon;
+            _icon.sprite = stat.icon;
+
             UpdateDisplay();
         }
 
         public void UpdateDisplay()
         {
-            bool isNextAvailable = _geneticSystem.IsNextAvailableStat(Id);
-            bool isAlreadyUnlocked = _geneticSystem.IsAlreadyUnlocked(Id);
+            bool isNextAvailable = _geneticSystem.IsNextAvailableStat(_index);
+            bool isAlreadyUnlocked = _geneticSystem.IsAlreadyUnlocked(_index);
 
             if (isNextAvailable)
             {
@@ -37,28 +37,36 @@ namespace Game.Scripts.Genetic
                 _button.interactable = true;
                 _frame.color = Color.green;
 
-                if (_lockOverlay != null) _lockOverlay.SetActive(false);
-                if (_checkMark != null) _checkMark.SetActive(false);
+                if (_lockOverlay != null)
+                    _lockOverlay.SetActive(false);
+
+                if (_checkMark != null)
+                    _checkMark.SetActive(false);
             }
             else if (isAlreadyUnlocked)
             {
+                _button.interactable = true;
                 _button.enabled = false;
-                _button.interactable = false;
                 _frame.color = Color.white;
 
-                if (_lockOverlay != null) _lockOverlay.SetActive(false);
-                if (_checkMark != null) _checkMark.SetActive(true);
+                if (_lockOverlay != null)
+                    _lockOverlay.SetActive(false);
+
+                if (_checkMark != null)
+                    _checkMark.SetActive(true);
             }
             else
             {
+                _button.interactable = true;
                 _button.enabled = false;
-                _button.interactable = false;
 
-                if (_lockOverlay != null) _lockOverlay.SetActive(true);
-                if (_checkMark != null) _checkMark.SetActive(false);
+                if (_lockOverlay != null)
+                    _lockOverlay.SetActive(true);
+
+                if (_checkMark != null)
+                    _checkMark.SetActive(false);
             }
         }
-
 
         public void OnClick()
         {
