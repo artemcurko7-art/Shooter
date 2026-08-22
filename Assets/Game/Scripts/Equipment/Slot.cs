@@ -1,4 +1,4 @@
-﻿using Game.Scripts.DragInDrop;
+﻿using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using UnityEngine;
 using UnityEngine.UI;

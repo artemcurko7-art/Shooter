@@ -1,10 +1,9 @@
 ﻿using System;
-using Game.Scripts.Equipment;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Game.Scripts.DragInDrop
+namespace Game.Scripts.Equipment.DragInDrop
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class DragSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -49,14 +48,45 @@ namespace Game.Scripts.DragInDrop
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot) == false || dropSlot.EquipmentType != _slot.EquipmentType)
+            //Debug.Log($"Проверка drop slot: {eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot slot)}");
+
+            bool isDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot);
+            
+            if (isDropSlot == false || dropSlot.EquipmentType != _slot.EquipmentType)
             {
                 _rectTransform.SetParent(_gridLayoutGroup.transform);
                 _rectTransform.SetSiblingIndex(_indexHierarchy);
                 _slot.ChildRectTransform.sizeDelta = _sizeDelta;
                 
+                Debug.Log($"If");
+                //dropSlot.DisableBusy();
                 Dragged?.Invoke(_slot);
             }
+            else if (dropSlot)
+            {
+                Debug.Log($"Else");
+                dropSlot.DisableBusy();
+                //Dragged?.Invoke(_slot);
+            }
+            
+            // if (isDropSlot == false || dropSlot.EquipmentType != _slot.EquipmentType)
+            // {
+            //     // if (dropSlot == null)
+            //     //     return;
+            //     
+            //     _rectTransform.SetParent(_gridLayoutGroup.transform);
+            //     _rectTransform.SetSiblingIndex(_indexHierarchy);
+            //     _slot.ChildRectTransform.sizeDelta = _sizeDelta;
+            //     
+            //     Debug.Log($"Dragged");
+            //     //dropSlot.DisableBusy();
+            //     Dragged?.Invoke(_slot);
+            // }
+            // else if (dropSlot)
+            // {
+            //     dropSlot.DisableBusy();
+            //     //Dragged?.Invoke(_slot);
+            // }
             
             _canvasGroup.blocksRaycasts = true;
             _gridLayoutGroup.enabled = true;

@@ -1,6 +1,7 @@
-﻿using Game.Scripts.DragInDrop;
-using Game.Scripts.Equipment;
+﻿using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
+using Game.Scripts.Equipment.DragInDrop;
+using Game.Scripts.Equipment.Replacement;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Subscriber;
@@ -12,19 +13,19 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     public class EquipmentInstaller : MonoInstaller
     {
         [SerializeField] private DropSlot[] _dropSlots;
+        [SerializeField] private TabReplacement[] _exchanges;
         [SerializeField] private Slot _slot;
         [SerializeField] private Transform _container;
         
         public override void InstallBindings()
         {
-            Container
-                .Bind<EquipmentData>()
-                .AsSingle();
-            
-            Container
-                .Bind<RarityEquipmentData>()
-                .AsSingle();
-            
+            Bind();
+            BindData();
+            BindExchange();
+        }
+
+        private void Bind()
+        {
             Container
                 .Bind<SlotFactory>()
                 .AsSingle()
@@ -36,11 +37,35 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_container);
 
             Container
-                .Bind<ISubscriber>()
-                .To<EquipmentService>()
+                .BindInterfacesTo<EquipmentService>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _container)
-                .NonLazy();
+                .WithArguments(_dropSlots, _container);
+        }
+        
+        private void BindData()
+        {
+            Container
+                .Bind<EquipmentData>()
+                .AsSingle();
+            
+            Container
+                .Bind<RarityEquipmentData>()
+                .AsSingle();
+        }
+
+        private void BindExchange()
+        {
+            Container
+                .Bind<ISubscriber>()
+                .To<TabOpened>()
+                .AsSingle()
+                .WithArguments(_dropSlots, _exchanges);
+
+            Container
+                .Bind<ISubscriber>()
+                .To<ReplacementController>()
+                .AsSingle()
+                .WithArguments(_dropSlots);
         }
     }
 }

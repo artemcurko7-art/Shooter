@@ -1,13 +1,12 @@
 ﻿using System;
-using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Type;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Game.Scripts.DragInDrop
+namespace Game.Scripts.Equipment.DragInDrop
 {
-    public class DropSlot : MonoBehaviour, IDropHandler
+    public class DropSlot : MonoBehaviour, IDropHandler, IDropSlot
     {
         [SerializeField] private Image _childRectTransform;
         [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
@@ -15,6 +14,9 @@ namespace Game.Scripts.DragInDrop
         private RectTransform _rectTransform;
         
         public event Action<Slot> Dropped;
+        public event Action TabOpened;
+        
+        public bool IsBusy { get; private set; }
         
         private void Awake()
         {
@@ -33,8 +35,20 @@ namespace Game.Scripts.DragInDrop
                     slot.ChildRectTransform.sizeDelta = _childRectTransform.rectTransform.sizeDelta;
                     
                     Dropped?.Invoke(slot);
+
+                    if (IsBusy)
+                    {
+                        TabOpened?.Invoke();
+                    }
+                    
+                    IsBusy = true;
                 }
             }
+        }
+
+        public void DisableBusy()
+        {
+            IsBusy = false;
         }
     }
 }

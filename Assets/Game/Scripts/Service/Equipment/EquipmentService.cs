@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Scripts.DragInDrop;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
+using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Subscriber;
@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public class EquipmentService : ISubscriber
+    public class EquipmentService : IEquipmentService, ISubscriber
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
@@ -32,6 +32,8 @@ namespace Game.Scripts.Service.Equipment
             Create();
             _sorting.Sort(_slots);
         }
+        
+        public IReadOnlyList<Slot> Slots => _slots;
 
         public void Subscribe()
         {
