@@ -172,7 +172,6 @@ namespace Game.Scripts.Genetic
 
             RectTransform statPosition = _statBars[nextStatIndex].GetComponent<RectTransform>();
 
-            // Получаем размер целевого объекта
             float targetHeight = statPosition.sizeDelta.y;
 
             Vector2 targetPosition = statPosition.anchoredPosition;
@@ -180,18 +179,15 @@ namespace Game.Scripts.Genetic
             Vector2 contentSize = _scrollRect.content.sizeDelta;
             Vector2 containerSize = _gridContainer.sizeDelta;
 
-            // Рассчитываем позицию относительно контента ScrollRect
             Vector2 contentPosition = statPosition.InverseTransformPoint(_scrollRect.content.position);
             float targetY = contentPosition.y + targetPosition.y;
 
             float contentHeight = contentSize.y;
             float containerHeight = containerSize.y;
 
-            // Вычисляем границы прокрутки
             float minScroll = Mathf.Max(0, (containerHeight - contentHeight) / 2);
             float maxScroll = Mathf.Min(0, (containerHeight - contentHeight) / 2 + contentHeight);
 
-            // Рассчитываем смещение для центрирования
             float centerOffset = containerHeight / 2 - targetHeight / 2;
             float clampedY = Mathf.Clamp(targetY - centerOffset, minScroll, maxScroll);
 
@@ -204,6 +200,5 @@ namespace Game.Scripts.Genetic
                 -contentHeight / 2 + clampedY
             );
         }
-
     }
 }
