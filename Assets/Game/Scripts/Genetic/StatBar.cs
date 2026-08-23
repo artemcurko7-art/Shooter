@@ -14,12 +14,13 @@ namespace Game.Scripts.Genetic
 
         private GeneticSystem _geneticSystem;
         private StatsData.Stat _stat;
-        private RectTransform _rectTransform;
         private int _index;
+
+        public RectTransform RectTransform { get; private set; }
 
         private void Awake()
         {
-            _rectTransform = GetComponent<RectTransform>();
+            RectTransform = GetComponent<RectTransform>();
         }
 
         public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int index)
@@ -77,7 +78,7 @@ namespace Game.Scripts.Genetic
 
         public void OnClick()
         {
-            _geneticSystem.OpenPreview(_stat, _rectTransform);
+            _geneticSystem.OpenPreview(_stat, RectTransform);
         }
     }
 }

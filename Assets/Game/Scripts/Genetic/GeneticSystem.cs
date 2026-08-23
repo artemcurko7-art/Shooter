@@ -170,7 +170,7 @@ namespace Game.Scripts.Genetic
                 return;
             }
 
-            RectTransform statPosition = _statBars[nextStatIndex].GetComponent<RectTransform>();
+            RectTransform statPosition = _statBars[nextStatIndex].RectTransform;
 
             float targetHeight = statPosition.sizeDelta.y;
 
