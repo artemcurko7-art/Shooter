@@ -1,4 +1,4 @@
-using DG.Tweening;
+ï»¿using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -25,14 +25,14 @@ namespace Game.Scripts.UI
                 _canvasGroup.alpha = 0f;
         }
 
-        public void Open(Vector3 startPreviewPosition)
+        public void Open(RectTransform startPreviewPosition)
         {
             if (_canvasGroup == null)
-                throw new ArgumentException("_canvasGroup íå ìîæåò áûòü null.", nameof(_canvasGroup));
+                throw new ArgumentException("_canvasGroup Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ null.", nameof(_canvasGroup));
 
             _targetPreviewScale = Vector3.one;
 
-            _previewRectTransform.position = startPreviewPosition;
+            _previewRectTransform.position = startPreviewPosition.position;
             _previewRectTransform.localScale = _startPreviewScale;
             _canvasGroup.alpha = 0;
 
