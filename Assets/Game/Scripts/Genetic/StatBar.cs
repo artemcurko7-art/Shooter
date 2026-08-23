@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.Genetic
 {
+    [RequireComponent(typeof(RectTransform))]
     public class StatBar : MonoBehaviour
     {
         [SerializeField] private Button _button;
@@ -13,7 +14,13 @@ namespace Game.Scripts.Genetic
 
         private GeneticSystem _geneticSystem;
         private StatsData.Stat _stat;
+        private RectTransform _rectTransform;
         private int _index;
+
+        private void Awake()
+        {
+            _rectTransform = GetComponent<RectTransform>();
+        }
 
         public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int index)
         {
@@ -70,7 +77,7 @@ namespace Game.Scripts.Genetic
 
         public void OnClick()
         {
-            _geneticSystem.OpenPreview(_stat, transform.position);
+            _geneticSystem.OpenPreview(_stat, _rectTransform);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Game.Scripts.UI
             _transition = GetComponent<PreviewTransition>();
         }
 
-        public void Open(StatsData.Stat stat, Vector3 startPosition)
+        public void Open(StatsData.Stat stat, RectTransform startPosition)
         {
             _stat = stat;
 
