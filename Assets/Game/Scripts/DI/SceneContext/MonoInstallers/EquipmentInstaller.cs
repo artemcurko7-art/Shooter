@@ -40,6 +40,10 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .BindInterfacesTo<EquipmentService>()
                 .AsSingle()
                 .WithArguments(_dropSlots, _container);
+
+            Container
+                .Bind<SlotOccupancyService>()
+                .AsSingle();
         }
         
         private void BindData()
@@ -62,8 +66,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_dropSlots, _exchanges);
 
             Container
-                .Bind<ISubscriber>()
-                .To<ReplacementController>()
+                .BindInterfacesAndSelfTo<ReplacementController>()
                 .AsSingle()
                 .WithArguments(_dropSlots);
         }

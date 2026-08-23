@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
@@ -38,7 +37,10 @@ namespace Game.Scripts.Service.Equipment
         public void Subscribe()
         {
             foreach (var slot in _slots)
-                slot.Drag.Dragged += OnDraggedSlot;
+            {
+                slot.Drag.BeginDragged += OnBeginDragged;
+                slot.Drag.EndDragged += OnEndDraggedSlot;
+            }
 
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped += OnDroppedSlot;
@@ -47,13 +49,27 @@ namespace Game.Scripts.Service.Equipment
         public void Unsubscribe()
         {
             foreach (var slot in _slots)
-                slot.Drag.Dragged -= OnDraggedSlot;
+            {
+                slot.Drag.BeginDragged -= OnBeginDragged;
+                slot.Drag.EndDragged -= OnEndDraggedSlot;
+            }
             
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped -= OnDroppedSlot;
         }
 
-        private void OnDraggedSlot(Slot slot)
+        private void OnBeginDragged(Slot slot)
+        {
+            foreach (var dropSlot in _dropSlots)
+            {
+                if (dropSlot.Slot == slot)
+                {
+                    dropSlot.DisableBusy();
+                }
+            }
+        }
+        
+        private void OnEndDraggedSlot(Slot slot)
         {
             if (_slots.Contains(slot) == false)
             {
