@@ -26,10 +26,10 @@ namespace Game.Scripts.Equipment.Replacement
                 dropSlot.TabOpened -= OnTabOpened;
         }
 
-        private void OnTabOpened()
+        private void OnTabOpened(bool isActive)
         {
             foreach (var exchange in _exchanges)
-                exchange.gameObject.SetActive(true);
+                exchange.gameObject.SetActive(isActive);
         }
     }
 }

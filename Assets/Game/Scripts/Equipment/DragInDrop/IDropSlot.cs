@@ -4,6 +4,6 @@ namespace Game.Scripts.Equipment.DragInDrop
 {
     public interface IDropSlot
     {
-        event Action TabOpened;
+        event Action<bool> TabOpened;
     }
 }

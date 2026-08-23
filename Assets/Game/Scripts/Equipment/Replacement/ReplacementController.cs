@@ -21,7 +21,7 @@ namespace Game.Scripts.Equipment.Replacement
         public void Subscribe()
         {
             foreach (var slot in _equipmentService.Slots)
-                slot.Drag.Dragged += OnDraggedSlot;
+                slot.Drag.EndDragged += OnEndDraggedSlot;
 
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped += OnDroppedSlot;
@@ -30,7 +30,7 @@ namespace Game.Scripts.Equipment.Replacement
         public void Unsubscribe()
         {
             foreach (var slot in _equipmentService.Slots)
-                slot.Drag.Dragged -= OnDraggedSlot;
+                slot.Drag.EndDragged -= OnEndDraggedSlot;
             
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped -= OnDroppedSlot;
@@ -38,19 +38,24 @@ namespace Game.Scripts.Equipment.Replacement
 
         public void Replace()
         {
-            //foreach (var slot in dr)
+            foreach (var slot in _dropSlots)
+            {
+                if (slot.EquipmentType == _draggedSlot.EquipmentType)
+                {
+                    slot.Set(_draggedSlot);
+                    slot.DisableTab();
+                }
+            }
         }
         
-        private void OnDraggedSlot(Slot slot)
+        private void OnEndDraggedSlot(Slot slot)
         {
             _draggedSlot = slot;
-            //Debug.Log($"On dragged slot");
         }
 
         private void OnDroppedSlot(Slot slot)
         {
             _droppedSlot = slot;
-            //Debug.Log($"On dropped slot");
         }
     }
 }
