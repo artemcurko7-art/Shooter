@@ -320,6 +320,8 @@ MonoBehaviour:
   _iconFrame: {fileID: 103281137}
   _icon: {fileID: 252341107}
   _title: {fileID: 601930003}
+  _originStatValue: {fileID: 145961183}
+  _targetStatValue: {fileID: 822099618}
   _buyButtonText: {fileID: 767241180}
   _buyStatButton: {fileID: 1073172667}
   _exitButton: {fileID: 734767001}

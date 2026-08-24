@@ -16,6 +16,8 @@ namespace Game.Scripts.UI
         [SerializeField] private Image _iconFrame;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private TMP_Text _originStatValue;
+        [SerializeField] private TMP_Text _targetStatValue;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyStatButton;
         [SerializeField] private Button _exitButton;
@@ -49,6 +51,10 @@ namespace Game.Scripts.UI
             _buyButtonText.text = GetLocalizedBuyText();
             _background.color = Color.grey;
             _scrollRect.enabled = false;
+
+            float value = _geneticSystem.GetStatValue(stat.name);
+            _originStatValue.text = $"{value}+";
+            _targetStatValue.text = $"{value + _geneticSystem.IncreaseNumber}+";
 
             bool canBuy = _buyStatButton.interactable;
 
