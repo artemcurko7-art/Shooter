@@ -30,7 +30,7 @@ namespace Game.Scripts.Equipment
                 {
                     if ((EquipmentType)type == EquipmentType.None)
                         continue;
-                
+                    
                     foreach (var slot in slots)
                     {
                         if ((RarityEquipmentType)rarityType == slot.RarityEquipmentType && (EquipmentType)type == slot.EquipmentType)

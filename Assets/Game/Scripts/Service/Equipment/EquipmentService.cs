@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
@@ -9,17 +10,24 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public class EquipmentService : IEquipmentService, ISubscriber
+    public class EquipmentService : IEquipmentService, ITabService, ISubscriber
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
         private readonly SlotFactory _slotFactory;
         private readonly DropSlot[] _dropSlots;
         private readonly SortingEquipmentByParameters _sorting;
-        private readonly List<Slot> _slots = new();
+        public readonly List<Slot> _slots = new(); // test
+        private readonly List<DropSlot> _busyDropSlots = new();
         private readonly Transform _container;
         
-        public EquipmentService(RarityEquipmentData rarityData, EquipmentData data, SlotFactory slotFactory, DropSlot[] dropSlots, SortingEquipmentByParameters sorting, Transform container)
+        public event Action<bool> TabOpened;
+        
+        public EquipmentService(
+            RarityEquipmentData rarityData, 
+            EquipmentData data, SlotFactory slotFactory, 
+            DropSlot[] dropSlots, SortingEquipmentByParameters sorting, 
+            Transform container)
         {
             _data = data;
             _rarityData = rarityData;
@@ -61,29 +69,46 @@ namespace Game.Scripts.Service.Equipment
         private void OnBeginDragged(Slot slot)
         {
             foreach (var dropSlot in _dropSlots)
-            {
                 if (dropSlot.Slot == slot)
-                {
-                    dropSlot.DisableBusy();
-                }
-            }
+                    _busyDropSlots.Remove(dropSlot);
         }
         
         private void OnEndDraggedSlot(Slot slot)
         {
             if (_slots.Contains(slot) == false)
             {
-                _slots.Add(slot);
-                _sorting.Sort(_slots);
+                //_slots.Add(slot);
+                //_sorting.Sort(_slots);
             }
         }
 
         private void OnDroppedSlot(Slot slot)
         {
-            _slots.Remove(slot);
-            _sorting.Sort(_slots);
+            foreach (var dropSlot in _dropSlots)
+            {
+                if (dropSlot.Slot == slot)
+                {
+                    if (_busyDropSlots.Contains(dropSlot))
+                        TabOpened?.Invoke(true);
+                    else
+                        _busyDropSlots.Add(dropSlot);
+                }
+            }
+
+            //_slots.Remove(slot);
+            //_sorting.Sort(_slots);
         }
-        
+
+        public void Sort()
+        {
+            //_sorting.Sort(_slots);
+        }
+
+        public void DisableTab()
+        {
+            TabOpened?.Invoke(false);
+        }
+
         private void Create() // тест в дальнейшем исправим(переписать логику)
         {
             CreateUsual();

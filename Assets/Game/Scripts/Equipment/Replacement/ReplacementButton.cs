@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Scripts.Service.Equipment;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,6 +10,7 @@ namespace Game.Scripts.Equipment.Replacement
         [SerializeField] private Button _button;
 
         private ReplacementController _controller;
+        private IEquipmentService _equipmentService;
         
         [Inject]
         public void Construct(ReplacementController controller)

@@ -10,9 +10,10 @@ namespace Game.Scripts.Equipment.DragInDrop
     {
         private Slot _slot;
         private Canvas _canvas;
-        private CanvasGroup _canvasGroup;
+        private CanvasGroup _canvasGroup; 
         private GridLayoutGroup _gridLayoutGroup;
         private RectTransform _rectTransform;
+        private Transform _parent;
         private Vector2 _sizeDelta;
         private int _indexHierarchy;
 
@@ -25,6 +26,7 @@ namespace Game.Scripts.Equipment.DragInDrop
             _canvasGroup = GetComponent<CanvasGroup>();
             _gridLayoutGroup = GetComponentInParent<GridLayoutGroup>();
             _rectTransform = GetComponent<RectTransform>();
+            _parent = _rectTransform.parent;
         }
 
         public void Initialize(Slot slot)
@@ -40,14 +42,8 @@ namespace Game.Scripts.Equipment.DragInDrop
             _rectTransform.SetAsLastSibling();
             _canvasGroup.blocksRaycasts = false;
             _gridLayoutGroup.enabled = false;
+            
             BeginDragged?.Invoke(_slot);
-            // bool isDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot);
-            // Debug.Log($"Event {eventData.pointerCurrentRaycast.gameObject.name}");
-            // if (isDropSlot)
-            // {
-            //     dropSlot.DisableBusy();
-            //     Debug.Log("Отключение занятости");
-            // }
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -61,16 +57,20 @@ namespace Game.Scripts.Equipment.DragInDrop
             
             if (isDropSlot == false || dropSlot.EquipmentType != _slot.EquipmentType)
             {
-                _rectTransform.SetParent(_gridLayoutGroup.transform);
-                _rectTransform.SetSiblingIndex(_indexHierarchy);
-                _slot.ChildRectTransform.sizeDelta = _sizeDelta;
+                ResetSettings();
                 
                 EndDragged?.Invoke(_slot);
             }
-            else if (dropSlot)
-            {
-                Debug.Log($"On end drag");
-            }
+            
+            _canvasGroup.blocksRaycasts = true;
+            _gridLayoutGroup.enabled = true;
+        }
+
+        public void ResetSettings()
+        {
+            _rectTransform.SetParent(_parent);
+            _rectTransform.SetSiblingIndex(_indexHierarchy);
+            _slot.ChildRectTransform.sizeDelta = _sizeDelta;
             
             _canvasGroup.blocksRaycasts = true;
             _gridLayoutGroup.enabled = true;

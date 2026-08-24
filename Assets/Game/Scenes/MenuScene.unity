@@ -735,6 +735,7 @@ GameObject:
   - component: {fileID: 79560375}
   - component: {fileID: 79560376}
   - component: {fileID: 79560377}
+  - component: {fileID: 79560378}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -799,6 +800,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 1
+--- !u!114 &79560378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79560374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886be435641541b5ab57ed3edd491c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &79968591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,7 +2472,7 @@ GameObject:
   - component: {fileID: 281978416}
   - component: {fileID: 281978417}
   m_Layer: 5
-  m_Name: ExchargeDragged
+  m_Name: ReplacementDragged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4835,6 +4848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 773345779}
   <EquipmentType>k__BackingField: 3
+  _rectTransform: {fileID: 0}
 --- !u!1 &708457706
 GameObject:
   m_ObjectHideFlags: 0
@@ -6544,6 +6558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 182906278}
   <EquipmentType>k__BackingField: 2
+  _rectTransform: {fileID: 0}
 --- !u!1 &941300970
 GameObject:
   m_ObjectHideFlags: 0
@@ -8803,6 +8818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 176540663}
   <EquipmentType>k__BackingField: 6
+  _rectTransform: {fileID: 0}
 --- !u!1 &1335462058
 GameObject:
   m_ObjectHideFlags: 0
@@ -9141,7 +9157,7 @@ GameObject:
   - component: {fileID: 1401356139}
   - component: {fileID: 1401356140}
   m_Layer: 5
-  m_Name: ExchargeDrop
+  m_Name: ReplacementDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10101,6 +10117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 977757001}
   <EquipmentType>k__BackingField: 4
+  _rectTransform: {fileID: 0}
 --- !u!1 &1718016886
 GameObject:
   m_ObjectHideFlags: 0
@@ -10192,6 +10209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 1473561500}
   <EquipmentType>k__BackingField: 5
+  _rectTransform: {fileID: 0}
 --- !u!1 &1724282027
 GameObject:
   m_ObjectHideFlags: 0
@@ -10358,6 +10376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 2069837683}
   <EquipmentType>k__BackingField: 1
+  _rectTransform: {fileID: 0}
 --- !u!1 &1733279457
 GameObject:
   m_ObjectHideFlags: 0
@@ -11779,7 +11798,7 @@ MonoBehaviour:
   - {fileID: 1688680381}
   - {fileID: 1718016890}
   - {fileID: 1332360271}
-  _exchanges:
+  _tabReplacements:
   - {fileID: 1401356140}
   - {fileID: 281978417}
   _slot: {fileID: 5765095746818369731, guid: 1951f59bcb43e8443a05e4b7d017898d, type: 3}

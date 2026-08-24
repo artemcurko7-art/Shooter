@@ -13,7 +13,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     public class EquipmentInstaller : MonoInstaller
     {
         [SerializeField] private DropSlot[] _dropSlots;
-        [SerializeField] private TabReplacement[] _exchanges;
+        [SerializeField] private TabReplacement[] _tabReplacements;
         [SerializeField] private Slot _slot;
         [SerializeField] private Transform _container;
         
@@ -37,13 +37,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_container);
 
             Container
-                .BindInterfacesTo<EquipmentService>()
+                .BindInterfacesAndSelfTo<EquipmentService>()
                 .AsSingle()
                 .WithArguments(_dropSlots, _container);
-
-            Container
-                .Bind<SlotOccupancyService>()
-                .AsSingle();
         }
         
         private void BindData()
@@ -63,7 +59,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<ISubscriber>()
                 .To<TabOpened>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _exchanges);
+                .WithArguments(_tabReplacements);
 
             Container
                 .BindInterfacesAndSelfTo<ReplacementController>()

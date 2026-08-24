@@ -5,30 +5,28 @@ namespace Game.Scripts.Equipment.Replacement
 {
     public class TabOpened : ISubscriber
     {
-        private readonly IDropSlot[] _dropSlots;
-        private readonly TabReplacement[] _exchanges;
+        private readonly ITabService _tabService;
+        private readonly TabReplacement[] _replacements;
 
-        public TabOpened(IDropSlot[] dropSlots, TabReplacement[] exchanges)
+        public TabOpened(ITabService tabService, TabReplacement[] replacements)
         {
-            _dropSlots = dropSlots;
-            _exchanges = exchanges;
+            _tabService = tabService;
+            _replacements = replacements;
         }
 
         public void Subscribe()
         {
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.TabOpened += OnTabOpened;
+            _tabService.TabOpened += OnTabOpened;
         }
 
         public void Unsubscribe()
         {
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.TabOpened -= OnTabOpened;
+            _tabService.TabOpened -= OnTabOpened;
         }
 
         private void OnTabOpened(bool isActive)
         {
-            foreach (var exchange in _exchanges)
+            foreach (var exchange in _replacements)
                 exchange.gameObject.SetActive(isActive);
         }
     }
