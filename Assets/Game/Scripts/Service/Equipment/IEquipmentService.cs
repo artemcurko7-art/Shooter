@@ -6,6 +6,5 @@ namespace Game.Scripts.Service.Equipment
     public interface IEquipmentService
     {
         public IReadOnlyList<Slot> Slots { get; }
-        void Sort();
     }
 }

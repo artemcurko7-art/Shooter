@@ -2,112 +2,37 @@
 using System.Collections.Generic;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
-using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
-using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public class EquipmentService : IEquipmentService, ITabService, ISubscriber
+    public class EquipmentService : IEquipmentService
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
+        private readonly SlotHandler _slotHandler;
         private readonly SlotFactory _slotFactory;
-        private readonly DropSlot[] _dropSlots;
-        private readonly SortingEquipmentByParameters _sorting;
-        public readonly List<Slot> _slots = new(); // test
-        private readonly List<DropSlot> _busyDropSlots = new();
         private readonly Transform _container;
-        
-        public event Action<bool> TabOpened;
         
         public EquipmentService(
             RarityEquipmentData rarityData, 
-            EquipmentData data, SlotFactory slotFactory, 
-            DropSlot[] dropSlots, SortingEquipmentByParameters sorting, 
+            EquipmentData data, 
+            SlotHandler slotHandler,
+            SlotFactory slotFactory, 
             Transform container)
         {
             _data = data;
             _rarityData = rarityData;
+            _slotHandler = slotHandler;
             _slotFactory = slotFactory;
-            _dropSlots = dropSlots;
-            _sorting = sorting;
             _container = container;
             
             Create();
-            _sorting.Sort(_slots);
         }
         
-        public IReadOnlyList<Slot> Slots => _slots;
-
-        public void Subscribe()
-        {
-            foreach (var slot in _slots)
-            {
-                slot.Drag.BeginDragged += OnBeginDragged;
-                slot.Drag.EndDragged += OnEndDraggedSlot;
-            }
-
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped += OnDroppedSlot;
-        }
-
-        public void Unsubscribe()
-        {
-            foreach (var slot in _slots)
-            {
-                slot.Drag.BeginDragged -= OnBeginDragged;
-                slot.Drag.EndDragged -= OnEndDraggedSlot;
-            }
-            
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped -= OnDroppedSlot;
-        }
-
-        private void OnBeginDragged(Slot slot)
-        {
-            foreach (var dropSlot in _dropSlots)
-                if (dropSlot.Slot == slot)
-                    _busyDropSlots.Remove(dropSlot);
-        }
-        
-        private void OnEndDraggedSlot(Slot slot)
-        {
-            if (_slots.Contains(slot) == false)
-            {
-                //_slots.Add(slot);
-                //_sorting.Sort(_slots);
-            }
-        }
-
-        private void OnDroppedSlot(Slot slot)
-        {
-            foreach (var dropSlot in _dropSlots)
-            {
-                if (dropSlot.Slot == slot)
-                {
-                    if (_busyDropSlots.Contains(dropSlot))
-                        TabOpened?.Invoke(true);
-                    else
-                        _busyDropSlots.Add(dropSlot);
-                }
-            }
-
-            //_slots.Remove(slot);
-            //_sorting.Sort(_slots);
-        }
-
-        public void Sort()
-        {
-            //_sorting.Sort(_slots);
-        }
-
-        public void DisableTab()
-        {
-            TabOpened?.Invoke(false);
-        }
+        public IReadOnlyList<Slot> Slots => _slotHandler.Slots;
 
         private void Create() // тест в дальнейшем исправим(переписать логику)
         {
@@ -121,97 +46,97 @@ namespace Game.Scripts.Service.Equipment
 
         private void CreateUsual()
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Boots][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Suit][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Usual],
                 _data.Configs[EquipmentType.Weapon][0], _container));
         }
         
         private void CreateUnusual()
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Boots][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Weapon][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Unusual],
                 _data.Configs[EquipmentType.Suit][0], _container));
         }
         
         private void CreateRare()
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Weapon][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Suit][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Rare],
                 _data.Configs[EquipmentType.Boots][0], _container));
         }
         
         private void CreateEpic()
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Weapon][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Suit][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Epic],
                 _data.Configs[EquipmentType.Boots][0], _container));
         }
         
         private void CreateLegendary()
         
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Weapon][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Suit][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Legendary],
                 _data.Configs[EquipmentType.Boots][0], _container));
         }
         private void CreateMythical()
         {
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Weapon][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Amulet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Gloves][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Boots][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Helmet][0], _container));
-            _slots.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Suit][0], _container));
         }
     }

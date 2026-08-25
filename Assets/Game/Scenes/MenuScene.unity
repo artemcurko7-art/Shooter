@@ -4848,7 +4848,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 773345779}
   <EquipmentType>k__BackingField: 3
-  _rectTransform: {fileID: 0}
 --- !u!1 &708457706
 GameObject:
   m_ObjectHideFlags: 0
@@ -6558,7 +6557,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 182906278}
   <EquipmentType>k__BackingField: 2
-  _rectTransform: {fileID: 0}
 --- !u!1 &941300970
 GameObject:
   m_ObjectHideFlags: 0
@@ -8818,7 +8816,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 176540663}
   <EquipmentType>k__BackingField: 6
-  _rectTransform: {fileID: 0}
 --- !u!1 &1335462058
 GameObject:
   m_ObjectHideFlags: 0
@@ -10117,7 +10114,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 977757001}
   <EquipmentType>k__BackingField: 4
-  _rectTransform: {fileID: 0}
 --- !u!1 &1718016886
 GameObject:
   m_ObjectHideFlags: 0
@@ -10209,7 +10205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 1473561500}
   <EquipmentType>k__BackingField: 5
-  _rectTransform: {fileID: 0}
 --- !u!1 &1724282027
 GameObject:
   m_ObjectHideFlags: 0
@@ -10376,7 +10371,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _childRectTransform: {fileID: 2069837683}
   <EquipmentType>k__BackingField: 1
-  _rectTransform: {fileID: 0}
 --- !u!1 &1733279457
 GameObject:
   m_ObjectHideFlags: 0
@@ -11803,6 +11797,7 @@ MonoBehaviour:
   - {fileID: 281978417}
   _slot: {fileID: 5765095746818369731, guid: 1951f59bcb43e8443a05e4b7d017898d, type: 3}
   _container: {fileID: 79560375}
+  _gridLayoutGroup: {fileID: 79560376}
 --- !u!1 &1982729759
 GameObject:
   m_ObjectHideFlags: 0

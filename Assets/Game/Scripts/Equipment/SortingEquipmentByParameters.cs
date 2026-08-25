@@ -18,7 +18,7 @@ namespace Game.Scripts.Equipment
         public void Sort(IReadOnlyList<Slot> slots)
         {
             _index = slots.Count - 1;
-            
+
             foreach (var rarityType in Enum.GetValues(typeof(RarityEquipmentType)))
             {
                 if ((RarityEquipmentType)rarityType == RarityEquipmentType.None)

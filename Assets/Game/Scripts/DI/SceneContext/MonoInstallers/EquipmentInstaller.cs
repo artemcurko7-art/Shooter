@@ -6,6 +6,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace Game.Scripts.DI.SceneContext.MonoInstallers
@@ -16,6 +17,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private TabReplacement[] _tabReplacements;
         [SerializeField] private Slot _slot;
         [SerializeField] private Transform _container;
+        [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
         public override void InstallBindings()
         {
@@ -39,7 +41,13 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesAndSelfTo<EquipmentService>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _container);
+                .WithArguments(_container)
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<SlotHandler>()
+                .AsSingle()
+                .WithArguments(_dropSlots);
         }
         
         private void BindData()
@@ -64,7 +72,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesAndSelfTo<ReplacementController>()
                 .AsSingle()
-                .WithArguments(_dropSlots);
+                .WithArguments(_dropSlots, _gridLayoutGroup);
         }
     }
 }

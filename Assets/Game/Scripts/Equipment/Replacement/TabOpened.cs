@@ -1,5 +1,4 @@
-﻿using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Service.Subscriber;
+﻿using Game.Scripts.Service.Subscriber;
 
 namespace Game.Scripts.Equipment.Replacement
 {
@@ -26,8 +25,8 @@ namespace Game.Scripts.Equipment.Replacement
 
         private void OnTabOpened(bool isActive)
         {
-            foreach (var exchange in _replacements)
-                exchange.gameObject.SetActive(isActive);
+            foreach (var replacement in _replacements)
+                replacement.gameObject.SetActive(isActive);
         }
     }
 }

@@ -25,29 +25,18 @@ namespace Game.Scripts.Equipment.DragInDrop
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag.TryGetComponent(out Slot slot))
-            {
                 if (slot.EquipmentType == EquipmentType)
-                {
                     Set(slot);
-
-                    Dropped?.Invoke(slot);
-                }
-            }
         }
 
-        public void SetReplacement(Slot old, Slot current)
-        {
-            old.Drag.ResetSettings();
-            Set(current);
-        }
-
-        private void Set(Slot slot)
+        public void Set(Slot slot)
         {
             slot.transform.SetParent(transform);
             slot.transform.localPosition = Vector3.zero;
             slot.RectTransform.sizeDelta = _rectTransform.sizeDelta;
             slot.ChildRectTransform.sizeDelta = _childRectTransform.rectTransform.sizeDelta;
             Slot = slot;
+            Dropped?.Invoke(slot);
         }
     }
 }
