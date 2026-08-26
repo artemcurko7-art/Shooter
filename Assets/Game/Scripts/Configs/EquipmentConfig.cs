@@ -1,5 +1,6 @@
-﻿using Game.Scripts.Equipment;
-using Game.Scripts.Equipment.Type;
+﻿using Game.Scripts.Equipment.Type;
+using Game.Scripts.WeaponContext.Type;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Game.Scripts.Configs
@@ -8,6 +9,9 @@ namespace Game.Scripts.Configs
     public class EquipmentConfig : ScriptableObject
     {
         [field: SerializeField] public EquipmentType Type { get; private set; }
+        [field: ShowIf("Type", EquipmentType.Weapon)]
+        [field: SerializeField] public WeaponType WeaponType { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
+        
     }
 }

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Weapon_3
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
+  <WeaponType>k__BackingField: 3
   <Icon>k__BackingField: {fileID: 21300000, guid: 18c8e162a6e9710489e77211e03d3bd4, type: 3}

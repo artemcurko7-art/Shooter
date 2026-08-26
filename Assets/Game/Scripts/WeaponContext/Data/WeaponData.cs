@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Data
 {
-    public class WeaponData 
+    public class WeaponData : IWeaponData
     {
         private readonly WeaponConfig[] _configs;
         private readonly IWeaponShooting[] _weaponShootings;
-        private readonly Dictionary<WeaponType, List<WeaponConfig>> _weapons = new();
+        private readonly Dictionary<WeaponType, WeaponConfig> _weapons = new();
         private readonly Dictionary<ShootingType, IWeaponShooting> _shootings = new();
     
         public WeaponData(IWeaponShooting[] weaponShootings)
@@ -21,7 +21,7 @@ namespace Game.Scripts.WeaponContext.Data
             Fill();
         }
     
-        public IReadOnlyDictionary<WeaponType, List<WeaponConfig>> Weapons => _weapons;
+        public IReadOnlyDictionary<WeaponType, WeaponConfig> Weapons => _weapons;
         public IReadOnlyDictionary<ShootingType, IWeaponShooting> Shootings => _shootings;
 
         private void Fill()
@@ -31,10 +31,10 @@ namespace Game.Scripts.WeaponContext.Data
                 if (config.Type == WeaponType.None)
                     throw new InvalidOperationException($"Not type: {config.Type}");
 
-                if (_weapons.ContainsKey(config.Type) == false)
-                    _weapons.Add(config.Type, new List<WeaponConfig>());
+                if (_weapons.ContainsKey(config.Type))
+                    throw new InvalidOperationException($"Duplicate type: {config.Type}");
             
-                _weapons[config.Type].Add(config);
+                _weapons.Add(config.Type, config);
             }
             
             foreach (var weaponShooting in _weaponShootings)

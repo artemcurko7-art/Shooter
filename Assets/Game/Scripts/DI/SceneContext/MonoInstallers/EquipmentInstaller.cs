@@ -1,6 +1,7 @@
 ﻿using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
+using Game.Scripts.Equipment.Handler;
 using Game.Scripts.Equipment.Replacement;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
@@ -23,7 +24,8 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         {
             Bind();
             BindData();
-            BindExchange();
+            BindReplacement();
+            BindHandler();
         }
 
         private void Bind()
@@ -43,11 +45,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle()
                 .WithArguments(_container)
                 .NonLazy();
-
-            Container
-                .BindInterfacesAndSelfTo<SlotHandler>()
-                .AsSingle()
-                .WithArguments(_dropSlots);
         }
         
         private void BindData()
@@ -61,7 +58,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
         }
 
-        private void BindExchange()
+        private void BindReplacement()
         {
             Container
                 .Bind<ISubscriber>()
@@ -73,6 +70,20 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .BindInterfacesAndSelfTo<ReplacementController>()
                 .AsSingle()
                 .WithArguments(_dropSlots, _gridLayoutGroup);
+        }
+
+        private void BindHandler()
+        {
+            Container
+                .BindInterfacesAndSelfTo<SlotHandler>()
+                .AsSingle()
+                .WithArguments(_dropSlots);
+            
+            Container
+                .Bind<ISubscriber>()
+                .To<WeaponSlotHandler>()
+                .AsSingle()
+                .WithArguments(_dropSlots[0]);
         }
     }
 }

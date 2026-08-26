@@ -12,7 +12,6 @@ namespace Game.Scripts.Equipment.DragInDrop
         private Canvas _canvas;
         private GridLayoutGroup _gridLayoutGroup;
         private RectTransform _rectTransform;
-        private Transform _parent;
         private Vector2 _sizeDelta;
         private int _indexHierarchy;
         
@@ -27,7 +26,6 @@ namespace Game.Scripts.Equipment.DragInDrop
             CanvasGroup = GetComponent<CanvasGroup>();
             _gridLayoutGroup = GetComponentInParent<GridLayoutGroup>();
             _rectTransform = GetComponent<RectTransform>();
-            _parent = _rectTransform.parent;
         }
 
         public void Initialize(Slot slot)
@@ -64,7 +62,7 @@ namespace Game.Scripts.Equipment.DragInDrop
 
         public void ResetSettings()
         {
-            _rectTransform.SetParent(_parent);
+            _rectTransform.SetParent(_gridLayoutGroup.transform);
             _rectTransform.SetSiblingIndex(_indexHierarchy);
             _slot.ChildRectTransform.sizeDelta = _sizeDelta;
             EndDragged?.Invoke(_slot);

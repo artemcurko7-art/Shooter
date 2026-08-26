@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Service.Subscriber;
 
-namespace Game.Scripts.Equipment
+namespace Game.Scripts.Equipment.Handler
 {
     public class SlotHandler : ITabService, ISubscriber
     {
@@ -28,11 +28,11 @@ namespace Game.Scripts.Equipment
             foreach (var slot in _slots)
             {
                 slot.Drag.BeginDragged += OnBeginDragged;
-                slot.Drag.EndDragged += OnEndDraggedSlot;
+                slot.Drag.EndDragged += OnEndDragged;
             }
         
             foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped += OnDroppedSlot;
+                dropSlot.Dropped += OnDropped;
         }
         
         public void Unsubscribe()
@@ -40,11 +40,11 @@ namespace Game.Scripts.Equipment
             foreach (var slot in _slots)
             {
                 slot.Drag.BeginDragged -= OnBeginDragged;
-                slot.Drag.EndDragged -= OnEndDraggedSlot;
+                slot.Drag.EndDragged -= OnEndDragged;
             }
             
             foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped -= OnDroppedSlot;
+                dropSlot.Dropped -= OnDropped;
         }
 
         public void Add(Slot slot)
@@ -64,13 +64,14 @@ namespace Game.Scripts.Equipment
             {
                 if (dropSlot.Slot == slot)
                 {
+                    dropSlot.Clear();
                     _busyDropSlots.Remove(dropSlot);
                     _droppedSlot = null;
                 }
             }
         }
         
-        private void OnEndDraggedSlot(Slot slot)
+        private void OnEndDragged(Slot slot)
         {
             if (_slots.Contains(slot) == false && slot != _droppedSlot)
             {
@@ -81,7 +82,7 @@ namespace Game.Scripts.Equipment
             slot.Drag.CanvasGroup.blocksRaycasts = true;
         }
         
-        private void OnDroppedSlot(Slot slot)
+        private void OnDropped(Slot slot)
         {
             foreach (var dropSlot in _dropSlots)
             {

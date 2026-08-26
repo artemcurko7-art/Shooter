@@ -5,5 +5,7 @@ namespace Game.Scripts.WeaponContext.Type
         None,
         Pistol,
         DuoPistol,
+        Shotgun,
+        Rifle,
     }
 }

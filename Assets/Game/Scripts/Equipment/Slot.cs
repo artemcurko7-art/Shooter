@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.DragInDrop;
+﻿using Game.Scripts.Configs;
+using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace Game.Scripts.Equipment
         
         public RarityEquipmentType RarityEquipmentType { get; private set; }
         public EquipmentType EquipmentType { get; private set; }
+        public EquipmentConfig EquipmentConfig { get; private set; }
         public RectTransform RectTransform { get; private set; }
         public RectTransform ChildRectTransform { get; private set; }
         
@@ -22,12 +24,13 @@ namespace Game.Scripts.Equipment
             ChildRectTransform = _icon.GetComponent<RectTransform>();
         }
 
-        public void Initialize(RarityEquipmentType rarityEquipmentType, EquipmentType equipmentType, Sprite rarity, Sprite icon)
+        public void Initialize(RarityEquipmentType rarityEquipmentType, EquipmentConfig equipmentConfig, Sprite rarity)
         {
             RarityEquipmentType = rarityEquipmentType;
-            EquipmentType = equipmentType;
+            EquipmentType = equipmentConfig.Type;
+            EquipmentConfig = equipmentConfig;
             _rarity.sprite = rarity;
-            _icon.sprite = icon;
+            _icon.sprite = equipmentConfig.Icon;
             Drag.Initialize(this);
         }
     }

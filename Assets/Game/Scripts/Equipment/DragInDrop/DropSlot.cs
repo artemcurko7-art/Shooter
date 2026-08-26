@@ -38,5 +38,10 @@ namespace Game.Scripts.Equipment.DragInDrop
             Slot = slot;
             Dropped?.Invoke(slot);
         }
+
+        public void Clear()
+        {
+            Slot = null;
+        }
     }
 }

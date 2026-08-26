@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
+using Game.Scripts.Equipment.Handler;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
 using UnityEngine;
@@ -128,6 +129,10 @@ namespace Game.Scripts.Service.Equipment
         {
             _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Weapon][0], _container));
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+                _data.Configs[EquipmentType.Weapon][1], _container));
+            _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
+                _data.Configs[EquipmentType.Weapon][2], _container));
             _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],
                 _data.Configs[EquipmentType.Amulet][0], _container));
             _slotHandler.Add(_slotFactory.Create(_rarityData.Configs[RarityEquipmentType.Mythical],

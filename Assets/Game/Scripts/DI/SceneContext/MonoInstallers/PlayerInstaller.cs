@@ -60,9 +60,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<Weapon>()
                 .AsSingle();
 
-            Container
-                .BindInstance(_weaponProvider.Type)
-                .AsSingle();
+            // Container
+            //     .BindInstance(_weaponProvider.Type)
+            //     .AsSingle();
         
             Container
                 .Bind<RotationToTarget>()

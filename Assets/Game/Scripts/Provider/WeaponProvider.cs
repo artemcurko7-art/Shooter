@@ -1,18 +1,14 @@
-using Game.Scripts.WeaponContext;
-using Game.Scripts.WeaponContext.Type;
+using Game.Scripts.Configs;
 
 namespace Game.Scripts.Provider
 {
     public class WeaponProvider
     {
-        public WeaponType Type = WeaponType.Pistol; // тест потом убрать
-        public Weapon Model { get; private set; }
-        public WeaponView View { get; private set; }
+        public WeaponConfig Config { get; private set; }
     
-        public void Set(Weapon model, WeaponView view)
+        public void Set(WeaponConfig config)
         {
-            Model = model;
-            View = view;
+            Config = config;
         }
     }
 }
