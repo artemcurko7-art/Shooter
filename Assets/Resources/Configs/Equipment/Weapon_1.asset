@@ -14,4 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
   <WeaponType>k__BackingField: 3
+  <MainStats>k__BackingField: []
+  <StatInfoDates>k__BackingField:
+  - <Type>k__BackingField: 5
+    <Min>k__BackingField: 0
+    <Max>k__BackingField: 0
+    <IsPercentageValue>k__BackingField: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: b2dbe7339e5dc7b419c1e2e347ba13a4, type: 3}

@@ -1,4 +1,6 @@
-﻿using Game.Scripts.Equipment.Type;
+﻿using System;
+using Game.Scripts.Equipment.Type;
+using Game.Scripts.MV.Stat.Data;
 using Game.Scripts.WeaponContext.Type;
 using NaughtyAttributes;
 using UnityEngine;
@@ -11,7 +13,20 @@ namespace Game.Scripts.Configs
         [field: SerializeField] public EquipmentType Type { get; private set; }
         [field: ShowIf("Type", EquipmentType.Weapon)]
         [field: SerializeField] public WeaponType WeaponType { get; private set; }
+        [field: SerializeField] public StatInfoData[] MainStats { get; private set; }
+        [field: SerializeField] public StatInfoData[] AdditionalStats { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
-        
+
+        private void OnValidate()
+        {
+            if (MainStats == null || AdditionalStats == null)
+                return;
+            
+            foreach (var mainStat in MainStats)
+                mainStat.OnValidate();
+            
+            foreach (var additionalStat in AdditionalStats)
+                additionalStat.OnValidate();
+        }
     }
 }
