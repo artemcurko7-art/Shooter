@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Data
 {
-    public class WeaponData : IWeaponData
+    public class WeaponData : IWeaponData, IWeaponShootingData
     {
         private readonly WeaponConfig[] _configs;
         private readonly IWeaponShooting[] _weaponShootings;

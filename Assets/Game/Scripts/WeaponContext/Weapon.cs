@@ -6,17 +6,19 @@ namespace Game.Scripts.WeaponContext
 {
     public class Weapon
     {
-        private readonly WeaponData _data;
-        private readonly WeaponProvider _provider;
-        
-        // public Weapon(WeaponData data, WeaponProvider provider)
-        // {
-        //     _data = data;
-        //     _provider = provider;
-        // }
+        private readonly IWeaponShooting _shooting;
+        private readonly Bullet _bullet;
+
+        public Weapon(IWeaponShooting shooting, Bullet bullet)
+        {
+            _shooting = shooting;
+            _bullet = bullet;
+        }
         
         public void Shoot(Transform transform, Bullet bullet)
         {
+            _shooting.Shoot();
+            
             // var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
             // obj.SetDirection(transform.forward);
             

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299092701dbc03048aec173b5ac4c664, type: 3}
-  m_Name: Rifle
+  m_Name: Pecheneg
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 4
+  <Type>k__BackingField: 3
   <ShootingType>k__BackingField: 1
-  <View>k__BackingField: {fileID: 2960469146883616152, guid: 19c80169b24ff1c4882d2b1067e106f4, type: 3}
+  <View>k__BackingField: {fileID: 4597769737413297139, guid: a6ab3a990b485dc4791d6dea1bfe3830, type: 3}
   <Bullet>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
   <Speed>k__BackingField: 3
   <Damage>k__BackingField: 30

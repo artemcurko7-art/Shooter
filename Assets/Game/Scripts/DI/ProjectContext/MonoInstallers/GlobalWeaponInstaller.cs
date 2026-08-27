@@ -1,3 +1,4 @@
+using Game.Scripts.Factory;
 using Game.Scripts.Provider;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
@@ -12,12 +13,15 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<IWeaponData>()
-                .To<WeaponData>()
+                .BindInterfacesTo<WeaponData>()
                 .AsSingle();
         
             Container
                 .Bind<WeaponProvider>()
+                .AsSingle();
+            
+            Container
+                .Bind<WeaponViewFactory>()
                 .AsSingle();
             
             Container

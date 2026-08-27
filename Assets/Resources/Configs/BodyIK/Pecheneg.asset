@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a51fa63647f0c9488ce5262aba4ce2f, type: 3}
+  m_Name: Pecheneg
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 3
+  <HandRPosition>k__BackingField: {x: 7.879, y: 2.424, z: -6.588}
+  <HintRPosition>k__BackingField: {x: 0.245, y: 0, z: 0.007}
+  <IndexRPosition>k__BackingField: {x: 0.0011, y: -0.0003, z: 0.019}
+  <MiddleRPosition>k__BackingField: {x: 0.0012, y: -0.002, z: 0.118}
+  <ThumbRPosition>k__BackingField: {x: 0.0016, y: 0.0041, z: 0.0092}
+  <HandRRotation>k__BackingField: {x: -3.7, y: -91.7, z: -75.57}
+  <HintRRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <IndexRRotation>k__BackingField: {x: 53.35, y: 1.79, z: 0}
+  <MiddleRRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <ThumbRRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <HandLPosition>k__BackingField: {x: 0.0705, y: 1.2109, z: 0.3207}
+  <HintLPosition>k__BackingField: {x: 0.046, y: -0.224, z: 0.278}
+  <IndexLPosition>k__BackingField: {x: 0.0591, y: 0.1139, z: 0.0899}
+  <MiddleLPosition>k__BackingField: {x: 0.069, y: 0.0105, z: 0.0563}
+  <ThumbLPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <HandLRotation>k__BackingField: {x: 32.632, y: 97.719, z: 95.3}
+  <HintLRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <IndexLRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <MiddleLRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <ThumbLRotation>k__BackingField: {x: 0, y: 0, z: 0}

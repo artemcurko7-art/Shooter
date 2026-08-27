@@ -1,3 +1,4 @@
+using Game.Scripts.Configs;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 using Zenject;
@@ -21,29 +22,29 @@ namespace Game.Scripts.BodyIK
         [SerializeField] private Transform _thumbL;
     
         [Inject]
-        public void Construct(WeaponType type, BodyInverseKinematicData data)
+        public void Construct(WeaponConfig config, BodyInverseKinematicData data)
         {
-            _handR.localPosition = data.Settings[type].HandRPosition;
-            _handR.rotation = Quaternion.Euler(data.Settings[type].HandRRotation);
-            _hintR.localPosition = data.Settings[type].HintRPosition;
-            _hintR.rotation = Quaternion.Euler(data.Settings[type].HintRRotation);
-            _indexR.localPosition = data.Settings[type].IndexRPosition;
-            _indexR.rotation = Quaternion.Euler(data.Settings[type].IndexRRotation);
-            _middleR.localPosition = data.Settings[type].MiddleRPosition;
-            _middleR.rotation = Quaternion.Euler(data.Settings[type].MiddleRRotation);
-            _thumbR.localPosition = data.Settings[type].ThumbRPosition;
-            _thumbR.rotation = Quaternion.Euler(data.Settings[type].ThumbRRotation);
+            _handR.localPosition = data.Settings[config.Type].HandRPosition;
+            _handR.rotation = Quaternion.Euler(data.Settings[config.Type].HandRRotation);
+            _hintR.localPosition = data.Settings[config.Type].HintRPosition;
+            _hintR.rotation = Quaternion.Euler(data.Settings[config.Type].HintRRotation);
+            _indexR.localPosition = data.Settings[config.Type].IndexRPosition;
+            _indexR.rotation = Quaternion.Euler(data.Settings[config.Type].IndexRRotation);
+            _middleR.localPosition = data.Settings[config.Type].MiddleRPosition;
+            _middleR.rotation = Quaternion.Euler(data.Settings[config.Type].MiddleRRotation);
+            _thumbR.localPosition = data.Settings[config.Type].ThumbRPosition;
+            _thumbR.rotation = Quaternion.Euler(data.Settings[config.Type].ThumbRRotation);
         
-            _handL.localPosition = data.Settings[type].HandLPosition;
-            _handL.rotation = Quaternion.Euler(data.Settings[type].HandLRotation);
-            _hintL.localPosition = data.Settings[type].HintLPosition;
-            _hintL.rotation = Quaternion.Euler(data.Settings[type].HintLRotation);
-            _indexL.localPosition = data.Settings[type].IndexLPosition;
-            _indexL.rotation = Quaternion.Euler(data.Settings[type].IndexLRotation);
-            _middleL.localPosition = data.Settings[type].MiddleLPosition;
-            _middleL.rotation = Quaternion.Euler(data.Settings[type].MiddleLRotation);
-            _thumbL.localPosition = data.Settings[type].ThumbLPosition;
-            _thumbL.rotation = Quaternion.Euler(data.Settings[type].ThumbLRotation);
+            _handL.localPosition = data.Settings[config.Type].HandLPosition;
+            _handL.rotation = Quaternion.Euler(data.Settings[config.Type].HandLRotation);
+            _hintL.localPosition = data.Settings[config.Type].HintLPosition;
+            _hintL.rotation = Quaternion.Euler(data.Settings[config.Type].HintLRotation);
+            _indexL.localPosition = data.Settings[config.Type].IndexLPosition;
+            _indexL.rotation = Quaternion.Euler(data.Settings[config.Type].IndexLRotation);
+            _middleL.localPosition = data.Settings[config.Type].MiddleLPosition;
+            _middleL.rotation = Quaternion.Euler(data.Settings[config.Type].MiddleLRotation);
+            _thumbL.localPosition = data.Settings[config.Type].ThumbLPosition;
+            _thumbL.rotation = Quaternion.Euler(data.Settings[config.Type].ThumbLRotation);
         }
     }
 }

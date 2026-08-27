@@ -41,7 +41,7 @@ namespace Game.Scripts.Service.PhysicalBody
         public override void Subscribe()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            Spawn(_cancellationTokenSource.Token).Forget();
+            //Spawn(_cancellationTokenSource.Token).Forget();
         }
 
         public override void Unsubscribe()

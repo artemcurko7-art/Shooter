@@ -17,8 +17,7 @@ namespace Game.Scripts.PlayerContext
         [SerializeField] private float _speed;
         [SerializeField] private float _smooth;
         [SerializeField] private float _radius;
-
-        private Weapon _weapon;
+        
         private Health _health;
         private Mover _mover;
         private Rotation _rotation;
@@ -32,14 +31,12 @@ namespace Game.Scripts.PlayerContext
 
         [Inject]
         public void Construct(
-            Weapon weapon, 
             Health health, 
             Mover mover,
             Rotation rotation,
             TrackerUnits trackerUnits, 
             IInput input)
         {
-            _weapon = weapon;
             _health = health;
             _mover = mover;
             _rotation = rotation;
@@ -68,8 +65,8 @@ namespace Game.Scripts.PlayerContext
             }
             else
             {
-                if (_shoot == null)
-                    _shoot = StartCoroutine(Shoot());
+                // if (_shoot == null)
+                //     _shoot = StartCoroutine(Shoot());
             }
         }
 
@@ -84,17 +81,17 @@ namespace Game.Scripts.PlayerContext
             _health.TakeDamage(damage);
         }
 
-        private IEnumerator Shoot()
-        {
-            while (enabled)
-            {
-                yield return new WaitForSeconds(2f);
-                
-                _weapon.Shoot(_pointBullet, _bullet);
-        
-                yield return null;
-            }
-        }
+        // private IEnumerator Shoot()
+        // {
+        //     while (enabled)
+        //     {
+        //         yield return new WaitForSeconds(2f);
+        //         
+        //         _weapon.Shoot(_pointBullet, _bullet);
+        //
+        //         yield return null;
+        //     }
+        // }
 
         private IEnumerator Track()
         {

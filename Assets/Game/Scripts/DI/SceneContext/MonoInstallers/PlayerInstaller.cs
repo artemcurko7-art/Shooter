@@ -12,14 +12,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     {
         [SerializeField] private Player _player;
         [SerializeField] private FixedJoystick _joystick;
-
-        private WeaponProvider _weaponProvider;
-    
-        [Inject]
-        public void Construct(WeaponProvider weaponProvider)
-        {
-            _weaponProvider = weaponProvider;
-        }
     
         public override void InstallBindings()
         {
@@ -55,15 +47,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<TrackerUnits>()
                 .AsSingle();
-        
-            Container
-                .Bind<Weapon>()
-                .AsSingle();
-
-            // Container
-            //     .BindInstance(_weaponProvider.Type)
-            //     .AsSingle();
-        
+            
             Container
                 .Bind<RotationToTarget>()
                 .AsSingle();

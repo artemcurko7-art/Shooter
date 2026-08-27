@@ -1,4 +1,3 @@
-using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
@@ -7,12 +6,11 @@ namespace Game.Scripts.WeaponContext
     {
         private Weapon _weapon;
     
-        public WeaponType Type { get; private set; }
-    
-        public void Initialize(WeaponType type, Weapon weapon)
+        public void Initialize(Weapon weapon)
         {
-            Type = type;
             _weapon = weapon;
+            
+            _weapon.Shoot(null, null);
         }
     }
 }
