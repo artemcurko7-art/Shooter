@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0617a45026034396bbfedc8a07c19744, type: 3}
   m_Name: Weapon
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
-  <Stats>k__BackingField: []
+  <Type>k__BackingField: 1
+  <Stats>k__BackingField:
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 0
+    <MaxValue>k__BackingField: 0
+    <IsPercentageValue>k__BackingField: 0

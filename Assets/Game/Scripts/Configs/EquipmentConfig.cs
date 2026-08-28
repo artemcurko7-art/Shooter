@@ -1,6 +1,5 @@
-﻿using System;
-using Game.Scripts.Equipment.Type;
-using Game.Scripts.MV.Stat.Data;
+﻿using Game.Scripts.Equipment.Type;
+using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.WeaponContext.Type;
 using NaughtyAttributes;
 using UnityEngine;

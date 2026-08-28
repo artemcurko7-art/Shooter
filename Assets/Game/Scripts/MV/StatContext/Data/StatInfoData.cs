@@ -1,9 +1,9 @@
 ﻿using System;
-using Game.Scripts.MV.Stat.Type;
+using Game.Scripts.MV.StatContext.Type;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Game.Scripts.MV.Stat.Data
+namespace Game.Scripts.MV.StatContext.Data
 {
     [Serializable]
     public class StatInfoData

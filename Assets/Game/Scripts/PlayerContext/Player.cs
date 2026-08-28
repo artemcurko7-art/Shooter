@@ -1,6 +1,6 @@
 using System.Collections;
 using Game.Scripts.Damagable;
-using Game.Scripts.MV.Stat;
+using Game.Scripts.MV.StatContext;
 using Game.Scripts.PlayerContext.Input;
 using Game.Scripts.WeaponContext;
 using UnityEngine;
@@ -31,13 +31,11 @@ namespace Game.Scripts.PlayerContext
 
         [Inject]
         public void Construct(
-            Health health, 
             Mover mover,
             Rotation rotation,
             TrackerUnits trackerUnits, 
             IInput input)
         {
-            _health = health;
             _mover = mover;
             _rotation = rotation;
             _trackerUnits = trackerUnits;
@@ -78,7 +76,7 @@ namespace Game.Scripts.PlayerContext
     
         public void TakeDamage(int damage)
         {
-            _health.TakeDamage(damage);
+            _health.Increase(damage);
         }
 
         // private IEnumerator Shoot()

@@ -1,4 +1,4 @@
-using Game.Scripts.MV.Stat;
+using Game.Scripts.MV.StatContext;
 using Zenject;
 
 namespace Game.Scripts.DI.SceneContext.MonoInstallers

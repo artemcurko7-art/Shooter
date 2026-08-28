@@ -1,4 +1,4 @@
-﻿namespace Game.Scripts.MV.Stat.Type
+﻿namespace Game.Scripts.MV.StatContext.Type
 {
     public enum StatType
     {

@@ -25,12 +25,6 @@ namespace Game.Scripts.Equipment.Handler
         
         public void Subscribe()
         {
-            foreach (var slot in _slots)
-            {
-                slot.Drag.BeginDragged += OnBeginDragged;
-                slot.Drag.EndDragged += OnEndDragged;
-            }
-        
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped += OnDropped;
         }
@@ -46,11 +40,14 @@ namespace Game.Scripts.Equipment.Handler
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped -= OnDropped;
         }
-
+        
         public void Add(Slot slot)
         {
             _slots.Add(slot);
             _sorting.Sort(_slots);
+            
+            slot.Drag.BeginDragged += OnBeginDragged;
+            slot.Drag.EndDragged += OnEndDragged;
         }
         
         public void DisableTab()

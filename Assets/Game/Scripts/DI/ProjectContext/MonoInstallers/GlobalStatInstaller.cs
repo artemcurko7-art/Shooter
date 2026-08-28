@@ -1,4 +1,4 @@
-﻿using Game.Scripts.MV.Stat.Data;
+﻿using Game.Scripts.MV.StatContext.Data;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers

@@ -31,7 +31,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void Bind()
         {
             Container
-                .Bind<SlotFactory>()
+                .Bind<EquipmentSlotFactory>()
                 .AsSingle()
                 .WithArguments(_slot);
 

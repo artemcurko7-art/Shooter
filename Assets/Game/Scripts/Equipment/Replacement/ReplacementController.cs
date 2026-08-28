@@ -3,6 +3,7 @@ using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Subscriber;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Equipment.Replacement
@@ -30,11 +31,7 @@ namespace Game.Scripts.Equipment.Replacement
 
         public void Subscribe()
         {
-            foreach (var slot in _equipmentService.Slots)
-            {
-                slot.Drag.BeginDragged += OnBeginDraggedSlot;
-                slot.Drag.EndDragged += OnEndDraggedSlot;
-            }
+            _equipmentService.Added += OnAdded;
 
             foreach (var dropSlot in _dropSlots)
                 dropSlot.Dropped += OnDroppedSlot;
@@ -44,6 +41,8 @@ namespace Game.Scripts.Equipment.Replacement
 
         public void Unsubscribe()
         {
+            _equipmentService.Added -= OnAdded;
+            
             foreach (var slot in _equipmentService.Slots)
             {
                 slot.Drag.BeginDragged -= OnBeginDraggedSlot;
@@ -60,7 +59,7 @@ namespace Game.Scripts.Equipment.Replacement
         {
             foreach (var dropSlot in _dropSlots)
             {
-                if (dropSlot.EquipmentType == _droppedSlot.EquipmentType)
+                if (dropSlot.EquipmentType == _droppedSlot.EquipmentItem.Type)
                 {
                     dropSlot.Set(_droppedSlot);
                     _tabService.DisableTab();
@@ -71,10 +70,16 @@ namespace Game.Scripts.Equipment.Replacement
             }
         }
 
+        private void OnAdded(Slot slot)
+        {
+            slot.Drag.BeginDragged += OnBeginDraggedSlot;
+            slot.Drag.EndDragged += OnEndDraggedSlot;
+        }
+
         private void OnBeginDraggedSlot(Slot slot)
         {
-            if (_busyDropSlots[slot.EquipmentType] == slot)
-                _busyDropSlots[slot.EquipmentType] = null;
+            if (_busyDropSlots[slot.EquipmentItem.Type] == slot)
+                _busyDropSlots[slot.EquipmentItem.Type] = null;
         }
 
         private void OnEndDraggedSlot(Slot slot)
@@ -85,8 +90,8 @@ namespace Game.Scripts.Equipment.Replacement
         
         private void OnDroppedSlot(Slot slot)
         {
-            if (_busyDropSlots[slot.EquipmentType] == null)
-                _busyDropSlots[slot.EquipmentType] = slot;
+            if (_busyDropSlots[slot.EquipmentItem.Type] == null)
+                _busyDropSlots[slot.EquipmentItem.Type] = slot;
             else
                 _droppedSlot = slot;
         }

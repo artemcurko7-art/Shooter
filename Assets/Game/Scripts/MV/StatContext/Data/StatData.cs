@@ -4,7 +4,7 @@ using Game.Scripts.Configs;
 using Game.Scripts.Equipment.Type;
 using UnityEngine;
 
-namespace Game.Scripts.MV.Stat.Data
+namespace Game.Scripts.MV.StatContext.Data
 {
     public class StatData
     {

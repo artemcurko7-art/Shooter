@@ -1,5 +1,5 @@
 ﻿using Game.Scripts.Equipment.Type;
-using Game.Scripts.MV.Stat.Data;
+using Game.Scripts.MV.StatContext.Data;
 using UnityEngine;
 
 namespace Game.Scripts.Configs

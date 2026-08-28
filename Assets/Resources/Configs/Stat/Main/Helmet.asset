@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0617a45026034396bbfedc8a07c19744, type: 3}
   m_Name: Helmet
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 0
+  <Type>k__BackingField: 4
   <Stats>k__BackingField: []

@@ -25,7 +25,7 @@ namespace Game.Scripts.Equipment.DragInDrop
         public void OnDrop(PointerEventData eventData)
         {
             if (eventData.pointerDrag.TryGetComponent(out Slot slot))
-                if (slot.EquipmentType == EquipmentType)
+                if (slot.EquipmentItem.Type == EquipmentType)
                     Set(slot);
         }
 

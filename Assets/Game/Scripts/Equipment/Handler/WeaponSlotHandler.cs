@@ -31,8 +31,8 @@ namespace Game.Scripts.Equipment.Handler
 
         private void OnDropped(Slot slot)
         {
-            _provider.Set(_data.Weapons[slot.EquipmentConfig.WeaponType]);
-            Debug.Log($"Weapon type: {slot.EquipmentConfig.WeaponType}");
+            _provider.Set(_data.Weapons[slot.EquipmentItem.WeaponType]);
+            Debug.Log($"Weapon type: {slot.EquipmentItem.WeaponType}");
         }
     }
 }

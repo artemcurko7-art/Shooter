@@ -1,25 +1,28 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Equipment;
+using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Data;
 using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.Factory
 {
-    public class SlotFactory
+    public class EquipmentSlotFactory
     {
         private readonly Slot _slot;
         private readonly DiContainer _container;
         
-        public SlotFactory(Slot slot, DiContainer container)
+        public EquipmentSlotFactory(Slot slot, DiContainer container)
         {
             _slot = slot;
             _container = container;
         }
 
-        public Slot Create(RarityEquipmentConfig rarityEquipmentConfig, EquipmentConfig equipmentConfig, Transform container)
+        public Slot Create(RarityEquipmentConfig rarityEquipmentConfig, EquipmentConfig equipmentConfig, Stat[] stats, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<Slot>(_slot, Vector3.zero, Quaternion.identity, container);
-            view.Initialize(rarityEquipmentConfig.Type, equipmentConfig, rarityEquipmentConfig.Icon);
+            var equipment = new EquipmentItem(stats, equipmentConfig.Type, equipmentConfig.WeaponType);
+            view.Initialize(rarityEquipmentConfig.Type, equipment, rarityEquipmentConfig.Icon, equipmentConfig.Icon);
             view.transform.localScale = Vector3.one;
             
             return view;
