@@ -18,11 +18,11 @@ namespace Game.Scripts.Factory
             _container = container;
         }
 
-        public Slot Create(RarityEquipmentConfig rarityEquipmentConfig, EquipmentConfig equipmentConfig, Stat[] stats, Transform container)
+        public Slot Create(RarityEquipmentConfig rarityEquipmentConfig, EquipmentConfig equipmentConfig, Stat mainStat, Stat[] additionalStats, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<Slot>(_slot, Vector3.zero, Quaternion.identity, container);
-            var equipment = new EquipmentItem(stats, equipmentConfig.Type, equipmentConfig.WeaponType);
-            view.Initialize(rarityEquipmentConfig.Type, equipment, rarityEquipmentConfig.Icon, equipmentConfig.Icon);
+            var equipment = new EquipmentItem(mainStat, additionalStats, equipmentConfig.Type, equipmentConfig.WeaponType);
+            view.Initialize(rarityEquipmentConfig, equipment, equipmentConfig.Icon);
             view.transform.localScale = Vector3.one;
             
             return view;

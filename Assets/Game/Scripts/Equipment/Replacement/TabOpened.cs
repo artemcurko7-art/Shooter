@@ -5,9 +5,9 @@ namespace Game.Scripts.Equipment.Replacement
     public class TabOpened : ISubscriber
     {
         private readonly ITabService _tabService;
-        private readonly TabReplacement[] _replacements;
+        private readonly DisplayReplacement[] _replacements;
 
-        public TabOpened(ITabService tabService, TabReplacement[] replacements)
+        public TabOpened(ITabService tabService, DisplayReplacement[] replacements)
         {
             _tabService = tabService;
             _replacements = replacements;

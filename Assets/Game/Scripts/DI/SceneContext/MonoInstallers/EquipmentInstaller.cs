@@ -15,9 +15,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     public class EquipmentInstaller : MonoInstaller
     {
         [SerializeField] private DropSlot[] _dropSlots;
-        [SerializeField] private TabReplacement[] _tabReplacements;
+        [SerializeField] private DisplayReplacement[] _tabReplacements;
+        [SerializeField] private DisplayStat _displayStat;
         [SerializeField] private Slot _slot;
-        [SerializeField] private Transform _container;
+        [SerializeField] private Transform _equipmentContainer;
+        [SerializeField] private Transform _replacementContainer;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
         public override void InstallBindings()
@@ -38,12 +40,12 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<SortingEquipmentByParameters>()
                 .AsSingle()
-                .WithArguments(_container);
+                .WithArguments(_equipmentContainer);
 
             Container
                 .BindInterfacesAndSelfTo<EquipmentService>()
                 .AsSingle()
-                .WithArguments(_container)
+                .WithArguments(_equipmentContainer)
                 .NonLazy();
         }
         
@@ -61,15 +63,30 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindReplacement()
         {
             Container
-                .Bind<ISubscriber>()
-                .To<TabOpened>()
-                .AsSingle()
-                .WithArguments(_tabReplacements);
-
+                .Bind<DisplayStatData>()
+                .AsSingle();
+            
             Container
                 .BindInterfacesAndSelfTo<ReplacementController>()
                 .AsSingle()
                 .WithArguments(_dropSlots, _gridLayoutGroup);
+            
+            Container
+                .Bind<ISubscriber>()
+                .To<ReplacementService>()
+                .AsSingle()
+                .WithArguments(_dropSlots, _replacementContainer);
+
+            Container
+                .Bind<DisplayStatFactory>()
+                .AsSingle()
+                .WithArguments(_displayStat);
+            
+            Container
+                .Bind<ISubscriber>()
+                .To<TabOpened>()
+                .AsSingle()
+                .WithArguments(_tabReplacements);
         }
 
         private void BindHandler()

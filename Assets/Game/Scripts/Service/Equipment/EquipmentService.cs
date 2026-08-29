@@ -47,10 +47,11 @@ namespace Game.Scripts.Service.Equipment
         {
             RarityEquipmentType rarityEquipmentType = GetRandomRarityEquipmentType();
             EquipmentType equipmentType = GetRandomEquipmentType();
+            Stat stat = GetRandomStat(equipmentType);
             Stat[] stats = GetRandomStats(equipmentType).ToArray();
-            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType);
+            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType); // проверить надо ли оно
 
-            var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, stats, _container);
+            var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, null, stats, _container);
             _slotHandler.Add(slot);
             Added?.Invoke(slot);
             
@@ -63,6 +64,18 @@ namespace Game.Scripts.Service.Equipment
         }
         // Rarity 2 5 10 15 25 43 == 100
 
+        private Stat GetRandomStat(EquipmentType equipmentType)
+        {
+            List<StatInfoData> statInfoDates = new List<StatInfoData>(_statData.MainStats[equipmentType].Stats);
+            Random random = new();
+            
+            int index = random.Next(0, _statData.MainStats[equipmentType].Stats.Length);
+            int value = random.Next((int)statInfoDates[index].MinValue, (int)statInfoDates[index].MaxValue);
+            var stat = CreateStatInstance(statInfoDates[index].Type, value, statInfoDates[index].IsPercentageValue);
+            
+            return stat;
+        }
+        
         private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType)
         {
             Random random = new();

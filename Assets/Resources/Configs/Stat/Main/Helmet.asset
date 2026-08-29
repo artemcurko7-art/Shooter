@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Helmet
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 4
-  <Stats>k__BackingField: []
+  <Stats>k__BackingField:
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 0
+    <MaxValue>k__BackingField: 0
+    <IsPercentageValue>k__BackingField: 0
