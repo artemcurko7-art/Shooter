@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
@@ -9,6 +10,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.UserUtils;
 using UnityEngine;
 using Random = System.Random;
 
@@ -45,13 +47,13 @@ namespace Game.Scripts.Service.Equipment
 
         public void OnClick()
         {
-            RarityEquipmentType rarityEquipmentType = GetRandomRarityEquipmentType();
-            EquipmentType equipmentType = GetRandomEquipmentType();
+            RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
+            EquipmentType equipmentType = WeightedRandomSampling.GetRandomWeighted<EquipmentType>();
             Stat stat = GetRandomStat(equipmentType);
-            Stat[] stats = GetRandomStats(equipmentType).ToArray();
-            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType); // проверить надо ли оно
-
-            var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, null, stats, _container);
+            Stat[] stats = GetRandomStats(equipmentType);
+            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType); // проверить надо ли оно                  
+            
+            var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, stat, stats, _container);
             _slotHandler.Add(slot);
             Added?.Invoke(slot);
             
@@ -67,10 +69,9 @@ namespace Game.Scripts.Service.Equipment
         private Stat GetRandomStat(EquipmentType equipmentType)
         {
             List<StatInfoData> statInfoDates = new List<StatInfoData>(_statData.MainStats[equipmentType].Stats);
-            Random random = new();
             
-            int index = random.Next(0, _statData.MainStats[equipmentType].Stats.Length);
-            int value = random.Next((int)statInfoDates[index].MinValue, (int)statInfoDates[index].MaxValue);
+            int index = NumberGeneration.GetRandom(0, _statData.MainStats[equipmentType].Stats.Length - 1);
+            int value = NumberGeneration.GetRandom((int)statInfoDates[index].MinValue, (int)statInfoDates[index].MaxValue);
             var stat = CreateStatInstance(statInfoDates[index].Type, value, statInfoDates[index].IsPercentageValue);
             
             return stat;
@@ -78,79 +79,34 @@ namespace Game.Scripts.Service.Equipment
         
         private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType)
         {
-            Random random = new();
-
-            int index = random.Next(0, _data.Configs[equipmentType].Count);
-            
+            int index = NumberGeneration.GetRandom(0, _data.Configs[equipmentType].Count - 1);
             EquipmentConfig config = _data.Configs[equipmentType][index];
             
             return config;
         }
-        
-        private RarityEquipmentType GetRandomRarityEquipmentType()
-        {
-            RarityEquipmentType rarityEquipmentType = RarityEquipmentType.None;
-            Random rarityEquipmentRandom = new Random();
-            int rarityEquipmentTypeIndex = rarityEquipmentRandom.Next(1, Enum.GetValues(typeof(RarityEquipmentType)).Length);
-            int rarityEquipmentTypeFoundIndex = 0;
 
-            foreach (var type in _rarityData.Configs.Keys)
-            {
-                if (type == RarityEquipmentType.None)
-                    continue;
-                
-                rarityEquipmentTypeFoundIndex++;
-                
-                if (rarityEquipmentTypeFoundIndex == rarityEquipmentTypeIndex)
-                    rarityEquipmentType = type;
-            }
-
-            return rarityEquipmentType;
-        } 
-        
-        private EquipmentType GetRandomEquipmentType()
-        {
-            EquipmentType equipmentType = EquipmentType.None;
-            Random equipmentRandom = new Random();
-            int equipmentTypeIndex = equipmentRandom.Next(1, Enum.GetValues(typeof(EquipmentType)).Length);
-            int equipmentTypeFoundIndex = 0;
-
-            foreach (var type in _data.Configs.Keys)
-            {
-                if (type == EquipmentType.None)
-                    continue;
-                
-                equipmentTypeFoundIndex++;
-                
-                if (equipmentTypeFoundIndex == equipmentTypeIndex)
-                    equipmentType = type;
-            }
-            
-            return equipmentType;
-        }
-
-        private List<Stat> GetRandomStats(EquipmentType equipmentType)
+        private Stat[] GetRandomStats(EquipmentType equipmentType)
         {
             List<StatInfoData> statInfoDates = new List<StatInfoData>(_statData.AdditionalStats[equipmentType].Stats);
             List<Stat> stats = new();
-            Random random = new();
+            statInfoDates.Shuffle();
             
-            int count = random.Next(0, statInfoDates.Count - 1);
+            int count = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
 
-            for (int j = 0; j < count; j++)
-            {
-                int index = random.Next(0, statInfoDates.Count);
-                statInfoDates.RemoveAt(index);
-            }
+             for (int j = 0; j < count; j++)
+             {
+                 int index = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
+                 statInfoDates.RemoveAt(index);
+             }
 
             foreach (var statInfoData in statInfoDates)
             {
-                int value = random.Next((int)statInfoData.MinValue, (int)statInfoData.MaxValue);
+                int value = NumberGeneration.GetRandom((int)statInfoData.MinValue, (int)statInfoData.MaxValue);
                 
                 stats.Add(CreateStatInstance(statInfoData.Type, value, statInfoData.IsPercentageValue));
             }
             
-            return stats;
+            return stats.ToArray();
         }
         
         private Stat CreateStatInstance(StatType type, int value, bool isPercentageValue) => type switch

@@ -1,4 +1,6 @@
-﻿namespace Game.Scripts.Equipment.Type
+﻿using Game.Scripts.Equipment.AttributeContext;
+
+namespace Game.Scripts.Equipment.Type
 {
     public enum EquipmentType
     {
