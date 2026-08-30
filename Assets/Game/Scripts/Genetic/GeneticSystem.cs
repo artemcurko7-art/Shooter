@@ -1,5 +1,6 @@
-﻿using Game.Scripts.UI;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -8,11 +9,10 @@ namespace Game.Scripts.Genetic
 {
     public class GeneticSystem : MonoBehaviour
     {
-        private readonly List<StatBar> _statBars = new List<StatBar>();
+        private readonly List<StatBar> _statBars = new();
 
         [SerializeField] private float _statIncreaseNumber = 0.5f;
         [SerializeField] private int _additionallyStatVisibleCount = 5;
-
         [SerializeField] private float _uvSpeed = 2000f;
 
         [Header("Зависимости")]
@@ -22,32 +22,44 @@ namespace Game.Scripts.Genetic
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private RectTransform _gridContainer;
         [SerializeField] private RawImage _background;
+        [SerializeField] private float rectScroll = 0.5f;
+
+        private Coroutine _scrollCoroutine;
 
         public float IncreaseNumber => _statIncreaseNumber;
 
         private void OnEnable()
         {
-            ScrollToNextAvailable();
+            StartCoroutine(CheckScrollOnEnable());
         }
 
         private void Start()
         {
             InitializeStats();
-            ScrollToNextAvailable();
+            ScrollToNextAvailable(false);
+        }
+
+        private IEnumerator CheckScrollOnEnable()
+        {
+            yield return null;
+            yield return new WaitForEndOfFrame();
+
+            EnsureLayout();
+            ScrollToNextAvailable(true);
         }
 
         private void LateUpdate()
         {
-            if (_background == null || _gridContainer == null) return;
+            if (!_background || !_gridContainer) return;
 
-            Rect rect = _background.uvRect;
+            var rect = _background.uvRect;
             rect.y = _gridContainer.anchoredPosition.y / _uvSpeed;
             _background.uvRect = rect;
         }
 
         private void InitializeStats()
         {
-            if (_statsData == null || _statsData.Stats.Count == 0)
+            if (!_statsData || _statsData.Stats.Count == 0)
             {
                 Debug.LogError("[GeneticSystem] StatsData не назначен или список статов пуст!");
                 return;
@@ -55,46 +67,51 @@ namespace Game.Scripts.Genetic
 
             _statBars.Clear();
 
-            int unlockedCount = YG2.saves.IdSavedStatCount;
-            int totalBars = unlockedCount + _additionallyStatVisibleCount;
+            var unlockedCount = YG2.saves.IdSavedStatCount;
+            var totalBars = unlockedCount + _additionallyStatVisibleCount;
 
-            for (int i = 0; i < totalBars; i++)
+            for (var i = 0; i < totalBars; i++)
             {
-                int statIndexInList = i % _statsData.Stats.Count;
+                var statIndexInList = i % _statsData.Stats.Count;
                 var stat = _statsData.Stats[statIndexInList];
-
-                StatBar statBar = Instantiate(_statBarPrefab, _gridContainer);
+                var statBar = Instantiate(_statBarPrefab, _gridContainer);
 
                 statBar.Init(this, stat, i);
-
                 _statBars.Add(statBar);
             }
 
-            ScrollToNextAvailable();
+            EnsureLayout();
             RefreshUI();
         }
 
-        public void EnsureVisibleRange()
+        private void EnsureVisibleRange()
         {
-            if (_statsData == null || _statsData.Stats.Count == 0) return;
+            if (!_statsData || _statsData.Stats.Count == 0) return;
 
-            int unlockedCount = YG2.saves.IdSavedStatCount;
-            int totalNeeded = unlockedCount + _additionallyStatVisibleCount;
+            var unlockedCount = YG2.saves.IdSavedStatCount;
+            var totalNeeded = unlockedCount + _additionallyStatVisibleCount;
 
             while (_statBars.Count < totalNeeded)
             {
-                int i = _statBars.Count;
-                int statIndexInList = i % _statsData.Stats.Count;
+                var i = _statBars.Count;
+                var statIndexInList = i % _statsData.Stats.Count;
                 var stat = _statsData.Stats[statIndexInList];
 
-                StatBar statBar = Instantiate(_statBarPrefab, _gridContainer);
+                var statBar = Instantiate(_statBarPrefab, _gridContainer);
                 statBar.Init(this, stat, i);
 
                 _statBars.Add(statBar);
-                Debug.Log($"[GeneticSystem] Добавлена новая ячейка стата #{i} ({stat.name})");
             }
 
+            EnsureLayout();
             RefreshUI();
+        }
+
+        private void EnsureLayout()
+        {
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_gridContainer);
+            Canvas.ForceUpdateCanvases();
         }
 
         private void RefreshUI()
@@ -118,15 +135,15 @@ namespace Game.Scripts.Genetic
             };
         }
 
-        public bool IsNextAvailableStat(int statId)
+        public static bool IsNextAvailableStat(int statId)
         {
-            int nextIndex = YG2.saves.IdSavedStatCount;
+            var nextIndex = YG2.saves.IdSavedStatCount;
             return statId == nextIndex;
         }
 
-        public bool IsAlreadyUnlocked(int statId)
+        public static bool IsAlreadyUnlocked(int statId)
         {
-            int nextIndex = YG2.saves.IdSavedStatCount;
+            var nextIndex = YG2.saves.IdSavedStatCount;
             return statId < nextIndex;
         }
 
@@ -134,18 +151,34 @@ namespace Game.Scripts.Genetic
         {
             switch (statName)
             {
-                case "AttackStrength": YG2.saves.AttackStrength += _statIncreaseNumber; break;
-                case "CriticalDamage": YG2.saves.CriticalDamage += _statIncreaseNumber; break;
-                case "Armor": YG2.saves.Armor += _statIncreaseNumber; break;
-                case "MovementSpeed": YG2.saves.MovementSpeed += _statIncreaseNumber; break;
-                case "ViewRange": YG2.saves.ViewRange += _statIncreaseNumber; break;
-                default: return;
+                case "AttackStrength":
+                    YG2.saves.AttackStrength += _statIncreaseNumber;
+                    break;
+
+                case "CriticalDamage":
+                    YG2.saves.CriticalDamage += _statIncreaseNumber;
+                    break;
+
+                case "Armor":
+                    YG2.saves.Armor += _statIncreaseNumber;
+                    break;
+
+                case "MovementSpeed":
+                    YG2.saves.MovementSpeed += _statIncreaseNumber;
+                    break;
+
+                case "ViewRange":
+                    YG2.saves.ViewRange += _statIncreaseNumber;
+                    break;
+
+                default:
+                    return;
             }
 
             YG2.SaveProgress();
 
             EnsureVisibleRange();
-            ScrollToNextAvailable();
+            ScrollToNextAvailable(true);
         }
 
         public void OpenPreview(StatsData.Stat stat, RectTransform statPosition)
@@ -154,56 +187,145 @@ namespace Game.Scripts.Genetic
             _preview.Open(stat, statPosition);
         }
 
-        public void ScrollToNextAvailable()
+        private void ScrollToNextAvailable(bool animated)
         {
-            if (_gridContainer == null || _scrollRect == null)
-            {
-                Debug.LogError("Компоненты не инициализированы!");
-                return;
-            }
+            if (!_gridContainer || !_scrollRect) return;
 
             int nextStatIndex = YG2.saves.IdSavedStatCount;
 
             if (nextStatIndex >= _statBars.Count)
+                return;
+
+            RectTransform statTransform =
+                _statBars[nextStatIndex].GetComponent<RectTransform>();
+
+            if (!statTransform)
+                return;
+
+            EnsureLayout();
+
+            RectTransform contentRect = _scrollRect.content;
+            RectTransform viewportRect = _scrollRect.viewport;
+
+            Vector3[] corners = new Vector3[4];
+            statTransform.GetWorldCorners(corners);
+
+            Vector3 elementCenter =
+                (corners[0] + corners[2]) * 0.5f;
+
+            Vector2 viewportPoint;
+
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    viewportRect,
+                    RectTransformUtility.WorldToScreenPoint(null, elementCenter),
+                    null,
+                    out viewportPoint))
             {
-                Debug.LogWarning("Нет доступных статов для прокрутки!");
                 return;
             }
 
-            RectTransform statPosition = _statBars[nextStatIndex].GetComponent<RectTransform>();
+            float deltaY =
+                viewportPoint.y - viewportRect.rect.center.y;
 
-            // Получаем размер целевого объекта
-            float targetHeight = statPosition.sizeDelta.y;
+            if (Mathf.Abs(deltaY) < 1f)
+                return;
 
-            Vector2 targetPosition = statPosition.anchoredPosition;
+            float targetY =
+                contentRect.anchoredPosition.y - deltaY;
 
-            Vector2 contentSize = _scrollRect.content.sizeDelta;
-            Vector2 containerSize = _gridContainer.sizeDelta;
+            targetY = GetClampedScrollY(contentRect, targetY);
 
-            // Рассчитываем позицию относительно контента ScrollRect
-            Vector2 contentPosition = statPosition.InverseTransformPoint(_scrollRect.content.position);
-            float targetY = contentPosition.y + targetPosition.y;
+            if (_scrollCoroutine != null)
+            {
+                StopCoroutine(_scrollCoroutine);
+                _scrollCoroutine = null;
+            }
 
-            float contentHeight = contentSize.y;
-            float containerHeight = containerSize.y;
+            if (!animated)
+            {
+                contentRect.anchoredPosition =
+                    new Vector2(
+                        contentRect.anchoredPosition.x,
+                        targetY
+                    );
 
-            // Вычисляем границы прокрутки
-            float minScroll = Mathf.Max(0, (containerHeight - contentHeight) / 2);
-            float maxScroll = Mathf.Min(0, (containerHeight - contentHeight) / 2 + contentHeight);
+                return;
+            }
 
-            // Рассчитываем смещение для центрирования
-            float centerOffset = containerHeight / 2 - targetHeight / 2;
-            float clampedY = Mathf.Clamp(targetY - centerOffset, minScroll, maxScroll);
-
-            float normalizedY = Mathf.Clamp01((clampedY - minScroll) / (maxScroll - minScroll));
-
-            _scrollRect.verticalNormalizedPosition = 1 - normalizedY;
-
-            _gridContainer.anchoredPosition = new Vector2(
-                _gridContainer.anchoredPosition.x,
-                -contentHeight / 2 + clampedY
-            );
+            _scrollCoroutine =
+                StartCoroutine(
+                    SmoothScroll(
+                        contentRect,
+                        targetY,
+                        rectScroll
+                    )
+                );
         }
 
+        private IEnumerator SmoothScroll(
+            RectTransform content,
+            float targetY,
+            float duration)
+        {
+            Vector2 start = content.anchoredPosition;
+
+            if (duration <= 0f)
+            {
+                content.anchoredPosition =
+                    new Vector2(start.x, targetY);
+
+                _scrollCoroutine = null;
+                yield break;
+            }
+
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+
+                float t =
+                    Mathf.Clamp01(elapsed / duration);
+
+                t = Mathf.SmoothStep(0f, 1f, t);
+
+                content.anchoredPosition =
+                    new Vector2(
+                        start.x,
+                        Mathf.Lerp(
+                            start.y,
+                            targetY,
+                            t
+                        )
+                    );
+
+                yield return null;
+            }
+
+            content.anchoredPosition =
+                new Vector2(start.x, targetY);
+
+            _scrollCoroutine = null;
+        }
+
+        private float GetClampedScrollY(
+            RectTransform content,
+            float targetY)
+        {
+            float contentHeight = content.rect.height;
+            float viewportHeight = _scrollRect.viewport.rect.height;
+
+            if (contentHeight <= viewportHeight)
+                return content.anchoredPosition.y;
+
+            float maxY = 0f;
+            float minY = -(contentHeight - viewportHeight);
+
+            return Mathf.Clamp(
+                targetY,
+                minY,
+                maxY
+            );
+        }
     }
 }

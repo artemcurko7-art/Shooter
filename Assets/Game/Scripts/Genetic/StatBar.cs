@@ -35,8 +35,8 @@ namespace Game.Scripts.Genetic
 
         public void UpdateDisplay()
         {
-            bool isNextAvailable = _geneticSystem.IsNextAvailableStat(_index);
-            bool isAlreadyUnlocked = _geneticSystem.IsAlreadyUnlocked(_index);
+            var isNextAvailable = GeneticSystem.IsNextAvailableStat(_index);
+            var isAlreadyUnlocked = GeneticSystem.IsAlreadyUnlocked(_index);
 
             if (isNextAvailable)
             {
@@ -44,10 +44,10 @@ namespace Game.Scripts.Genetic
                 _button.interactable = true;
                 _frame.color = Color.green;
 
-                if (_lockOverlay != null)
+                if (_lockOverlay)
                     _lockOverlay.SetActive(false);
 
-                if (_checkMark != null)
+                if (_checkMark)
                     _checkMark.SetActive(false);
             }
             else if (isAlreadyUnlocked)
@@ -56,10 +56,10 @@ namespace Game.Scripts.Genetic
                 _button.enabled = false;
                 _frame.color = Color.white;
 
-                if (_lockOverlay != null)
+                if (_lockOverlay)
                     _lockOverlay.SetActive(false);
 
-                if (_checkMark != null)
+                if (_checkMark)
                     _checkMark.SetActive(true);
             }
             else
@@ -67,10 +67,10 @@ namespace Game.Scripts.Genetic
                 _button.interactable = true;
                 _button.enabled = false;
 
-                if (_lockOverlay != null)
+                if (_lockOverlay)
                     _lockOverlay.SetActive(true);
 
-                if (_checkMark != null)
+                if (_checkMark)
                     _checkMark.SetActive(false);
             }
         }

@@ -50,9 +50,9 @@ namespace Game.Scripts.UI
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
-            bool canBuy = _buyStatButton.interactable;
+            var canBuy = _buyStatButton.interactable;
 
-            if (_imageBlicker != null)
+            if (_imageBlicker)
             {
                 _imageBlicker.ResetToBaseColor();
 
@@ -74,7 +74,7 @@ namespace Game.Scripts.UI
         {
             if (_stat == null)
             {
-                Debug.LogError("[Prview] _stat не передается в open!");
+                Debug.LogError("[Preview] _stat не передается в open!");
                 return;
             }
 
@@ -84,7 +84,7 @@ namespace Game.Scripts.UI
 
         private void Close()
         {
-            if (_imageBlicker != null)
+            if (_imageBlicker)
             {
                 _imageBlicker.Disable();
             }
@@ -103,7 +103,7 @@ namespace Game.Scripts.UI
 
         private string GetLocalizedBuyText()
         {
-            string languageCode = YG2.lang;
+            var languageCode = YG2.lang;
 
             return languageCode switch
             {
