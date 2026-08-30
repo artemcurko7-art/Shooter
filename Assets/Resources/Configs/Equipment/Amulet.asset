@@ -13,4 +13,47 @@ MonoBehaviour:
   m_Name: Amulet
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 2
+  <WeaponType>k__BackingField: 0
+  <MainStats>k__BackingField:
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 30
+    <IsPercentageValue>k__BackingField: 0
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 25
+    <MaxValue>k__BackingField: 30
+    <IsPercentageValue>k__BackingField: 1
+  - <Type>k__BackingField: 1
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 20
+    <IsPercentageValue>k__BackingField: 0
+  - <Type>k__BackingField: 1
+    <MinValue>k__BackingField: 5
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 1
+  <AdditionalStats>k__BackingField:
+  - <Type>k__BackingField: 1
+    <MinValue>k__BackingField: 30
+    <MaxValue>k__BackingField: 45
+    <IsPercentageValue>k__BackingField: 0
+  - <Type>k__BackingField: 1
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 1
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 0
+  - <Type>k__BackingField: 2
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 1
+  - <Type>k__BackingField: 3
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 0
+  - <Type>k__BackingField: 3
+    <MinValue>k__BackingField: 10
+    <MaxValue>k__BackingField: 15
+    <IsPercentageValue>k__BackingField: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: 1153160f0b4ccab41a2ff49af654e941, type: 3}

@@ -3,7 +3,9 @@ using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Replacement;
+using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
+using Game.Scripts.MV.StatContext;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
@@ -16,10 +18,12 @@ namespace Game.Scripts.Service.Equipment
         private readonly DisplayStatData _displayStatData;
         private readonly DropSlot[] _dropSlots;
         private readonly DisplayStatFactory _displayStatFactory;
+        private readonly Dictionary<EquipmentType, Slot> _busyDropSlots = new();
         private readonly List<DisplayStat> _displayStats = new();
-        private readonly Transform _container;
+        private readonly Transform[] _containers;
         private Slot _draggedSlot;
         private Slot _droppedSlot;
+        private Slot _oldDroppedSlot;
         
         public ReplacementService(
             IEquipmentService equipmentService, 
@@ -27,14 +31,17 @@ namespace Game.Scripts.Service.Equipment
             DisplayStatData displayStatData,
             DisplayStatFactory displayStatFactory,
             DropSlot[] dropSlots, 
-            Transform container)
+            Transform[] containers)
         {
             _tabService = tabService;
             _equipmentService = equipmentService;
             _displayStatData = displayStatData;
             _displayStatFactory = displayStatFactory;
             _dropSlots = dropSlots;
-            _container = container;
+            _containers = containers;
+
+            foreach (var dropSlot in dropSlots)
+                _busyDropSlots.Add(dropSlot.EquipmentType, null);
         }
         
         public void Subscribe()
@@ -67,14 +74,20 @@ namespace Game.Scripts.Service.Equipment
         
         private void OnBeginDragged(Slot slot)
         {
-            if (_draggedSlot == _droppedSlot)
+            if (_busyDropSlots[slot.EquipmentItem.Type] == slot)
+            {
+                _busyDropSlots[slot.EquipmentItem.Type] = null;
                 _droppedSlot = null;
+            }
             
             _draggedSlot = slot;
         }
 
         private void OnDropped(Slot slot)
         {
+            if (_busyDropSlots[slot.EquipmentItem.Type] == null)
+                _busyDropSlots[slot.EquipmentItem.Type] = slot;
+            
             _droppedSlot = slot;
         }
 
@@ -82,17 +95,55 @@ namespace Game.Scripts.Service.Equipment
         {
             if (isActive)
             {
+                Stat mainDraggedStat = _draggedSlot.EquipmentItem.MainStat;
+                
+                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], _containers[2],
+                    (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
+                
                 foreach (var stat in _draggedSlot.EquipmentItem.AdditionalStats)
                 {
-                    _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _container,
+                    _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[3],
                         (int)stat.Value, stat.IsPercentageValue));
                 }
+                
+                Stat mainDroppedStat = _busyDropSlots[_droppedSlot.EquipmentItem.Type].EquipmentItem.MainStat;
+                
+                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDroppedStat.Type], _containers[0],
+                    (int)mainDroppedStat.Value, mainDroppedStat.IsPercentageValue));
+                
+                foreach (var stat in _busyDropSlots[_droppedSlot.EquipmentItem.Type].EquipmentItem.AdditionalStats)
+                {
+                    _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[1],
+                        (int)stat.Value, stat.IsPercentageValue));
+                }
+                
+                // Stat mainDraggedStat = _draggedSlot.EquipmentItem.MainStat;
+                //
+                // _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], _containers[2],
+                //     (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
+                //
+                // foreach (var stat in _draggedSlot.EquipmentItem.AdditionalStats)
+                // {
+                //     _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[3],
+                //         (int)stat.Value, stat.IsPercentageValue));
+                // }
+                //
+                // Stat mainDroppedStat = _droppedSlot.EquipmentItem.MainStat;
+                //
+                // _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDroppedStat.Type], _containers[0],
+                //     (int)mainDroppedStat.Value, mainDroppedStat.IsPercentageValue));
+                //
+                // foreach (var stat in _droppedSlot.EquipmentItem.AdditionalStats)
+                // {
+                //     _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[1],
+                //         (int)stat.Value, stat.IsPercentageValue));
+                // }
             }
             else
             {
                 foreach (var stat in _displayStats)
                 {
-                    stat.OnDisabled();
+                    stat.OnDestroyed();
                 }
                 
                 _displayStats.Clear();

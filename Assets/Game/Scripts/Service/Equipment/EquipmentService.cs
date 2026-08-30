@@ -20,7 +20,6 @@ namespace Game.Scripts.Service.Equipment
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
-        private readonly StatData _statData;
         private readonly SlotHandler _slotHandler;
         private readonly EquipmentSlotFactory _slotFactory;
         private readonly Transform _container;
@@ -30,14 +29,12 @@ namespace Game.Scripts.Service.Equipment
         public EquipmentService(
             RarityEquipmentData rarityData, 
             EquipmentData data, 
-            StatData statData,
             SlotHandler slotHandler,
             EquipmentSlotFactory slotFactory, 
             Transform container)
         {
             _data = data;
             _rarityData = rarityData;
-            _statData = statData;
             _slotHandler = slotHandler;
             _slotFactory = slotFactory;
             _container = container;
@@ -49,9 +46,9 @@ namespace Game.Scripts.Service.Equipment
         {
             RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             EquipmentType equipmentType = WeightedRandomSampling.GetRandomWeighted<EquipmentType>();
-            Stat stat = GetRandomStat(equipmentType);
-            Stat[] stats = GetRandomStats(equipmentType);
-            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType); // проверить надо ли оно                  
+            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType, out int index); // проверить надо ли оно                  
+            Stat stat = GetRandomStat(equipmentType, index);
+            Stat[] stats = GetRandomStats(rarityEquipmentType, equipmentType, index);
             
             var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, stat, stats, _container);
             _slotHandler.Add(slot);
@@ -64,40 +61,40 @@ namespace Game.Scripts.Service.Equipment
             //     Debug.Log($"Stat Type: {stat.Type}, Stat Value {stat.Value}, Percent: {stat.IsPercentageValue}");
             // }
         }
-        // Rarity 2 5 10 15 25 43 == 100
 
-        private Stat GetRandomStat(EquipmentType equipmentType)
+        private Stat GetRandomStat(EquipmentType equipmentType, int index)
         {
-            List<StatInfoData> statInfoDates = new List<StatInfoData>(_statData.MainStats[equipmentType].Stats);
+            List<StatInfoData> statInfoDates = new List<StatInfoData>(_data.Configs[equipmentType][index].MainStats);
             
-            int index = NumberGeneration.GetRandom(0, _statData.MainStats[equipmentType].Stats.Length - 1);
-            int value = NumberGeneration.GetRandom((int)statInfoDates[index].MinValue, (int)statInfoDates[index].MaxValue);
-            var stat = CreateStatInstance(statInfoDates[index].Type, value, statInfoDates[index].IsPercentageValue);
+            int randomIndex = NumberGeneration.GetRandom(0, _data.Configs[equipmentType][index].MainStats.Length - 1);
+            int value = NumberGeneration.GetRandom((int)statInfoDates[randomIndex].MinValue, (int)statInfoDates[randomIndex].MaxValue);
+            var stat = CreateStatInstance(statInfoDates[randomIndex].Type, value, statInfoDates[randomIndex].IsPercentageValue);
             
             return stat;
         }
         
-        private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType)
+        private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType, out int index)
         {
-            int index = NumberGeneration.GetRandom(0, _data.Configs[equipmentType].Count - 1);
+            index = NumberGeneration.GetRandom(0, _data.Configs[equipmentType].Count - 1);
             EquipmentConfig config = _data.Configs[equipmentType][index];
             
             return config;
         }
 
-        private Stat[] GetRandomStats(EquipmentType equipmentType)
+        private Stat[] GetRandomStats(RarityEquipmentType rarityEquipmentType, EquipmentType equipmentType, int index)
         {
-            List<StatInfoData> statInfoDates = new List<StatInfoData>(_statData.AdditionalStats[equipmentType].Stats);
+            List<StatInfoData> statInfoDates = new List<StatInfoData>(_data.Configs[equipmentType][index].AdditionalStats);
             List<Stat> stats = new();
             statInfoDates.Shuffle();
             
-            int count = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
+            int count = NumberGeneration.GetRandom(_rarityData.Configs[rarityEquipmentType].MaxParameter - 1, _rarityData.Configs[rarityEquipmentType].MaxParameter + 1);
+            int calculationCountParameter = statInfoDates.Count - count;
 
-             for (int j = 0; j < count; j++)
-             {
-                 int index = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
-                 statInfoDates.RemoveAt(index);
-             }
+            for (int j = 0; j < calculationCountParameter; j++)
+            {
+                 int randomIndex = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
+                 statInfoDates.RemoveAt(randomIndex);
+            }
 
             foreach (var statInfoData in statInfoDates)
             {

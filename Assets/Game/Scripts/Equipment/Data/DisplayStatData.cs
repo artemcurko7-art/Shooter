@@ -13,7 +13,7 @@ namespace Game.Scripts.Equipment.Data
         
         public DisplayStatData()
         {
-            _configs = Resources.LoadAll<DisplayStatConfig>("Configs/Stat/Display");
+            _configs = Resources.LoadAll<DisplayStatConfig>("Configs/Stat");
             
             Fill();
         }

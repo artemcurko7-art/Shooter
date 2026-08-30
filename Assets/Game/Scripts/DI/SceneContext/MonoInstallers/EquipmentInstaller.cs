@@ -19,7 +19,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private DisplayStat _displayStat;
         [SerializeField] private Slot _slot;
         [SerializeField] private Transform _equipmentContainer;
-        [SerializeField] private Transform _replacementContainer;
+        [SerializeField] private Transform[] _replacementContainers;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
         public override void InstallBindings()
@@ -75,7 +75,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<ISubscriber>()
                 .To<ReplacementService>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _replacementContainer);
+                .WithArguments(_dropSlots, _replacementContainers);
 
             Container
                 .Bind<DisplayStatFactory>()

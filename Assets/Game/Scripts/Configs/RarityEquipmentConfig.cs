@@ -8,5 +8,7 @@ namespace Game.Scripts.Configs
     {
         [field: SerializeField] public RarityEquipmentType Type { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
+        [field: SerializeField] public int MaxParameter { get; private set; }
+        [field: SerializeField] public int Multiplier { get; private set; }
     }
 }

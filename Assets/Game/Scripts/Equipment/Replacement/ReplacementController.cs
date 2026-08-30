@@ -3,7 +3,6 @@ using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Subscriber;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Equipment.Replacement

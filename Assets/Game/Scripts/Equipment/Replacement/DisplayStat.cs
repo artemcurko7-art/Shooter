@@ -17,9 +17,9 @@ namespace Game.Scripts.Equipment.Replacement
             _valueText.text = IsPercentageValue ? $"{value}%" : value.ToString();
         }
 
-        public void OnDisabled()
+        public void OnDestroyed()
         {
-            gameObject.SetActive(false); // исправить
+            Destroy(gameObject);
         }
     }
 }

@@ -5,11 +5,11 @@ namespace Game.Scripts.Equipment.Type
     public enum EquipmentType
     {
         None,
-        Weapon,
-        Amulet,
-        Gloves,
-        Helmet,
-        Suit,
-        Boots,
+        [Weight(EquipmentWeights.Weapon)]Weapon,
+        [Weight(EquipmentWeights.Amulet)]Amulet,
+        [Weight(EquipmentWeights.Gloves)]Gloves,
+        [Weight(EquipmentWeights.Helmet)]Helmet,
+        [Weight(EquipmentWeights.Suit)]Suit,
+        [Weight(EquipmentWeights.Boots)]Boots,
     }
 }

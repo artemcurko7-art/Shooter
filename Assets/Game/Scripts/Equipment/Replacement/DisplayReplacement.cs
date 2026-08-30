@@ -1,6 +1,4 @@
-﻿using System;
-using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Service.Equipment;
+﻿using Game.Scripts.Service.Equipment;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
