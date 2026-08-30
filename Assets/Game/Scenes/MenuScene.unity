@@ -12980,7 +12980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1401356139
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14504,6 +14504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1537568582}
+  - component: {fileID: 1537568583}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -14531,6 +14532,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 316.7}
   m_SizeDelta: {x: 456.1, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1537568583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537568581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 456.1, y: 100}
+  m_Spacing: {x: 0, y: 20}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1544883349
 GameObject:
   m_ObjectHideFlags: 0
@@ -16660,6 +16685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870003735}
+  - component: {fileID: 1870003736}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -16687,6 +16713,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0.012512, y: 316.7}
   m_SizeDelta: {x: 456.1, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1870003736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870003734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 456.1, y: 100}
+  m_Spacing: {x: 0, y: 20}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1888506796
 GameObject:
   m_ObjectHideFlags: 0
@@ -17434,11 +17484,15 @@ MonoBehaviour:
   - {fileID: 1332360271}
   _tabReplacements:
   - {fileID: 1401356140}
-  - {fileID: 0}
+  - {fileID: 1362700548}
   _displayStat: {fileID: 4606027621831064424, guid: bad38ebc96bec534cb84f8e739c67b9f, type: 3}
   _slot: {fileID: 5765095746818369731, guid: 1951f59bcb43e8443a05e4b7d017898d, type: 3}
   _equipmentContainer: {fileID: 79560375}
-  _replacementContainers: []
+  _replacementContainers:
+  - {fileID: 1537568582}
+  - {fileID: 1636988566}
+  - {fileID: 1870003735}
+  - {fileID: 977787943}
   _gridLayoutGroup: {fileID: 79560376}
 --- !u!1 &1977852796
 GameObject:
