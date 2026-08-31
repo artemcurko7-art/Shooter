@@ -19,6 +19,8 @@ namespace Game.Scripts.UI
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyStatButton;
         [SerializeField] private Button _exitButton;
+        [SerializeField] private TMP_Text _originStatValue;
+        [SerializeField] private TMP_Text _targetStatValue;
 
         private PreviewTransition _transition;
         private StatsData.Stat _stat;
@@ -43,15 +45,19 @@ namespace Game.Scripts.UI
         public void Open(StatsData.Stat stat, RectTransform startPosition)
         {
             _stat = stat;
-
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
             _buyButtonText.text = GetLocalizedBuyText();
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
-            var canBuy = _buyStatButton.interactable;
+            var originValue = _geneticSystem.GetStatValue(_stat.name);
+            var targetValue = originValue + _geneticSystem.IncreaseNumber;
 
+            _originStatValue.text = $"{originValue}+";
+            _targetStatValue.text = $"{targetValue}+";
+
+            var canBuy = _buyStatButton.interactable;
             if (_imageBlicker)
             {
                 _imageBlicker.ResetToBaseColor();
@@ -69,6 +75,18 @@ namespace Game.Scripts.UI
             _transition.Open(startPosition);
         }
 
+        private static string GetLocalizedBuyText()
+        {
+            var languageCode = YG2.lang;
+
+            return languageCode switch
+            {
+                "ru" => "Получить!",
+                "en" => "Receive!",
+                "tr" => "almakt?r",
+                _ => "Receive!",
+            };
+        }
 
         private void OnBuyButtonClick()
         {
@@ -95,23 +113,9 @@ namespace Game.Scripts.UI
             _stat = null;
         }
 
-
         private void OnExitButtonClick()
         {
             Close();
-        }
-
-        private string GetLocalizedBuyText()
-        {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
-            {
-                "ru" => "Получить!",
-                "en" => "Receive!",
-                "tr" => "almakt?r",
-                _ => "Receive!",
-            };
         }
     }
 }

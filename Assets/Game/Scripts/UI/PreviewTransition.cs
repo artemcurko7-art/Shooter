@@ -9,8 +9,6 @@ namespace Game.Scripts.UI
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private RectTransform _previewRectTransform;
         [SerializeField] private Vector3 _targetPreviewPosition;
-        [SerializeField] private Vector3 _targetPreviewScale;
-
         [SerializeField] private float _duration = 0.5f;
         [SerializeField] private Ease _positionEase = Ease.OutBack;
         [SerializeField] private Ease _scaleEase = Ease.OutBounce;
@@ -18,6 +16,7 @@ namespace Game.Scripts.UI
 
         private float _closeDuration = 0.25f;
         private Vector3 _startPreviewScale = Vector3.one * 0.1f;
+        private Vector3 _targetPreviewScale = Vector3.one;
 
         private void Awake()
         {
