@@ -51,7 +51,7 @@ namespace Game.Scripts.UI
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
-            var originValue = _geneticSystem.GetStatValue(_stat.name);
+            var originValue = GeneticSystem.GetStatValue(_stat.name);
             var targetValue = originValue + _geneticSystem.IncreaseNumber;
 
             _originStatValue.text = $"{originValue}+";
