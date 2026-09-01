@@ -98,7 +98,7 @@ namespace Game.Scripts.Genetic
             ScrollToNextAvailable(true);
         }
 
-        public void OpenPreview(StatsData.Stat stat, RectTransform statPosition)
+        public void OpenPreview(StatsData.Stat stat, Vector3 statPosition)
         {
             _preview.gameObject.SetActive(true);
             _preview.Open(stat, statPosition);

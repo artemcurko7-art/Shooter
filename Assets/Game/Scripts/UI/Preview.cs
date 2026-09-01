@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Genetic;
+using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +7,10 @@ using YG;
 
 namespace Game.Scripts.UI
 {
-    [RequireComponent(typeof(PreviewTransition))]
-    public class Preview : MonoBehaviour
+    public class Preview : Window
     {
+        [Header("Зависимости")]
+        [SerializeField] private WindowTransition _transition;
         [SerializeField] private GeneticSystem _geneticSystem;
         [SerializeField] private ImageBlicker _imageBlicker;
         [SerializeField] private ScrollRect _scrollRect;
@@ -18,31 +20,24 @@ namespace Game.Scripts.UI
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyStatButton;
-        [SerializeField] private Button _exitButton;
+
+        [Header("Настройки превью")]
         [SerializeField] private TMP_Text _originStatValue;
         [SerializeField] private TMP_Text _targetStatValue;
 
-        private PreviewTransition _transition;
         private StatsData.Stat _stat;
 
         private void OnEnable()
         {
             _buyStatButton.onClick.AddListener(OnBuyButtonClick);
-            _exitButton.onClick.AddListener(OnExitButtonClick);
         }
 
         private void OnDisable()
         {
             _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
-            _exitButton.onClick.RemoveListener(OnExitButtonClick);
         }
 
-        private void Awake()
-        {
-            _transition = GetComponent<PreviewTransition>();
-        }
-
-        public void Open(StatsData.Stat stat, RectTransform startPosition)
+        public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
             _stat = stat;
             _icon.sprite = stat.icon;
@@ -72,7 +67,8 @@ namespace Game.Scripts.UI
                 }
             }
 
-            _transition.Open(startPosition);
+            _transition.Init(_canvasGroup, _rectTransform);
+            _transition.Open(startPosition, _scaleEase, _positionEase, _duration);
         }
 
         private static string GetLocalizedBuyText()
@@ -113,7 +109,12 @@ namespace Game.Scripts.UI
             _stat = null;
         }
 
-        private void OnExitButtonClick()
+        protected override void Show()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void Hide()
         {
             Close();
         }
