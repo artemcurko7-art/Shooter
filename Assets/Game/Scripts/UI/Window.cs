@@ -14,13 +14,12 @@ namespace Game.Scripts.UI
         [SerializeField] protected CanvasGroup _canvasGroup;
 
         [Header("Кнопки")]
-        [SerializeField]
-        protected Button _openButton;
-        [SerializeField] private Button _exitButton;
+        [SerializeField] protected Button _openButton;
+        [SerializeField] protected Button _exitButton;
 
         protected bool _isTransitionActive;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (_openButton)
                 _openButton.onClick.AddListener(OnOpenButtonClick);
@@ -29,7 +28,7 @@ namespace Game.Scripts.UI
                 _exitButton.onClick.AddListener(OnExitButtonClick);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (_openButton)
                 _openButton.onClick.RemoveListener(OnOpenButtonClick);

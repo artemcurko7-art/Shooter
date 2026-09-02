@@ -15,9 +15,7 @@ namespace Game.Scripts.UI.LeaderBoard
 
         protected override void Show()
         {
-            _panel.gameObject.SetActive(true);
-            _transition.Init(_canvasGroup, _panel);
-            _transition.Open(_openButton.transform.position, _scaleEase, _positionEase, _duration);
+            _transition.Open(_canvasGroup, _panel, _openButton.transform.position, _scaleEase, _positionEase, _duration);
         }
 
         protected override void Hide()
@@ -26,7 +24,7 @@ namespace Game.Scripts.UI.LeaderBoard
 
             if (_transition)
             {
-                _transition.Close();
+                _transition.Close(_canvasGroup, _rectTransform);
             }
         }
     }

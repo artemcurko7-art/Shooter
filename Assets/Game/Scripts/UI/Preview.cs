@@ -18,31 +18,36 @@ namespace Game.Scripts.UI
         [SerializeField] private Image _iconFrame;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private TMP_Text _geneticTitle;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyStatButton;
-
-        [Header("Настройки превью")]
         [SerializeField] private TMP_Text _originStatValue;
         [SerializeField] private TMP_Text _targetStatValue;
 
         private StatsData.Stat _stat;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             _buyStatButton.onClick.AddListener(OnBuyButtonClick);
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
+            Close();
         }
 
         public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
+            if (_rectTransform.gameObject.activeInHierarchy) return;
+
             _stat = stat;
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
-            _buyButtonText.text = GetLocalizedBuyText();
+            _geneticTitle.text = Localization.GetGeneticTitleText();
+            _buyButtonText.text = Localization.GetLocalizedBuyText();
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
@@ -53,37 +58,23 @@ namespace Game.Scripts.UI
             _targetStatValue.text = $"{targetValue}+";
 
             var canBuy = _buyStatButton.interactable;
-            if (_imageBlicker)
-            {
-                _imageBlicker.ResetToBaseColor();
 
-                if (canBuy)
-                {
-                    _imageBlicker.Enable();
-                }
-                else
-                {
-                    _imageBlicker.Disable();
-                }
+            _transition.Open(_canvasGroup, _rectTransform, startPosition, _scaleEase, _positionEase, _duration);
+
+            if (!_imageBlicker) return;
+
+            _imageBlicker.ResetToBaseColor();
+
+            if (canBuy)
+            {
+                _imageBlicker.Enable();
             }
-
-            _transition.Init(_canvasGroup, _rectTransform);
-            _transition.Open(startPosition, _scaleEase, _positionEase, _duration);
-        }
-
-        private static string GetLocalizedBuyText()
-        {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            else
             {
-                "ru" => "Получить!",
-                "en" => "Receive!",
-                "tr" => "almakt?r",
-                _ => "Receive!",
-            };
+                _imageBlicker.Disable();
+            }
         }
-
+        
         private void OnBuyButtonClick()
         {
             if (_stat == null)
@@ -105,7 +96,7 @@ namespace Game.Scripts.UI
 
             _background.color = Color.white;
             _scrollRect.enabled = true;
-            _transition.Close();
+            _transition.Close(_canvasGroup, _rectTransform);
             _stat = null;
         }
 
@@ -116,8 +107,6 @@ namespace Game.Scripts.UI
 
         protected override void Hide()
         {
-            if (IsTransitionActive) return;
-
             Close();
         }
     }

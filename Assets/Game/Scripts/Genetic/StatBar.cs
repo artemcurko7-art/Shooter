@@ -77,7 +77,7 @@ namespace Game.Scripts.Genetic
 
         public void OnClick()
         {
-            _geneticSystem.OpenPreview(_stat, _rectTransform.position);
+            _geneticSystem.OpenPreview(_stat, _rectTransform.transform.position);
         }
     }
 }
