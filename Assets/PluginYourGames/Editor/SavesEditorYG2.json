@@ -1,10 +1,10 @@
 {
-    "IdSavedStatCount": 273,
-    "AttackStrength": 28.5,
-    "CriticalDamage": 28.5,
-    "Armor": 28.5,
-    "MovementSpeed": 28.0,
-    "ViewRange": 28.0,
+    "IdSavedStatCount": 290,
+    "AttackStrength": 30.0,
+    "CriticalDamage": 30.0,
+    "Armor": 30.0,
+    "MovementSpeed": 30.0,
+    "ViewRange": 30.0,
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [
