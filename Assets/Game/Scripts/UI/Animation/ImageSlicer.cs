@@ -24,6 +24,8 @@ namespace Game.Scripts.UI.Animation
 
         public void Animate()
         {
+            _target.pixelsPerUnitMultiplier = _startPixelsMultiplier;
+            
             DOTween.To(() => _target.pixelsPerUnitMultiplier, x => _target.pixelsPerUnitMultiplier = x,
                 _endPixelsMultiplier, _duration).SetEase(Ease.OutQuart);
         }

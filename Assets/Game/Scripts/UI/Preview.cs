@@ -116,6 +116,8 @@ namespace Game.Scripts.UI
 
         protected override void Hide()
         {
+            if (IsTransitionActive) return;
+
             Close();
         }
     }

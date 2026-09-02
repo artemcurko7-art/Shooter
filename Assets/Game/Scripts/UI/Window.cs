@@ -51,6 +51,6 @@ namespace Game.Scripts.UI
         protected abstract void Show();
         protected abstract void Hide();
 
-        public bool IsTransitionActive => _isTransitionActive;
+        protected bool IsTransitionActive => _isTransitionActive;
     }
 }
