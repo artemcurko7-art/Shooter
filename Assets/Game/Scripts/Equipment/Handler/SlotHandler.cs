@@ -1,100 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Service.Subscriber;
+using Game.Scripts.Equipment.Repository;
+using Game.Scripts.Service.Equipment;
+using UnityEngine;
 
 namespace Game.Scripts.Equipment.Handler
 {
-    public class SlotHandler : ITabService, ISubscriber
+    public class SlotHandler : SlotProcessor, ITabService
     {
-        private readonly DropSlot[] _dropSlots;
-        private readonly SortingEquipmentByParameters _sorting;
-        private readonly List<DropSlot> _busyDropSlots = new();
-        private readonly List<Slot> _slots = new(); 
-        private Slot _droppedSlot;
+        private readonly List<DropSlot> _freeDropSlots = new();
         
         public event Action<bool> TabOpened;
         
-        public SlotHandler(DropSlot[] dropSlots, SortingEquipmentByParameters sorting)
-        {
-            _dropSlots = dropSlots;
-            _sorting = sorting;
-        }
+        public SlotHandler(
+            IEquipmentService equipmentService,
+            EquipmentSlotRepository repository,
+            EquipmentFreeSlotRegistry freeRegistry,
+            SortingEquipmentByParameters sorting,
+            DropSlot[] dropSlots) :
+            base(equipmentService, repository, freeRegistry, sorting, dropSlots) { }
 
-        public IReadOnlyList<Slot> Slots => _slots;
-        
-        public void Subscribe()
-        {
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped += OnDropped;
-        }
-        
-        public void Unsubscribe()
-        {
-            foreach (var slot in _slots)
-            {
-                slot.Drag.BeginDragged -= OnBeginDragged;
-                slot.Drag.EndDragged -= OnEndDragged;
-            }
-            
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped -= OnDropped;
-        }
-        
-        public void Add(Slot slot)
-        {
-            _slots.Add(slot);
-            _sorting.Sort(_slots);
-            
-            slot.Drag.BeginDragged += OnBeginDragged;
-            slot.Drag.EndDragged += OnEndDragged;
-        }
-        
         public void DisableTab()
         {
             TabOpened?.Invoke(false);
         }
-        
-        private void OnBeginDragged(Slot slot)
+
+        protected override void OnBeginDragged(Slot slot)
         {
-            foreach (var dropSlot in _dropSlots)
+            foreach (var dropSlot in DropSlots)
             {
                 if (dropSlot.Slot == slot)
                 {
                     dropSlot.Clear();
-                    _busyDropSlots.Remove(dropSlot);
-                    _droppedSlot = null;
+                    _freeDropSlots.Remove(dropSlot);
+                    Release();
                 }
             }
         }
         
-        private void OnEndDragged(Slot slot)
+        protected override void OnEndDragged(Slot slot)
         {
-            if (_slots.Contains(slot) == false && slot != _droppedSlot)
+            if (Repository.Has(slot) == false && slot != DroppedSlot)
             {
-                _slots.Add(slot); 
-                _sorting.Sort(_slots);
+                Repository.Add(slot);
+                Sorting.Sort(Repository.Slots);
             }
             
             slot.Drag.CanvasGroup.blocksRaycasts = true;
         }
         
-        private void OnDropped(Slot slot)
+        protected override void OnDropped(Slot slot)
         {
-            foreach (var dropSlot in _dropSlots)
+            foreach (var dropSlot in DropSlots)
             {
                 if (dropSlot.Slot == slot)
                 {
-                    if (_busyDropSlots.Contains(dropSlot))
+                    if (_freeDropSlots.Contains(dropSlot))
                         TabOpened?.Invoke(true);
                     else
-                        _busyDropSlots.Add(dropSlot);
+                        _freeDropSlots.Add(dropSlot);
                 }
             }
-            
-            _slots.Remove(slot);
-            _sorting.Sort(_slots);
-            _droppedSlot = slot;
+
+            Repository.Remove(slot);
+            Sorting.Sort(Repository.Slots);
+            Assign(slot);
         }
     }
 }

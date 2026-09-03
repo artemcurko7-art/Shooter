@@ -3,6 +3,7 @@ using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Handler;
 using Game.Scripts.Equipment.Replacement;
+using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Subscriber;
@@ -14,12 +15,12 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class EquipmentInstaller : MonoInstaller
     {
-        [SerializeField] private DropSlot[] _dropSlots;
-        [SerializeField] private DisplayReplacement[] _tabReplacements;
-        [SerializeField] private DisplayStat _displayStat;
         [SerializeField] private Slot _slot;
+        [SerializeField] private DisplayReplacement _displayReplacement;
+        [SerializeField] private DisplayStat _displayStat;
+        [SerializeField] private ReplacementContainer _replacementContainer;
+        [SerializeField] private DropSlot[] _dropSlots;
         [SerializeField] private Transform _equipmentContainer;
-        [SerializeField] private Transform[] _replacementContainers;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
         public override void InstallBindings()
@@ -28,6 +29,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             BindData();
             BindReplacement();
             BindHandler();
+            BindRepository();
         }
 
         private void Bind()
@@ -47,6 +49,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle()
                 .WithArguments(_equipmentContainer)
                 .NonLazy();
+
+            Container
+                .Bind<DropSlot[]>()
+                .FromInstance(_dropSlots)
+                .AsSingle();
         }
         
         private void BindData()
@@ -65,17 +72,16 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<DisplayStatData>()
                 .AsSingle();
-            
+
             Container
                 .BindInterfacesAndSelfTo<ReplacementController>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _gridLayoutGroup);
+                .WithArguments(_gridLayoutGroup);
             
             Container
-                .Bind<ISubscriber>()
-                .To<ReplacementService>()
+                .BindInterfacesTo<ReplacementService>()
                 .AsSingle()
-                .WithArguments(_dropSlots, _replacementContainers);
+                .WithArguments(_replacementContainer);
 
             Container
                 .Bind<DisplayStatFactory>()
@@ -86,21 +92,31 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<ISubscriber>()
                 .To<TabOpened>()
                 .AsSingle()
-                .WithArguments(_tabReplacements);
+                .WithArguments(_displayReplacement);
         }
 
         private void BindHandler()
         {
             Container
                 .BindInterfacesAndSelfTo<SlotHandler>()
-                .AsSingle()
-                .WithArguments(_dropSlots);
+                .AsSingle();
             
             Container
                 .Bind<ISubscriber>()
                 .To<WeaponSlotHandler>()
                 .AsSingle()
                 .WithArguments(_dropSlots[0]);
+        }
+
+        private void BindRepository()
+        {
+            Container
+                .Bind<EquipmentSlotRepository>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<EquipmentFreeSlotRegistry>()
+                .AsSingle();
         }
     }
 }

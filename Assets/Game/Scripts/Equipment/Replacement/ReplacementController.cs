@@ -1,98 +1,63 @@
-﻿using System.Collections.Generic;
-using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Equipment.Type;
+﻿using Game.Scripts.Equipment.DragInDrop;
+using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Service.Equipment;
-using Game.Scripts.Service.Subscriber;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Equipment.Replacement
 {
-    public class ReplacementController : ISubscriber
+    public class ReplacementController : SlotProcessor
     {
-        private readonly IEquipmentService _equipmentService;
         private readonly ITabService _tabService;
-        private readonly DropSlot[] _dropSlots;
-        private readonly Dictionary<EquipmentType, Slot> _busyDropSlots = new();
         private readonly GridLayoutGroup _gridLayoutGroup;
-        private Slot _droppedSlot;
         private bool _isTabActive;
         
-        public ReplacementController(IEquipmentService equipmentService, ITabService tabService, DropSlot[] dropSlots, GridLayoutGroup gridLayoutGroup)
+        public ReplacementController(
+            IEquipmentService equipmentService,
+            EquipmentSlotRepository repository,
+            EquipmentFreeSlotRegistry freeRegistry,
+            SortingEquipmentByParameters sorting,
+            DropSlot[] dropSlots,
+            ITabService tabService,
+            GridLayoutGroup gridLayoutGroup) :
+            base(equipmentService, repository, freeRegistry, sorting, dropSlots)
         {
-            _equipmentService = equipmentService;
             _tabService = tabService;
-            _dropSlots = dropSlots;
             _gridLayoutGroup = gridLayoutGroup;
-
-            foreach (var dropSlot in dropSlots)
-                _busyDropSlots.Add(dropSlot.EquipmentType, null);
         }
 
-        public void Subscribe()
+        public override void Subscribe()
         {
-            _equipmentService.Added += OnAdded;
-
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped += OnDroppedSlot;
-
+            base.Subscribe();
+            
             _tabService.TabOpened += OnTabOpened;
         }
 
-        public void Unsubscribe()
+        public new void Unsubscribe()
         {
-            _equipmentService.Added -= OnAdded;
-            
-            foreach (var slot in _equipmentService.Slots)
-            {
-                slot.Drag.BeginDragged -= OnBeginDraggedSlot;
-                slot.Drag.EndDragged -= OnEndDraggedSlot;
-            }
-            
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped -= OnDroppedSlot;
+            base.Unsubscribe();
             
             _tabService.TabOpened -= OnTabOpened;
         }
 
         public void Replace()
         {
-            foreach (var dropSlot in _dropSlots)
+            foreach (var dropSlot in DropSlots)
             {
-                if (dropSlot.EquipmentType == _droppedSlot.EquipmentItem.Type)
+                if (dropSlot.EquipmentType == DroppedSlot.EquipmentItem.Type)
                 {
-                    dropSlot.Set(_droppedSlot);
+                    FreeRegistry.EquippedSlots[dropSlot.EquipmentType].Drag.ResetSettings();
+                    dropSlot.Set(DroppedSlot);
+                    FreeRegistry.Register(dropSlot.EquipmentType, DroppedSlot);
                     _tabService.DisableTab();
-                    _busyDropSlots[dropSlot.EquipmentType].Drag.ResetSettings();
-                    _busyDropSlots[dropSlot.EquipmentType] = _droppedSlot;
                     _gridLayoutGroup.enabled = true;
                 }
             }
         }
-
-        private void OnAdded(Slot slot)
-        {
-            slot.Drag.BeginDragged += OnBeginDraggedSlot;
-            slot.Drag.EndDragged += OnEndDraggedSlot;
-        }
-
-        private void OnBeginDraggedSlot(Slot slot)
-        {
-            if (_busyDropSlots[slot.EquipmentItem.Type] == slot)
-                _busyDropSlots[slot.EquipmentItem.Type] = null;
-        }
-
-        private void OnEndDraggedSlot(Slot slot)
+        
+        protected override void OnEndDragged(Slot slot)
         {
             if (_isTabActive == false)
                 _gridLayoutGroup.enabled = true;
-        }
-        
-        private void OnDroppedSlot(Slot slot)
-        {
-            if (_busyDropSlots[slot.EquipmentItem.Type] == null)
-                _busyDropSlots[slot.EquipmentItem.Type] = slot;
-            else
-                _droppedSlot = slot;
         }
 
         private void OnTabOpened(bool isActive)

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
   <WeaponType>k__BackingField: 1
+  <Name>k__BackingField: "\u0413\u043B\u043E\u043A"
   <MainStats>k__BackingField:
   - <Type>k__BackingField: 2
     <MinValue>k__BackingField: 10

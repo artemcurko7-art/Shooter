@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
-using Game.Scripts.Equipment.Handler;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
@@ -12,7 +10,6 @@ using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.UserUtils;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Game.Scripts.Service.Equipment
 {
@@ -20,7 +17,6 @@ namespace Game.Scripts.Service.Equipment
     {
         private readonly EquipmentData _data;
         private readonly RarityEquipmentData _rarityData;
-        private readonly SlotHandler _slotHandler;
         private readonly EquipmentSlotFactory _slotFactory;
         private readonly Transform _container;
         
@@ -29,37 +25,25 @@ namespace Game.Scripts.Service.Equipment
         public EquipmentService(
             RarityEquipmentData rarityData, 
             EquipmentData data, 
-            SlotHandler slotHandler,
             EquipmentSlotFactory slotFactory, 
             Transform container)
         {
             _data = data;
             _rarityData = rarityData;
-            _slotHandler = slotHandler;
             _slotFactory = slotFactory;
             _container = container;
         }
-        
-        public IReadOnlyList<Slot> Slots => _slotHandler.Slots;
 
         public void OnClick()
         {
             RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             EquipmentType equipmentType = WeightedRandomSampling.GetRandomWeighted<EquipmentType>();
-            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType, out int index); // проверить надо ли оно                  
+            EquipmentConfig config = GetRandomEquipmentConfig(equipmentType, out int index);          
             Stat stat = GetRandomStat(equipmentType, index);
             Stat[] stats = GetRandomStats(rarityEquipmentType, equipmentType, index);
             
             var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, stat, stats, _container);
-            _slotHandler.Add(slot);
             Added?.Invoke(slot);
-            
-            // Debug.Log($"Instance: Rarity: {slot.RarityEquipmentType}, Equipment: {slot.EquipmentItem.Type}");
-            //
-            // foreach (var stat in slot.EquipmentItem.Stats)
-            // {
-            //     Debug.Log($"Stat Type: {stat.Type}, Stat Value {stat.Value}, Percent: {stat.IsPercentageValue}");
-            // }
         }
 
         private Stat GetRandomStat(EquipmentType equipmentType, int index)
