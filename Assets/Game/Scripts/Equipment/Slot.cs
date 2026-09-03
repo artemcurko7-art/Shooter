@@ -15,7 +15,7 @@ namespace Game.Scripts.Equipment
         public EquipmentItem EquipmentItem { get; private set; }
         public RectTransform RectTransform { get; private set; }
         public RectTransform ChildRectTransform { get; private set; }
-        public Sprite Icon => _icon.sprite;
+        public Sprite Icon => _icon.sprite; // 575.95 602.7 26,75
         public string Name { get; private set; }
         
         private void Awake()

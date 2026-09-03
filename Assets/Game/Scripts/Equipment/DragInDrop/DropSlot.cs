@@ -32,15 +32,12 @@ namespace Game.Scripts.Equipment.DragInDrop
 
         public void Set(Slot slot)
         {
-            //Debug.Log($"Count do slot {transform.childCount}");
-            
             slot.transform.SetParent(transform);
             slot.transform.localPosition = Vector3.zero;
             slot.RectTransform.sizeDelta = _rectTransform.sizeDelta;
             slot.ChildRectTransform.sizeDelta = _childRectTransform.rectTransform.sizeDelta;
             Slot = slot;
             Dropped?.Invoke(slot);
-            //Debug.Log($"Count posle slot {transform.childCount}");
         }
 
         public void Clear()

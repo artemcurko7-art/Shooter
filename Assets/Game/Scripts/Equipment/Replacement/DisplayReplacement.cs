@@ -15,7 +15,6 @@ namespace Game.Scripts.Equipment.Replacement
         [SerializeField] private Image _iconDragged;
         [SerializeField] private TMP_Text _nameDropped;
         [SerializeField] private TMP_Text _nameDragged;
-        [SerializeField] private bool _isActive;
 
         private IEquipmentFreeSlotRegistry _freeSlotRegistry;
         private IReplacementService _service;
