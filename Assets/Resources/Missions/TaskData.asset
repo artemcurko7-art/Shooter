@@ -13,57 +13,75 @@ MonoBehaviour:
   m_Name: TaskData
   m_EditorClassIdentifier: 
   Tasks:
-  - TaskTextTranslations:
+  - difficulty: 3
+    TaskTextTranslations:
       Ru: "\u0423\u0431\u0435\u0439 45 \u0432\u0440\u0430\u0433\u043E\u0432, \u043D\u0430\u0439\u0434\u0438
         \u0448\u0442\u0443\u0440\u043C\u043E\u0432\u0438\u043A\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u043A\u043E\u043C\u0430\u043D\u0434\u0438\u0440\u0430 \u0437\u0430\u0441\u0430\u0434\u044B"
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    reward: 0
-    difficulty: 3
-  - TaskTextTranslations:
+    type: 
+    reward: 100
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
+  - difficulty: 2
+    TaskTextTranslations:
       Ru: "\u0423\u0431\u0435\u0439 45 \u0432\u0440\u0430\u0433\u043E\u0432, \u043D\u0430\u0439\u0434\u0438
         \u0448\u0442\u0443\u0440\u043C\u043E\u0432\u0438\u043A\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u043A\u043E\u043C\u0430\u043D\u0434\u0438\u0440\u0430 \u0437\u0430\u0441\u0430\u0434\u044B"
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    reward: 0
-    difficulty: 2
-  - TaskTextTranslations:
+    type: 
+    reward: 75
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
+  - difficulty: 1
+    TaskTextTranslations:
       Ru: "\u0423\u0431\u0435\u0439 45 \u0432\u0440\u0430\u0433\u043E\u0432, \u043D\u0430\u0439\u0434\u0438
         \u0448\u0442\u0443\u0440\u043C\u043E\u0432\u0438\u043A\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u043A\u043E\u043C\u0430\u043D\u0434\u0438\u0440\u0430 \u0437\u0430\u0441\u0430\u0434\u044B"
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    reward: 0
-    difficulty: 1
-  - TaskTextTranslations:
+    type: 
+    reward: 50
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
+  - difficulty: 3
+    TaskTextTranslations:
       Ru: "\u0443\u0431\u0435\u0439 60 \u0432\u0440\u0430\u0433\u043E\u0432, \u043F\u043E\u0434\u0431\u0435\u0440\u0438
         \u0438\u043D\u0436\u0435\u043D\u0435\u0440\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u0431\u043E\u0441\u0441\u0430\u2011\u0434\u0440\u043E\u043D\u0430"
       En: Defeat 60 enemies, recruit an Engineer, beat the Drone boss
       Tr: "60 d\xFC\u015Fman\u0131 yok et, M\xFChendisi i\u015Fe al, Drone boss\u2019unu
         yen"
-    reward: 0
-    difficulty: 3
-  - TaskTextTranslations:
+    type: 
+    reward: 10
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
+  - difficulty: 2
+    TaskTextTranslations:
       Ru: "\u0443\u0431\u0435\u0439 60 \u0432\u0440\u0430\u0433\u043E\u0432, \u043F\u043E\u0434\u0431\u0435\u0440\u0438
         \u0438\u043D\u0436\u0435\u043D\u0435\u0440\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u0431\u043E\u0441\u0441\u0430\u2011\u0434\u0440\u043E\u043D\u0430"
       En: Defeat 60 enemies, recruit an Engineer, beat the Drone boss
       Tr: "60 d\xFC\u015Fman\u0131 yok et, M\xFChendisi i\u015Fe al, Drone boss\u2019unu
         yen"
-    reward: 0
-    difficulty: 2
-  - TaskTextTranslations:
+    type: 
+    reward: 5
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
+  - difficulty: 1
+    TaskTextTranslations:
       Ru: "\u0443\u0431\u0435\u0439 60 \u0432\u0440\u0430\u0433\u043E\u0432, \u043F\u043E\u0434\u0431\u0435\u0440\u0438
         \u0438\u043D\u0436\u0435\u043D\u0435\u0440\u0430, \u043F\u043E\u0431\u0435\u0434\u0438
         \u0431\u043E\u0441\u0441\u0430\u2011\u0434\u0440\u043E\u043D\u0430"
       En: Defeat 60 enemies, recruit an Engineer, beat the Drone boss
       Tr: "60 d\xFC\u015Fman\u0131 yok et, M\xFChendisi i\u015Fe al, Drone boss\u2019unu
         yen"
-    reward: 0
-    difficulty: 1
+    type: 
+    reward: 3
+    quota: 0
+    rewardIcon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}

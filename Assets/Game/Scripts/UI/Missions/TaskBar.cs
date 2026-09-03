@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -14,6 +11,7 @@ namespace Game.Scripts.UI.Missions
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _content;
         [SerializeField] private TMP_Text _reward;
+        [SerializeField] private TMP_Text _quota;
         [SerializeField] private Image _rewardIcon;
         [SerializeField] private Image _paperIcon;
         [SerializeField] private Image _succesIcon;
@@ -70,7 +68,7 @@ namespace Game.Scripts.UI.Missions
         {
             _originalSize = _rect.sizeDelta;
             _originalPos = _rect.anchoredPosition;
-            
+
             SwitchBackgrounds(false);
 
             UpdateDisplay();
@@ -120,6 +118,9 @@ namespace Game.Scripts.UI.Missions
             _succesIcon.gameObject.SetActive(_isDone);
 
             _content.text = _task.GetLocalizedTask(YG2.lang);
+            _reward.text = _task.reward.ToString();
+            _rewardIcon.sprite = _task.rewardIcon;
+            _quota.text = _task.quota.ToString();
         }
 
         private void FastCloseScale()

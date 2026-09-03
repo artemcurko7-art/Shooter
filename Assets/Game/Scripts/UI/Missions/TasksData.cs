@@ -13,9 +13,12 @@ namespace Game.Scripts.UI.Missions
         public class Task
         {
             [Range(1, 3)]
-            public LocalizedText TaskTextTranslations;
-            public int reward;
             public int difficulty;
+            public LocalizedText TaskTextTranslations;
+            public string type;
+            public int reward;
+            public int quota;
+            public Sprite rewardIcon;
 
             [Serializable]
             public class LocalizedText
