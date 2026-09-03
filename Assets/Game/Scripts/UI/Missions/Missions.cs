@@ -1,3 +1,4 @@
+using System;
 using Game.Scripts.UI.Animation;
 using UnityEngine;
 
@@ -6,12 +7,27 @@ namespace Game.Scripts.UI.Missions
     public class Missions : Window
     {
         [Header("Зависимости")]
-        [SerializeField] private RectTransform _panel;
-        [SerializeField] private WindowTransition _transition;
-        
+        [SerializeField] private TaskBar _barPrefab;
+        [SerializeField] private TasksData _data;
+        [SerializeField] private RectTransform _content;
+
+        private void Start()
+        {
+            InitializeTasks();
+        }
+
+        private void InitializeTasks()
+        {
+            foreach (var task in _data.Tasks)
+            {
+                Instantiate(_barPrefab, _content).Init(task);
+            }
+        }
+
         protected override void Show()
         {
-            _transition.Open(_canvasGroup, _panel, _openButton.transform.position, _scaleEase, _positionEase, _duration);
+            _transition.Open(_canvasGroup, _rectTransform, _openButton.transform.position, _scaleEase, _positionEase,
+                _duration);
         }
 
         protected override void Hide()

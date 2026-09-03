@@ -10,7 +10,6 @@ namespace Game.Scripts.UI
     public class Preview : Window
     {
         [Header("Зависимости")]
-        [SerializeField] private WindowTransition _transition;
         [SerializeField] private GeneticSystem _geneticSystem;
         [SerializeField] private ImageBlicker _imageBlicker;
         [SerializeField] private ScrollRect _scrollRect;
