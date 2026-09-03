@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Game.Scripts.Genetic
 {
-    [CreateAssetMenu(fileName = "StatsData", menuName = "Genetic/StatsData")]
+    [CreateAssetMenu(fileName = "StatsData", menuName = "Data/StatsData")]
     public class StatsData : ScriptableObject
     {
-        public List<Stat> Stats = new List<Stat>();
+        public List<Stat> Stats = new();
 
         [Serializable]
         public class Stat

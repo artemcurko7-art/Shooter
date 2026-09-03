@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Game.Scripts.UI.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +11,11 @@ namespace Game.Scripts.UI
         [SerializeField] protected Ease _scaleEase = Ease.OutExpo;
         [SerializeField] protected Ease _positionEase = Ease.InExpo;
         [SerializeField] protected float _duration = 0.5f;
+
+        [Header("Ссылки")]
         [SerializeField] protected RectTransform _rectTransform;
         [SerializeField] protected CanvasGroup _canvasGroup;
+        [SerializeField] protected WindowTransition _transition;
 
         [Header("Кнопки")]
         [SerializeField] protected Button _openButton;
