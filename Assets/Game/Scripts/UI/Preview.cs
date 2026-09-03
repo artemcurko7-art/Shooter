@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Genetic;
+using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,9 +7,10 @@ using YG;
 
 namespace Game.Scripts.UI
 {
-    [RequireComponent(typeof(PreviewTransition))]
-    public class Preview : MonoBehaviour
+    public class Preview : Window
     {
+        [Header("Зависимости")]
+        [SerializeField] private WindowTransition _transition;
         [SerializeField] private GeneticSystem _geneticSystem;
         [SerializeField] private ImageBlicker _imageBlicker;
         [SerializeField] private ScrollRect _scrollRect;
@@ -16,60 +18,63 @@ namespace Game.Scripts.UI
         [SerializeField] private Image _iconFrame;
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private TMP_Text _geneticTitle;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyStatButton;
-        [SerializeField] private Button _exitButton;
+        [SerializeField] private TMP_Text _originStatValue;
+        [SerializeField] private TMP_Text _targetStatValue;
 
-        private PreviewTransition _transition;
         private StatsData.Stat _stat;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             _buyStatButton.onClick.AddListener(OnBuyButtonClick);
-            _exitButton.onClick.AddListener(OnExitButtonClick);
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
-            _exitButton.onClick.RemoveListener(OnExitButtonClick);
+            Close();
         }
 
-        private void Awake()
+        public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
-            _transition = GetComponent<PreviewTransition>();
-        }
+            if (_rectTransform.gameObject.activeInHierarchy) return;
 
-        public void Open(StatsData.Stat stat, RectTransform startPosition)
-        {
             _stat = stat;
-
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
-            _buyButtonText.text = GetLocalizedBuyText();
+            _geneticTitle.text = Localization.GetGeneticTitleText();
+            _buyButtonText.text = Localization.GetLocalizedBuyText();
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
+            var originValue = GeneticSystem.GetStatValue(_stat.name);
+            var targetValue = originValue + _geneticSystem.IncreaseNumber;
+
+            _originStatValue.text = $"{originValue}+";
+            _targetStatValue.text = $"{targetValue}+";
+
             var canBuy = _buyStatButton.interactable;
 
-            if (_imageBlicker)
+            _transition.Open(_canvasGroup, _rectTransform, startPosition, _scaleEase, _positionEase, _duration);
+
+            if (!_imageBlicker) return;
+
+            _imageBlicker.ResetToBaseColor();
+
+            if (canBuy)
             {
-                _imageBlicker.ResetToBaseColor();
-
-                if (canBuy)
-                {
-                    _imageBlicker.Enable();
-                }
-                else
-                {
-                    _imageBlicker.Disable();
-                }
+                _imageBlicker.Enable();
             }
-
-            _transition.Open(startPosition);
+            else
+            {
+                _imageBlicker.Disable();
+            }
         }
-
-
+        
         private void OnBuyButtonClick()
         {
             if (_stat == null)
@@ -91,27 +96,18 @@ namespace Game.Scripts.UI
 
             _background.color = Color.white;
             _scrollRect.enabled = true;
-            _transition.Close();
+            _transition.Close(_canvasGroup, _rectTransform);
             _stat = null;
         }
 
-
-        private void OnExitButtonClick()
+        protected override void Show()
         {
-            Close();
+            throw new System.NotImplementedException();
         }
 
-        private string GetLocalizedBuyText()
+        protected override void Hide()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
-            {
-                "ru" => "Получить!",
-                "en" => "Receive!",
-                "tr" => "almakt?r",
-                _ => "Receive!",
-            };
+            Close();
         }
     }
 }

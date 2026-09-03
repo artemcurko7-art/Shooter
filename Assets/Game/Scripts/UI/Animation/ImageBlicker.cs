@@ -1,15 +1,15 @@
-﻿using DG.Tweening;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Scripts.UI
+namespace Game.Scripts.UI.Animation
 {
     public class ImageBlicker : MonoBehaviour
     {
         [SerializeField] private List<Image> _images = new();
-
         [SerializeField] private float _cycleDurationPerImage = 0.6f;
         [SerializeField] private float _stepDelay = 0.7f;
         [SerializeField] private float _cycleDelay = 0.3f;
@@ -17,7 +17,7 @@ namespace Game.Scripts.UI
         [SerializeField] private Color _glowColor = Color.black;
 
         private Coroutine _coroutine;
-        private bool _isRunning = false;
+        private bool _isRunning;
 
         public void Enable()
         {
@@ -40,43 +40,41 @@ namespace Game.Scripts.UI
                 _coroutine = null;
             }
 
-            for (int i = 0; i < _images.Count; i++)
+            foreach (var image in _images.Where(image => image))
             {
-                if (_images[i] != null)
-                    _images[i].color = _originalColor;
+                image.color = _originalColor;
             }
         }
 
         public void ResetToBaseColor()
         {
-            foreach (var img in _images)
+            foreach (var image in _images.Where(image => image))
             {
-                if (img != null)
-                    img.color = _originalColor;
+                image.color = _originalColor;
             }
         }
 
         private IEnumerator RunContinuousSequence()
         {
-            float halfStep = _cycleDurationPerImage * 0.5f;
+            var halfStep = _cycleDurationPerImage * 0.5f;
 
             while (_isRunning && _images.Count > 0)
             {
-                for (int i = _images.Count - 1; i >= 0; i--)
+                for (var i = _images.Count - 1; i >= 0; i--)
                 {
                     if (!_isRunning) break;
 
                     var image = _images[i];
-                    if (image == null) continue;
+                    if (!image) continue;
 
-                    Color original = _originalColor;
-                    Color target = Color.Lerp(original, _glowColor, 0.8f);
+                    var original = _originalColor;
+                    var target = Color.Lerp(original, _glowColor, 0.8f);
 
                     image.DOColor(target, halfStep)
                         .SetEase(Ease.InOutQuad)
                         .OnComplete(() =>
                         {
-                            if (!_isRunning || image == null) return;
+                            if (!_isRunning || !image) return;
                             image.DOColor(original, halfStep).SetEase(Ease.InOutQuad);
                         });
 

@@ -22,7 +22,7 @@ namespace Game.Scripts.Genetic
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private RectTransform _gridContainer;
         [SerializeField] private RawImage _background;
-        [SerializeField] private float rectScroll = 0.5f;
+        [SerializeField] private float _rectScroll = 0.5f;
 
         private Coroutine _scrollCoroutine;
 
@@ -37,6 +37,71 @@ namespace Game.Scripts.Genetic
         {
             InitializeStats();
             ScrollToNextAvailable(false);
+        }
+
+        public static bool IsNextAvailableStat(int statId)
+        {
+            var nextIndex = YG2.saves.IdSavedStatCount;
+            return statId == nextIndex;
+        }
+
+        public static bool IsAlreadyUnlocked(int statId)
+        {
+            var nextIndex = YG2.saves.IdSavedStatCount;
+            return statId < nextIndex;
+        }
+
+        public static float GetStatValue(string statName)
+        {
+            return statName switch
+            {
+                "AttackStrength" => YG2.saves.AttackStrength,
+                "CriticalDamage" => YG2.saves.CriticalDamage,
+                "Armor" => YG2.saves.Armor,
+                "MovementSpeed" => YG2.saves.MovementSpeed,
+                "ViewRange" => YG2.saves.ViewRange,
+                _ => 0
+            };
+        }
+
+        public void IncreaseStat(string statName)
+        {
+            switch (statName)
+            {
+                case "AttackStrength":
+                    YG2.saves.AttackStrength += _statIncreaseNumber;
+                    break;
+
+                case "CriticalDamage":
+                    YG2.saves.CriticalDamage += _statIncreaseNumber;
+                    break;
+
+                case "Armor":
+                    YG2.saves.Armor += _statIncreaseNumber;
+                    break;
+
+                case "MovementSpeed":
+                    YG2.saves.MovementSpeed += _statIncreaseNumber;
+                    break;
+
+                case "ViewRange":
+                    YG2.saves.ViewRange += _statIncreaseNumber;
+                    break;
+
+                default:
+                    return;
+            }
+
+            YG2.SaveProgress();
+
+            EnsureVisibleRange();
+            ScrollToNextAvailable(true);
+        }
+
+        public void OpenPreview(StatsData.Stat stat, Vector3 statPosition)
+        {
+            _preview.gameObject.SetActive(true);
+            _preview.Open(stat, statPosition);
         }
 
         private IEnumerator CheckScrollOnEnable()
@@ -122,117 +187,42 @@ namespace Game.Scripts.Genetic
             }
         }
 
-        public float GetStatValue(string statName)
-        {
-            return statName switch
-            {
-                "AttackStrength" => YG2.saves.AttackStrength,
-                "CriticalDamage" => YG2.saves.CriticalDamage,
-                "Armor" => YG2.saves.Armor,
-                "MovementSpeed" => YG2.saves.MovementSpeed,
-                "ViewRange" => YG2.saves.ViewRange,
-                _ => 0
-            };
-        }
-
-        public static bool IsNextAvailableStat(int statId)
-        {
-            var nextIndex = YG2.saves.IdSavedStatCount;
-            return statId == nextIndex;
-        }
-
-        public static bool IsAlreadyUnlocked(int statId)
-        {
-            var nextIndex = YG2.saves.IdSavedStatCount;
-            return statId < nextIndex;
-        }
-
-        public void IncreaseStat(string statName)
-        {
-            switch (statName)
-            {
-                case "AttackStrength":
-                    YG2.saves.AttackStrength += _statIncreaseNumber;
-                    break;
-
-                case "CriticalDamage":
-                    YG2.saves.CriticalDamage += _statIncreaseNumber;
-                    break;
-
-                case "Armor":
-                    YG2.saves.Armor += _statIncreaseNumber;
-                    break;
-
-                case "MovementSpeed":
-                    YG2.saves.MovementSpeed += _statIncreaseNumber;
-                    break;
-
-                case "ViewRange":
-                    YG2.saves.ViewRange += _statIncreaseNumber;
-                    break;
-
-                default:
-                    return;
-            }
-
-            YG2.SaveProgress();
-
-            EnsureVisibleRange();
-            ScrollToNextAvailable(true);
-        }
-
-        public void OpenPreview(StatsData.Stat stat, RectTransform statPosition)
-        {
-            _preview.gameObject.SetActive(true);
-            _preview.Open(stat, statPosition);
-        }
-
         private void ScrollToNextAvailable(bool animated)
         {
             if (!_gridContainer || !_scrollRect) return;
 
-            int nextStatIndex = YG2.saves.IdSavedStatCount;
+            var nextStatIndex = YG2.saves.IdSavedStatCount;
 
             if (nextStatIndex >= _statBars.Count)
                 return;
 
-            RectTransform statTransform =
-                _statBars[nextStatIndex].GetComponent<RectTransform>();
+            var statTransform = _statBars[nextStatIndex].GetComponent<RectTransform>();
 
             if (!statTransform)
                 return;
 
             EnsureLayout();
 
-            RectTransform contentRect = _scrollRect.content;
-            RectTransform viewportRect = _scrollRect.viewport;
+            var contentRect = _scrollRect.content;
+            var viewportRect = _scrollRect.viewport;
 
-            Vector3[] corners = new Vector3[4];
+            var corners = new Vector3[4];
             statTransform.GetWorldCorners(corners);
 
-            Vector3 elementCenter =
-                (corners[0] + corners[2]) * 0.5f;
+            var elementCenter = (corners[0] + corners[2]) * 0.5f;
 
-            Vector2 viewportPoint;
-
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    viewportRect,
-                    RectTransformUtility.WorldToScreenPoint(null, elementCenter),
-                    null,
-                    out viewportPoint))
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
+                    RectTransformUtility.WorldToScreenPoint(null, elementCenter), null, out var viewportPoint))
             {
                 return;
             }
 
-            float deltaY =
-                viewportPoint.y - viewportRect.rect.center.y;
+            var deltaY = viewportPoint.y - viewportRect.rect.center.y;
 
             if (Mathf.Abs(deltaY) < 1f)
                 return;
 
-            float targetY =
-                contentRect.anchoredPosition.y - deltaY;
-
+            var targetY = contentRect.anchoredPosition.y - deltaY;
             targetY = GetClampedScrollY(contentRect, targetY);
 
             if (_scrollCoroutine != null)
@@ -243,89 +233,54 @@ namespace Game.Scripts.Genetic
 
             if (!animated)
             {
-                contentRect.anchoredPosition =
-                    new Vector2(
-                        contentRect.anchoredPosition.x,
-                        targetY
-                    );
-
+                contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
                 return;
             }
 
-            _scrollCoroutine =
-                StartCoroutine(
-                    SmoothScroll(
-                        contentRect,
-                        targetY,
-                        rectScroll
-                    )
-                );
+            _scrollCoroutine = StartCoroutine(SmoothScroll(contentRect, targetY, _rectScroll));
         }
 
-        private IEnumerator SmoothScroll(
-            RectTransform content,
-            float targetY,
-            float duration)
+        private IEnumerator SmoothScroll(RectTransform content, float targetY, float duration)
         {
-            Vector2 start = content.anchoredPosition;
+            var start = content.anchoredPosition;
 
             if (duration <= 0f)
             {
-                content.anchoredPosition =
-                    new Vector2(start.x, targetY);
+                content.anchoredPosition = new Vector2(start.x, targetY);
 
                 _scrollCoroutine = null;
                 yield break;
             }
 
-            float elapsed = 0f;
+            var elapsed = 0f;
 
             while (elapsed < duration)
             {
                 elapsed += Time.unscaledDeltaTime;
-
-                float t =
-                    Mathf.Clamp01(elapsed / duration);
-
-                t = Mathf.SmoothStep(0f, 1f, t);
-
-                content.anchoredPosition =
-                    new Vector2(
-                        start.x,
-                        Mathf.Lerp(
-                            start.y,
-                            targetY,
-                            t
-                        )
-                    );
+                var time = Mathf.Clamp01(elapsed / duration);
+                time = Mathf.SmoothStep(0f, 1f, time);
+                content.anchoredPosition = new Vector2(start.x, Mathf.Lerp(start.y, targetY, time));
 
                 yield return null;
             }
 
-            content.anchoredPosition =
-                new Vector2(start.x, targetY);
+            content.anchoredPosition = new Vector2(start.x, targetY);
 
             _scrollCoroutine = null;
         }
 
-        private float GetClampedScrollY(
-            RectTransform content,
-            float targetY)
+        private float GetClampedScrollY(RectTransform content, float targetY)
         {
-            float contentHeight = content.rect.height;
-            float viewportHeight = _scrollRect.viewport.rect.height;
+            var contentHeight = content.rect.height;
+            var viewportHeight = _scrollRect.viewport.rect.height;
 
             if (contentHeight <= viewportHeight)
                 return content.anchoredPosition.y;
 
-            float maxY = 0f;
-            float minY = -(contentHeight - viewportHeight);
+            const float maxY = 0f;
+            var minY = -(contentHeight - viewportHeight);
 
-            return Mathf.Clamp(
-                targetY,
-                minY,
-                maxY
-            );
+            return Mathf.Clamp(targetY, minY, maxY);
         }
     }
 }
