@@ -12,6 +12,7 @@ namespace Game.Scripts.Configs
         [field: SerializeField] public EquipmentType Type { get; private set; }
         [field: ShowIf("Type", EquipmentType.Weapon)]
         [field: SerializeField] public WeaponType WeaponType { get; private set; }
+        [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public StatInfoData[] MainStats { get; private set; }
         [field: SerializeField] public StatInfoData[] AdditionalStats { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }

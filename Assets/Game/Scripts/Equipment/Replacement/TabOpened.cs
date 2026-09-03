@@ -5,12 +5,12 @@ namespace Game.Scripts.Equipment.Replacement
     public class TabOpened : ISubscriber
     {
         private readonly ITabService _tabService;
-        private readonly DisplayReplacement[] _replacements;
+        private readonly DisplayReplacement _displayReplacement;
 
-        public TabOpened(ITabService tabService, DisplayReplacement[] replacements)
+        public TabOpened(ITabService tabService, DisplayReplacement displayReplacement)
         {
             _tabService = tabService;
-            _replacements = replacements;
+            _displayReplacement = displayReplacement;
         }
 
         public void Subscribe()
@@ -25,8 +25,7 @@ namespace Game.Scripts.Equipment.Replacement
 
         private void OnTabOpened(bool isActive)
         {
-            foreach (var replacement in _replacements)
-                replacement.gameObject.SetActive(isActive);
+            _displayReplacement.gameObject.SetActive(isActive);
         }
     }
 }

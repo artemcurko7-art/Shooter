@@ -53,11 +53,15 @@ namespace Game.Scripts.Equipment.DragInDrop
         public void OnEndDrag(PointerEventData eventData)
         {
             bool isDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot);
-            
-            if (isDropSlot == false || dropSlot.EquipmentType != _slot.EquipmentItem.Type)
+            bool isAreaDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out AreaDropSlot areaDropSlot);
+
+            if ((isDropSlot == false && isAreaDropSlot == false) || (isDropSlot && dropSlot.EquipmentType != _slot.EquipmentItem.Type))
+            {
                 ResetSettings();
+            }
             else
                 EndDragged?.Invoke(_slot);
+            
         }
 
         public void ResetSettings()

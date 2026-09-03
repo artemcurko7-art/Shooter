@@ -1,7 +1,6 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Equipment;
 using Game.Scripts.MV.StatContext;
-using Game.Scripts.MV.StatContext.Data;
 using UnityEngine;
 using Zenject;
 
@@ -27,7 +26,7 @@ namespace Game.Scripts.Factory
             
             var view = _container.InstantiatePrefabForComponent<Slot>(_slot, Vector3.zero, Quaternion.identity, container);
             var equipment = new EquipmentItem(mainStat, additionalStats, equipmentConfig.Type, equipmentConfig.WeaponType);
-            view.Initialize(rarityEquipmentConfig, equipment, equipmentConfig.Icon);
+            view.Initialize(rarityEquipmentConfig, equipment, equipmentConfig.Icon, equipmentConfig.Name);
             view.transform.localScale = Vector3.one;
             
             return view;

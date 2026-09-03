@@ -3,150 +3,88 @@ using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Replacement;
+using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Equipment.Type;
 using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
-using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public class ReplacementService : ISubscriber
+    public class ReplacementService : SlotProcessor, IReplacementService
     {
-        private readonly IEquipmentService _equipmentService;
         private readonly ITabService _tabService;
         private readonly DisplayStatData _displayStatData;
-        private readonly DropSlot[] _dropSlots;
         private readonly DisplayStatFactory _displayStatFactory;
-        private readonly Dictionary<EquipmentType, Slot> _busyDropSlots = new();
         private readonly List<DisplayStat> _displayStats = new();
-        private readonly Transform[] _containers;
-        private Slot _draggedSlot;
-        private Slot _droppedSlot;
-        private Slot _oldDroppedSlot;
+        private readonly ReplacementContainer _container;
         
         public ReplacementService(
-            IEquipmentService equipmentService, 
+            IEquipmentService equipmentService,
+            EquipmentSlotRepository repository,
+            EquipmentFreeSlotRegistry freeRegistry,
+            SortingEquipmentByParameters sorting,
+            DropSlot[] dropSlots,
             ITabService tabService, 
             DisplayStatData displayStatData,
             DisplayStatFactory displayStatFactory,
-            DropSlot[] dropSlots, 
-            Transform[] containers)
+            ReplacementContainer container) : base(equipmentService, repository, freeRegistry, sorting, dropSlots)
         {
             _tabService = tabService;
-            _equipmentService = equipmentService;
             _displayStatData = displayStatData;
             _displayStatFactory = displayStatFactory;
-            _dropSlots = dropSlots;
-            _containers = containers;
-
-            foreach (var dropSlot in dropSlots)
-                _busyDropSlots.Add(dropSlot.EquipmentType, null);
+            _container = container;
         }
+
+        public Slot Slot => DraggedSlot;
         
-        public void Subscribe()
+        public override void Subscribe()
         {
-            _equipmentService.Added += OnAdded;
-            
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped += OnDropped;
+            base.Subscribe();
             
             _tabService.TabOpened += OnTabOpened;
         }
-
-        public void Unsubscribe()
+        
+        public override void Unsubscribe()
         {
-            _equipmentService.Added -= OnAdded;
-            
-            foreach (var slot in _equipmentService.Slots)
-                slot.Drag.BeginDragged -= OnBeginDragged;
-            
-            foreach (var dropSlot in _dropSlots)
-                dropSlot.Dropped -= OnDropped;
+            base.Unsubscribe();
             
             _tabService.TabOpened -= OnTabOpened;
         }
-
-        private void OnAdded(Slot slot)
-        {
-            slot.Drag.BeginDragged += OnBeginDragged;
-        }
         
-        private void OnBeginDragged(Slot slot)
-        {
-            if (_busyDropSlots[slot.EquipmentItem.Type] == slot)
-            {
-                _busyDropSlots[slot.EquipmentItem.Type] = null;
-                _droppedSlot = null;
-            }
-            
-            _draggedSlot = slot;
-        }
-
-        private void OnDropped(Slot slot)
-        {
-            if (_busyDropSlots[slot.EquipmentItem.Type] == null)
-                _busyDropSlots[slot.EquipmentItem.Type] = slot;
-            
-            _droppedSlot = slot;
-        }
-
         private void OnTabOpened(bool isActive)
         {
             if (isActive)
             {
-                Stat mainDraggedStat = _draggedSlot.EquipmentItem.MainStat;
-                
-                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], _containers[2],
-                    (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
-                
-                foreach (var stat in _draggedSlot.EquipmentItem.AdditionalStats)
-                {
-                    _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[3],
-                        (int)stat.Value, stat.IsPercentageValue));
-                }
-                
-                Stat mainDroppedStat = _busyDropSlots[_droppedSlot.EquipmentItem.Type].EquipmentItem.MainStat;
-                
-                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDroppedStat.Type], _containers[0],
-                    (int)mainDroppedStat.Value, mainDroppedStat.IsPercentageValue));
-                
-                foreach (var stat in _busyDropSlots[_droppedSlot.EquipmentItem.Type].EquipmentItem.AdditionalStats)
-                {
-                    _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[1],
-                        (int)stat.Value, stat.IsPercentageValue));
-                }
-                
-                // Stat mainDraggedStat = _draggedSlot.EquipmentItem.MainStat;
-                //
-                // _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], _containers[2],
-                //     (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
-                //
-                // foreach (var stat in _draggedSlot.EquipmentItem.AdditionalStats)
-                // {
-                //     _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[3],
-                //         (int)stat.Value, stat.IsPercentageValue));
-                // }
-                //
-                // Stat mainDroppedStat = _droppedSlot.EquipmentItem.MainStat;
-                //
-                // _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDroppedStat.Type], _containers[0],
-                //     (int)mainDroppedStat.Value, mainDroppedStat.IsPercentageValue));
-                //
-                // foreach (var stat in _droppedSlot.EquipmentItem.AdditionalStats)
-                // {
-                //     _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], _containers[1],
-                //         (int)stat.Value, stat.IsPercentageValue));
-                // }
+                _container.Select(ReplacementType.From);
+                CreateDisplayStat(FreeRegistry.EquippedSlots[DroppedSlot.EquipmentItem.Type], _container.MainContainer, _container.AdditionalContainer);
+                _container.Select(ReplacementType.To);
+                CreateDisplayStat(DraggedSlot, _container.MainContainer, _container.AdditionalContainer);
             }
             else
             {
                 foreach (var stat in _displayStats)
-                {
                     stat.OnDestroyed();
-                }
-                
+
                 _displayStats.Clear();
+                
+                foreach (var dropSlot in DropSlots)
+                    if (dropSlot.EquipmentType == DroppedSlot.EquipmentItem.Type)
+                        FreeRegistry.Register(dropSlot.EquipmentType, DroppedSlot);
+            }
+        }
+
+        private void CreateDisplayStat(Slot slot, Transform mainContainer, Transform additionalContainer)
+        {
+            Stat mainDraggedStat = slot.EquipmentItem.MainStat;
+
+            _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], mainContainer,
+                (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
+                
+            foreach (var stat in slot.EquipmentItem.AdditionalStats)
+            {
+                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], additionalContainer,
+                    (int)stat.Value, stat.IsPercentageValue));
             }
         }
     }
