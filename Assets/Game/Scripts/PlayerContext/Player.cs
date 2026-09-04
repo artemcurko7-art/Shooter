@@ -1,7 +1,8 @@
 using System.Collections;
+using Game.Scripts.Animation;
 using Game.Scripts.Damagable;
 using Game.Scripts.MV.StatContext;
-using Game.Scripts.PlayerContext.Input;
+using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.WeaponContext;
 using UnityEngine;
 using Zenject;
@@ -24,6 +25,7 @@ namespace Game.Scripts.PlayerContext
         private TrackerUnits _trackerUnits;
         private IInput _input;
         private Rigidbody _rigidbody;
+        private Animator _animator;
         private Coroutine _shoot;
         private Vector3 _tracker;
     
@@ -45,6 +47,7 @@ namespace Game.Scripts.PlayerContext
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _animator = GetComponentInChildren<Animator>();
             Transform = GetComponent<Transform>();
             StartCoroutine(Track());
         }
@@ -66,12 +69,26 @@ namespace Game.Scripts.PlayerContext
                 // if (_shoot == null)
                 //     _shoot = StartCoroutine(Shoot());
             }
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                _animator.SetTrigger(PlayerAnimationData.Params.Attack);
+            }
         }
 
         private void FixedUpdate()
         {
-            _mover.Move(_rigidbody, _input.Horiontal, _input.Vertical, _speed);
-            _rotation.Rotate(transform, _tracker, _input.Horiontal, _input.Vertical, _smooth * Time.fixedDeltaTime);
+            // if (_input.Horizontal != 0 || _input.Vertical != 0)
+            // {
+            //     _animator.SetBool(PlayerAnimationData.Params.IsWalk, true);
+            // }
+            // else
+            // {
+            //     _animator.SetBool(PlayerAnimationData.Params.IsWalk, false);
+            // }
+            
+            _mover.Move(_rigidbody, _input.Horizontal, _input.Vertical, _speed);
+            _rotation.Rotate(transform, _tracker, _input.Horizontal, _input.Vertical, _smooth * Time.fixedDeltaTime);
         }
     
         public void TakeDamage(int damage)

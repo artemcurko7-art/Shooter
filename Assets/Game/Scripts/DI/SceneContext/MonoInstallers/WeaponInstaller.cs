@@ -11,18 +11,25 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private Transform _container;
         
         private WeaponProvider _provider;
+        private WeaponConfig[] _configs; // test
         
         [Inject]
         public void Construct(WeaponProvider provider)
         {
             _provider = provider;
+            _configs = Resources.LoadAll<WeaponConfig>("Configs/Weapon"); // test
         }
         
         public override void InstallBindings()
         {
-            Container
+            // Container
+            //     .Bind<WeaponConfig>()
+            //     .FromInstance(_provider.Config)
+            //     .AsSingle();
+
+            Container // test
                 .Bind<WeaponConfig>()
-                .FromInstance(_provider.Config)
+                .FromInstance(_configs[2])
                 .AsSingle();
             
             Container

@@ -1,5 +1,5 @@
 using Game.Scripts.PlayerContext;
-using Game.Scripts.PlayerContext.Input;
+using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.Provider;
 using Game.Scripts.WeaponContext;
 using UnityEngine;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
-  <HandRPosition>k__BackingField: {x: 7.879, y: 2.424, z: -6.588}
+  <HandRPosition>k__BackingField: {x: 7.879, y: 2.424, z: -6.394}
   <HintRPosition>k__BackingField: {x: 0.245, y: 0, z: 0.007}
   <IndexRPosition>k__BackingField: {x: 0.0011, y: -0.0003, z: 0.019}
   <MiddleRPosition>k__BackingField: {x: 0.0012, y: -0.002, z: 0.118}
@@ -23,13 +23,13 @@ MonoBehaviour:
   <IndexRRotation>k__BackingField: {x: 53.35, y: 1.79, z: 0}
   <MiddleRRotation>k__BackingField: {x: 0, y: 0, z: 0}
   <ThumbRRotation>k__BackingField: {x: 0, y: 0, z: 0}
-  <HandLPosition>k__BackingField: {x: 0.0705, y: 1.2109, z: 0.3207}
+  <HandLPosition>k__BackingField: {x: 0.0785, y: 1.3332, z: 0.4215}
   <HintLPosition>k__BackingField: {x: 0.046, y: -0.224, z: 0.278}
-  <IndexLPosition>k__BackingField: {x: 0.0591, y: 0.1139, z: 0.0899}
+  <IndexLPosition>k__BackingField: {x: 0.167, y: 0, z: 0.259}
   <MiddleLPosition>k__BackingField: {x: 0.069, y: 0.0105, z: 0.0563}
   <ThumbLPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  <HandLRotation>k__BackingField: {x: 32.632, y: 97.719, z: 95.3}
+  <HandLRotation>k__BackingField: {x: 6.5, y: 97.719, z: 95.8}
   <HintLRotation>k__BackingField: {x: 0, y: 0, z: 0}
-  <IndexLRotation>k__BackingField: {x: 0, y: 0, z: 0}
+  <IndexLRotation>k__BackingField: {x: -0.217, y: 90.644, z: -90.003}
   <MiddleLRotation>k__BackingField: {x: 0, y: 0, z: 0}
   <ThumbLRotation>k__BackingField: {x: 0, y: 0, z: 0}
