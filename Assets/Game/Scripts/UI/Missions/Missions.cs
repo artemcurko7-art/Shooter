@@ -1,5 +1,4 @@
-using System;
-using Game.Scripts.UI.Animation;
+using TMPro;
 using UnityEngine;
 
 namespace Game.Scripts.UI.Missions
@@ -10,6 +9,7 @@ namespace Game.Scripts.UI.Missions
         [SerializeField] private TaskBar _barPrefab;
         [SerializeField] private TasksData _data;
         [SerializeField] private RectTransform _content;
+        [SerializeField] private TMP_Text _titleTaskCount;
 
         private void Start()
         {
@@ -18,6 +18,8 @@ namespace Game.Scripts.UI.Missions
 
         private void InitializeTasks()
         {
+            _titleTaskCount.text = _data.Tasks.Count.ToString();
+
             foreach (var task in _data.Tasks)
             {
                 Instantiate(_barPrefab, _content).Init(task);

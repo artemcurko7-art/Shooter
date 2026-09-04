@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -13,12 +11,15 @@ namespace Game.Scripts.UI.Missions
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _content;
         [SerializeField] private TMP_Text _reward;
+        [SerializeField] private TMP_Text _quota;
         [SerializeField] private Image _rewardIcon;
         [SerializeField] private Image _paperIcon;
         [SerializeField] private Image _succesIcon;
         [SerializeField] private RectTransform _starsParent;
         [SerializeField] private Button _button;
         [SerializeField] private Image _starPrefab;
+        [SerializeField] private GameObject _rewardBackground;
+        [SerializeField] private GameObject _progressBackground;
 
         [Header("Визуал")]
         [SerializeField] private Color _easyColor;
@@ -37,26 +38,29 @@ namespace Game.Scripts.UI.Missions
         private Tween _sizeTween;
         private Tween _posTween;
         private Tween _sleepTween;
-        private bool _isDone = false;
-        private bool _isScaled = false;
+        private bool _isScaled;
         private Vector2 _originalSize;
         private Vector2 _originalPos;
+        private bool _isDone = false;
 
         private void OnEnable()
         {
-            _button.onClick.AddListener(ScaleAlt);
+            _button.onClick.AddListener(OnButtonClick);
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(ScaleAlt);
+            _button.onClick.RemoveListener(OnButtonClick);
             _sleepTween?.Kill();
+
+            FastCloseScale();
         }
 
         private void Awake()
         {
             _rect = GetComponent<RectTransform>();
-            if (_parentLayout == null)
+
+            if (!_parentLayout)
                 _parentLayout = GetComponentInParent<LayoutGroup>();
         }
 
@@ -64,13 +68,27 @@ namespace Game.Scripts.UI.Missions
         {
             _originalSize = _rect.sizeDelta;
             _originalPos = _rect.anchoredPosition;
+
+            SwitchBackgrounds(false);
+
             UpdateDisplay();
+        }
+
+        private void SwitchBackgrounds(bool isActive)
+        {
+            _rewardBackground.SetActive(isActive);
+            _progressBackground.SetActive(isActive);
         }
 
         public void Init(TasksData.Task task)
         {
             _task = task;
             InitializeDifficulty();
+        }
+
+        private void OnButtonClick()
+        {
+            ScaleAlt();
         }
 
         private void InitializeDifficulty()
@@ -100,13 +118,35 @@ namespace Game.Scripts.UI.Missions
             _succesIcon.gameObject.SetActive(_isDone);
 
             _content.text = _task.GetLocalizedTask(YG2.lang);
+            _reward.text = _task.reward.ToString();
+            _rewardIcon.sprite = _task.rewardIcon;
+            _quota.text = _task.quota.ToString();
         }
 
-        public void ScaleAlt()
+        private void FastCloseScale()
+        {
+            SwitchBackgrounds(false);
+
+            _sizeTween?.Kill();
+            _posTween?.Kill();
+            _sleepTween?.Kill();
+            _isScaled = false;
+
+            _rect.sizeDelta = _originalSize;
+            _rect.anchoredPosition = _originalPos;
+
+            if (_parentLayout)
+                LayoutRebuilder.MarkLayoutForRebuild(_parentLayout.GetComponent<RectTransform>());
+        }
+
+
+        private void ScaleAlt()
         {
             _sizeTween?.Kill();
             _posTween?.Kill();
             _sleepTween?.Kill();
+
+            SwitchBackgrounds(true);
 
             _isScaled = !_isScaled;
 
