@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment.Handler
 {
     public class SlotHandler : SlotProcessor, ITabService
     {
-        private readonly List<DropSlot> _freeDropSlots = new();
+        private readonly List<DropSlot> _equippedSlots = new();
         
         public event Action<bool> TabOpened;
         
@@ -33,7 +33,7 @@ namespace Game.Scripts.Equipment.Handler
                 if (dropSlot.Slot == slot)
                 {
                     dropSlot.Clear();
-                    _freeDropSlots.Remove(dropSlot);
+                    _equippedSlots.Remove(dropSlot);
                     Release();
                 }
             }
@@ -56,10 +56,10 @@ namespace Game.Scripts.Equipment.Handler
             {
                 if (dropSlot.Slot == slot)
                 {
-                    if (_freeDropSlots.Contains(dropSlot))
+                    if (_equippedSlots.Contains(dropSlot))
                         TabOpened?.Invoke(true);
                     else
-                        _freeDropSlots.Add(dropSlot);
+                        _equippedSlots.Add(dropSlot);
                 }
             }
 

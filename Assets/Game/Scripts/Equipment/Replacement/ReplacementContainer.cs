@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Equipment.Replacement
 {
-    public class ReplacementContainer : MonoBehaviour
+    public class ReplacementStatContainer : MonoBehaviour
     {
         [SerializeField] private Transform _mainContainerFrom;
         [SerializeField] private Transform _additionalContainerFrom;

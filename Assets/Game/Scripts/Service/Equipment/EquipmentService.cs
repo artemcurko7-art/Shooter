@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
@@ -9,6 +10,7 @@ using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.UserUtils;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
@@ -19,6 +21,8 @@ namespace Game.Scripts.Service.Equipment
         private readonly RarityEquipmentData _rarityData;
         private readonly EquipmentSlotFactory _slotFactory;
         private readonly Transform _container;
+        private int _countType;
+        private bool _isPercent;
         
         public event Action<Slot> Added;
         
@@ -41,6 +45,7 @@ namespace Game.Scripts.Service.Equipment
             EquipmentConfig config = GetRandomEquipmentConfig(equipmentType, out int index);          
             Stat stat = GetRandomStat(equipmentType, index);
             Stat[] stats = GetRandomStats(rarityEquipmentType, equipmentType, index);
+            stats = GetSortingStats(stats.ToList());
             
             var slot = _slotFactory.Create(_rarityData.Configs[rarityEquipmentType], config, stat, stats, _container);
             Added?.Invoke(slot);
@@ -86,6 +91,16 @@ namespace Game.Scripts.Service.Equipment
                 
                 stats.Add(CreateStatInstance(statInfoData.Type, value, statInfoData.IsPercentageValue));
             }
+            
+            return stats.ToArray();
+        }
+
+        private Stat[] GetSortingStats(List<Stat> stats)
+        {
+            stats = stats
+                .OrderBy(s => s.Type)
+                .ThenByDescending(s => s.IsPercentageValue)
+                .ToList();
             
             return stats.ToArray();
         }

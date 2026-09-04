@@ -18,7 +18,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private Slot _slot;
         [SerializeField] private DisplayReplacement _displayReplacement;
         [SerializeField] private DisplayStat _displayStat;
-        [SerializeField] private ReplacementContainer _replacementContainer;
+        [SerializeField] private ReplacementStatContainer _statContainer;
         [SerializeField] private DropSlot[] _dropSlots;
         [SerializeField] private Transform _equipmentContainer;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
@@ -81,7 +81,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesTo<ReplacementService>()
                 .AsSingle()
-                .WithArguments(_replacementContainer);
+                .WithArguments(_statContainer);
 
             Container
                 .Bind<DisplayStatFactory>()
@@ -93,6 +93,10 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .To<TabOpened>()
                 .AsSingle()
                 .WithArguments(_displayReplacement);
+            
+            Container
+                .Bind<ComparisonStat>()
+                .AsSingle();
         }
 
         private void BindHandler()

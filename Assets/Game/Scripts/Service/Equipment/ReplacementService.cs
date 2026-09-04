@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.Data;
 using Game.Scripts.Equipment.DragInDrop;
@@ -16,8 +17,13 @@ namespace Game.Scripts.Service.Equipment
         private readonly ITabService _tabService;
         private readonly DisplayStatData _displayStatData;
         private readonly DisplayStatFactory _displayStatFactory;
-        private readonly List<DisplayStat> _displayStats = new();
-        private readonly ReplacementContainer _container;
+        private readonly ComparisonStat _comparisonStat;
+        private readonly ReplacementStatContainer _statContainer;
+        private List<DisplayStat> _displayStatDraggables;
+        private List<DisplayStat> _displayStatDroppables;
+        private DisplayStat _displayStatDragged;
+        private DisplayStat _displayStatDropped;
+        private bool _isReopening;
         
         public ReplacementService(
             IEquipmentService equipmentService,
@@ -28,12 +34,14 @@ namespace Game.Scripts.Service.Equipment
             ITabService tabService, 
             DisplayStatData displayStatData,
             DisplayStatFactory displayStatFactory,
-            ReplacementContainer container) : base(equipmentService, repository, freeRegistry, sorting, dropSlots)
+            ComparisonStat comparisonStat,
+            ReplacementStatContainer statContainer) : base(equipmentService, repository, freeRegistry, sorting, dropSlots)
         {
             _tabService = tabService;
             _displayStatData = displayStatData;
             _displayStatFactory = displayStatFactory;
-            _container = container;
+            _comparisonStat = comparisonStat;
+            _statContainer = statContainer;
         }
 
         public Slot Slot => DraggedSlot;
@@ -54,36 +62,57 @@ namespace Game.Scripts.Service.Equipment
         
         private void OnTabOpened(bool isActive)
         {
-            if (isActive)
+            if (isActive && _isReopening == false)
             {
-                _container.Select(ReplacementType.From);
-                CreateDisplayStat(FreeRegistry.EquippedSlots[DroppedSlot.EquipmentItem.Type], _container.MainContainer, _container.AdditionalContainer);
-                _container.Select(ReplacementType.To);
-                CreateDisplayStat(DraggedSlot, _container.MainContainer, _container.AdditionalContainer);
+                _statContainer.Select(ReplacementType.From);
+                CreateDisplayStat(out DisplayStat displayStatDragged, out List<DisplayStat> displayStatDraggables, FreeRegistry.EquippedSlots[DroppedSlot.EquipmentItem.Type], _statContainer.MainContainer, _statContainer.AdditionalContainer);
+                _statContainer.Select(ReplacementType.To);
+                CreateDisplayStat(out DisplayStat displayStatDropped, out List<DisplayStat> displayStatDroppables, DraggedSlot, _statContainer.MainContainer, _statContainer.AdditionalContainer);
+                
+                _displayStatDragged = displayStatDragged;
+                _displayStatDropped = displayStatDropped;
+                _displayStatDraggables = displayStatDraggables;
+                _displayStatDroppables = displayStatDroppables;
+
+                _comparisonStat.CompareMain(displayStatDragged, displayStatDropped);
+                _comparisonStat.CompareAdditional(displayStatDraggables, _displayStatDroppables);
+
+                _isReopening = true;
             }
             else
             {
-                foreach (var stat in _displayStats)
-                    stat.OnDestroyed();
+                foreach (var displayStat in _displayStatDraggables)
+                    displayStat.OnDestroyed();
+                
+                foreach (var displayStat in _displayStatDroppables)
+                    displayStat.OnDestroyed();
 
-                _displayStats.Clear();
+                _displayStatDragged.OnDestroyed();
+                _displayStatDropped.OnDestroyed();
+                
+                _displayStatDraggables.Clear();
+                _displayStatDroppables.Clear();
                 
                 foreach (var dropSlot in DropSlots)
                     if (dropSlot.EquipmentType == DroppedSlot.EquipmentItem.Type)
                         FreeRegistry.Register(dropSlot.EquipmentType, DroppedSlot);
+
+                _isReopening = false;
             }
         }
 
-        private void CreateDisplayStat(Slot slot, Transform mainContainer, Transform additionalContainer)
+        private void CreateDisplayStat(out DisplayStat displayStat, out List<DisplayStat> displayStats, Slot slot, Transform mainContainer, Transform additionalContainer)
         {
+            displayStats = new();
+            
             Stat mainDraggedStat = slot.EquipmentItem.MainStat;
 
-            _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], mainContainer,
-                (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue));
+            displayStat = _displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], mainContainer,
+                (int)mainDraggedStat.Value, mainDraggedStat.IsPercentageValue);
                 
             foreach (var stat in slot.EquipmentItem.AdditionalStats)
             {
-                _displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], additionalContainer,
+                displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], additionalContainer,
                     (int)stat.Value, stat.IsPercentageValue));
             }
         }
