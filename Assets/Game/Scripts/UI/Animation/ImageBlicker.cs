@@ -19,15 +19,21 @@ namespace Game.Scripts.UI.Animation
         private Coroutine _coroutine;
         private bool _isRunning;
 
+        private void OnEnable()
+        {
+            Enable();
+        }
+
+        private void OnDisable()
+        {
+            Disable();
+        }
+
         public void Enable()
         {
             if (_isRunning) return;
             _isRunning = true;
-
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
-
-            _coroutine = StartCoroutine(RunContinuousSequence());
+            _coroutine = StartCoroutine(RunSequence());
         }
 
         public void Disable()
@@ -40,10 +46,12 @@ namespace Game.Scripts.UI.Animation
                 _coroutine = null;
             }
 
-            foreach (var image in _images.Where(image => image))
+            foreach (var image in _images.Where(i => i))
             {
-                image.color = _originalColor;
+                image.DOKill();
             }
+
+            ResetToBaseColor();
         }
 
         public void ResetToBaseColor()
@@ -54,7 +62,7 @@ namespace Game.Scripts.UI.Animation
             }
         }
 
-        private IEnumerator RunContinuousSequence()
+        private IEnumerator RunSequence()
         {
             var halfStep = _cycleDurationPerImage * 0.5f;
 
@@ -62,13 +70,15 @@ namespace Game.Scripts.UI.Animation
             {
                 for (var i = _images.Count - 1; i >= 0; i--)
                 {
-                    if (!_isRunning) break;
+                    if (!_isRunning) yield break;
 
                     var image = _images[i];
                     if (!image) continue;
 
                     var original = _originalColor;
                     var target = Color.Lerp(original, _glowColor, 0.8f);
+
+                    image.DOKill();
 
                     image.DOColor(target, halfStep)
                         .SetEase(Ease.InOutQuad)
