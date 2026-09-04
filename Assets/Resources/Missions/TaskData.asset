@@ -21,7 +21,7 @@ MonoBehaviour:
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    type: 
+    type: Coin
     reward: 100
     quota: 0
     rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
@@ -33,7 +33,7 @@ MonoBehaviour:
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    type: 
+    type: Coin
     reward: 75
     quota: 0
     rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
@@ -45,7 +45,7 @@ MonoBehaviour:
       En: Defeat 45 enemies, find an Assault teammate, beat the Ambush Commander
       Tr: "45 d\xFC\u015Fman\u0131 yok et, Sald\u0131r\u0131 m\xFCttefikini bul,
         Pusuya D\xFC\u015F\xFCrme Komutan\u0131n\u0131 yen"
-    type: 
+    type: Coin
     reward: 50
     quota: 0
     rewardIcon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
@@ -69,7 +69,7 @@ MonoBehaviour:
       En: Defeat 60 enemies, recruit an Engineer, beat the Drone boss
       Tr: "60 d\xFC\u015Fman\u0131 yok et, M\xFChendisi i\u015Fe al, Drone boss\u2019unu
         yen"
-    type: 
+    type: Gem
     reward: 5
     quota: 0
     rewardIcon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
@@ -81,7 +81,7 @@ MonoBehaviour:
       En: Defeat 60 enemies, recruit an Engineer, beat the Drone boss
       Tr: "60 d\xFC\u015Fman\u0131 yok et, M\xFChendisi i\u015Fe al, Drone boss\u2019unu
         yen"
-    type: 
+    type: Gem
     reward: 3
     quota: 0
     rewardIcon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
