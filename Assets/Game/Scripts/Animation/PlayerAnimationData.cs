@@ -7,8 +7,7 @@ namespace Game.Scripts.Animation
         public static class Params
         {
             public static readonly int Idle = Animator.StringToHash(nameof(Idle));
-            public static readonly int IsWalk = Animator.StringToHash(nameof(IsWalk));
-            public static readonly int IsRun = Animator.StringToHash(nameof(IsRun));
+            public static readonly int Speed = Animator.StringToHash(nameof(Speed));
             public static readonly int Attack = Animator.StringToHash(nameof(Attack));
             public static readonly int Death = Animator.StringToHash(nameof(Death));
         }

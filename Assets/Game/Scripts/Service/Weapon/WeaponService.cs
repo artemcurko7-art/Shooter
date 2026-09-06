@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Factory;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Weapon
@@ -19,9 +20,11 @@ namespace Game.Scripts.Service.Weapon
             Create();
         }
 
+        public WeaponView View { get; private set; }
+        
         private void Create()
         {
-            _factory.Create(_config, _container);
+            View = _factory.Create(_config, _container);
         }
     }
 }

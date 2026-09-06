@@ -26,7 +26,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             //     .Bind<WeaponConfig>()
             //     .FromInstance(_provider.Config)
             //     .AsSingle();
-
+            
             Container // test
                 .Bind<WeaponConfig>()
                 .FromInstance(_configs[2])

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
   <ShootingType>k__BackingField: 1
-  <View>k__BackingField: {fileID: 2960469146883616152, guid: 19c80169b24ff1c4882d2b1067e106f4, type: 3}
+  <View>k__BackingField: {fileID: 8899664233776369094, guid: 62557249be8819c428c1c3dc80ab3af9, type: 3}
   <Bullet>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
   <Speed>k__BackingField: 3
   <Damage>k__BackingField: 30
