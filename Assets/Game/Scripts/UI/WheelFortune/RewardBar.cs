@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,17 +10,12 @@ namespace Game.Scripts.UI.WheelFortune
 
         private RewardData.Reward _reward;
 
-        public RectTransform Rect { get; private set; }
-
-        private void Awake()
-        {
-            Rect = GetComponent<RectTransform>();
-        }
+        public RectTransform RectTransform =>
+            transform as RectTransform;
 
         public void Init(RewardData.Reward reward)
         {
             _reward = reward;
-
             UpdateVisual();
         }
 
