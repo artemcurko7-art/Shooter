@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private RewardData _data;
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
-        [SerializeField] private TMP_Text _reward;
+        [SerializeField] private TMP_Text _rewardPreviewText;
 
         [Header("Анимация")]
         [SerializeField] private float _spinDuration = 4f;
@@ -38,7 +39,6 @@ namespace Game.Scripts.UI.WheelFortune
         private float _itemWidth;
         private float _circleLength;
         private float _centerContentX;
-
         private float _absoluteScroll;
 
         private int _currentRewardIndex;
@@ -51,7 +51,7 @@ namespace Game.Scripts.UI.WheelFortune
         {
             base.OnEnable();
 
-            if (_spinButton != null)
+            if (_spinButton)
                 _spinButton.onClick.AddListener(Spin);
 
             if (!_initialized)
@@ -62,16 +62,16 @@ namespace Game.Scripts.UI.WheelFortune
         {
             base.OnDisable();
 
-            if (_spinButton != null)
+            if (_spinButton)
                 _spinButton.onClick.RemoveListener(Spin);
 
-            if (_content != null)
+            if (_content)
                 _content.DOKill();
 
-            if (_reward != null)
+            if (_rewardPreviewText)
             {
-                _reward.DOKill();
-                _reward.transform.DOKill();
+                _rewardPreviewText.DOKill();
+                _rewardPreviewText.transform.DOKill();
             }
 
             _isSpinning = false;
@@ -82,41 +82,12 @@ namespace Game.Scripts.UI.WheelFortune
             if (_initialized)
                 return;
 
-            if (_content == null ||
-                _barPrefab == null ||
-                _data == null ||
-                _viewport == null ||
-                _reward == null)
-            {
-                Debug.LogError(
-                    $"{nameof(Wheel)}: Не все ссылки назначены.",
-                    this
-                );
-
-                return;
-            }
-
-            if (_data.Rewards == null ||
-                _data.Rewards.Count == 0)
-            {
-                Debug.LogError(
-                    $"{nameof(Wheel)}: В RewardData отсутствуют награды.",
-                    this
-                );
-
-                return;
-            }
-
             ShuffleRewards();
             BuildStrip();
             SpawnBars();
 
             Canvas.ForceUpdateCanvases();
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(
-                _content
-            );
-
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
             Canvas.ForceUpdateCanvases();
 
             if (!UpdateItemWidth())
@@ -125,6 +96,9 @@ namespace Game.Scripts.UI.WheelFortune
             CalculateCircleLength();
             SetInitialPosition();
 
+            if (_rewardPreviewText)
+                _rewardPreviewText.text = _emptySymbol;
+
             _initialized = true;
         }
 
@@ -132,11 +106,8 @@ namespace Game.Scripts.UI.WheelFortune
         {
             _shuffledRewards.Clear();
 
-            foreach (var reward in _data.Rewards)
-            {
-                if (reward != null)
-                    _shuffledRewards.Add(reward);
-            }
+            foreach (var reward in _data.Rewards.Where(reward => reward != null))
+                _shuffledRewards.Add(reward);
 
             for (var i = _shuffledRewards.Count - 1; i > 0; i--)
             {
@@ -161,42 +132,23 @@ namespace Game.Scripts.UI.WheelFortune
             if (count == 0)
                 return;
 
-            var buffer = Mathf.Min(
-                _bufferSize,
-                count
-            );
+            var buffer = Mathf.Min(_bufferSize, count);
 
             for (var i = count - buffer; i < count; i++)
-            {
-                _strip.Add(
-                    _shuffledRewards[
-                        Mod(i, count)
-                    ]
-                );
-            }
+                _strip.Add(_shuffledRewards[Mod(i, count)]);
 
             for (var i = 0; i < count; i++)
-            {
-                _strip.Add(
-                    _shuffledRewards[i]
-                );
-            }
+                _strip.Add(_shuffledRewards[i]);
 
             for (var i = 0; i < buffer; i++)
-            {
-                _strip.Add(
-                    _shuffledRewards[
-                        i % count
-                    ]
-                );
-            }
+                _strip.Add(_shuffledRewards[i % count]);
         }
 
         private void SpawnBars()
         {
             foreach (Transform child in _content)
             {
-                if (child != null)
+                if (child)
                     Destroy(child.gameObject);
             }
 
@@ -207,13 +159,8 @@ namespace Game.Scripts.UI.WheelFortune
                 if (reward == null)
                     continue;
 
-                var bar = Instantiate(
-                    _barPrefab,
-                    _content
-                );
-
+                var bar = Instantiate(_barPrefab, _content);
                 bar.Init(reward);
-
                 _bars.Add(bar);
             }
         }
@@ -223,52 +170,28 @@ namespace Game.Scripts.UI.WheelFortune
             if (_bars.Count == 0)
                 return false;
 
-            var rect =
-                _bars[0].transform as RectTransform;
+            var rect = _bars[0].transform as RectTransform;
 
-            if (rect == null)
-            {
-                Debug.LogError(
-                    $"{nameof(Wheel)}: RewardBar не имеет RectTransform.",
-                    _bars[0]
-                );
-
+            if (!rect)
                 return false;
-            }
 
             _itemWidth = rect.rect.width;
 
-            if (_itemWidth <= 0f)
-            {
-                Debug.LogError(
-                    $"{nameof(Wheel)}: ширина RewardBar равна 0.",
-                    this
-                );
-
-                return false;
-            }
-
-            return true;
+            return _itemWidth > 0f;
         }
 
         private void CalculateCircleLength()
         {
-            _circleLength =
-                _shuffledRewards.Count *
-                _itemWidth;
+            _circleLength = _shuffledRewards.Count * _itemWidth;
         }
 
-        private Vector3 GetWorldCenter(
-            RectTransform rect)
+        private static Vector3 GetWorldCenter(RectTransform rect)
         {
             var corners = new Vector3[4];
 
             rect.GetWorldCorners(corners);
 
-            return (
-                corners[0] +
-                corners[2]
-            ) * 0.5f;
+            return (corners[0] + corners[2]) * 0.5f;
         }
 
         private void SetInitialPosition()
@@ -276,46 +199,27 @@ namespace Game.Scripts.UI.WheelFortune
             if (_bars.Count == 0)
                 return;
 
-            var centerIndex =
-                Mathf.Min(
-                    _bufferSize,
-                    _bars.Count - 1
-                );
+            var buffer = Mathf.Min(_bufferSize, _shuffledRewards.Count);
+            var centerIndex = Mathf.Min(buffer, _bars.Count - 1);
 
-            var bar =
-                _bars[centerIndex]
-                    .transform as RectTransform;
+            var bar = _bars[centerIndex].transform as RectTransform;
 
-            if (bar == null)
+            if (!bar)
                 return;
 
-            var viewportCenter =
-                GetWorldCenter(_viewport);
+            var viewportCenter = GetWorldCenter(_viewport);
+            var barCenter = GetWorldCenter(bar);
+            var difference = viewportCenter.x - barCenter.x;
 
-            var barCenter =
-                GetWorldCenter(bar);
-
-            var difference =
-                viewportCenter.x -
-                barCenter.x;
-
-            var contentPosition =
-                _content.position;
-
+            var contentPosition = _content.position;
             contentPosition.x += difference;
+            _content.position = contentPosition;
 
-            _content.position =
-                contentPosition;
-
-            _centerContentX =
-                _content.anchoredPosition.x;
-
+            _centerContentX = _content.anchoredPosition.x;
             _absoluteScroll = 0f;
             _currentRewardIndex = 0;
 
             ApplyScroll();
-
-            UpdateRewardText(true);
         }
 
         private void ApplyScroll()
@@ -323,91 +227,54 @@ namespace Game.Scripts.UI.WheelFortune
             if (_circleLength <= 0f)
                 return;
 
-            var visualScroll =
-                Mathf.Repeat(
-                    _absoluteScroll,
-                    _circleLength
-                );
+            var visualScroll = Mathf.Repeat(_absoluteScroll, _circleLength);
 
-            _content.anchoredPosition =
-                new Vector2(
-                    _centerContentX -
-                    visualScroll,
-                    _content.anchoredPosition.y
-                );
+            _content.anchoredPosition = new Vector2(
+                _centerContentX - visualScroll,
+                _content.anchoredPosition.y
+            );
         }
 
         private void Spin()
         {
-            if (!_initialized ||
-                _isSpinning)
+            if (!_initialized || _isSpinning)
                 return;
 
-            var count =
-                _shuffledRewards.Count;
+            var count = _shuffledRewards.Count;
 
-            if (count == 0 ||
-                _itemWidth <= 0f ||
-                _circleLength <= 0f)
+            if (count == 0 || _itemWidth <= 0f || _circleLength <= 0f)
                 return;
 
             _isSpinning = true;
-
             _content.DOKill();
 
-            if (_reward != null)
+            if (_rewardPreviewText)
             {
-                _reward.DOKill();
-                _reward.transform.DOKill();
-
-                _reward.text =
-                    _emptySymbol;
+                _rewardPreviewText.DOKill();
+                _rewardPreviewText.transform.DOKill();
+                _rewardPreviewText.text = _emptySymbol;
             }
 
             _lastDisplayedRewardIndex = -1;
 
-            var targetIndex =
-                Random.Range(
-                    0,
-                    count
-                );
-
-            var stepsToTarget =
-                Mod(
-                    targetIndex -
-                    _currentRewardIndex,
-                    count
-                );
+            var targetIndex = Random.Range(0, count);
+            var stepsToTarget = Mod(targetIndex - _currentRewardIndex, count);
 
             if (stepsToTarget == 0)
                 stepsToTarget = count;
 
-            var fullSpins =
-                Random.Range(
-                    _minSpins,
-                    _maxSpins + 1
-                );
+            var fullSpins = Random.Range(_minSpins, _maxSpins + 1);
+            var totalSteps = fullSpins * count + stepsToTarget;
 
-            var totalSteps =
-                fullSpins * count +
-                stepsToTarget;
-
-            var startScroll =
-                _absoluteScroll;
-
-            var targetScroll =
-                startScroll +
-                totalSteps * _itemWidth;
+            var startScroll = _absoluteScroll;
+            var targetScroll = startScroll + totalSteps * _itemWidth;
 
             DOTween.To(
                     () => startScroll,
                     value =>
                     {
-                        _absoluteScroll =
-                            value;
-
+                        _absoluteScroll = value;
                         ApplyScroll();
-
                         UpdateRewardDuringSpin();
                     },
                     targetScroll,
@@ -416,15 +283,11 @@ namespace Game.Scripts.UI.WheelFortune
                 .SetEase(_spinEase)
                 .OnComplete(() =>
                 {
-                    _absoluteScroll =
-                        targetScroll;
-
-                    ApplyScroll();
-
-                    _currentRewardIndex =
-                        targetIndex;
-
+                    _currentRewardIndex = targetIndex;
                     UpdateRewardText(true);
+
+                    if (_currentRewardIndex >= 0 && _currentRewardIndex < _bars.Count)
+                        _bars[_currentRewardIndex].AnimateIcon(_rewardScale, _rewardAnimDuration);
 
                     _isSpinning = false;
                 });
@@ -432,152 +295,85 @@ namespace Game.Scripts.UI.WheelFortune
 
         private void UpdateRewardDuringSpin()
         {
-            var count =
-                _shuffledRewards.Count;
-
-            if (count == 0)
+            if (_shuffledRewards.Count == 0)
                 return;
 
-            var passedSteps =
-                Mathf.FloorToInt(
-                    _absoluteScroll /
-                    _itemWidth
-                );
+            var passedSteps = Mathf.FloorToInt(_absoluteScroll / _itemWidth);
+            var rewardIndex = Mod(passedSteps, _shuffledRewards.Count);
 
-            var rewardIndex =
-                Mod(
-                    passedSteps,
-                    count
-                );
-
-            if (rewardIndex ==
-                _lastDisplayedRewardIndex)
+            if (rewardIndex == _lastDisplayedRewardIndex)
                 return;
 
-            _lastDisplayedRewardIndex =
-                rewardIndex;
+            _lastDisplayedRewardIndex = rewardIndex;
 
-            var reward =
-                _shuffledRewards[
-                    rewardIndex
-                ];
-
-            if (reward == null ||
-                _reward == null)
-                return;
-
-            var rewardName =
-                reward.GetLocalizedName(
-                    YG2.lang
-                );
-
-            _reward.DOKill();
-            _reward.transform.DOKill();
-
-            _reward.text =
-                rewardName;
-
-            _reward.transform.localScale =
-                Vector3.one *
-                _rewardScale;
-
-            _reward.transform
-                .DOScale(
-                    Vector3.one,
-                    _rewardAnimDuration
-                )
-                .SetEase(
-                    Ease.OutBack
-                );
-        }
-
-        private void UpdateRewardText(
-            bool animate)
-        {
-            if (_shuffledRewards.Count == 0 ||
-                _reward == null)
-                return;
-
-            var reward =
-                _shuffledRewards[
-                    _currentRewardIndex
-                ];
+            var reward = _shuffledRewards[rewardIndex];
 
             if (reward == null)
                 return;
 
-            var rewardName =
-                reward.GetLocalizedName(
-                    YG2.lang
-                );
+            var rewardName = reward.GetLocalizedName(YG2.lang);
 
-            _lastDisplayedRewardIndex =
-                _currentRewardIndex;
+            _rewardPreviewText.DOKill();
+            _rewardPreviewText.transform.DOKill();
+
+            _rewardPreviewText.text = rewardName;
+        }
+
+        private void UpdateRewardText(bool animate)
+        {
+            if (_shuffledRewards.Count == 0 || !_rewardPreviewText)
+                return;
+
+            var reward = _shuffledRewards[_currentRewardIndex];
+
+            if (reward == null)
+                return;
+
+            var rewardName = reward.GetLocalizedName(YG2.lang);
 
             if (!animate)
             {
-                _reward.text =
-                    rewardName;
-
+                _rewardPreviewText.text = rewardName;
                 return;
             }
 
-            _reward.DOKill();
-            _reward.transform.DOKill();
+            _rewardPreviewText.DOKill();
+            _rewardPreviewText.transform.DOKill();
 
-            _reward.transform.localScale =
-                Vector3.one;
+            _rewardPreviewText.transform.localScale = Vector3.one;
 
-            var sequence =
-                DOTween.Sequence();
+            var sequence = DOTween.Sequence();
 
             sequence.Append(
-                _reward.DOFade(
-                    0f,
-                    _rewardAnimDuration
-                )
+                _rewardPreviewText.DOFade(0f, _rewardAnimDuration)
             );
 
-            sequence.AppendCallback(() =>
-            {
-                _reward.text =
-                    rewardName;
-            });
+            sequence.AppendCallback(() => { _rewardPreviewText.text = rewardName; });
 
             sequence.Append(
-                _reward.DOFade(
-                    1f,
-                    _rewardAnimDuration
-                )
+                _rewardPreviewText.DOFade(1f, _rewardAnimDuration)
             );
 
             sequence.Join(
-                _reward.transform.DOScale(
-                    _rewardScale,
-                    _rewardAnimDuration
-                )
-                .SetEase(
-                    Ease.OutBack
-                )
+                _rewardPreviewText.transform
+                    .DOScale(_rewardScale, _rewardAnimDuration)
+                    .SetEase(Ease.OutBack)
             );
 
             sequence.Append(
-                _reward.transform.DOScale(
+                _rewardPreviewText.transform.DOScale(
                     Vector3.one,
                     _rewardAnimDuration
                 )
             );
         }
 
-        private static int Mod(
-            int value,
-            int modulo)
+        private static int Mod(int value, int modulo)
         {
             if (modulo <= 0)
                 return 0;
 
-            var result =
-                value % modulo;
+            var result = value % modulo;
 
             if (result < 0)
                 result += modulo;

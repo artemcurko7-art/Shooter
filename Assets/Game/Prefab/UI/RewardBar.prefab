@@ -166,3 +166,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _background: {fileID: 3089812377537422722}
   _icon: {fileID: 445191572685388569}
+  _iconScale: 1.15
+  _iconAnimDuration: 0.1
