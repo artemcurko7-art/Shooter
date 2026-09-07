@@ -18,4 +18,4 @@ MonoBehaviour:
   <Health>k__BackingField: 100
   <Damage>k__BackingField: 30
   <Speed>k__BackingField: 3
-  <Distance>k__BackingField: 3
+  <Distance>k__BackingField: 10
