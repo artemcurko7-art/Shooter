@@ -10,25 +10,24 @@ namespace Game.Scripts.UI.Animation
     {
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private float _amplitude = 15f;
-        [SerializeField] private float _duration = 0.5f;
+        [SerializeField] private float _moveDuration = 0.5f;
+        [SerializeField] private float _scaleDuration = 0.5f;
         [SerializeField] private float _stagger = 0.05f;
 
+        private Vector3 _zeroScale = new(1, 0, 1);
         private bool _isRunning;
-
-        private void OnEnable()
-        {
-            Enable();
-        }
 
         private void OnDisable()
         {
             Disable();
         }
 
-        private void Enable()
+        public void Enable()
         {
             if (_isRunning) return;
             _isRunning = true;
+
+            transform.DOScale(Vector3.one, _scaleDuration).SetEase(Ease.OutExpo);
 
             for (var i = 0; i < _images.Count; i++)
             {
@@ -41,7 +40,7 @@ namespace Game.Scripts.UI.Animation
                 var startY = image.transform.localPosition.y;
                 var delay = i * _stagger;
 
-                image.transform.DOLocalMoveY(startY + _amplitude, _duration)
+                image.transform.DOLocalMoveY(startY + _amplitude, _moveDuration)
                     .SetEase(Ease.InOutSine)
                     .SetDelay(delay)
                     .SetLoops(-1, LoopType.Yoyo);
@@ -57,6 +56,11 @@ namespace Game.Scripts.UI.Animation
                 image.transform.DOKill();
                 image.transform.localPosition = Vector3.zero;
             }
+
+            if (!gameObject.activeInHierarchy) return;
+
+            transform.DOScale(_zeroScale, _scaleDuration)
+                .SetEase(Ease.OutExpo);
         }
     }
 }

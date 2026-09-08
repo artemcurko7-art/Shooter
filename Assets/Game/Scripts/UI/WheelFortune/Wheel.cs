@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,12 +23,18 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private Button _spinButton;
         [SerializeField] private TMP_Text _rewardPreviewText;
 
-        [Header("Анимация")]
+        [Header("Анимация спина")]
         [SerializeField] private float _spinDuration = 4f;
         [SerializeField] private int _minSpins = 5;
         [SerializeField] private int _maxSpins = 8;
+        [SerializeField] private Sprite _greenButton;
+        [SerializeField] private Sprite _redButton;
+        [SerializeField] private TMP_Text _spinButtonText;
         [SerializeField] private Ease _spinEase = Ease.InQuart;
         [SerializeField] private string _emptySymbol;
+
+        [Header("Анимация стрелки")]
+        [SerializeField] private ImageMover _imageMover;
 
         [Header("Анимация награды")]
         [SerializeField] private float _rewardAnimDuration = 0.1f;
@@ -100,6 +107,23 @@ namespace Game.Scripts.UI.WheelFortune
                 _rewardPreviewText.text = _emptySymbol;
 
             _initialized = true;
+            SwitchVisible(true);
+        }
+
+        private void SwitchVisible(bool isActive)
+        {
+            if (isActive)
+            {
+                _spinButton.enabled = true;
+                _spinButton.image.sprite = _greenButton;
+                _spinButtonText.text = Localization.GetSpinButtonText();
+            }
+            else
+            {
+                _spinButton.enabled = false;
+                _spinButton.image.sprite = _redButton;
+                _spinButtonText.text = Localization.GetNotAvailableButtonText();
+            }
         }
 
         private void ShuffleRewards()
@@ -255,6 +279,9 @@ namespace Game.Scripts.UI.WheelFortune
                 _rewardPreviewText.text = _emptySymbol;
             }
 
+            SwitchVisible(false);
+            _imageMover.Disable();
+
             _lastDisplayedRewardIndex = -1;
 
             var targetIndex = Random.Range(0, count);
@@ -290,6 +317,8 @@ namespace Game.Scripts.UI.WheelFortune
                         _bars[_currentRewardIndex].AnimateIcon(_rewardScale, _rewardAnimDuration);
 
                     _isSpinning = false;
+                    SwitchVisible(true);
+                    _imageMover.Enable();
                 });
         }
 
