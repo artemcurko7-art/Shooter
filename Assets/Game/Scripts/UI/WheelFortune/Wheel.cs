@@ -83,6 +83,28 @@ namespace Game.Scripts.UI.WheelFortune
 
             _isSpinning = false;
         }
+        
+        private static Vector3 GetWorldCenter(RectTransform rect)
+        {
+            var corners = new Vector3[4];
+
+            rect.GetWorldCorners(corners);
+
+            return (corners[0] + corners[2]) * 0.5f;
+        }
+        
+        private static int Mod(int value, int modulo)
+        {
+            if (modulo <= 0)
+                return 0;
+
+            var result = value % modulo;
+
+            if (result < 0)
+                result += modulo;
+
+            return result;
+        }
 
         private void Initialize()
         {
@@ -207,15 +229,6 @@ namespace Game.Scripts.UI.WheelFortune
         private void CalculateCircleLength()
         {
             _circleLength = _shuffledRewards.Count * _itemWidth;
-        }
-
-        private static Vector3 GetWorldCenter(RectTransform rect)
-        {
-            var corners = new Vector3[4];
-
-            rect.GetWorldCorners(corners);
-
-            return (corners[0] + corners[2]) * 0.5f;
         }
 
         private void SetInitialPosition()
@@ -395,19 +408,6 @@ namespace Game.Scripts.UI.WheelFortune
                     _rewardAnimDuration
                 )
             );
-        }
-
-        private static int Mod(int value, int modulo)
-        {
-            if (modulo <= 0)
-                return 0;
-
-            var result = value % modulo;
-
-            if (result < 0)
-                result += modulo;
-
-            return result;
         }
 
         protected override void Show()
