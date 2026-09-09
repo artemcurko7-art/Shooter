@@ -1,61 +1,64 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class TextAppear : MonoBehaviour
+namespace Game.Scripts.UI.Animation
 {
-    [SerializeField] private float _duration = 0.35f;
-    [SerializeField] private float _startScale = 0.85f;
-    [SerializeField] private float _offsetY = 100f;
-
-    private TMP_Text _text;
-    private RectTransform _rectTransform;
-    private Vector2 _initialPosition;
-    private Vector3 _initialScale;
-
-    private void Awake()
+    [RequireComponent(typeof(TMP_Text), typeof(RectTransform))]
+    public class TextAppear : MonoBehaviour
     {
-        _text = GetComponent<TMP_Text>();
-        _rectTransform = GetComponent<RectTransform>();
+        [SerializeField] private float _duration = 0.35f;
+        [SerializeField] private float _startScale = 0.85f;
+        [SerializeField] private float _offsetY = 100f;
 
-        _initialPosition = _rectTransform.anchoredPosition;
-        _initialScale = transform.localScale;
-    }
+        private TMP_Text _text;
+        private RectTransform _rectTransform;
+        private Vector2 _initialPosition;
+        private Vector3 _initialScale;
 
-    private void OnEnable()
-    {
-        Show();
-    }
+        private void Awake()
+        {
+            _text = GetComponent<TMP_Text>();
+            _rectTransform = GetComponent<RectTransform>();
 
-    public void Show()
-    {
-        _text.DOKill();
-        _rectTransform.DOKill();
-        transform.DOKill();
+            _initialPosition = _rectTransform.anchoredPosition;
+            _initialScale = transform.localScale;
+        }
 
-        var color = _text.color;
-        color.a = 0f;
-        _text.color = color;
+        public void Enable()
+        {
+            Disable();
 
-        _rectTransform.anchoredPosition = _initialPosition + Vector2.up * _offsetY;
-        transform.localScale = _initialScale * _startScale;
+            var color = _text.color;
+            color.a = 0f;
+            _text.color = color;
 
-        var sequence = DOTween.Sequence();
+            _rectTransform.anchoredPosition = _initialPosition + Vector2.up * _offsetY;
+            transform.localScale = _initialScale * _startScale;
 
-        sequence.Join(
-            _text.DOFade(1f, _duration)
-                .SetEase(Ease.OutSine)
-        );
+            var sequence = DOTween.Sequence();
 
-        sequence.Join(
-            _rectTransform.DOAnchorPos(_initialPosition, _duration)
-                .SetEase(Ease.OutBack)
-        );
+            sequence.Join(
+                _text.DOFade(1f, _duration)
+                    .SetEase(Ease.OutSine)
+            );
 
-        sequence.Join(
-            transform.DOScale(_initialScale, _duration)
-                .SetEase(Ease.OutBack)
-        );
+            sequence.Join(
+                _rectTransform.DOAnchorPos(_initialPosition, _duration)
+                    .SetEase(Ease.OutBack)
+            );
+
+            sequence.Join(
+                transform.DOScale(_initialScale, _duration)
+                    .SetEase(Ease.OutBack)
+            );
+        }
+
+        public void Disable()
+        {
+            _text.DOKill();
+            _rectTransform.DOKill();
+            transform.DOKill();
+        }
     }
 }
