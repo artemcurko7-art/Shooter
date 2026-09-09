@@ -196,7 +196,7 @@ namespace Game.Scripts.Genetic
             if (nextStatIndex >= _statBars.Count)
                 return;
 
-            var statTransform = _statBars[nextStatIndex].GetComponent<RectTransform>();
+            var statTransform = _statBars[nextStatIndex].transform as RectTransform;
 
             if (!statTransform)
                 return;

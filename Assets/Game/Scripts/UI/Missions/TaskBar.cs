@@ -136,7 +136,7 @@ namespace Game.Scripts.UI.Missions
             _rect.anchoredPosition = _originalPos;
 
             if (_parentLayout)
-                LayoutRebuilder.MarkLayoutForRebuild(_parentLayout.GetComponent<RectTransform>());
+                LayoutRebuilder.MarkLayoutForRebuild(_parentLayout.transform as RectTransform);
         }
 
 
@@ -163,8 +163,7 @@ namespace Game.Scripts.UI.Missions
                 .OnUpdate(() =>
                 {
                     if (_parentLayout)
-                        LayoutRebuilder.MarkLayoutForRebuild(
-                            _parentLayout.GetComponent<RectTransform>());
+                        LayoutRebuilder.MarkLayoutForRebuild(_parentLayout.transform as RectTransform);
                 });
 
             _posTween = _rect
@@ -190,8 +189,7 @@ namespace Game.Scripts.UI.Missions
                         .OnUpdate(() =>
                         {
                             if (_parentLayout)
-                                LayoutRebuilder.MarkLayoutForRebuild(
-                                    _parentLayout.GetComponent<RectTransform>());
+                                LayoutRebuilder.MarkLayoutForRebuild(_parentLayout.transform as RectTransform);
                         });
 
                     _posTween = _rect

@@ -9,7 +9,7 @@ namespace Game.Scripts.UI
     {
         [Header("Настройки перехода")]
         [SerializeField] protected Ease _scaleEase = Ease.OutExpo;
-        [SerializeField] protected Ease _positionEase = Ease.InExpo;
+        [SerializeField] protected Ease _positionEase = Ease.OutExpo;
         [SerializeField] protected float _duration = 0.5f;
 
         [Header("Ссылки")]
