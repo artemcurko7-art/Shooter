@@ -19,6 +19,7 @@ namespace Game.Scripts.Service.PhysicalBody
         private readonly UnitFactory _factory;
         private readonly IUnitAttacker[] _attackers;
         private readonly ITransformable _transformable;
+        private readonly List<Unit> _units = new();
         private readonly Transform _transform;
         private CancellationTokenSource _cancellationTokenSource;
         private int _amount;
@@ -36,7 +37,9 @@ namespace Game.Scripts.Service.PhysicalBody
             _pool.SetPrefabs(_data.Units[UnitType.Fighter][0].Unit);
         }
 
-        public IReadOnlyList<ITransformable> Units => _pool.Units;
+        //public Unit Unit { get; private set; }
+        //public IReadOnlyList<ITransformable> Units => _pool.Units;
+        public IReadOnlyList<ITransformable> Units => _units;
     
         public override void Subscribe()
         {
@@ -51,7 +54,7 @@ namespace Game.Scripts.Service.PhysicalBody
     
         private async UniTaskVoid Spawn(CancellationToken token)
         {
-            while (_cancellationTokenSource.IsCancellationRequested == false && _amount < 1)
+            while (_cancellationTokenSource.IsCancellationRequested == false && _amount < 1) // test убрать amount
             {
                 await UniTask.Delay((int)Delay * 1000, cancellationToken: token);
             
@@ -59,6 +62,8 @@ namespace Game.Scripts.Service.PhysicalBody
                 //var unit = _pool.Get();
                 var unit = _factory.Create(_data.Units[UnitType.Fighter][0]);
                 unit.Initialize(_transform.GetChild(index).position); 
+                
+                _units.Add(unit);
             
                 _amount++;
 

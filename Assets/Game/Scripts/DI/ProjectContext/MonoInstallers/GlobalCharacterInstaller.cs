@@ -6,7 +6,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
     {
         public override void InstallBindings()
         {
-        
+            
         }
     }
 }

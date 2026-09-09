@@ -1,7 +1,5 @@
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
-using Game.Scripts.Provider;
-using Game.Scripts.WeaponContext;
 using UnityEngine;
 using YG;
 using Zenject;
@@ -10,8 +8,10 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class PlayerInstaller : MonoInstaller
     {
+        [SerializeField] private LayerMask _layerMaskUnit;
         [SerializeField] private Player _player;
         [SerializeField] private FixedJoystick _joystick;
+        [SerializeField] private float _radius;
     
         public override void InstallBindings()
         {
@@ -46,7 +46,8 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 
             Container
                 .Bind<TrackerUnits>()
-                .AsSingle();
+                .AsSingle()
+                .WithArguments(_layerMaskUnit, _radius);
             
             Container
                 .Bind<RotationToTarget>()

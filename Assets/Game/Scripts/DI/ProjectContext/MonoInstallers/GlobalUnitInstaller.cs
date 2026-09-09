@@ -1,5 +1,6 @@
 using Game.Scripts.PhysicalBody.UnitContext.Attacker;
 using Game.Scripts.PhysicalBody.UnitContext.Data;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers

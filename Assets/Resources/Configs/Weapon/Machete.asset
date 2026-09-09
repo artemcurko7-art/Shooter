@@ -16,5 +16,5 @@ MonoBehaviour:
   <ShootingType>k__BackingField: 1
   <View>k__BackingField: {fileID: 1659169968416452374, guid: 18322f9d00604e047a8c5f549f01e482, type: 3}
   <Bullet>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
-  <Speed>k__BackingField: 3
+  <Speed>k__BackingField: 0
   <Damage>k__BackingField: 30

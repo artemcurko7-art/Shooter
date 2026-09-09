@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using Game.Scripts.Damagable;
 using Game.Scripts.MV.StatContext;
-using Game.Scripts.WeaponContext;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +9,9 @@ namespace Game.Scripts.PlayerContext
 {
     public class Player : MonoBehaviour, IDamagable, ITransformable
     {
-        [SerializeField] private Bullet _bullet;
-        [SerializeField] private Transform _pointBullet;
-        [SerializeField] private LayerMask _unit;
-        [SerializeField] private float _radius;
-        
-        private Health _health;
         private TrackerUnits _trackerUnits;
+        private Health _health;
         private Coroutine _shoot;
-        private Vector3 _tracker;
     
         public Transform Transform { get; private set; }
 
@@ -26,61 +20,29 @@ namespace Game.Scripts.PlayerContext
         {
             _trackerUnits = trackerUnits;
         }
-    
+        
         private void Awake()
         {
             Transform = GetComponent<Transform>();
-            StartCoroutine(Track());
         }
 
-        private void Update()
+        private void Start()
         {
-            if (_trackerUnits.IsTracker == false)
-            {
-                if (_shoot != null)
-                {
-                    StopCoroutine(_shoot);
-                    _shoot = null;
-                }
-            }
-            else
-            {
-                // if (_shoot == null)
-                //     _shoot = StartCoroutine(Shoot());
-            }
-
-            // if (Input.GetKeyDown(KeyCode.Mouse0))
-            // {
-            //     _animator.SetTrigger(PlayerAnimationData.Params.Attack);
-            // }
+            StartCoroutine(StartTrackerUnits());
         }
-        
+
         public void TakeDamage(int damage)
         {
             _health.Increase(damage);
         }
 
-        // private IEnumerator Shoot()
-        // {
-        //     while (enabled)
-        //     {
-        //         yield return new WaitForSeconds(2f);
-        //         
-        //         _weapon.Shoot(_pointBullet, _bullet);
-        //
-        //         yield return null;
-        //     }
-        // }
-
-        private IEnumerator Track()
+        private IEnumerator StartTrackerUnits()
         {
             while (enabled)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.3f);
             
-                _tracker = _trackerUnits.GetNearestPosition(transform.position, _radius, _unit);
-    
-                yield return null;
+                _trackerUnits.FindNearestPosition(transform.position);
             }
         }
     }

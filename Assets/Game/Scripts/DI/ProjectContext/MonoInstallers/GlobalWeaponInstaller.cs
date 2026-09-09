@@ -1,10 +1,7 @@
 using Game.Scripts.Factory;
 using Game.Scripts.Provider;
-using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
 using Zenject;
-using Game.Scripts.WeaponContext.Shooting;
-using Single = Game.Scripts.WeaponContext.Shooting.Single;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 {
@@ -13,31 +10,12 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .BindInterfacesTo<WeaponData>()
+                .Bind<WeaponData>()
                 .AsSingle();
         
             Container
                 .Bind<WeaponProvider>()
                 .AsSingle();
-            
-            Container
-                .Bind<WeaponViewFactory>()
-                .AsSingle();
-            
-            Container
-                .Bind<IWeaponShooting>()
-                .To<Single>()
-                .AsCached();
-            
-            Container
-                .Bind<IWeaponShooting>()
-                .To<Multiplier>()
-                .AsCached();
-            
-            Container
-                .Bind<IWeaponShooting>()
-                .To<Cutting>()
-                .AsCached();
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Game.Scripts.Factory
 {
     public class WeaponViewFactory
     {
-        private readonly IWeaponShootingData _shootingData;
+        private readonly WeaponShootingData _shootingData;
         private readonly DiContainer _container;
 
-        public WeaponViewFactory(IWeaponShootingData shootingData, DiContainer container)
+        public WeaponViewFactory(WeaponShootingData shootingData, DiContainer container)
         {
             _shootingData = shootingData;
             _container = container;

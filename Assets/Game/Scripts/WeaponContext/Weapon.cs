@@ -15,14 +15,9 @@ namespace Game.Scripts.WeaponContext
             _bullet = bullet;
         }
         
-        public void Shoot(Transform transform, Bullet bullet)
+        public void Shoot(Transform transform)
         {
-            _shooting.Shoot();
-            
-            // var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-            // obj.SetDirection(transform.forward);
-            
-            //_data.Shootings[_data.Weapons[_provider.Type][0].ShootingType].Shoot();
+            _shooting.Shoot(transform, _bullet);
         }
     }
 }

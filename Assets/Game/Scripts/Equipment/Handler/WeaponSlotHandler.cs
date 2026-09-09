@@ -9,10 +9,10 @@ namespace Game.Scripts.Equipment.Handler
     public class WeaponSlotHandler : ISubscriber
     {
         private readonly DropSlot _dropSlot;
-        private readonly IWeaponData _data;
+        private readonly WeaponData _data;
         private readonly WeaponProvider _provider;
         
-        public WeaponSlotHandler(DropSlot dropSlot, IWeaponData data, WeaponProvider provider)
+        public WeaponSlotHandler(DropSlot dropSlot, WeaponData data, WeaponProvider provider)
         {
             _dropSlot = dropSlot;
             _data = data;

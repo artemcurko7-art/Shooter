@@ -26,19 +26,19 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 
         private void Update()
         {
-            _state.Update();
+            //_state.Update();
         }
     
         public void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            _health = health;
-        
-            _state = new State();
-        
-            _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
-            _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
-        
-            _state.SetState<UnitStateFollower>();
+            // _health = health;
+            //
+            // _state = new State();
+            //
+            // _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
+            // _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
+            //
+            // _state.SetState<UnitStateFollower>();
         }
 
         public void TakeDamage(int damage)

@@ -12,7 +12,17 @@ namespace Game.Scripts.WeaponContext.Shooting
         
         public ShootingType Type { get; }
         
-        public void Shoot()
+        public void Subscribe()
+        {
+            
+        }
+
+        public void Unsubscribe()
+        {
+            
+        }
+        
+        public void Shoot(Transform transform, Bullet bullet)
         {
             Debug.Log("Cutting");
         }

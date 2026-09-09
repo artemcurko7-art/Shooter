@@ -1,42 +1,48 @@
-using Game.Scripts.Service.PhysicalBody;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
 namespace Game.Scripts.PlayerContext
 {
     public class TrackerUnits
     {
-        private readonly IUnitService _service;
+        private const int SecondInMilliseconds = 1000;
+        private const float Cooldown = 0.3f;
+        private readonly LayerMask _layerMask;
+        private readonly Vector3 _position;
         private readonly Collider[] _results = new Collider[128];
-        private Vector3 _newPosition;
+        private readonly float _radius;
+        private CancellationTokenSource _cancellationTokenSource;
     
-        public TrackerUnits(IUnitService service)
+        public TrackerUnits(LayerMask layerMask, float radius)
         {
-            _service = service;
+            _layerMask = layerMask;
+            _radius = radius;
         }
     
+        public Vector3 Direction { get; private set; }
         public bool IsTracker { get; private set; }
-
-        public Vector3 GetNearestPosition(Vector3 position, float radius, LayerMask layerMask)
-        {
-            int hitCount = Physics.OverlapSphereNonAlloc(position, radius, _results, layerMask);
-            float closestDistance = Mathf.Infinity;
-            _newPosition = Vector3.zero;
-            IsTracker = false;
         
+        public void FindNearestPosition(Vector3 position)
+        {
+            int hitCount = Physics.OverlapSphereNonAlloc(position, _radius, _results, _layerMask);
+            float closestDistance = Mathf.Infinity;
+            Direction = Vector3.zero;
+            IsTracker = false;
+
             for (int i = 0; i < hitCount; i++)
             {
                 Collider collider = _results[i];
-                float distance = (collider.transform.position - position).sqrMagnitude;
+                float distance = (collider.transform.position - _position).sqrMagnitude;
 
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    _newPosition = collider.transform.position;
+                    Direction = collider.transform.position;
                     IsTracker = true;
                 }
             }
-        
-            return _newPosition;
         }
     }
 }
