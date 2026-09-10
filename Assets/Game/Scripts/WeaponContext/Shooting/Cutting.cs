@@ -14,7 +14,7 @@ namespace Game.Scripts.WeaponContext.Shooting
         }
         
         public ShootingType Type { get; }
-        
+
         public void Subscribe()
         {
             
@@ -25,7 +25,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             
         }
         
-        public void StartShooting(Transform transform, Bullet bullet)
+        public void StartShooting(Bullet bullet, Transform transform, int damage, float speed)
         {
             Debug.Log("Cutting");
         }

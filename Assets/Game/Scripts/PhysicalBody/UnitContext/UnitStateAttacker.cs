@@ -12,7 +12,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         private readonly Transform _target;
         private readonly float _distance;
         private readonly int _damage;
-        private IDamagable _damagable;
+        private IDamageable _damageable;
     
         public UnitStateAttacker(State state, IUnitAttacker attacker, Transform current, Transform target, float distance, int damage) : base(state)
         {
@@ -29,9 +29,9 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 
             if (Physics.Raycast(ray, out var hit, _distance))
             {
-                if (hit.collider.TryGetComponent(out _damagable))
+                if (hit.collider.TryGetComponent(out _damageable))
                 {
-                    _attacker.Attack(_damagable, _current, _damage);
+                    _attacker.Attack(_damageable, _current, _damage);
                 }
             }
         }

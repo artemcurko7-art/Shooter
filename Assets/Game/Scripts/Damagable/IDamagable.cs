@@ -1,6 +1,6 @@
 namespace Game.Scripts.Damagable
 {
-    public interface IDamagable
+    public interface IDamageable
     {
         void TakeDamage(int damage);
     }

@@ -8,13 +8,13 @@ using Zenject;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    public class Unit : PhysicalBody<Unit>, IDamagable, ITransformable
+    public class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
         private State _state;
         private ITransformable _transformable;
         private int _health;
     
-        public event Action<Unit> Disabled;
+        //public event Action<Unit> Disabled;
 
         public Transform Transform { get; }
 
@@ -43,7 +43,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 
         public void TakeDamage(int damage)
         {
-        
+            
         }
     }
 }

@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Game.Scripts.PlayerContext
 {
-    public class Player : MonoBehaviour, IDamagable, ITransformable
+    public class Player : MonoBehaviour, IDamageable, ITransformable
     {
         private TrackerUnits _trackerUnits;
         private Health _health;

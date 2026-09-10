@@ -13,7 +13,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 
         public UnitAttackerType Type { get; }
 
-        public void Attack(IDamagable damagable, Transform current, int damage)
+        public void Attack(IDamageable damageable, Transform current, int damage)
         {
             Debug.Log($"Area Damage");
         }

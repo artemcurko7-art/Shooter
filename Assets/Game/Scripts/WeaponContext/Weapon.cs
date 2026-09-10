@@ -7,11 +7,11 @@ namespace Game.Scripts.WeaponContext
 {
     public class Weapon
     {
-        public Weapon(IWeaponShooting shooting, Bullet bullet, Transform transform)
+        public Weapon(IWeaponShooting shooting, Bullet bullet, Transform transform, int damage, float speed)
         {
             Shooting = shooting;
             
-            shooting.StartShooting(transform, bullet);
+            shooting.StartShooting(bullet, transform, damage, speed);
         }
         
         public IWeaponShooting Shooting { get; private set; }

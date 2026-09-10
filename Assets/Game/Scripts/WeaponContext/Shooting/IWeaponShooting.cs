@@ -8,6 +8,6 @@ namespace Game.Scripts.WeaponContext.Shooting
     public interface IWeaponShooting : IAttackable, ISubscriber
     {
         ShootingType Type { get; }
-        void StartShooting(Transform transform, Bullet bullet);
+        void StartShooting(Bullet bullet, Transform transform, int damage, float speed);
     }
 }
