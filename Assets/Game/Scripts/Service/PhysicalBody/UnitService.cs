@@ -54,18 +54,18 @@ namespace Game.Scripts.Service.PhysicalBody
     
         private async UniTaskVoid Spawn(CancellationToken token)
         {
-            while (_cancellationTokenSource.IsCancellationRequested == false && _amount < 1) // test убрать amount
+            while (_cancellationTokenSource.IsCancellationRequested == false && _amount < 3) // test убрать amount
             {
                 await UniTask.Delay((int)Delay * 1000, cancellationToken: token);
             
                 int index = UserUtils.NumberGeneration.GetRandom(0, _transform.childCount - 1);
-                var unit = _pool.Get();
+                //var unit = _pool.Get();
                 //var unit = _factory.Create(_data.Units[UnitType.Fighter][0]);
-                unit.Initialize(_transform.GetChild(index).position);
+                //unit.Initialize(_transform.GetChild(index).position);
                 
                 //_units.Add(unit);
             
-                _amount++;
+                //_amount++;
 
                 await UniTask.Yield();
             }

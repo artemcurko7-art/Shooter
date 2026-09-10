@@ -40,7 +40,7 @@ namespace Game.Scripts.PlayerContext
         {
             while (enabled)
             {
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.1f);
             
                 _trackerUnits.FindNearestPosition(transform.position);
             }
