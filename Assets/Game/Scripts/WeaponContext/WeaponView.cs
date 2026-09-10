@@ -8,9 +8,11 @@ namespace Game.Scripts.WeaponContext
         [field: SerializeField] public Transform LeftHandGrip { get; private set; }
         [field: SerializeField] public Transform RightHandGrip { get; private set; }
         
+        public Weapon Weapon { get; private set; }
+        
         public void Initialize(Weapon weapon)
         {
-            weapon.Shoot(transform);
+            Weapon = weapon;
         }
     }
 }

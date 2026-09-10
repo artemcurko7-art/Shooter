@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using System.Threading;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.WeaponContext.Type;
@@ -6,13 +7,15 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    public class Single : IWeaponShooting
+    public class Single : WeaponShooting, IWeaponShooting
     {
         private const int SecondInMilliseconds = 1000;
         private readonly TrackerUnits _trackerUnits;
         private readonly float _cooldown;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _canShoot;
+        
+        public event Action Attacked;
         
         public Single(TrackerUnits trackerUnits, float cooldown)
         {
@@ -33,7 +36,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void Shoot(Transform transform, Bullet bullet)
+        public void StartShooting(Transform transform, Bullet bullet)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             StartCooldown(transform, bullet, _cancellationTokenSource.Token).Forget();
@@ -53,10 +56,11 @@ namespace Game.Scripts.WeaponContext.Shooting
                     return;
 
                 if (_trackerUnits.IsTracker == false)
-                    return;
+                    continue;
+                
+                Attacked?.Invoke();
                 
                 var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-                //obj.SetDirection(_trackerUnits.Direction);
                 obj.SetDirection(transform.forward);
             }
         }

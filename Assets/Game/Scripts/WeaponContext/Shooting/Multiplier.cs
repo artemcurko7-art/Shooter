@@ -1,10 +1,13 @@
+using System;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    public class Multiplier : IWeaponShooting
+    public class Multiplier : WeaponShooting, IWeaponShooting
     {
+        public event Action Attacked;
+        
         public Multiplier()
         {
             Type = ShootingType.Multiplier;
@@ -22,7 +25,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             
         }
         
-        public void Shoot(Transform transform, Bullet bullet)
+        public void StartShooting(Transform transform, Bullet bullet)
         {
             Debug.Log($"Multiplier");
         }
