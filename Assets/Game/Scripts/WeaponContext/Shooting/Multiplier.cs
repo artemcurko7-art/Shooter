@@ -25,7 +25,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             
         }
         
-        public void StartShooting(Bullet bullet, Transform transform, int damage, float speed)
+        public void StartShooting(Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
             Debug.Log("Multiplier");
         }

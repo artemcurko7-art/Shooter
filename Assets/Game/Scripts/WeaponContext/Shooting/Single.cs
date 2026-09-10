@@ -36,15 +36,15 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void StartShooting(Bullet bullet, Transform transform, int damage, float speed)
+        public void StartShooting(Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(_cancellationTokenSource.Token, bullet, transform, damage, speed).Forget();
+            StartCooldown(_cancellationTokenSource.Token, bullet, transform, radius, damage, speed).Forget();
             
             Debug.Log("Single");
         }
         
-        private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, Transform transform, int damage, float speed)
+        private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
             while (token.IsCancellationRequested == false)
             {
@@ -61,7 +61,7 @@ namespace Game.Scripts.WeaponContext.Shooting
                 Attacked?.Invoke();
                 
                 var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-                obj.Initialize(transform.forward, damage, speed);
+                obj.Initialize(transform.forward, radius, damage, speed);
             }
         }
     }

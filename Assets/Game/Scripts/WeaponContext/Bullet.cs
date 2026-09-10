@@ -10,6 +10,7 @@ namespace Game.Scripts.WeaponContext
     {
         private LayerMask _layerMask;
         private Vector3 _direction;
+        private float _radius;
         private int _damage;
         private float _speed;
 
@@ -23,7 +24,7 @@ namespace Game.Scripts.WeaponContext
         {
             float moveDistance = _speed * Time.deltaTime;
             
-            if (Physics.SphereCast(transform.position, 1.5f, _direction, out var hit, moveDistance, _layerMask)) // radius = transform.scale * _radius
+            if (Physics.SphereCast(transform.position, transform.localScale.x * _radius, _direction, out var hit, moveDistance, _layerMask))
             {
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
@@ -35,10 +36,11 @@ namespace Game.Scripts.WeaponContext
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(Vector3 direction, int damage, float speed)
+        public void Initialize(Vector3 direction, float radius, int damage, float speed)
         {
             _direction = direction;
             _damage = damage;
+            _radius = radius;
             _speed = speed;
         }
 
@@ -49,10 +51,16 @@ namespace Game.Scripts.WeaponContext
                 damageable.TakeDamage(_damage);
             }
         }
+        
+        // private void OnDrawGizmos()
+        // {
+        //     Gizmos.color = Color.red;
+        //     Gizmos.DrawWireSphere(transform.position, transform.localScale.x * _radius);
+        // }
 
         private IEnumerator StartDestroyed()
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(10);
             
             Destroy(gameObject);
         }
