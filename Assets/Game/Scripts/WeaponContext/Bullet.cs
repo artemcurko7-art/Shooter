@@ -23,7 +23,7 @@ namespace Game.Scripts.WeaponContext
         {
             float moveDistance = _speed * Time.deltaTime;
             
-            if (Physics.SphereCast(transform.position, 0.5f, _direction, out var hit, moveDistance, _layerMask)) // radius = transform.scale * _radius
+            if (Physics.SphereCast(transform.position, 1.5f, _direction, out var hit, moveDistance, _layerMask)) // radius = transform.scale * _radius
             {
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
@@ -37,7 +37,7 @@ namespace Game.Scripts.WeaponContext
         
         public void Initialize(Vector3 direction, int damage, float speed)
         {
-            _direction = direction.normalized;
+            _direction = direction;
             _damage = damage;
             _speed = speed;
         }

@@ -14,7 +14,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         private ITransformable _transformable;
         private int _health;
     
-        //public event Action<Unit> Disabled;
+        public event Action<Unit> Disabled;
 
         public Transform Transform { get; }
 
@@ -31,19 +31,22 @@ namespace Game.Scripts.PhysicalBody.UnitContext
     
         public void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            // _health = health;
-            //
-            // _state = new State();
-            //
-            // _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
-            // _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
-            //
-            // _state.SetState<UnitStateFollower>();
+            _health = health;
+            
+            _state = new State();
+            
+            _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
+            _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
+            
+            _state.SetState<UnitStateFollower>();
         }
 
         public void TakeDamage(int damage)
         {
+            _health -= damage;
             
+            if (_health <= 0)
+                Disabled?.Invoke(this);
         }
     }
 }
