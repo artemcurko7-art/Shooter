@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
 using TMPro;
@@ -11,231 +10,229 @@ namespace Game.Scripts.UI.Challenges
 {
     public class AchieveBar : MonoBehaviour
     {
+        [Header("Ссылки")]
         [SerializeField] private Image _background;
         [SerializeField] private Image _frame;
         [SerializeField] private Image _icon;
         [SerializeField] private Image _lock;
         [SerializeField] private Image _checkMark;
+
+        [Header("Спрайты")]
         [SerializeField] private Sprite _redBackgroundSprite;
         [SerializeField] private Sprite _greenBackgroudSprite;
         [SerializeField] private Sprite _redFrameSprite;
         [SerializeField] private Sprite _greenFrameSprite;
+
+        [Header("Текст")]
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _description;
         [SerializeField] private TextAppear _textAppear;
-        [SerializeField] private Button _button;
+
+        [Header("Кнопки")]
+        [SerializeField] private Button _barButton;
+        [SerializeField] private Button _closeButton;
+
+        [Header("Анимация описания")]
         [SerializeField] private float _descExpandHeight = 60f;
         [SerializeField] private float _descDuration = 0.3f;
         [SerializeField] private Ease _descEase = Ease.OutQuad;
-        [SerializeField] private float _descSleepDelay = 3f;
-        [SerializeField] private float _scrollDuration = 0.5f;
 
         private bool _isOpened;
-        private bool _isDescExpanded;
-        private ScrollRect _scrollRect;
+
+        private VerticalLayoutGroup _layoutGroup;
+
         private Vector2 _originalDescSize;
 
         private Tween _descSizeTween;
-        private Tween _descSleepTween;
 
-        private VerticalLayoutGroup _layoutGroup;
-        private RectTransform _rect;
-        private Coroutine _scrollCoroutine;
+        private Action<RectTransform> _onClicked;
+        private Action _onExpandComplete;
+
+        public bool IsDescExpanded { get; private set; }
+        public RectTransform RectTransform { get; private set; }
 
         private void Awake()
         {
-            _rect = GetComponent<RectTransform>();
+            RectTransform = GetComponent<RectTransform>();
 
-            if (_rect)
-                _originalDescSize = _rect.sizeDelta;
+            if (RectTransform)
+                _originalDescSize = RectTransform.sizeDelta;
 
-            if (_scrollRect && _scrollRect.content)
-                _layoutGroup = _scrollRect.content.GetComponent<VerticalLayoutGroup>();
-
-            if (!_button)
-                _button = GetComponent<Button>();
-
-            if (_button)
-                _button.onClick.AddListener(OnBarClicked);
+            if (!_barButton)
+                _barButton = GetComponent<Button>();
         }
 
         private void OnEnable()
         {
-            _textAppear.Enable();
+            if (_barButton)
+                _barButton.onClick.AddListener(OnBarClicked);
+
+            if (_closeButton)
+                _closeButton.onClick.AddListener(OnCloseButtonClicked);
         }
 
         private void OnDisable()
         {
-            _textAppear.Disable();
+            _descSizeTween?.Kill();
+
+            if (_textAppear)
+                _textAppear.Disable();
         }
 
         private void OnDestroy()
         {
             _descSizeTween?.Kill();
-            _descSleepTween?.Kill();
 
-            if (_scrollCoroutine != null)
-                StopCoroutine(_scrollCoroutine);
+            if (_barButton)
+                _barButton.onClick.RemoveListener(OnBarClicked);
 
-            if (_button != null)
-                _button.onClick.RemoveListener(OnBarClicked);
+            if (_closeButton)
+                _closeButton.onClick.RemoveListener(OnCloseButtonClicked);
         }
 
-        public void Init(AchievementData.Achieve achieve, ScrollRect scrollRect)
+        public void Init(AchievementData.Achieve achieve, ScrollRect scrollRect,
+            Action<RectTransform> onClicked, Action onExpandComplete = null)
         {
-            _scrollRect = scrollRect;
+            if (achieve == null)
+                return;
 
-            _name.text = achieve.GetLocalizedName(YG2.lang);
-            _description.text = achieve.GetLocalizedDescription(YG2.lang);
+            _onClicked = onClicked;
+            _onExpandComplete = onExpandComplete;
 
-            _checkMark.gameObject.SetActive(_isOpened);
-            _lock.gameObject.SetActive(!_isOpened);
+            if (scrollRect && scrollRect.content)
+            {
+                _layoutGroup = scrollRect.content.GetComponent<VerticalLayoutGroup>();
+            }
 
-            _background.sprite = _isOpened ? _greenBackgroudSprite : _redBackgroundSprite;
-            _frame.sprite = _isOpened ? _greenFrameSprite : _redFrameSprite;
+            if (_name)
+                _name.text = achieve.GetLocalizedName(YG2.lang);
+
+            if (_description)
+                _description.text = achieve.GetLocalizedDescription(YG2.lang);
+
+            if (_checkMark)
+                _checkMark.gameObject.SetActive(_isOpened);
+
+            if (_lock)
+                _lock.gameObject.SetActive(!_isOpened);
+
+            if (_background)
+            {
+                _background.sprite = _isOpened
+                    ? _greenBackgroudSprite
+                    : _redBackgroundSprite;
+            }
+
+            if (_frame)
+            {
+                _frame.sprite = _isOpened
+                    ? _greenFrameSprite
+                    : _redFrameSprite;
+            }
+
+            IsDescExpanded = false;
+
+            if (RectTransform)
+                _originalDescSize = RectTransform.sizeDelta;
         }
 
-        private void OnBarClicked()
+        public void Expand()
         {
-            ToggleExpand();
-        }
+            if (!RectTransform || IsDescExpanded)
+                return;
 
-        private void ToggleExpand()
-        {
             _descSizeTween?.Kill();
-            _descSleepTween?.Kill();
 
-            _isDescExpanded = !_isDescExpanded;
+            IsDescExpanded = true;
 
-            var pivot = _rect.pivot;
-            var targetSize = _isDescExpanded
-                ? new Vector2(_originalDescSize.x, _originalDescSize.y + _descExpandHeight)
-                : _originalDescSize;
+            var pivot = RectTransform.pivot;
 
-            var currentSize = _rect.sizeDelta;
+            var targetSize = new Vector2(
+                _originalDescSize.x,
+                _originalDescSize.y + _descExpandHeight
+            );
+
+            var currentSize = RectTransform.sizeDelta;
             var delta = targetSize - currentSize;
 
             var offsetY = -delta.y * (1f - pivot.y);
-            var newPos = _rect.anchoredPosition + new Vector2(0, offsetY);
+            var newPos = RectTransform.anchoredPosition + new Vector2(0f, offsetY);
 
-            _descSizeTween = _rect
+            _descSizeTween = RectTransform
                 .DOSizeDelta(targetSize, _descDuration)
                 .SetEase(_descEase)
                 .OnUpdate(() =>
                 {
-                    _rect.anchoredPosition = newPos;
+                    RectTransform.anchoredPosition = newPos;
 
                     if (_layoutGroup)
-                        LayoutRebuilder.MarkLayoutForRebuild(_layoutGroup.transform as RectTransform);
-                });
-
-            ScrollToTop();
-
-            if (_isDescExpanded)
-            {
-                _descSleepTween = DOVirtual.DelayedCall(_descSleepDelay, () =>
+                    {
+                        LayoutRebuilder.MarkLayoutForRebuild(
+                            _layoutGroup.transform as RectTransform
+                        );
+                    }
+                })
+                .OnComplete(() =>
                 {
-                    _descSizeTween?.Kill();
+                    Canvas.ForceUpdateCanvases();
 
-                    _isDescExpanded = false;
+                    if (_layoutGroup)
+                    {
+                        LayoutRebuilder.ForceRebuildLayoutImmediate(
+                            _layoutGroup.transform as RectTransform
+                        );
+                    }
 
-                    var curSize = _rect.sizeDelta;
-                    var backDelta = _originalDescSize - curSize;
-                    var backOffsetY = -backDelta.y * (1f - pivot.y);
-                    var backPos = _rect.anchoredPosition + new Vector2(0, backOffsetY);
+                    Canvas.ForceUpdateCanvases();
 
-                    _descSizeTween = _rect
-                        .DOSizeDelta(_originalDescSize, _descDuration)
-                        .SetEase(_descEase)
-                        .OnUpdate(() =>
-                        {
-                            _rect.anchoredPosition = backPos;
-
-                            if (_layoutGroup)
-                                LayoutRebuilder.MarkLayoutForRebuild(_layoutGroup.transform as RectTransform);
-                        });
+                    _onExpandComplete?.Invoke();
                 });
-            }
+
+            if (_textAppear)
+                _textAppear.Enable();
         }
 
-        private void ScrollToTop()
+        public void Close()
         {
-            if (!_scrollRect || !_rect) return;
-
-            EnsureLayout();
-
-            var contentRect = _scrollRect.content;
-            var viewportRect = _scrollRect.viewport;
-
-            var corners = new Vector3[4];
-            _rect.GetWorldCorners(corners);
-
-            var elementTop = corners[1];
-
-            var viewportCorners = new Vector3[4];
-            viewportRect.GetWorldCorners(viewportCorners);
-            var viewportTop = viewportCorners[1];
-
-            var deltaY = elementTop.y - viewportTop.y;
-
-            if (Mathf.Abs(deltaY) < 1f)
+            if (!RectTransform || !IsDescExpanded)
                 return;
 
-            var targetY = contentRect.anchoredPosition.y + deltaY;
-            targetY = GetClampedScrollY(contentRect, targetY);
+            _descSizeTween?.Kill();
 
-            if (_scrollCoroutine != null)
-                StopCoroutine(_scrollCoroutine);
+            IsDescExpanded = false;
 
-            _scrollCoroutine = StartCoroutine(SmoothScroll(contentRect, targetY, _scrollDuration));
+            var pivot = RectTransform.pivot;
+            var currentSize = RectTransform.sizeDelta;
+            var backDelta = _originalDescSize - currentSize;
+
+            var backOffsetY = -backDelta.y * (1f - pivot.y);
+            var backPos = RectTransform.anchoredPosition + new Vector2(0f, backOffsetY);
+
+            _descSizeTween = RectTransform
+                .DOSizeDelta(_originalDescSize, _descDuration)
+                .SetEase(_descEase)
+                .OnUpdate(() =>
+                {
+                    RectTransform.anchoredPosition = backPos;
+
+                    if (_layoutGroup)
+                    {
+                        LayoutRebuilder.MarkLayoutForRebuild(
+                            _layoutGroup.transform as RectTransform
+                        );
+                    }
+                })
+                .OnComplete(() => { Canvas.ForceUpdateCanvases(); });
         }
 
-        private void EnsureLayout()
+        private void OnBarClicked()
         {
-            Canvas.ForceUpdateCanvases();
-            if (_layoutGroup != null)
-                LayoutRebuilder.ForceRebuildLayoutImmediate(_layoutGroup.transform as RectTransform);
-            Canvas.ForceUpdateCanvases();
+            _onClicked?.Invoke(RectTransform);
         }
 
-        private IEnumerator SmoothScroll(RectTransform content, float targetY, float duration)
+        private void OnCloseButtonClicked()
         {
-            var start = content.anchoredPosition;
-
-            if (duration <= 0f)
-            {
-                content.anchoredPosition = new Vector2(start.x, targetY);
-                _scrollCoroutine = null;
-                yield break;
-            }
-
-            var elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-                var time = Mathf.Clamp01(elapsed / duration);
-                time = Mathf.SmoothStep(0f, 1f, time);
-                content.anchoredPosition = new Vector2(start.x, Mathf.Lerp(start.y, targetY, time));
-                yield return null;
-            }
-
-            content.anchoredPosition = new Vector2(start.x, targetY);
-            _scrollCoroutine = null;
-        }
-
-        private float GetClampedScrollY(RectTransform content, float targetY)
-        {
-            var contentHeight = content.rect.height;
-            var viewportHeight = _scrollRect.viewport.rect.height;
-
-            if (contentHeight <= viewportHeight)
-                return content.anchoredPosition.y;
-
-            const float maxY = 0f;
-            var minY = -(contentHeight - viewportHeight);
-
-            return Mathf.Clamp(targetY, minY, maxY);
+            Close();
         }
     }
 }
