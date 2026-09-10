@@ -1,15 +1,25 @@
 using System.Collections.Generic;
+using Game.Scripts.Factory;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PhysicalBody.UnitContext;
+using Game.Scripts.PhysicalBody.UnitContext.Data;
+using Game.Scripts.PhysicalBody.UnitContext.Type;
+using UnityEngine.Pool;
 using Zenject;
 
 namespace Game.Scripts.PoolMono
 {
     public class UnitPool : PoolMono<Unit>
     {
+        private readonly UnitData _data;
+        private readonly UnitFactory _factory;
         private readonly List<ITransformable> _units = new();
-    
-        public UnitPool(DiContainer container) : base(container) { }
+
+        public UnitPool(UnitData data, UnitFactory factory, DiContainer container) : base(container)
+        {
+            _data = data;
+            _factory = factory;
+        }
     
         public IReadOnlyList<ITransformable> Units => _units;
     
@@ -31,6 +41,15 @@ namespace Game.Scripts.PoolMono
             base.OnRelease(unit);
             unit.Disabled -= OnRelease;
             _units.Remove(unit);
+        }
+
+        protected override ObjectPool<Unit> Create()
+        {
+            return new ObjectPool<Unit>(
+                createFunc: () => 
+                    _factory.Create(_data.Units[UnitType.Fighter][0]),
+                actionOnGet: (prefab) => ActionOnGet(prefab),
+                actionOnRelease: (prefab) => ActionOnRelease(prefab));
         }
     }
 }

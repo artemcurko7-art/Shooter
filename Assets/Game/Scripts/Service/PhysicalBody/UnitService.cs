@@ -44,7 +44,7 @@ namespace Game.Scripts.Service.PhysicalBody
         public override void Subscribe()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            //Spawn(_cancellationTokenSource.Token).Forget();
+            Spawn(_cancellationTokenSource.Token).Forget();
         }
 
         public override void Unsubscribe()
@@ -58,12 +58,12 @@ namespace Game.Scripts.Service.PhysicalBody
             {
                 await UniTask.Delay((int)Delay * 1000, cancellationToken: token);
             
-                int index = Random.Range(0, _transform.childCount);
-                //var unit = _pool.Get();
-                var unit = _factory.Create(_data.Units[UnitType.Fighter][0]);
-                unit.Initialize(_transform.GetChild(index).position); 
+                int index = UserUtils.NumberGeneration.GetRandom(0, _transform.childCount - 1);
+                var unit = _pool.Get();
+                //var unit = _factory.Create(_data.Units[UnitType.Fighter][0]);
+                unit.Initialize(_transform.GetChild(index).position);
                 
-                _units.Add(unit);
+                //_units.Add(unit);
             
                 _amount++;
 

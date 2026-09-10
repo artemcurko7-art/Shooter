@@ -1,23 +1,19 @@
 using Game.Scripts.Provider;
 using Game.Scripts.WeaponContext.Data;
+using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
 {
     public class Weapon
     {
-        private readonly IWeaponShooting _shooting;
-        private readonly Bullet _bullet;
-
-        public Weapon(IWeaponShooting shooting, Bullet bullet)
+        public Weapon(IWeaponShooting shooting, Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
-            _shooting = shooting;
-            _bullet = bullet;
+            Shooting = shooting;
+            
+            shooting.StartShooting(bullet, transform, radius, damage, speed);
         }
         
-        public void Shoot(Transform transform)
-        {
-            _shooting.Shoot(transform, _bullet);
-        }
+        public IWeaponShooting Shooting { get; private set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Game.Scripts.Factory
         public WeaponView Create(WeaponConfig config, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<WeaponView>(config.View, Vector3.zero, Quaternion.identity, container);
-            var weapon = new Weapon(_shootingData.Shootings[config.ShootingType], config.Bullet);
+            var weapon = new Weapon(_shootingData.Shootings[config.ShootingType], config.Bullet, view.transform, config.Radius, config.Damage, config.Speed);
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
             view.transform.localScale = Vector3.one;

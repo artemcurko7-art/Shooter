@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -6,8 +7,9 @@ namespace Game.Scripts.PoolMono
 {
     public abstract class PoolMono<T> where T : MonoBehaviour
     {
-        private readonly DiContainer _container;
         //private T[] _prefabs;
+        private readonly ObjectPool<T> _pool;
+        private readonly DiContainer _container;
         private T _prefab;
         private int _value;
 
@@ -15,11 +17,9 @@ namespace Game.Scripts.PoolMono
         {
             _container = container;
 
-            Create();
+            _pool = Create();
         }
-
-        public ObjectPool<T> Pool { get; private set; }
-
+        
         public void SetPrefabs(T prefab)//T[] prefabs)
         {
             //_prefabs = prefabs ?? throw new ArgumentNullException(nameof(prefabs));
@@ -27,7 +27,7 @@ namespace Game.Scripts.PoolMono
         }
 
         public T Get() =>
-            Pool.Get();
+            _pool.Get();
 
         protected virtual void ActionOnGet(T prefab) =>
             prefab.gameObject.SetActive(true);
@@ -36,7 +36,7 @@ namespace Game.Scripts.PoolMono
             prefab.gameObject.SetActive(false);
 
         protected virtual void OnRelease(T prefab) =>
-            Pool.Release(prefab);
+            _pool.Release(prefab);
 
         protected virtual T GetRandomPrefab()
         {
@@ -44,11 +44,11 @@ namespace Game.Scripts.PoolMono
             //return _prefabs[Random.Range(0, _prefabs.Length)];
         }
 
-        private void Create()
+        protected virtual ObjectPool<T> Create()
         {
-            Pool = new ObjectPool<T>(
+            return new ObjectPool<T>(
                 createFunc: () =>
-                    _container.InstantiatePrefabForComponent<T>(GetRandomPrefab(), Vector3.zero, Quaternion.identity, null),    
+                    _container.InstantiatePrefabForComponent<T>(GetRandomPrefab(), Vector3.zero, Quaternion.identity, null),
                 actionOnGet: (prefab) => ActionOnGet(prefab),
                 actionOnRelease: (prefab) => ActionOnRelease(prefab));
         }

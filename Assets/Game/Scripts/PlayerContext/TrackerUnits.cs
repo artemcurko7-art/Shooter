@@ -1,6 +1,4 @@
 using System.Threading;
-using Cysharp.Threading.Tasks;
-using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
 namespace Game.Scripts.PlayerContext
@@ -34,12 +32,13 @@ namespace Game.Scripts.PlayerContext
             for (int i = 0; i < hitCount; i++)
             {
                 Collider collider = _results[i];
-                float distance = (collider.transform.position - _position).sqrMagnitude;
+                Vector3 calculationDirection = collider.bounds.center - _position;
+                float distance = calculationDirection.sqrMagnitude;
 
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    Direction = collider.transform.position;
+                    Direction = calculationDirection;
                     IsTracker = true;
                 }
             }

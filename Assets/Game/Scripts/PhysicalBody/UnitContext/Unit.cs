@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    public class Unit : PhysicalBody<Unit>, IDamagable, ITransformable
+    public class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
         private State _state;
         private ITransformable _transformable;
@@ -31,19 +31,22 @@ namespace Game.Scripts.PhysicalBody.UnitContext
     
         public void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            // _health = health;
-            //
-            // _state = new State();
-            //
-            // _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
-            // _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
-            //
-            // _state.SetState<UnitStateFollower>();
+            _health = health;
+            
+            _state = new State();
+            
+            _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
+            _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
+            
+            _state.SetState<UnitStateFollower>();
         }
 
         public void TakeDamage(int damage)
         {
-        
+            _health -= damage;
+            
+            if (_health <= 0)
+                Disabled?.Invoke(this);
         }
     }
 }

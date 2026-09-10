@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using System.Threading;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.WeaponContext.Type;
@@ -6,13 +7,15 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    public class Single : IWeaponShooting
+    public class Single : WeaponShooting, IWeaponShooting
     {
         private const int SecondInMilliseconds = 1000;
         private readonly TrackerUnits _trackerUnits;
         private readonly float _cooldown;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _canShoot;
+        
+        public event Action Attacked;
         
         public Single(TrackerUnits trackerUnits, float cooldown)
         {
@@ -33,15 +36,15 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void Shoot(Transform transform, Bullet bullet)
+        public void StartShooting(Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(transform, bullet, _cancellationTokenSource.Token).Forget();
+            StartCooldown(_cancellationTokenSource.Token, bullet, transform, radius, damage, speed).Forget();
             
             Debug.Log("Single");
         }
         
-        private async UniTaskVoid StartCooldown(Transform transform, Bullet bullet, CancellationToken token)
+        private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
             while (token.IsCancellationRequested == false)
             {
@@ -53,11 +56,12 @@ namespace Game.Scripts.WeaponContext.Shooting
                     return;
 
                 if (_trackerUnits.IsTracker == false)
-                    return;
+                    continue;
+                
+                Attacked?.Invoke();
                 
                 var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-                //obj.SetDirection(_trackerUnits.Direction);
-                obj.SetDirection(transform.forward);
+                obj.Initialize(transform.forward, radius, damage, speed);
             }
         }
     }

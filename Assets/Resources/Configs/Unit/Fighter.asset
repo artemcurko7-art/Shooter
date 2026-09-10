@@ -15,7 +15,7 @@ MonoBehaviour:
   <Type>k__BackingField: 1
   <AttackerType>k__BackingField: 1
   <Unit>k__BackingField: {fileID: 6751376387843624815, guid: ed4ed3324fd5f584da1f153d9d03527f, type: 3}
-  <Health>k__BackingField: 100
+  <Health>k__BackingField: 50
   <Damage>k__BackingField: 30
   <Speed>k__BackingField: 0
   <Distance>k__BackingField: 3

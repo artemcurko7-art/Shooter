@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.WeaponContext.Shooting;
 using Game.Scripts.WeaponContext.Type;
 
 namespace Game.Scripts.WeaponContext.Data

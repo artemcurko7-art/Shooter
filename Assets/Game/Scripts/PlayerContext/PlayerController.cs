@@ -3,6 +3,7 @@ using Game.Scripts.Animation;
 using Game.Scripts.PhysicalBody.UnitContext;
 using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.Service.PhysicalBody;
+using Game.Scripts.Service.Weapon;
 using UnityEngine;
 using Zenject;
 
@@ -16,7 +17,9 @@ namespace Game.Scripts.PlayerContext
         [SerializeField] private float _acceleration;
         [SerializeField] private float _deceleration;
         [SerializeField] private float _smooth;
-        
+
+        private WeaponService _weaponService;
+        private TrackerUnits _trackerUnits;
         private Mover _mover;
         private Rotation _rotation;
         private IInput _input;
@@ -27,8 +30,10 @@ namespace Game.Scripts.PlayerContext
         private float _currentSpeed;
         
         [Inject]
-        public void Construct(Mover mover, Rotation rotation, IInput input)
+        public void Construct(WeaponService weaponService, TrackerUnits trackerUnits, Mover mover, Rotation rotation, IInput input)
         {
+            _weaponService = weaponService;
+            _trackerUnits = trackerUnits;
             _mover = mover;
             _rotation = rotation;
             _input = input;
@@ -41,7 +46,9 @@ namespace Game.Scripts.PlayerContext
         {
             _input.Update();
             _mover.Move(_characterController, _acceleration, _deceleration, _speed);
-            _rotation.Rotate(transform, _unit.transform.position, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
+            //_rotation.Rotate(transform, _unit.transform.position, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
+            //_rotation.Rotate(transform, _weaponService.View.transform.position, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
+            _rotation.Rotate(transform, _trackerUnits.Direction, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
             _animator.SetFloat(PlayerAnimationData.Params.Speed, _mover.Direction.sqrMagnitude, 0.05f, Time.deltaTime);
         }
         
