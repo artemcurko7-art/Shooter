@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,26 +10,52 @@ namespace Game.Scripts.UI.Challenges
 {
     public class Achievements : Window
     {
+        private readonly List<AchieveBar> _bars = new();
+
         [SerializeField] private AchievementData _data;
         [SerializeField] private AchieveBar _barPrefab;
-        [SerializeField] private RectTransform _content;
         [SerializeField] private TMP_Text _titleAchievesCount;
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private LayoutGroup _content;
 
         [Header("Скролл")]
         [SerializeField] private float _scrollDuration = 0.5f;
-        [SerializeField] private float _topOffset = 0f;
-
-        private readonly List<AchieveBar> _bars = new();
+        [SerializeField] private float _closeScrollDuration = 0.3f;
 
         private Coroutine _scrollCoroutine;
+        private Vector2 _savedContentPosition;
+        private bool _contentPositionSaved;
+        private float _topOffset;
 
-        private float _firstBarTopLocalY;
-        private bool _firstBarPositionSaved;
+        private void Awake()
+        {
+            _topOffset = _content.padding.top;
+        }
+        
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            if (_scrollCoroutine != null)
+            {
+                StopCoroutine(_scrollCoroutine);
+                _scrollCoroutine = null;
+            }
+
+            if (_scrollRect)
+                _scrollRect.vertical = true;
+
+            SetBarsInteractable(true);
+        }
 
         private void Start()
         {
             InitializeAchieves();
+        }
+
+        private static float GetBarTopLocalY(RectTransform bar)
+        {
+            return bar.anchoredPosition.y + bar.rect.height * (1f - bar.pivot.y);
         }
 
         private void InitializeAchieves()
@@ -39,52 +67,22 @@ namespace Game.Scripts.UI.Challenges
 
             foreach (var achieve in _data.Achieves)
             {
-                var bar = Instantiate(_barPrefab, _content);
-
-                bar.Init(
-                    achieve,
-                    _scrollRect,
-                    ScrollToBar,
-                    () => OnExpandComplete(bar)
-                );
-
+                var bar = Instantiate(_barPrefab, _content.transform as RectTransform);
+                bar.Init(achieve, _scrollRect, ScrollToBar, () => OnExpandComplete(bar), OnCloseComplete);
                 _bars.Add(bar);
             }
 
-            EnsureLayout();
-            SaveFirstBarPosition();
+            RebuildLayout();
         }
 
-        private void EnsureLayout()
+        private void RebuildLayout()
         {
             Canvas.ForceUpdateCanvases();
 
             if (_content)
-                LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_content.transform as RectTransform);
 
             Canvas.ForceUpdateCanvases();
-        }
-
-        private float GetBarTopLocalY(RectTransform bar)
-        {
-            return bar.anchoredPosition.y +
-                   bar.rect.height * (1f - bar.pivot.y);
-        }
-
-        private void SaveFirstBarPosition()
-        {
-            if (!_content || _content.childCount == 0)
-                return;
-
-            var firstBar = _content.GetChild(0) as RectTransform;
-
-            if (!firstBar)
-                return;
-
-            _firstBarTopLocalY = GetBarTopLocalY(firstBar);
-            _firstBarPositionSaved = true;
-
-            Debug.Log($"FIRST BAR TOP SAVED: {_firstBarTopLocalY}");
         }
 
         private void ScrollToBar(RectTransform targetBar)
@@ -94,16 +92,27 @@ namespace Game.Scripts.UI.Challenges
 
             var bar = targetBar.GetComponent<AchieveBar>();
 
-            if (!bar)
+            if (!bar || bar.IsDescriptionExpanded)
                 return;
 
-            if (!bar.IsDescExpanded)
-            {
-                bar.Expand();
+            if (!_scrollRect || !_scrollRect.content)
                 return;
+
+            _savedContentPosition = _scrollRect.content.anchoredPosition;
+            _contentPositionSaved = true;
+
+            SetBarsInteractable(false);
+
+            if (_scrollCoroutine != null)
+            {
+                StopCoroutine(_scrollCoroutine);
+                _scrollCoroutine = null;
             }
 
-            ScrollAfterLayout(targetBar);
+            _scrollRect.StopMovement();
+            _scrollRect.vertical = false;
+
+            bar.Expand();
         }
 
         private void OnExpandComplete(AchieveBar bar)
@@ -111,66 +120,26 @@ namespace Game.Scripts.UI.Challenges
             if (!bar || !bar.RectTransform)
                 return;
 
-            EnsureLayout();
-
-            ScrollAfterLayout(bar.RectTransform);
+            RebuildLayout();
+            ScrollAfterExpand(bar.RectTransform);
         }
 
-        private void ScrollAfterLayout(RectTransform targetBar)
+        private void ScrollAfterExpand(RectTransform targetBar)
         {
-            if (!_firstBarPositionSaved)
-                return;
+            if (!_scrollRect || !_scrollRect.content || !_scrollRect.viewport) return;
 
-            if (!_scrollRect || !_scrollRect.content || !_scrollRect.viewport)
-                return;
-
-            if (!targetBar)
-                return;
-
-            EnsureLayout();
+            if (!targetBar) return;
 
             var content = _scrollRect.content;
-
             var targetTopLocalY = GetBarTopLocalY(targetBar);
-            var deltaY = targetTopLocalY - _firstBarTopLocalY;
-
-            Debug.Log(
-                $"CLICKED BAR: index={targetBar.GetSiblingIndex()}, " +
-                $"targetTop={targetTopLocalY}, firstTop={_firstBarTopLocalY}"
-            );
-
-            Debug.Log(
-                $"SCROLL: delta={deltaY}, " +
-                $"contentBefore={content.anchoredPosition.y}"
-            );
-
-            var targetContentY =
-                content.anchoredPosition.y - deltaY;
-
-            targetContentY += _topOffset;
+            var targetContentY = -targetTopLocalY;
+            targetContentY -= _topOffset;
 
             var contentHeight = content.rect.height;
             var viewportHeight = _scrollRect.viewport.rect.height;
+            var maxScroll = Mathf.Max(0f, contentHeight - viewportHeight);
 
-            var maxScroll = Mathf.Max(
-                0f,
-                contentHeight - viewportHeight
-            );
-
-            targetContentY = Mathf.Clamp(
-                targetContentY,
-                0f,
-                maxScroll
-            );
-
-            Debug.Log(
-                $"SCROLL: contentHeight={contentHeight}, " +
-                $"viewportHeight={viewportHeight}, maxScroll={maxScroll}"
-            );
-
-            Debug.Log(
-                $"SCROLL: targetContentY={targetContentY}"
-            );
+            targetContentY = Mathf.Clamp(targetContentY, 0f, maxScroll);
 
             if (_scrollCoroutine != null)
             {
@@ -180,11 +149,71 @@ namespace Game.Scripts.UI.Challenges
 
             _scrollRect.StopMovement();
 
-            if (Mathf.Abs(targetContentY - content.anchoredPosition.y) < 1f)
-                return;
+            if (Mathf.Abs(targetContentY - content.anchoredPosition.y) < 1f) return;
 
-            _scrollCoroutine = StartCoroutine(SmoothScroll(content, targetContentY, _scrollDuration)
-            );
+            _scrollCoroutine = StartCoroutine(SmoothScroll(content, targetContentY, _scrollDuration));
+        }
+
+        private void OnCloseComplete()
+        {
+            if (!_scrollRect || !_scrollRect.content) return;
+
+            if (_scrollCoroutine != null)
+            {
+                StopCoroutine(_scrollCoroutine);
+                _scrollCoroutine = null;
+            }
+
+            _scrollRect.StopMovement();
+
+            if (_contentPositionSaved)
+            {
+                _scrollCoroutine = StartCoroutine(SmoothScrollToSavedPosition());
+            }
+            else
+            {
+                _scrollRect.vertical = true;
+                SetBarsInteractable(true);
+            }
+        }
+
+        private IEnumerator SmoothScrollToSavedPosition()
+        {
+            var content = _scrollRect.content;
+            var startPosition = content.anchoredPosition;
+            var targetPosition = _savedContentPosition;
+            var elapsed = 0f;
+
+            while (elapsed < _closeScrollDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+
+                var t = Mathf.Clamp01(
+                    elapsed / _closeScrollDuration
+                );
+
+                t = Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    t
+                );
+
+                content.anchoredPosition = Vector2.Lerp(
+                    startPosition,
+                    targetPosition,
+                    t
+                );
+
+                yield return null;
+            }
+
+            content.anchoredPosition = targetPosition;
+
+            _scrollCoroutine = null;
+            _contentPositionSaved = false;
+
+            _scrollRect.vertical = true;
+            SetBarsInteractable(true);
         }
 
         private IEnumerator SmoothScroll(RectTransform content, float targetY, float duration)
@@ -204,16 +233,24 @@ namespace Game.Scripts.UI.Challenges
             while (elapsed < duration)
             {
                 elapsed += Time.unscaledDeltaTime;
-                var t = Mathf.Clamp01(elapsed / duration);
-                t = Mathf.SmoothStep(0f, 1f,t);
-                var currentY = Mathf.Lerp(startY, targetY, t);
+
+                var time = Mathf.Clamp01(elapsed / duration);
+                time = Mathf.SmoothStep(0f, 1f, time);
+                var currentY = Mathf.Lerp(startY, targetY, time);
                 content.anchoredPosition = new Vector2(content.anchoredPosition.x, currentY);
 
                 yield return null;
             }
 
             content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetY);
+
             _scrollCoroutine = null;
+        }
+
+        private void SetBarsInteractable(bool interactable)
+        {
+            foreach (var bar in _bars.Where(bar => bar))
+                bar.SetOpenButtonEnabled(interactable);
         }
 
         protected override void Show()
@@ -235,15 +272,6 @@ namespace Game.Scripts.UI.Challenges
 
             if (_transition)
                 _transition.Close(_canvasGroup, _rectTransform);
-        }
-
-        private void OnDisable()
-        {
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
         }
     }
 }

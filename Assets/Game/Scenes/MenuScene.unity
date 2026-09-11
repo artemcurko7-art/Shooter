@@ -14925,11 +14925,11 @@ MonoBehaviour:
   _exitButton: {fileID: 420486543}
   _data: {fileID: 11400000, guid: b84687459080524459d935a1a1ba1cce, type: 2}
   _barPrefab: {fileID: 1219385511580915165, guid: 8cc6c5ed5f87d734f8fd247300bed85d, type: 3}
-  _content: {fileID: 523141324}
   _titleAchievesCount: {fileID: 659320622}
   _scrollRect: {fileID: 2049642918}
+  _content: {fileID: 523141327}
   _scrollDuration: 0.5
-  _topOffset: -180
+  _closeScrollDuration: 0.3
 --- !u!1 &1456952488
 GameObject:
   m_ObjectHideFlags: 0
@@ -19232,7 +19232,7 @@ MonoBehaviour:
   m_Content: {fileID: 523141324}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 2
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135

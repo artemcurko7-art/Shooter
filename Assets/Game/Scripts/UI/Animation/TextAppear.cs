@@ -27,13 +27,20 @@ namespace Game.Scripts.UI.Animation
 
         public void Enable()
         {
+            if (!_text || !_rectTransform)
+                return;
+
             Disable();
+
+            _text.enabled = true;
 
             var color = _text.color;
             color.a = 0f;
             _text.color = color;
 
-            _rectTransform.anchoredPosition = _initialPosition + Vector2.up * _offsetY;
+            _rectTransform.anchoredPosition =
+                _initialPosition + Vector2.up * _offsetY;
+
             transform.localScale = _initialScale * _startScale;
 
             var sequence = DOTween.Sequence();
@@ -50,14 +57,21 @@ namespace Game.Scripts.UI.Animation
 
             sequence.Join(
                 transform.DOScale(_initialScale, _duration)
-                    .SetEase(Ease.OutBack)
+                    .SetEase(Ease.OutQuint)
             );
         }
 
         public void Disable()
         {
-            _text.DOKill();
-            _rectTransform.DOKill();
+            if (_text)
+            {
+                _text.DOKill();
+                _text.enabled = false;
+            }
+
+            if (_rectTransform)
+                _rectTransform.DOKill();
+
             transform.DOKill();
         }
     }
