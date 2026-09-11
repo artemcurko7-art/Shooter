@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Game.Scripts.UI.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,12 +17,12 @@ namespace Game.Scripts.UI.Challenges
         [SerializeField] private TMP_Text _titleAchievesCount;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private LayoutGroup _content;
+        [SerializeField] private SmoothScroll _smoothScroll;
 
         [Header("Скролл")]
         [SerializeField] private float _scrollDuration = 0.5f;
         [SerializeField] private float _closeScrollDuration = 0.3f;
 
-        private Coroutine _scrollCoroutine;
         private Vector2 _savedContentPosition;
         private bool _contentPositionSaved;
         private float _topOffset;
@@ -31,16 +31,12 @@ namespace Game.Scripts.UI.Challenges
         {
             _topOffset = _content.padding.top;
         }
-        
+
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
+            _smoothScroll?.Stop();
 
             if (_scrollRect)
                 _scrollRect.vertical = true;
@@ -67,8 +63,19 @@ namespace Game.Scripts.UI.Challenges
 
             foreach (var achieve in _data.Achieves)
             {
-                var bar = Instantiate(_barPrefab, _content.transform as RectTransform);
-                bar.Init(achieve, _scrollRect, ScrollToBar, () => OnExpandComplete(bar), OnCloseComplete);
+                var bar = Instantiate(
+                    _barPrefab,
+                    _content.transform as RectTransform
+                );
+
+                bar.Init(
+                    achieve,
+                    _scrollRect,
+                    ScrollToBar,
+                    () => OnExpandComplete(bar),
+                    OnCloseComplete
+                );
+
                 _bars.Add(bar);
             }
 
@@ -80,7 +87,11 @@ namespace Game.Scripts.UI.Challenges
             Canvas.ForceUpdateCanvases();
 
             if (_content)
-                LayoutRebuilder.ForceRebuildLayoutImmediate(_content.transform as RectTransform);
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(
+                    _content.transform as RectTransform
+                );
+            }
 
             Canvas.ForceUpdateCanvases();
         }
@@ -103,11 +114,7 @@ namespace Game.Scripts.UI.Challenges
 
             SetBarsInteractable(false);
 
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
+            _smoothScroll?.Stop();
 
             _scrollRect.StopMovement();
             _scrollRect.vertical = false;
@@ -126,125 +133,88 @@ namespace Game.Scripts.UI.Challenges
 
         private void ScrollAfterExpand(RectTransform targetBar)
         {
-            if (!_scrollRect || !_scrollRect.content || !_scrollRect.viewport) return;
+            if (!_scrollRect || !_scrollRect.content || !_scrollRect.viewport)
+                return;
 
-            if (!targetBar) return;
+            if (!targetBar)
+                return;
 
             var content = _scrollRect.content;
             var targetTopLocalY = GetBarTopLocalY(targetBar);
             var targetContentY = -targetTopLocalY;
+
             targetContentY -= _topOffset;
 
             var contentHeight = content.rect.height;
             var viewportHeight = _scrollRect.viewport.rect.height;
             var maxScroll = Mathf.Max(0f, contentHeight - viewportHeight);
 
-            targetContentY = Mathf.Clamp(targetContentY, 0f, maxScroll);
+            targetContentY = Mathf.Clamp(
+                targetContentY,
+                0f,
+                maxScroll
+            );
 
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
-
+            _smoothScroll?.Stop();
             _scrollRect.StopMovement();
 
-            if (Mathf.Abs(targetContentY - content.anchoredPosition.y) < 1f) return;
+            if (Mathf.Abs(targetContentY - content.anchoredPosition.y) < 1f)
+                return;
 
-            _scrollCoroutine = StartCoroutine(SmoothScroll(content, targetContentY, _scrollDuration));
+            if (_smoothScroll)
+            {
+                _smoothScroll.ScrollToY(
+                    targetContentY,
+                    _scrollDuration
+                );
+            }
+            else
+            {
+                content.anchoredPosition = new Vector2(
+                    content.anchoredPosition.x,
+                    targetContentY
+                );
+            }
         }
 
         private void OnCloseComplete()
         {
-            if (!_scrollRect || !_scrollRect.content) return;
+            if (!_scrollRect || !_scrollRect.content)
+                return;
 
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
-
+            _smoothScroll?.Stop();
             _scrollRect.StopMovement();
 
             if (_contentPositionSaved)
             {
-                _scrollCoroutine = StartCoroutine(SmoothScrollToSavedPosition());
+                if (_smoothScroll)
+                {
+                    _smoothScroll.ScrollToPosition(
+                        _savedContentPosition,
+                        _closeScrollDuration,
+                        FinishCloseScroll
+                    );
+                }
+                else
+                {
+                    _scrollRect.content.anchoredPosition = _savedContentPosition;
+                    FinishCloseScroll();
+                }
             }
             else
             {
-                _scrollRect.vertical = true;
-                SetBarsInteractable(true);
+                FinishCloseScroll();
             }
         }
 
-        private IEnumerator SmoothScrollToSavedPosition()
+        private void FinishCloseScroll()
         {
-            var content = _scrollRect.content;
-            var startPosition = content.anchoredPosition;
-            var targetPosition = _savedContentPosition;
-            var elapsed = 0f;
-
-            while (elapsed < _closeScrollDuration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-
-                var t = Mathf.Clamp01(
-                    elapsed / _closeScrollDuration
-                );
-
-                t = Mathf.SmoothStep(
-                    0f,
-                    1f,
-                    t
-                );
-
-                content.anchoredPosition = Vector2.Lerp(
-                    startPosition,
-                    targetPosition,
-                    t
-                );
-
-                yield return null;
-            }
-
-            content.anchoredPosition = targetPosition;
-
-            _scrollCoroutine = null;
             _contentPositionSaved = false;
 
-            _scrollRect.vertical = true;
+            if (_scrollRect)
+                _scrollRect.vertical = true;
+
             SetBarsInteractable(true);
-        }
-
-        private IEnumerator SmoothScroll(RectTransform content, float targetY, float duration)
-        {
-            var startY = content.anchoredPosition.y;
-
-            if (duration <= 0f)
-            {
-                content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetY);
-
-                _scrollCoroutine = null;
-                yield break;
-            }
-
-            var elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-
-                var time = Mathf.Clamp01(elapsed / duration);
-                time = Mathf.SmoothStep(0f, 1f, time);
-                var currentY = Mathf.Lerp(startY, targetY, time);
-                content.anchoredPosition = new Vector2(content.anchoredPosition.x, currentY);
-
-                yield return null;
-            }
-
-            content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetY);
-
-            _scrollCoroutine = null;
         }
 
         private void SetBarsInteractable(bool interactable)
@@ -271,7 +241,10 @@ namespace Game.Scripts.UI.Challenges
                 return;
 
             if (_transition)
-                _transition.Close(_canvasGroup, _rectTransform);
+                _transition.Close(
+                    _canvasGroup,
+                    _rectTransform
+                );
         }
     }
 }

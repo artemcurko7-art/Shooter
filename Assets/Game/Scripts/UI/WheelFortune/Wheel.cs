@@ -22,6 +22,8 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
         [SerializeField] private TMP_Text _rewardPreviewText;
+        [SerializeField] private Image _rewardPreviewImage;
+        [SerializeField] private AppearAnimation _rewardAnimation;
 
         [Header("Анимация спина")]
         [SerializeField] private float _spinDuration = 4f;
@@ -75,15 +77,12 @@ namespace Game.Scripts.UI.WheelFortune
             if (_content)
                 _content.DOKill();
 
-            if (_rewardPreviewText)
-            {
-                _rewardPreviewText.DOKill();
-                _rewardPreviewText.transform.DOKill();
-            }
+            if (_rewardAnimation)
+                _rewardAnimation.KillAnimation();
 
             _isSpinning = false;
         }
-        
+
         private static Vector3 GetWorldCenter(RectTransform rect)
         {
             var corners = new Vector3[4];
@@ -92,7 +91,7 @@ namespace Game.Scripts.UI.WheelFortune
 
             return (corners[0] + corners[2]) * 0.5f;
         }
-        
+
         private static int Mod(int value, int modulo)
         {
             if (modulo <= 0)
@@ -127,6 +126,9 @@ namespace Game.Scripts.UI.WheelFortune
 
             if (_rewardPreviewText)
                 _rewardPreviewText.text = _emptySymbol;
+
+            if (_rewardAnimation)
+                _rewardAnimation.SetVisible();
 
             _initialized = true;
             SwitchVisible(true);
@@ -285,15 +287,16 @@ namespace Game.Scripts.UI.WheelFortune
             _isSpinning = true;
             _content.DOKill();
 
+            if (_rewardAnimation)
+                _rewardAnimation.KillAnimation();
+
             if (_rewardPreviewText)
-            {
-                _rewardPreviewText.DOKill();
-                _rewardPreviewText.transform.DOKill();
                 _rewardPreviewText.text = _emptySymbol;
-            }
 
             SwitchVisible(false);
-            _imageMover.Disable();
+
+            if (_imageMover)
+                _imageMover.Disable();
 
             _lastDisplayedRewardIndex = -1;
 
@@ -324,14 +327,20 @@ namespace Game.Scripts.UI.WheelFortune
                 .OnComplete(() =>
                 {
                     _currentRewardIndex = targetIndex;
+
                     UpdateRewardText(true);
 
                     if (_currentRewardIndex >= 0 && _currentRewardIndex < _bars.Count)
-                        _bars[_currentRewardIndex].AnimateIcon(_rewardScale, _rewardAnimDuration);
+                    {
+                        _bars[_currentRewardIndex]
+                            .AnimateIcon(_rewardScale, _rewardAnimDuration);
+                    }
 
                     _isSpinning = false;
                     SwitchVisible(true);
-                    _imageMover.Enable();
+
+                    if (_imageMover)
+                        _imageMover.Enable();
                 });
         }
 
@@ -353,17 +362,12 @@ namespace Game.Scripts.UI.WheelFortune
             if (reward == null)
                 return;
 
-            var rewardName = reward.GetLocalizedName(YG2.lang);
-
-            _rewardPreviewText.DOKill();
-            _rewardPreviewText.transform.DOKill();
-
-            _rewardPreviewText.text = rewardName;
+            UpdateRewardPreview(reward);
         }
 
         private void UpdateRewardText(bool animate)
         {
-            if (_shuffledRewards.Count == 0 || !_rewardPreviewText)
+            if (_shuffledRewards.Count == 0)
                 return;
 
             var reward = _shuffledRewards[_currentRewardIndex];
@@ -371,43 +375,31 @@ namespace Game.Scripts.UI.WheelFortune
             if (reward == null)
                 return;
 
-            var rewardName = reward.GetLocalizedName(YG2.lang);
-
             if (!animate)
             {
-                _rewardPreviewText.text = rewardName;
+                UpdateRewardPreview(reward);
                 return;
             }
 
-            _rewardPreviewText.DOKill();
-            _rewardPreviewText.transform.DOKill();
+            if (!_rewardAnimation)
+            {
+                UpdateRewardPreview(reward);
+                return;
+            }
 
-            _rewardPreviewText.transform.localScale = Vector3.one;
+            _rewardAnimation.Play(() => { UpdateRewardPreview(reward); });
+        }
 
-            var sequence = DOTween.Sequence();
+        private void UpdateRewardPreview(RewardData.Reward reward)
+        {
+            if (reward == null)
+                return;
 
-            sequence.Append(
-                _rewardPreviewText.DOFade(0f, _rewardAnimDuration)
-            );
+            if (_rewardPreviewText)
+                _rewardPreviewText.text = reward.GetLocalizedName(YG2.lang);
 
-            sequence.AppendCallback(() => { _rewardPreviewText.text = rewardName; });
-
-            sequence.Append(
-                _rewardPreviewText.DOFade(1f, _rewardAnimDuration)
-            );
-
-            sequence.Join(
-                _rewardPreviewText.transform
-                    .DOScale(_rewardScale, _rewardAnimDuration)
-                    .SetEase(Ease.OutBack)
-            );
-
-            sequence.Append(
-                _rewardPreviewText.transform.DOScale(
-                    Vector3.one,
-                    _rewardAnimDuration
-                )
-            );
+            if (_rewardPreviewImage)
+                _rewardPreviewImage.sprite = reward.icon;
         }
 
         protected override void Show()

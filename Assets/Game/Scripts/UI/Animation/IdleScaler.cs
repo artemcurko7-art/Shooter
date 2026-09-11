@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class Scaler : MonoBehaviour
+    public class IdleScaler : MonoBehaviour
     {
         [SerializeField] private float _scale = 1.05f;
         [SerializeField] private float _duration = 0.8f;

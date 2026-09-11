@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Game.Scripts.UI;
+using Game.Scripts.UI.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -17,14 +18,13 @@ namespace Game.Scripts.Genetic
 
         [Header("Зависимости")]
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private SmoothScroll _smoothScroll;
         [SerializeField] private Preview _preview;
         [SerializeField] private StatsData _statsData;
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private RectTransform _gridContainer;
         [SerializeField] private RawImage _background;
         [SerializeField] private float _rectScroll = 0.5f;
-
-        private Coroutine _scrollCoroutine;
 
         public float IncreaseNumber => _statIncreaseNumber;
 
@@ -115,7 +115,8 @@ namespace Game.Scripts.Genetic
 
         private void LateUpdate()
         {
-            if (!_background || !_gridContainer) return;
+            if (!_background || !_gridContainer)
+                return;
 
             var rect = _background.uvRect;
             rect.y = _gridContainer.anchoredPosition.y / _uvSpeed;
@@ -126,7 +127,10 @@ namespace Game.Scripts.Genetic
         {
             if (!_statsData || _statsData.Stats.Count == 0)
             {
-                Debug.LogError("[GeneticSystem] StatsData не назначен или список статов пуст!");
+                Debug.LogError(
+                    "[GeneticSystem] StatsData не назначен или список статов пуст!"
+                );
+
                 return;
             }
 
@@ -151,7 +155,8 @@ namespace Game.Scripts.Genetic
 
         private void EnsureVisibleRange()
         {
-            if (!_statsData || _statsData.Stats.Count == 0) return;
+            if (!_statsData || _statsData.Stats.Count == 0)
+                return;
 
             var unlockedCount = YG2.saves.IdSavedStatCount;
             var totalNeeded = unlockedCount + _additionallyStatVisibleCount;
@@ -182,14 +187,13 @@ namespace Game.Scripts.Genetic
         private void RefreshUI()
         {
             foreach (var bar in _statBars)
-            {
                 bar.UpdateDisplay();
-            }
         }
 
         private void ScrollToNextAvailable(bool animated)
         {
-            if (!_gridContainer || !_scrollRect) return;
+            if (!_gridContainer || !_scrollRect)
+                return;
 
             var nextStatIndex = YG2.saves.IdSavedStatCount;
 
@@ -211,8 +215,11 @@ namespace Game.Scripts.Genetic
 
             var elementCenter = (corners[0] + corners[2]) * 0.5f;
 
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
-                    RectTransformUtility.WorldToScreenPoint(null, elementCenter), null, out var viewportPoint))
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    viewportRect,
+                    RectTransformUtility.WorldToScreenPoint(null, elementCenter),
+                    null,
+                    out var viewportPoint))
             {
                 return;
             }
@@ -225,48 +232,29 @@ namespace Game.Scripts.Genetic
             var targetY = contentRect.anchoredPosition.y - deltaY;
             targetY = GetClampedScrollY(contentRect, targetY);
 
-            if (_scrollCoroutine != null)
-            {
-                StopCoroutine(_scrollCoroutine);
-                _scrollCoroutine = null;
-            }
-
             if (!animated)
             {
-                contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
+                _smoothScroll?.Stop();
+
+                contentRect.anchoredPosition = new Vector2(
+                    contentRect.anchoredPosition.x,
+                    targetY
+                );
+
                 return;
             }
 
-            _scrollCoroutine = StartCoroutine(SmoothScroll(contentRect, targetY, _rectScroll));
-        }
-
-        private IEnumerator SmoothScroll(RectTransform content, float targetY, float duration)
-        {
-            var start = content.anchoredPosition;
-
-            if (duration <= 0f)
+            if (!_smoothScroll)
             {
-                content.anchoredPosition = new Vector2(start.x, targetY);
+                contentRect.anchoredPosition = new Vector2(
+                    contentRect.anchoredPosition.x,
+                    targetY
+                );
 
-                _scrollCoroutine = null;
-                yield break;
+                return;
             }
 
-            var elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-                var time = Mathf.Clamp01(elapsed / duration);
-                time = Mathf.SmoothStep(0f, 1f, time);
-                content.anchoredPosition = new Vector2(start.x, Mathf.Lerp(start.y, targetY, time));
-
-                yield return null;
-            }
-
-            content.anchoredPosition = new Vector2(start.x, targetY);
-
-            _scrollCoroutine = null;
+            _smoothScroll.ScrollToY(targetY, _rectScroll);
         }
 
         private float GetClampedScrollY(RectTransform content, float targetY)

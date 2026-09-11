@@ -1,8 +1,8 @@
 {
-    "IdSavedStatCount": 306,
+    "IdSavedStatCount": 308,
     "AttackStrength": 32.0,
-    "CriticalDamage": 31.5,
-    "Armor": 31.5,
+    "CriticalDamage": 32.0,
+    "Armor": 32.0,
     "MovementSpeed": 31.5,
     "ViewRange": 31.5,
     "intExample": 5,
