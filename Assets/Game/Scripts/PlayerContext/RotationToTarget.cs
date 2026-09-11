@@ -6,11 +6,10 @@ namespace Game.Scripts.PlayerContext
     {
         public void Rotate(Transform transform, Vector3 tracker, float smooth)
         {
-            Vector3 direction = tracker - transform.position;
-            direction.y = 0;
+            tracker.y = 0;
             
-            Quaternion target = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, target, smooth);
+            Quaternion target = Quaternion.LookRotation(tracker);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, smooth);
         }
     }
 }
