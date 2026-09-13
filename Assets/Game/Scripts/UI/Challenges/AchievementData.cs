@@ -15,6 +15,7 @@ namespace Game.Scripts.UI.Challenges
             public Sprite icon;
             public LocalizedName AchieveNameTranslations;
             public LocalizedDescription AchieveDescriptionTranslations;
+            public bool isOpened;
 
             [Serializable]
             public class LocalizedName

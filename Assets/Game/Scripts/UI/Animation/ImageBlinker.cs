@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class ImageBlicker : MonoBehaviour
+    public class ImageBlinker : MonoBehaviour
     {
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private float _cycleDurationPerImage = 0.6f;

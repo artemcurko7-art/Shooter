@@ -11,7 +11,7 @@ namespace Game.Scripts.UI
     {
         [Header("Зависимости")]
         [SerializeField] private GeneticSystem _geneticSystem;
-        [SerializeField] private ImageBlicker _imageBlicker;
+        [SerializeField] private ImageBlinker imageBlinker;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RawImage _background;
         [SerializeField] private Image _iconFrame;
@@ -60,17 +60,17 @@ namespace Game.Scripts.UI
 
             _transition.Open(_canvasGroup, _rectTransform, startPosition, _scaleEase, _positionEase, _duration);
 
-            if (!_imageBlicker) return;
+            if (!imageBlinker) return;
 
-            _imageBlicker.ResetToBaseColor();
+            imageBlinker.ResetToBaseColor();
 
             if (canBuy)
             {
-                _imageBlicker.Enable();
+                imageBlinker.Enable();
             }
             else
             {
-                _imageBlicker.Disable();
+                imageBlinker.Disable();
             }
         }
         
@@ -88,9 +88,9 @@ namespace Game.Scripts.UI
 
         private void Close()
         {
-            if (_imageBlicker)
+            if (imageBlinker)
             {
-                _imageBlicker.Disable();
+                imageBlinker.Disable();
             }
 
             _background.color = Color.white;
