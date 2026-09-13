@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using Game.Scripts.Damagable;
-using Game.Scripts.FSM;
 using Game.Scripts.PhysicalBody.UnitContext.Attacker;
 using Game.Scripts.PlayerContext;
 using UnityEngine;
@@ -8,11 +7,17 @@ using Zenject;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    public class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
+    [RequireComponent(typeof(CharacterController), typeof(Animator))]
+    public abstract class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
-        private State _state;
-        private ITransformable _transformable;
         private int _health;
+        private int _damage;
+        private float _distance;
+        
+        protected IUnitAttacker Attacker { get; private set; }
+        protected ITransformable Transformable { get; private set; }
+        protected CharacterController CharacterController { get; private set; }
+        protected Animator Animator { get; private set; }
     
         public event Action<Unit> Disabled;
 
@@ -21,26 +26,19 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         [Inject]
         public void Construct(ITransformable transformable)
         {
-            _transformable = transformable;
+            Transformable = transformable;
+            CharacterController = GetComponent<CharacterController>();
+            Animator = GetComponent<Animator>();
         }
 
-        private void Update()
+        public virtual void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            //_state.Update();
-        }
-    
-        public void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
-        {
+            Attacker = attacker;
             _health = health;
-            
-            _state = new State();
-            
-            _state.AddState(new UnitStateFollower(_state, transform, _transformable.Transform, speed, distance));
-            _state.AddState(new UnitStateAttacker(_state, attacker, transform, _transformable.Transform, distance, damage));
-            
-            _state.SetState<UnitStateFollower>();
+            _damage = damage;
+            _distance = distance;
         }
-
+        
         public void TakeDamage(int damage)
         {
             _health -= damage;
@@ -48,5 +46,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             if (_health <= 0)
                 Disabled?.Invoke(this);
         }
+        
+        public abstract void Attack();
     }
 }

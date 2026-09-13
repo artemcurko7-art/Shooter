@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
   <AttackerType>k__BackingField: 1
-  <Unit>k__BackingField: {fileID: 6751376387843624815, guid: ed4ed3324fd5f584da1f153d9d03527f, type: 3}
+  <Unit>k__BackingField: {fileID: 5318991701496044338, guid: ee0e8db17b4ffcb42b565fd6e06f77b8, type: 3}
   <Health>k__BackingField: 50000
   <Damage>k__BackingField: 30
-  <Speed>k__BackingField: 0
-  <Distance>k__BackingField: 3
+  <Speed>k__BackingField: 3
+  <Distance>k__BackingField: 5

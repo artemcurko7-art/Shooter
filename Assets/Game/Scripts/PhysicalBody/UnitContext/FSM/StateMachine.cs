@@ -1,4 +1,4 @@
-namespace Game.Scripts.FSM
+namespace Game.Scripts.PhysicalBody.UnitContext.FSM
 {
     public class StateMachine 
     {

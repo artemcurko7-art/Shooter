@@ -33,7 +33,7 @@ namespace Game.Scripts.PlayerContext
 
         public void TakeDamage(int damage)
         {
-            _health.Increase(damage);
+            //_health.Increase(damage);
         }
 
         private IEnumerator StartTrackerUnits()

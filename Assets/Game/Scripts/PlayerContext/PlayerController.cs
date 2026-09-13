@@ -12,7 +12,7 @@ namespace Game.Scripts.PlayerContext
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private Unit _unit;
+        [SerializeField] private DirectUnit directUnit;
         [SerializeField] private float _speed;
         [SerializeField] private float _acceleration;
         [SerializeField] private float _deceleration;

@@ -6,8 +6,9 @@ namespace Game.Scripts.Animation
     {
         public static class Params
         {
-            public static readonly int IsRun = Animator.StringToHash(nameof(IsRun));
+            public static readonly int Run = Animator.StringToHash(nameof(Run));
             public static readonly int Attack = Animator.StringToHash(nameof(Attack));
+            public static readonly int Death = Animator.StringToHash(nameof(Death));
         }
     }
 }

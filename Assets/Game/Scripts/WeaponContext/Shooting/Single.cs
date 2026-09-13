@@ -60,8 +60,8 @@ namespace Game.Scripts.WeaponContext.Shooting
                 
                 Attacked?.Invoke();
                 
-                var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-                obj.Initialize(transform.forward, radius, damage, speed);
+                // var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
+                // obj.Initialize(transform.forward, radius, damage, speed);
             }
         }
     }

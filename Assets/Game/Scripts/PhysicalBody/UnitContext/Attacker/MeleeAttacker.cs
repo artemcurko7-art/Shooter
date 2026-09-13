@@ -15,6 +15,8 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 
         public void Attack(IDamageable damageable, Transform current, int damage)
         {
+            damageable.TakeDamage(damage);
+            
             Debug.Log("Melee Attacker");
         }
     }

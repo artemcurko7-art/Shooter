@@ -35,8 +35,8 @@ namespace Game.Scripts.PoolMono
         protected virtual void ActionOnRelease(T prefab) =>
             prefab.gameObject.SetActive(false);
 
-        protected virtual void OnRelease(T prefab) =>
-            _pool.Release(prefab);
+        protected virtual void OnRelease(T unit) =>
+            _pool.Release(unit);
 
         protected virtual T GetRandomPrefab()
         {

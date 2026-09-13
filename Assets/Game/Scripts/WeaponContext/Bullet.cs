@@ -16,7 +16,7 @@ namespace Game.Scripts.WeaponContext
 
         private void Start()
         {
-            _layerMask = LayerMask.GetMask(nameof(Unit));
+            _layerMask = LayerMask.GetMask(nameof(DirectUnit));
             StartCoroutine(StartDestroyed());
         }
 

@@ -1,20 +1,19 @@
-using System;
 using System.Collections.Generic;
 
-namespace Game.Scripts.FSM
+namespace Game.Scripts.PhysicalBody.UnitContext.FSM
 {
     public class State
     {
         private StateMachine _currentState;
 
-        private readonly Dictionary<Type, StateMachine> _states = new();
+        private readonly Dictionary<System.Type, StateMachine> _states = new();
 
-        public void AddState(StateMachine stateMachine)
+        public void Add(StateMachine stateMachine)
         {
             _states.Add(stateMachine.GetType(), stateMachine);
         }
 
-        public void SetState<T>() where T : StateMachine
+        public void Set<T>() where T : StateMachine
         {
             var type = typeof(T);
 
