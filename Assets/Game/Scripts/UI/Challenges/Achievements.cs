@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using Game.Scripts.UI.Animation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,18 +31,6 @@ namespace Game.Scripts.UI.Challenges
             _topOffset = _content.padding.top;
         }
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-
-            _smoothScroll?.Stop();
-
-            if (_scrollRect)
-                _scrollRect.vertical = true;
-
-            SetBarsInteractable(true);
-        }
-
         private void Start()
         {
             InitializeAchieves();
@@ -63,19 +50,8 @@ namespace Game.Scripts.UI.Challenges
 
             foreach (var achieve in _data.Achieves)
             {
-                var bar = Instantiate(
-                    _barPrefab,
-                    _content.transform as RectTransform
-                );
-
-                bar.Init(
-                    achieve,
-                    _scrollRect,
-                    ScrollToBar,
-                    () => OnExpandComplete(bar),
-                    OnCloseComplete
-                );
-
+                var bar = Instantiate(_barPrefab, _content.transform as RectTransform);
+                bar.Init(achieve, _scrollRect, ScrollToBar, () => OnExpandComplete(bar), OnCloseComplete);
                 _bars.Add(bar);
             }
 
@@ -88,9 +64,7 @@ namespace Game.Scripts.UI.Challenges
 
             if (_content)
             {
-                LayoutRebuilder.ForceRebuildLayoutImmediate(
-                    _content.transform as RectTransform
-                );
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_content.transform as RectTransform);
             }
 
             Canvas.ForceUpdateCanvases();
@@ -149,11 +123,7 @@ namespace Game.Scripts.UI.Challenges
             var viewportHeight = _scrollRect.viewport.rect.height;
             var maxScroll = Mathf.Max(0f, contentHeight - viewportHeight);
 
-            targetContentY = Mathf.Clamp(
-                targetContentY,
-                0f,
-                maxScroll
-            );
+            targetContentY = Mathf.Clamp(targetContentY, 0f, maxScroll);
 
             _smoothScroll?.Stop();
             _scrollRect.StopMovement();
@@ -163,17 +133,11 @@ namespace Game.Scripts.UI.Challenges
 
             if (_smoothScroll)
             {
-                _smoothScroll.ScrollToY(
-                    targetContentY,
-                    _scrollDuration
-                );
+                _smoothScroll.ScrollToY(targetContentY, _scrollDuration); 
             }
             else
             {
-                content.anchoredPosition = new Vector2(
-                    content.anchoredPosition.x,
-                    targetContentY
-                );
+                content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetContentY);
             }
         }
 
@@ -189,11 +153,7 @@ namespace Game.Scripts.UI.Challenges
             {
                 if (_smoothScroll)
                 {
-                    _smoothScroll.ScrollToPosition(
-                        _savedContentPosition,
-                        _closeScrollDuration,
-                        FinishCloseScroll
-                    );
+                    _smoothScroll.ScrollToPosition(_savedContentPosition, _closeScrollDuration, FinishCloseScroll);
                 }
                 else
                 {
@@ -223,6 +183,21 @@ namespace Game.Scripts.UI.Challenges
                 bar.SetOpenButtonEnabled(interactable);
         }
 
+        private void ResetBarsImmediate()
+        {
+            _smoothScroll?.Stop();
+
+            foreach (var bar in _bars.Where(bar => bar))
+                bar.CollapseImmediate();
+
+            _contentPositionSaved = false;
+
+            if (_scrollRect)
+                _scrollRect.vertical = true;
+
+            SetBarsInteractable(true);
+        }
+
         protected override void Show()
         {
             _transition.Open(
@@ -240,11 +215,15 @@ namespace Game.Scripts.UI.Challenges
             if (IsTransitionActive)
                 return;
 
+            ResetBarsImmediate();
+
             if (_transition)
+            {
                 _transition.Close(
                     _canvasGroup,
                     _rectTransform
                 );
+            }
         }
     }
 }

@@ -24,7 +24,10 @@ namespace Game.Scripts.UI.Animation
             Stop();
         }
 
-        public void ScrollToY(float targetY, float duration, Action onComplete = null)
+        public void ScrollToY(
+            float targetY,
+            float duration,
+            Action onComplete = null)
         {
             if (!_scrollRect || !_scrollRect.content)
             {
@@ -35,7 +38,39 @@ namespace Game.Scripts.UI.Animation
             Stop();
 
             _scrollCoroutine = StartCoroutine(
-                SmoothScrollToY(targetY, duration, onComplete)
+                ScrollRoutine(
+                    new Vector2(
+                        _scrollRect.content.anchoredPosition.x,
+                        targetY
+                    ),
+                    duration,
+                    onComplete
+                )
+            );
+        }
+
+        public void ScrollToX(
+            float targetX,
+            float duration,
+            Action onComplete = null)
+        {
+            if (!_scrollRect || !_scrollRect.content)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            Stop();
+
+            _scrollCoroutine = StartCoroutine(
+                ScrollRoutine(
+                    new Vector2(
+                        targetX,
+                        _scrollRect.content.anchoredPosition.y
+                    ),
+                    duration,
+                    onComplete
+                )
             );
         }
 
@@ -53,8 +88,48 @@ namespace Game.Scripts.UI.Animation
             Stop();
 
             _scrollCoroutine = StartCoroutine(
-                SmoothScrollToPosition(targetPosition, duration, onComplete)
+                ScrollRoutine(
+                    targetPosition,
+                    duration,
+                    onComplete
+                )
             );
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            if (!_scrollRect || !_scrollRect.content)
+                return;
+
+            Stop();
+
+            _scrollRect.content.anchoredPosition = position;
+        }
+
+        public void SetPositionY(float y)
+        {
+            if (!_scrollRect || !_scrollRect.content)
+                return;
+
+            Stop();
+
+            var position = _scrollRect.content.anchoredPosition;
+            position.y = y;
+
+            _scrollRect.content.anchoredPosition = position;
+        }
+
+        public void SetPositionX(float x)
+        {
+            if (!_scrollRect || !_scrollRect.content)
+                return;
+
+            Stop();
+
+            var position = _scrollRect.content.anchoredPosition;
+            position.x = x;
+
+            _scrollRect.content.anchoredPosition = position;
         }
 
         public void Stop()
@@ -66,55 +141,7 @@ namespace Game.Scripts.UI.Animation
             _scrollCoroutine = null;
         }
 
-        private IEnumerator SmoothScrollToY(
-            float targetY,
-            float duration,
-            Action onComplete)
-        {
-            var content = _scrollRect.content;
-            var startY = content.anchoredPosition.y;
-
-            if (duration <= 0f)
-            {
-                content.anchoredPosition = new Vector2(
-                    content.anchoredPosition.x,
-                    targetY
-                );
-
-                _scrollCoroutine = null;
-                onComplete?.Invoke();
-                yield break;
-            }
-
-            var elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-
-                var t = Mathf.Clamp01(elapsed / duration);
-                t = Mathf.SmoothStep(0f, 1f, t);
-
-                var currentY = Mathf.Lerp(startY, targetY, t);
-
-                content.anchoredPosition = new Vector2(
-                    content.anchoredPosition.x,
-                    currentY
-                );
-
-                yield return null;
-            }
-
-            content.anchoredPosition = new Vector2(
-                content.anchoredPosition.x,
-                targetY
-            );
-
-            _scrollCoroutine = null;
-            onComplete?.Invoke();
-        }
-
-        private IEnumerator SmoothScrollToPosition(
+        private IEnumerator ScrollRoutine(
             Vector2 targetPosition,
             float duration,
             Action onComplete)
