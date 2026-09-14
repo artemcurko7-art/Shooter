@@ -31,19 +31,5 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             
             _state.Set<DirectUnitStateFollower>();
         }
-
-        public override void Attack()
-        {
-            Ray ray = new Ray(transform.position, transform.forward);
-            
-            if (Physics.Raycast(ray, out var hit, 5))
-            {
-                if (hit.collider.TryGetComponent(out IDamageable damageable))
-                {
-                    Attacker.Attack(damageable, transform, 5);
-                    Debug.Log("Direct Hit");
-                }
-            }
-        }
     }
 }

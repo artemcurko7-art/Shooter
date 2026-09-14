@@ -10,11 +10,11 @@ namespace Game.Scripts.PhysicalBody.UnitContext
     [RequireComponent(typeof(CharacterController), typeof(Animator))]
     public abstract class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
+        private IUnitAttacker _attacker;
         private int _health;
         private int _damage;
         private float _distance;
-        
-        protected IUnitAttacker Attacker { get; private set; }
+
         protected ITransformable Transformable { get; private set; }
         protected CharacterController CharacterController { get; private set; }
         protected Animator Animator { get; private set; }
@@ -33,7 +33,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 
         public virtual void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            Attacker = attacker;
+            _attacker = attacker;
             _health = health;
             _damage = damage;
             _distance = distance;
@@ -47,6 +47,9 @@ namespace Game.Scripts.PhysicalBody.UnitContext
                 Disabled?.Invoke(this);
         }
         
-        public abstract void Attack();
+        public virtual void Attack()
+        {
+            _attacker.Attack(transform, _damage);
+        }
     }
 }

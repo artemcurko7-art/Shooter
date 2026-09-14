@@ -11,8 +11,6 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 {
     public class KamikazeUnit : Unit
     {
-        private readonly Collider[] _colliders = new Collider[16];
-        private LayerMask _layerMask;
         private State _state;
 
         private void Update()
@@ -30,22 +28,11 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             _state.Add(new KamikazeUnitStateAttacker(_state, Animator));
             
             _state.Set<KamikazeUnitStateFollower>();
-            
-            _layerMask = LayerMask.GetMask("Player");
         }
-
+        
         public override void Attack()
         {
-            int hitCount = Physics.OverlapSphereNonAlloc(transform.position, 5, _colliders, _layerMask);
-            
-            for (int i = 0; i < hitCount; i++)
-            {
-                if (_colliders[i].TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.TakeDamage(5);
-                    Debug.Log("Kamikaze Hit");
-                }
-            }
+            base.Attack();
             
             Destroy(gameObject);
         }
