@@ -127,10 +127,7 @@ namespace Game.Scripts.Genetic
         {
             if (!_statsData || _statsData.Stats.Count == 0)
             {
-                Debug.LogError(
-                    "[GeneticSystem] StatsData не назначен или список статов пуст!"
-                );
-
+                Debug.LogError("[GeneticSystem] StatsData не назначен или список статов пуст!");
                 return;
             }
 
@@ -168,8 +165,8 @@ namespace Game.Scripts.Genetic
                 var stat = _statsData.Stats[statIndexInList];
 
                 var statBar = Instantiate(_statBarPrefab, _gridContainer);
-                statBar.Init(this, stat, i);
 
+                statBar.Init(this, stat, i);
                 _statBars.Add(statBar);
             }
 
@@ -215,11 +212,9 @@ namespace Game.Scripts.Genetic
 
             var elementCenter = (corners[0] + corners[2]) * 0.5f;
 
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    viewportRect,
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
                     RectTransformUtility.WorldToScreenPoint(null, elementCenter),
-                    null,
-                    out var viewportPoint))
+                    null, out var viewportPoint))
             {
                 return;
             }
@@ -231,37 +226,34 @@ namespace Game.Scripts.Genetic
 
             var targetY = contentRect.anchoredPosition.y - deltaY;
             targetY = GetClampedScrollY(contentRect, targetY);
-
+            
             if (!animated)
             {
-                _smoothScroll?.Stop();
+                _smoothScroll?.SetPositionY(targetY);
 
-                contentRect.anchoredPosition = new Vector2(
-                    contentRect.anchoredPosition.x,
-                    targetY
-                );
+                if (!_smoothScroll)
+                {
+                    contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
+                }
 
                 return;
             }
 
-            if (!_smoothScroll)
+            if (_smoothScroll)
             {
-                contentRect.anchoredPosition = new Vector2(
-                    contentRect.anchoredPosition.x,
-                    targetY
-                );
-
-                return;
+                _smoothScroll.ScrollToY(targetY, _rectScroll);
             }
-
-            _smoothScroll.ScrollToY(targetY, _rectScroll);
+            else
+            {
+                contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
+            }
         }
 
-        private float GetClampedScrollY(RectTransform content, float targetY)
-        {
+        private float GetClampedScrollY(RectTransform content, float targetY) 
+        { 
             var contentHeight = content.rect.height;
             var viewportHeight = _scrollRect.viewport.rect.height;
-
+            
             if (contentHeight <= viewportHeight)
                 return content.anchoredPosition.y;
 

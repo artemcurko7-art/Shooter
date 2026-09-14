@@ -75,6 +75,7 @@ namespace Game.Scripts.UI.Challenges
         private void OnDisable()
         {
             _descSizeTween?.Kill();
+            _descSizeTween = null;
 
             if (_barButton)
                 _barButton.onClick.RemoveListener(OnBarClicked);
@@ -89,6 +90,7 @@ namespace Game.Scripts.UI.Challenges
         private void OnDestroy()
         {
             _descSizeTween?.Kill();
+            _descSizeTween = null;
         }
 
         public void Init(
@@ -126,18 +128,33 @@ namespace Game.Scripts.UI.Challenges
 
             if (_descriptionBackground)
             {
-                _descriptionBackground.color = _isOpened ? _greenColor : _redColor;
+                _descriptionBackground.color = _isOpened
+                    ? _greenColor
+                    : _redColor;
+
                 _descriptionBackground.gameObject.SetActive(false);
             }
 
             if (_background)
-                _background.sprite = _isOpened ? _greenBackgroundSprite : _redBackgroundSprite;
+            {
+                _background.sprite = _isOpened
+                    ? _greenBackgroundSprite
+                    : _redBackgroundSprite;
+            }
 
             if (_frame)
-                _frame.sprite = _isOpened ? _greenFrameSprite : _redFrameSprite;
+            {
+                _frame.sprite = _isOpened
+                    ? _greenFrameSprite
+                    : _redFrameSprite;
+            }
 
             if (_closeButton)
-                _closeButton.image.color = _isOpened ? _greenColor : _redColor;
+            {
+                _closeButton.image.color = _isOpened
+                    ? _greenColor
+                    : _redColor;
+            }
 
             IsDescriptionExpanded = false;
 
@@ -166,7 +183,10 @@ namespace Game.Scripts.UI.Challenges
             if (_descriptionBackground)
                 _descriptionBackground.gameObject.SetActive(true);
 
-            var targetSize = new Vector2(_originalDescSize.x, _originalDescSize.y + _expandHeight);
+            var targetSize = new Vector2(
+                _originalDescSize.x,
+                _originalDescSize.y + _expandHeight
+            );
 
             _descSizeTween = RectTransform
                 .DOSizeDelta(targetSize, _duration)
@@ -174,10 +194,16 @@ namespace Game.Scripts.UI.Challenges
                 .OnUpdate(() =>
                 {
                     if (_layoutGroup)
-                        LayoutRebuilder.MarkLayoutForRebuild(_layoutGroup.transform as RectTransform);
+                    {
+                        LayoutRebuilder.MarkLayoutForRebuild(
+                            _layoutGroup.transform as RectTransform
+                        );
+                    }
                 })
                 .OnComplete(() =>
                 {
+                    _descSizeTween = null;
+
                     RebuildLayout();
 
                     _onExpandComplete?.Invoke();
@@ -187,6 +213,24 @@ namespace Game.Scripts.UI.Challenges
                 });
         }
 
+        public void CollapseImmediate()
+        {
+            _descSizeTween?.Kill();
+            _descSizeTween = null;
+
+            if (RectTransform)
+                RectTransform.sizeDelta = _originalDescSize;
+
+            IsDescriptionExpanded = false;
+
+            if (_textAppear)
+                _textAppear.Disable();
+
+            if (_descriptionBackground)
+                _descriptionBackground.gameObject.SetActive(false);
+
+            SetOpenButtonEnabled(true);
+        }
 
         private void Close()
         {
@@ -209,6 +253,7 @@ namespace Game.Scripts.UI.Challenges
                 })
                 .OnComplete(() =>
                 {
+                    _descSizeTween = null;
                     IsDescriptionExpanded = false;
 
                     if (_textAppear)
