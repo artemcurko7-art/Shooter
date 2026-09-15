@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.PhysicalBody
 {
-    public class UnitService : PhysicalBodyService<Unit>, IUnitService
+    public class UnitService : PhysicalBodyService<Unit>
     {
         private readonly UnitData _data;
         private readonly UnitPool _pool;
@@ -36,10 +36,7 @@ namespace Game.Scripts.Service.PhysicalBody
             //pool.SetPrefabs(units);
             _pool.SetPrefabs(_data.Units[UnitType.Fighter][0].Unit);
         }
-
-        //public Unit Unit { get; private set; }
-        //public IReadOnlyList<ITransformable> Units => _pool.Units;
-        public IReadOnlyList<ITransformable> Units => _units;
+        
     
         public override void Subscribe()
         {
@@ -60,10 +57,7 @@ namespace Game.Scripts.Service.PhysicalBody
             
                 int index = UserUtils.NumberGeneration.GetRandom(0, _transform.childCount - 1);
                 var unit = _pool.Get();
-                //var unit = _factory.Create(_data.Units[UnitType.Fighter][0]);
                 unit.Initialize(_transform.GetChild(index).position);
-                
-                //_units.Add(unit);
             
                 _amount++;
 
