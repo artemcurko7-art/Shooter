@@ -4,7 +4,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Type
     {
         None,
         Fighter,
-        Thug,
+        Kamikaze,
         Mage,
     }
 }

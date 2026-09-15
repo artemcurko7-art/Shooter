@@ -7,6 +7,6 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
     public interface IUnitAttacker
     {
         UnitAttackerType Type { get; }
-        void Attack(IDamageable damageable, Transform current, int damage);
+        void Attack(Transform current, int damage);
     }
 }

@@ -1,5 +1,6 @@
 using Game.Scripts.PhysicalBody.UnitContext.Attacker;
 using Game.Scripts.PhysicalBody.UnitContext.Data;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,8 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 {
     public class GlobalUnitInstaller : MonoInstaller
     {
+        [SerializeField] private Bullet _bullet;
+        
         public override void InstallBindings()
         {
             Container
@@ -19,13 +22,19 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         
             Container
                 .Bind<IUnitAttacker>()
-                .To<MeleeAttacker>()
+                .To<Melee>()
                 .AsCached();
         
             Container
                 .Bind<IUnitAttacker>()
                 .To<AreaDamage>()
                 .AsCached();
+            
+            Container
+                .Bind<IUnitAttacker>()
+                .To<Thrower>()
+                .AsCached()
+                .WithArguments(_bullet);
         }
     }
 }

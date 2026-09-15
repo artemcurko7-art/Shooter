@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Fighter
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
-  <AttackerType>k__BackingField: 1
-  <Unit>k__BackingField: {fileID: 5318991701496044338, guid: ee0e8db17b4ffcb42b565fd6e06f77b8, type: 3}
+  <AttackerType>k__BackingField: 3
+  <Unit>k__BackingField: {fileID: 1767033710746360825, guid: 5e3b3a52e16a2254da28e32b715afa8a, type: 3}
   <Health>k__BackingField: 50000
   <Damage>k__BackingField: 30
   <Speed>k__BackingField: 3
