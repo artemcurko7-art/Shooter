@@ -449,8 +449,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 1
-  m_Spacing: 0
+  m_ChildAlignment: 4
+  m_Spacing: -50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -554,10 +554,10 @@ MonoBehaviour:
   _easyColor: {r: 0, g: 1, b: 0, a: 1}
   _normalColor: {r: 1, g: 1, b: 1, a: 1}
   _hardColor: {r: 1, g: 0.047058824, b: 0, a: 1}
-  _bossMoveDistance: 500
-  _bossMoveDelay: 0.6
+  _bossMoveDistance: 450
+  _bossMoveDelay: 0.4
   _bossMoveDuration: 0.3
-  _bossMoveEase: 27
+  _bossMoveEase: 15
 --- !u!1 &8098333921319986535
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 115.96, z: 0, w: 0}
-  m_Softness: {x: 0, y: 246}
+  m_Softness: {x: 0, y: 250}
 --- !u!1 &8532029525141160486
 GameObject:
   m_ObjectHideFlags: 0
