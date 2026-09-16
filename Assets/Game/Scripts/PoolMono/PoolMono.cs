@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -7,10 +8,9 @@ namespace Game.Scripts.PoolMono
 {
     public abstract class PoolMono<T> where T : MonoBehaviour
     {
-        //private T[] _prefabs;
+        private readonly List<T> _prefabs = new();
         private readonly ObjectPool<T> _pool;
         private readonly DiContainer _container;
-        private T _prefab;
         private int _value;
 
         public PoolMono(DiContainer container)
@@ -20,10 +20,9 @@ namespace Game.Scripts.PoolMono
             _pool = Create();
         }
         
-        public void SetPrefabs(T prefab)//T[] prefabs)
+        public void SetPrefab(T prefab)
         {
-            //_prefabs = prefabs ?? throw new ArgumentNullException(nameof(prefabs));
-            _prefab = prefab;
+            _prefabs.Add(prefab ?? throw new ArgumentNullException(nameof(prefab)));
         }
 
         public T Get() =>
@@ -38,12 +37,6 @@ namespace Game.Scripts.PoolMono
         protected virtual void OnRelease(T unit) =>
             _pool.Release(unit);
 
-        protected virtual T GetRandomPrefab()
-        {
-            return _prefab;
-            //return _prefabs[Random.Range(0, _prefabs.Length)];
-        }
-
         protected virtual ObjectPool<T> Create()
         {
             return new ObjectPool<T>(
@@ -51,6 +44,11 @@ namespace Game.Scripts.PoolMono
                     _container.InstantiatePrefabForComponent<T>(GetRandomPrefab(), Vector3.zero, Quaternion.identity, null),
                 actionOnGet: (prefab) => ActionOnGet(prefab),
                 actionOnRelease: (prefab) => ActionOnRelease(prefab));
+        }
+        
+        private T GetRandomPrefab()
+        {
+            return _prefabs[UserUtils.NumberGeneration.GetIntegerRandom(0, _prefabs.Count - 1)];
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Game.Scripts.UserUtils
         {
             for (int i = list.Count - 1; i > 0; i--)
             {
-                int index = NumberGeneration.GetRandom(0, i);
+                int index = NumberGeneration.GetIntegerRandom(0, i);
                 (list[i], list[index]) = (list[index], list[i]);
             }
             

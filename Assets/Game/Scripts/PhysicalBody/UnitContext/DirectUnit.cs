@@ -1,16 +1,12 @@
-using System;
-using Game.Scripts.Damagable;
 using Game.Scripts.PhysicalBody.UnitContext.Attacker;
 using Game.Scripts.PhysicalBody.UnitContext.FSM;
 using Game.Scripts.PhysicalBody.UnitContext.FSM.Attacker;
 using Game.Scripts.PhysicalBody.UnitContext.FSM.Follower;
-using Game.Scripts.PlayerContext;
+using Game.Scripts.PhysicalBody.UnitContext.Type;
 using UnityEngine;
-using Zenject;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    [RequireComponent(typeof(CharacterController), typeof(Animator))]
     public class DirectUnit : Unit
     {
         private State _state;
@@ -20,9 +16,9 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             _state.Update();
         }
 
-        public override void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
+        public override void Initialize(UnitType type, IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
-            base.Initialize(attacker, health, damage, speed, distance);
+            base.Initialize(type, attacker, health, damage, speed, distance);
             
             _state = new State();
             

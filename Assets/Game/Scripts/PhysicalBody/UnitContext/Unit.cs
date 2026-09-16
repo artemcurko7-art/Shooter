@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Scripts.Damagable;
 using Game.Scripts.PhysicalBody.UnitContext.Attacker;
+using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PlayerContext;
 using UnityEngine;
 using Zenject;
@@ -15,6 +16,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         private int _damage;
         private float _distance;
 
+        public UnitType Type { get; private set; }
         protected ITransformable Transformable { get; private set; }
         protected CharacterController CharacterController { get; private set; }
         protected Animator Animator { get; private set; }
@@ -31,8 +33,9 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             Animator = GetComponent<Animator>();
         }
 
-        public virtual void Initialize(IUnitAttacker attacker, int health, int damage, float speed, float distance)
+        public virtual void Initialize(UnitType type, IUnitAttacker attacker, int health, int damage, float speed, float distance)
         {
+            Type = type;
             _attacker = attacker;
             _health = health;
             _damage = damage;

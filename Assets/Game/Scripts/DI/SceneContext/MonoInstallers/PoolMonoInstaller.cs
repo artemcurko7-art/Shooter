@@ -1,4 +1,6 @@
+using System;
 using Game.Scripts.Factory;
+using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.PhysicalBody;
 using UnityEngine;
@@ -8,7 +10,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class PoolMonoInstaller : MonoInstaller
     {
-        [SerializeField] private Transform _transform;
+        [SerializeField] private Transform[] _transforms;
         [SerializeField] private float _delay;
     
         public override void InstallBindings()
@@ -18,18 +20,26 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 
         private void BindUnit()
         {
-            Container
-                .Bind<UnitPool>()
-                .AsSingle();
-        
+            foreach (var type in Enum.GetValues(typeof(UnitType)))
+            {
+                if ((UnitType)type == UnitType.None)
+                    continue;
+                
+                Container
+                    .Bind<UnitPool>()
+                    .AsCached()
+                    .WithArguments((UnitType)type);
+            }
+            
             Container
                 .Bind<UnitFactory>()
-                .AsSingle();
-        
-            Container
-                .BindInterfacesTo<UnitService>()
                 .AsSingle()
-                .WithArguments(_transform, _delay);
+                .WithArguments(_transforms);
+            
+            Container
+                .BindInterfacesAndSelfTo<UnitService>() // add bind interfaces to
+                .AsSingle()
+                .WithArguments(_transforms, _delay);
         }
     }
 }

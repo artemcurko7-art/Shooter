@@ -54,8 +54,8 @@ namespace Game.Scripts.Service.Equipment
         {
             List<StatInfoData> statInfoDates = new List<StatInfoData>(_data.Configs[equipmentType][index].MainStats);
             
-            int randomIndex = NumberGeneration.GetRandom(0, _data.Configs[equipmentType][index].MainStats.Length - 1);
-            int value = NumberGeneration.GetRandom((int)statInfoDates[randomIndex].MinValue, (int)statInfoDates[randomIndex].MaxValue);
+            int randomIndex = NumberGeneration.GetIntegerRandom(0, _data.Configs[equipmentType][index].MainStats.Length - 1);
+            int value = NumberGeneration.GetIntegerRandom((int)statInfoDates[randomIndex].MinValue, (int)statInfoDates[randomIndex].MaxValue);
             var stat = CreateStatInstance(statInfoDates[randomIndex].Type, value, statInfoDates[randomIndex].IsPercentageValue);
             
             return stat;
@@ -63,7 +63,7 @@ namespace Game.Scripts.Service.Equipment
         
         private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType, out int index)
         {
-            index = NumberGeneration.GetRandom(0, _data.Configs[equipmentType].Count - 1);
+            index = NumberGeneration.GetIntegerRandom(0, _data.Configs[equipmentType].Count - 1);
             EquipmentConfig config = _data.Configs[equipmentType][index];
             
             return config;
@@ -75,18 +75,18 @@ namespace Game.Scripts.Service.Equipment
             List<Stat> stats = new();
             statInfoDates.Shuffle();
             
-            int count = NumberGeneration.GetRandom(_rarityData.Configs[rarityEquipmentType].MaxParameter - 1, _rarityData.Configs[rarityEquipmentType].MaxParameter + 1);
+            int count = NumberGeneration.GetIntegerRandom(_rarityData.Configs[rarityEquipmentType].MaxParameter - 1, _rarityData.Configs[rarityEquipmentType].MaxParameter + 1);
             int calculationCountParameter = statInfoDates.Count - count;
 
             for (int j = 0; j < calculationCountParameter; j++)
             {
-                 int randomIndex = NumberGeneration.GetRandom(0, statInfoDates.Count - 1);
+                 int randomIndex = NumberGeneration.GetIntegerRandom(0, statInfoDates.Count - 1);
                  statInfoDates.RemoveAt(randomIndex);
             }
 
             foreach (var statInfoData in statInfoDates)
             {
-                int value = NumberGeneration.GetRandom((int)statInfoData.MinValue, (int)statInfoData.MaxValue);
+                int value = NumberGeneration.GetIntegerRandom((int)statInfoData.MinValue, (int)statInfoData.MaxValue);
                 
                 stats.Add(CreateStatInstance(statInfoData.Type, value, statInfoData.IsPercentageValue));
             }
