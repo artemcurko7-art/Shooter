@@ -14,7 +14,7 @@ namespace YG
         public float ViewRange = 1f;
 
         //Ежедневные подарки
-        public int IdTakenDailyRewardCount = 6;
-        public int IdAvailableDailyRewardCount = 6;
+        public int IdTakenDailyRewardCount = 3;
+        public int IdAvailableDailyRewardCount = 4;
     }
 }

@@ -5122,7 +5122,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.35
+  m_PixelsPerUnitMultiplier: 0.32
 --- !u!222 &462185215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5166,7 +5166,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0013135998, y: -23.5}
-  m_SizeDelta: {x: 755.4, y: 247.2}
+  m_SizeDelta: {x: 755.4, y: 183.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &484211363
 MonoBehaviour:
@@ -5197,8 +5197,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255125
-  m_fontColor: {r: 0.081099935, g: 0.99607843, b: 0, a: 1}
+    rgba: 4278246142
+  m_fontColor: {r: 0.99607843, g: 0.85495645, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5215,8 +5215,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 154.2
-  m_fontSizeBase: 36
+  m_fontSize: 150.75
+  m_fontSizeBase: 143.69
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
@@ -9516,7 +9516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.078431375, g: 0.18431373, b: 0.36862746, a: 1}
+  m_Color: {r: 0.9607844, g: 0.8705883, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13535,6 +13535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150416753}
   - component: {fileID: 1150416754}
+  - component: {fileID: 1150416755}
   m_Layer: 5
   m_Name: WheelFortune
   m_TagString: Untagged
@@ -13588,8 +13589,7 @@ MonoBehaviour:
   _viewport: {fileID: 1198308658}
   _spinButton: {fileID: 1102071532}
   _rewardPreviewText: {fileID: 484211363}
-  _rewardPreviewImage: {fileID: 0}
-  _rewardAnimation: {fileID: 0}
+  _rewardAnimation: {fileID: 1150416755}
   _spinDuration: 12
   _minSpins: 5
   _maxSpins: 8
@@ -13602,6 +13602,21 @@ MonoBehaviour:
   _rewardAnimDuration: 0.15
   _rewardScale: 1.4
   _bufferSize: 5
+--- !u!114 &1150416755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150416752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132dff462a2c2d1409310f0aa313ba0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duration: 0.1
+  _scale: 1.15
+  _scaleEase: 27
 --- !u!1 &1167765202
 GameObject:
   m_ObjectHideFlags: 0
@@ -22683,8 +22698,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255354
-  m_fontColor: {r: 0.9803922, g: 0.9960785, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -22711,7 +22726,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 81.05
+  m_characterSpacing: 15
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -22998,7 +23013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.078431375, g: 0.18431373, b: 0.36862746, a: 1}
+  m_Color: {r: 0.9607844, g: 0.8705883, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

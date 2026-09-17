@@ -584,13 +584,14 @@ GameObject:
   - component: {fileID: 525307312380413047}
   - component: {fileID: 1544276411165490753}
   - component: {fileID: 2285067582315193702}
+  - component: {fileID: 2338598286090927873}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Rays
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &525307312380413047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -648,6 +649,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2338598286090927873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794099342300273152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e144863402f3842921c6fbeafd4b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duration: 15
+  _ease: 1
 --- !u!1 &8004115506519945202
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,8 +723,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _frame: {fileID: 6284810334710191317}
+  _icon: {fileID: 112294598981105261}
+  _rays: {fileID: 7794099342300273152}
   _darkFrame: {fileID: 4332780861980344185}
   _checkMark: {fileID: 2001067255812410372}
-  _icon: {fileID: 112294598981105261}
   _day: {fileID: 8106549384069792543}
   _count: {fileID: 6081466538966158758}

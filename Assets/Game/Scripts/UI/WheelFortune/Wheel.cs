@@ -22,7 +22,6 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
         [SerializeField] private TMP_Text _rewardPreviewText;
-        [SerializeField] private Image _rewardPreviewImage;
         [SerializeField] private AppearAnimation _rewardAnimation;
 
         [Header("Анимация спина")]
@@ -50,6 +49,7 @@ namespace Game.Scripts.UI.WheelFortune
         private float _centerContentX;
         private float _absoluteScroll;
 
+        private Image _rewardPreviewImage;
         private int _currentRewardIndex;
         private int _lastDisplayedRewardIndex = -1;
 
@@ -126,9 +126,6 @@ namespace Game.Scripts.UI.WheelFortune
 
             if (_rewardPreviewText)
                 _rewardPreviewText.text = _emptySymbol;
-
-            if (_rewardAnimation)
-                _rewardAnimation.SetVisible();
 
             _initialized = true;
             SwitchVisible(true);
@@ -285,6 +282,7 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
 
             _isSpinning = true;
+
             _content.DOKill();
 
             if (_rewardAnimation)
@@ -300,14 +298,9 @@ namespace Game.Scripts.UI.WheelFortune
 
             _lastDisplayedRewardIndex = -1;
 
-            var targetIndex = Random.Range(0, count);
-            var stepsToTarget = Mod(targetIndex - _currentRewardIndex, count);
-
-            if (stepsToTarget == 0)
-                stepsToTarget = count;
-
             var fullSpins = Random.Range(_minSpins, _maxSpins + 1);
-            var totalSteps = fullSpins * count + stepsToTarget;
+            var additionalSteps = Random.Range(1, count + 1);
+            var totalSteps = fullSpins * count + additionalSteps;
 
             var startScroll = _absoluteScroll;
             var targetScroll = startScroll + totalSteps * _itemWidth;
@@ -324,24 +317,72 @@ namespace Game.Scripts.UI.WheelFortune
                     _spinDuration
                 )
                 .SetEase(_spinEase)
-                .OnComplete(() =>
-                {
-                    _currentRewardIndex = targetIndex;
+                .OnComplete(FinishSpin);
+        }
 
-                    UpdateRewardText(true);
+        private void FinishSpin()
+        {
+            _absoluteScroll = Mathf.Round(_absoluteScroll / _itemWidth) * _itemWidth;
+            ApplyScroll();
 
-                    if (_currentRewardIndex >= 0 && _currentRewardIndex < _bars.Count)
-                    {
-                        _bars[_currentRewardIndex]
-                            .AnimateIcon(_rewardScale, _rewardAnimDuration);
-                    }
+            _currentRewardIndex = GetRewardIndexFromScroll();
 
-                    _isSpinning = false;
-                    SwitchVisible(true);
+            var reward = GetCurrentReward();
 
-                    if (_imageMover)
-                        _imageMover.Enable();
-                });
+            if (reward != null)
+                ShowReward(reward);
+
+            AnimateWinningBar();
+
+            _isSpinning = false;
+            SwitchVisible(true);
+
+            if (_imageMover)
+                _imageMover.Enable();
+        }
+
+        private int GetRewardIndexFromScroll()
+        {
+            var passedSteps = Mathf.RoundToInt(
+                _absoluteScroll / _itemWidth
+            );
+
+            return Mod(
+                passedSteps,
+                _shuffledRewards.Count
+            );
+        }
+
+        private RewardData.Reward GetCurrentReward()
+        {
+            if (_currentRewardIndex < 0 ||
+                _currentRewardIndex >= _shuffledRewards.Count)
+            {
+                return null;
+            }
+
+            return _shuffledRewards[_currentRewardIndex];
+        }
+
+        private void AnimateWinningBar()
+        {
+            if (_bars.Count == 0 || _shuffledRewards.Count == 0)
+                return;
+
+            var buffer = Mathf.Min(
+                _bufferSize,
+                _shuffledRewards.Count
+            );
+
+            var barIndex = buffer + _currentRewardIndex;
+
+            if (barIndex < 0 || barIndex >= _bars.Count)
+                return;
+
+            _bars[barIndex].AnimateIcon(
+                _rewardScale,
+                _rewardAnimDuration
+            );
         }
 
         private void UpdateRewardDuringSpin()
@@ -349,8 +390,14 @@ namespace Game.Scripts.UI.WheelFortune
             if (_shuffledRewards.Count == 0)
                 return;
 
-            var passedSteps = Mathf.FloorToInt(_absoluteScroll / _itemWidth);
-            var rewardIndex = Mod(passedSteps, _shuffledRewards.Count);
+            var passedSteps = Mathf.FloorToInt(
+                _absoluteScroll / _itemWidth
+            );
+
+            var rewardIndex = Mod(
+                passedSteps,
+                _shuffledRewards.Count
+            );
 
             if (rewardIndex == _lastDisplayedRewardIndex)
                 return;
@@ -365,29 +412,21 @@ namespace Game.Scripts.UI.WheelFortune
             UpdateRewardPreview(reward);
         }
 
-        private void UpdateRewardText(bool animate)
+        private void ShowReward(RewardData.Reward reward)
         {
-            if (_shuffledRewards.Count == 0)
-                return;
-
-            var reward = _shuffledRewards[_currentRewardIndex];
-
             if (reward == null)
                 return;
 
-            if (!animate)
+            if (!_rewardAnimation || !_rewardPreviewImage)
             {
                 UpdateRewardPreview(reward);
                 return;
             }
 
-            if (!_rewardAnimation)
-            {
-                UpdateRewardPreview(reward);
-                return;
-            }
-
-            _rewardAnimation.Play(() => { UpdateRewardPreview(reward); });
+            _rewardAnimation.Play(
+                _rewardPreviewImage,
+                () => UpdateRewardPreview(reward)
+            );
         }
 
         private void UpdateRewardPreview(RewardData.Reward reward)
