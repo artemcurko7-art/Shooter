@@ -1,35 +1,21 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
     public class AppearAnimation : MonoBehaviour
     {
         [Header("Настройки")]
-        [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float _duration = 0.1f;
         [SerializeField] private float _scale = 1.15f;
         [SerializeField] private Ease _scaleEase = Ease.OutBack;
 
-        private RectTransform _rectTransform;
-        private Vector3 _initialScale;
         private Sequence _sequence;
-
-        private void Awake()
-        {
-            _rectTransform = transform as RectTransform;
-
-            if (!_canvasGroup)
-                _canvasGroup = GetComponent<CanvasGroup>();
-
-            if (!_canvasGroup)
-                _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
-            _initialScale = _rectTransform
-                ? _rectTransform.localScale
-                : transform.localScale;
-        }
+        private RectTransform _targetRect;
+        private CanvasGroup _targetCanvasGroup;
+        private Vector3 _initialScale;
 
         private void OnDisable()
         {
@@ -41,66 +27,108 @@ namespace Game.Scripts.UI.Animation
             KillAnimation();
         }
 
-        public void Play(Action onHidden = null)
+        public void Play(Image target, Action onHidden = null)
         {
-            if (!_canvasGroup)
+            if (!target)
+                return;
+
+            Play(target.gameObject, onHidden);
+        }
+
+        public void Play(GameObject target, Action onHidden = null)
+        {
+            if (!target)
                 return;
 
             KillAnimation();
 
-            SetVisibleState();
+            _targetRect = target.transform as RectTransform;
+
+            if (!_targetRect)
+                return;
+
+            _targetCanvasGroup = target.GetComponent<CanvasGroup>();
+
+            if (!_targetCanvasGroup)
+                _targetCanvasGroup = target.AddComponent<CanvasGroup>();
+
+            _initialScale = _targetRect.localScale;
+
+            _targetCanvasGroup.alpha = 1f;
+            _targetRect.localScale = _initialScale;
 
             _sequence = DOTween.Sequence();
 
             _sequence.Append(
-                _canvasGroup.DOFade(0f, _duration)
+                _targetCanvasGroup.DOFade(0f, _duration)
             );
 
-            _sequence.AppendCallback(() => { onHidden?.Invoke(); });
+            _sequence.AppendCallback(() =>
+            {
+                onHidden?.Invoke();
+            });
 
             _sequence.Append(
-                _canvasGroup.DOFade(1f, _duration)
+                _targetCanvasGroup.DOFade(1f, _duration)
             );
 
-            if (_rectTransform)
-            {
-                _sequence.Join(
-                    _rectTransform
-                        .DOScale(_initialScale * _scale, _duration)
-                        .SetEase(_scaleEase)
-                );
+            _sequence.Join(
+                _targetRect
+                    .DOScale(_initialScale * _scale, _duration)
+                    .SetEase(_scaleEase)
+            );
 
-                _sequence.Append(
-                    _rectTransform
-                        .DOScale(_initialScale, _duration)
-                );
-            }
+            _sequence.Append(
+                _targetRect
+                    .DOScale(_initialScale, _duration)
+            );
         }
 
-        public void SetVisible()
+        public void SetVisible(Image target)
         {
-            KillAnimation();
-
-            if (!_canvasGroup)
+            if (!target)
                 return;
 
-            _canvasGroup.alpha = 1f;
-
-            if (_rectTransform)
-                _rectTransform.localScale = _initialScale;
+            SetVisible(target.gameObject);
         }
 
-        public void SetHidden()
+        public void SetVisible(GameObject target)
         {
-            KillAnimation();
-
-            if (!_canvasGroup)
+            if (!target)
                 return;
 
-            _canvasGroup.alpha = 0f;
+            var rect = target.transform as RectTransform;
 
-            if (_rectTransform)
-                _rectTransform.localScale = _initialScale;
+            if (!rect)
+                return;
+
+            var canvasGroup = target.GetComponent<CanvasGroup>();
+
+            if (!canvasGroup)
+                canvasGroup = target.AddComponent<CanvasGroup>();
+
+            canvasGroup.alpha = 1f;
+        }
+
+        public void SetHidden(Image target)
+        {
+            if (!target)
+                return;
+
+            SetHidden(target.gameObject);
+        }
+
+        public void SetHidden(GameObject target)
+        {
+            if (!target)
+                return;
+
+            var canvasGroup = target.GetComponent<CanvasGroup>();
+
+            if (!canvasGroup)
+                canvasGroup = target.AddComponent<CanvasGroup>();
+
+            canvasGroup.alpha = 0f;
         }
 
         public void KillAnimation()
@@ -108,19 +136,14 @@ namespace Game.Scripts.UI.Animation
             _sequence?.Kill();
             _sequence = null;
 
-            if (_canvasGroup)
-                _canvasGroup.DOKill();
+            if (_targetCanvasGroup)
+                _targetCanvasGroup.DOKill();
 
-            if (_rectTransform)
-                _rectTransform.DOKill();
-        }
+            if (_targetRect)
+                _targetRect.DOKill();
 
-        private void SetVisibleState()
-        {
-            _canvasGroup.alpha = 1f;
-
-            if (_rectTransform)
-                _rectTransform.localScale = _initialScale;
+            _targetRect = null;
+            _targetCanvasGroup = null;
         }
     }
 }

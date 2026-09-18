@@ -37,13 +37,7 @@ namespace Game.Scripts.UI.DailyReward
 
                 var bar = Instantiate(_giftBarPrefab, _content);
 
-                bar.Init(
-                    _data.Gifts[i],
-                    GetRandomFrame(),
-                    i + 1,
-                    isAvailable,
-                    isTaken
-                );
+                bar.Init(_data.Gifts[i], GetRandomFrame(), i + 1, isAvailable, isTaken);
 
                 _bars.Add(bar);
             }
@@ -55,13 +49,7 @@ namespace Game.Scripts.UI.DailyReward
 
             var superBar = Instantiate(_superGiftBarPrefab, _content);
 
-            superBar.Init(
-                _data.Gifts[lastDayIndex],
-                GetRandomFrame(),
-                DAYS_IN_WEEK,
-                isLastAvailable,
-                isLastTaken
-            );
+            superBar.Init(_data.Gifts[lastDayIndex], DAYS_IN_WEEK, isLastAvailable, isLastTaken);
 
             _bars.Add(superBar);
         }
