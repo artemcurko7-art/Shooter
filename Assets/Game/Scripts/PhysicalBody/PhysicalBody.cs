@@ -8,8 +8,6 @@ namespace Game.Scripts.PhysicalBody
         public void Initialize(Vector3 position)
         {
            transform.position = position;
-           
-           Debug.Log("One init");
         }
 
         public void ResetSettings()

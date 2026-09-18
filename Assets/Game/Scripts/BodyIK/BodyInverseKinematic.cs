@@ -1,4 +1,3 @@
-using Game.Scripts.Configs;
 using Game.Scripts.Service.Weapon;
 using UnityEngine;
 using Zenject;
@@ -13,7 +12,7 @@ namespace Game.Scripts.BodyIK
         private Animator _animator;
     
         [Inject]
-        public void Construct(WeaponService weaponService, BodyInverseKinematicData data)
+        public void Construct(WeaponService weaponService)
         {
             _weaponService = weaponService;
             _animator = GetComponent<Animator>();
