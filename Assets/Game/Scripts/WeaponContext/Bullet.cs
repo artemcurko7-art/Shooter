@@ -1,23 +1,28 @@
 using System;
 using System.Collections;
+using Game.Scripts.PhysicalBody;
 using Game.Scripts.Damagable;
+using Game.Scripts.HitImpacted;
 using Game.Scripts.PhysicalBody.UnitContext;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
 {
-    public class Bullet : MonoBehaviour
+    public class Bullet : PhysicalBody<Bullet>, IImpactReceiver
     {
         private LayerMask _layerMask;
         private Vector3 _direction;
         private float _radius;
         private int _damage;
         private float _speed;
+        
+        public event Action<Bullet> Released;
+        public event Action<RaycastHit> HitImpacted;
 
         private void Start()
         {
-            _layerMask = LayerMask.GetMask(nameof(DirectUnit));
-            StartCoroutine(StartDestroyed());
+            _layerMask = LayerMask.GetMask(nameof(Unit));
+            StartCoroutine(StartReleased());
         }
 
         private void Update()
@@ -29,27 +34,21 @@ namespace Game.Scripts.WeaponContext
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage(_damage);
-                    Debug.Log("Нанесение урона");
+                    HitImpacted?.Invoke(hit);
+                    Released?.Invoke(this);
                 }
             }
             
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(Vector3 direction, float radius, int damage, float speed)
+        public void Initialize(Vector3 position, Vector3 direction, float radius, int damage, float speed)
         {
+            transform.position = position;
             _direction = direction;
             _damage = damage;
             _radius = radius;
             _speed = speed;
-        }
-
-        private void OnCollisionEnter(Collision other)
-        {
-            if (other.transform.TryGetComponent(out IDamageable damageable))
-            {
-                damageable.TakeDamage(_damage);
-            }
         }
         
         // private void OnDrawGizmos()
@@ -58,11 +57,11 @@ namespace Game.Scripts.WeaponContext
         //     Gizmos.DrawWireSphere(transform.position, transform.localScale.x * _radius);
         // }
 
-        private IEnumerator StartDestroyed()
+        private IEnumerator StartReleased()
         {
             yield return new WaitForSeconds(10);
             
-            Destroy(gameObject);
+            Released?.Invoke(this);
         }
     }
 }

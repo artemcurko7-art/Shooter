@@ -3,6 +3,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.PhysicalBody;
+using Game.Scripts.TextPopup;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             BindUnit();
+            BindBullet();
+            BindEffect();
+            BindDamageTextPopup();
         }
 
         private void BindUnit()
@@ -40,6 +44,27 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .BindInterfacesAndSelfTo<UnitService>() // add bind interfaces to
                 .AsSingle()
                 .WithArguments(_transforms, _delay);
+        }
+
+        private void BindBullet()
+        {
+            Container
+                .Bind<BulletPool>()
+                .AsSingle();
+        }
+
+        private void BindEffect()
+        {
+            Container
+                .Bind<EffectPool>()
+                .AsSingle();
+        }
+
+        private void BindDamageTextPopup()
+        {
+            Container
+                .Bind<DamageTextPopupPool>()
+                .AsSingle();
         }
     }
 }

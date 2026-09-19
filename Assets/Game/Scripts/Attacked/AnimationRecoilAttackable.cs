@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Game.Scripts.Attacked
 {
-    public class AnimationRecoil : AttackableObserver
+    public class AnimationRecoilAttackable : AttackableObserver
     {
         private readonly Transform[] _handGrips;
         
-        public AnimationRecoil(Transform[] handGrips, WeaponConfig config, IWeaponShooting[] shootings) : base(config, shootings)
+        public AnimationRecoilAttackable(Transform[] handGrips, WeaponConfig config, IWeaponShooting[] shootings) : base(config, shootings)
         {
             _handGrips = handGrips;
         }

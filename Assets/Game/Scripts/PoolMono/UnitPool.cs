@@ -26,7 +26,7 @@ namespace Game.Scripts.PoolMono
         protected override void ActionOnGet(Unit unit)
         {
             base.ActionOnGet(unit);
-            unit.Disabled += OnRelease;
+            unit.Released += OnRelease;
         }
 
         protected override void ActionOnRelease(Unit unit)
@@ -38,7 +38,7 @@ namespace Game.Scripts.PoolMono
         protected override void OnRelease(Unit unit)
         {
             base.OnRelease(unit);
-            unit.Disabled -= OnRelease;
+            unit.Released -= OnRelease;
         }
 
         protected override ObjectPool<Unit> Create()

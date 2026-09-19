@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    public class ThrowerUnitStateAttacker : UnitStateAttacker
+    public class MageUnitStateAttacker : UnitStateAttacker
     {
-        public ThrowerUnitStateAttacker(State state, Animator animator, Transform current, Transform target, float distance)
+        public MageUnitStateAttacker(State state, Animator animator, Transform current, Transform target, float distance)
             : base(state, animator, current, target, distance) { }
 
         protected override void TransitState()
         {
-            State.Set<ThrowerUnitStateFollower>();
+            State.Set<MageUnitStateFollower>();
         }
     }
 }

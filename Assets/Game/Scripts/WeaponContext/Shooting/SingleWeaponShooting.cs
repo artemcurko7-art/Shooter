@@ -2,25 +2,28 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using Game.Scripts.PlayerContext;
+using Game.Scripts.PoolMono;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    public class Single : WeaponShooting, IWeaponShooting
+    public class SingleWeaponShooting : WeaponShooting, IWeaponShooting
     {
         private const int SecondInMilliseconds = 1000;
         private readonly TrackerUnits _trackerUnits;
+        private readonly BulletPool _pool;
         private readonly float _cooldown;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _canShoot;
         
         public event Action Attacked;
         
-        public Single(TrackerUnits trackerUnits, float cooldown)
+        public SingleWeaponShooting(TrackerUnits trackerUnits, BulletPool pool, float cooldown)
         {
             Type = ShootingType.Single;
             _trackerUnits = trackerUnits;
+            _pool = pool;
             _cooldown = cooldown;
         }
         
@@ -46,6 +49,8 @@ namespace Game.Scripts.WeaponContext.Shooting
         
         private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
+            _pool.SetPrefab(bullet);
+            
             while (token.IsCancellationRequested == false)
             {
                 float calculationCooldown = _cooldown * SecondInMilliseconds;
@@ -59,9 +64,10 @@ namespace Game.Scripts.WeaponContext.Shooting
                     continue;
                 
                 Attacked?.Invoke();
-                
+
+                var obj = _pool.Get();
                 // var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
-                // obj.Initialize(transform.forward, radius, damage, speed);
+                obj.Initialize(transform.position, transform.forward, radius, damage, speed);
             }
         }
     }

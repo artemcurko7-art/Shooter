@@ -21,7 +21,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         {
             Container
                 .Bind<ISubscriber>()
-                .To<AnimationRecoil>()
+                .To<AnimationRecoilAttackable>()
                 .AsCached()
                 .WithArguments(_handGrips = new [] { _weaponService.View.LeftHandGrip, _weaponService.View.RightHandGrip } );
         }

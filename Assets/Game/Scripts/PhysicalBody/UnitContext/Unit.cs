@@ -12,6 +12,8 @@ namespace Game.Scripts.PhysicalBody.UnitContext
     public abstract class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
         private IUnitAttacker _attacker;
+        private Renderer _renderer;
+        private Material _material;
         private int _health;
         private int _damage;
         private float _distance;
@@ -21,7 +23,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         protected CharacterController CharacterController { get; private set; }
         protected Animator Animator { get; private set; }
     
-        public event Action<Unit> Disabled;
+        public event Action<Unit> Released;
 
         public Transform Transform { get; }
 
@@ -31,6 +33,8 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             Transformable = transformable;
             CharacterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
+            //_renderer = GetComponent<Renderer>();
+            //_material = _renderer.material;
         }
 
         public virtual void Initialize(UnitType type, IUnitAttacker attacker, int health, int damage, float speed, float distance)
@@ -41,13 +45,20 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             _damage = damage;
             _distance = distance;
         }
-        
+
+        public override void ResetSettings()
+        {
+            base.ResetSettings();
+            
+            _renderer.material = _material;
+        }
+
         public void TakeDamage(int damage)
         {
             _health -= damage;
             
             if (_health <= 0)
-                Disabled?.Invoke(this);
+                Released?.Invoke(this);
         }
         
         public virtual void Attack()

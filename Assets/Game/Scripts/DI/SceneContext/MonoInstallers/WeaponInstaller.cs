@@ -54,16 +54,16 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
             
             Container
-                .BindInterfacesTo<Single>()
+                .BindInterfacesTo<SingleWeaponShooting>()
                 .AsCached()
                 .WithArguments(_cooldownSingle);
             
             Container
-                .BindInterfacesTo<Multiplier>()
+                .BindInterfacesTo<MultiplierWeaponShooting>()
                 .AsCached();
             
             Container
-                .BindInterfacesTo<Cutting>()
+                .BindInterfacesTo<CuttingWeaponShooting>()
                 .AsCached();
         }
     }

@@ -19,7 +19,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
         public void Attack(Transform current, int damage)
         {
             var obj = GameObject.Instantiate(_bullet, current.transform.position, Quaternion.identity);
-            obj.Initialize(current.forward, 5, damage, 3);
+            obj.Initialize(current.transform.position, current.forward, 5, damage, 3);
         }
     }
 }

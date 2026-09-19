@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    public class Cutting : IWeaponShooting
+    public class MultiplierWeaponShooting : WeaponShooting, IWeaponShooting
     {
         public event Action Attacked;
         
-        public Cutting()
+        public MultiplierWeaponShooting()
         {
-            Type = ShootingType.Cutting;
+            Type = ShootingType.Multiplier;
         }
         
         public ShootingType Type { get; }
-
+        
         public void Subscribe()
         {
             
@@ -27,7 +27,7 @@ namespace Game.Scripts.WeaponContext.Shooting
         
         public void StartShooting(Bullet bullet, Transform transform, float radius, int damage, float speed)
         {
-            Debug.Log("Cutting");
+            Debug.Log("Multiplier");
         }
     }
 }
