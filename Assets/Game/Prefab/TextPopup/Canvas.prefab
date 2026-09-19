@@ -117,12 +117,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 8032895285274294523}
   _valueText: {fileID: 1914249722599569395}
-  _normalColor: {r: 1, g: 1, b: 0, a: 0}
-  _normalFontSize: 4
+  _normalColor: {r: 1, g: 1, b: 0, a: 1}
+  _normalFontSize: 300
   _normalDuration: 0.5
   _normalFlyHeight: 1.2
-  _criticalColor: {r: 1, g: 0.2, b: 0, a: 0}
-  _criticalFontSize: 7
+  _criticalColor: {r: 1, g: 0.05, b: 0, a: 1}
+  _criticalFontSize: 350
   _criticalDuration: 0.8
   _criticalFlyHeight: 2
 --- !u!1 &9138214214419663843

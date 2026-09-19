@@ -31,17 +31,16 @@ namespace Game.Scripts.TextPopup
         public void Initialize(Camera camera, int value, bool isCritical)
         {
             _canvas.worldCamera = camera;
-            
             _valueText.text = value.ToString();
-            _valueText.color = isCritical ? Color.red : Color.yellow;
-            _valueText.fontSize = isCritical ? 350 : 300;
-            
-            _sequence = DOTween.Sequence();
+            _valueText.fontSize = isCritical ? _criticalFontSize : _normalFontSize;
+            _valueText.color = isCritical ? _criticalColor : _normalColor;
 
-            if (isCritical == false)
-                PlayNormalAnimation();
-            else
+            _sequence = DOTween.Sequence();
+            
+            if (isCritical)
                 PlayCriticalAnimation();
+            else
+                PlayNormalAnimation();
         }
 
         private void PlayNormalAnimation()
@@ -53,7 +52,7 @@ namespace Game.Scripts.TextPopup
             _sequence
                 .Join(_valueText.DOFade(0f, _normalDuration * 0.4f)
                 .SetDelay(_normalDuration * 0.6f));
-            
+
             _sequence.OnComplete(() => Released?.Invoke(this));
         }
 
@@ -64,7 +63,7 @@ namespace Game.Scripts.TextPopup
             
             _sequence
                 .Append(transform.DOScale(1.0f, 0.1f));
-            
+
             _sequence
                 .Join(transform.DOPunchPosition(new Vector3(0.2f, 0.2f, 0f), 0.25f, 10, 0.5f));
             
@@ -75,7 +74,7 @@ namespace Game.Scripts.TextPopup
             _sequence
                 .Join(_valueText.DOFade(0f, _criticalDuration * 0.3f)
                 .SetDelay(_criticalDuration * 0.7f));
-            
+
             _sequence.OnComplete(() => Released?.Invoke(this));
         }
     }

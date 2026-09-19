@@ -55,7 +55,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             {
                 float calculationCooldown = _cooldown * SecondInMilliseconds;
                 
-                await UniTask.Delay((int)calculationCooldown, cancellationToken: token);
+                await UniTask.Delay((int)200, cancellationToken: token);
         
                 if (token.IsCancellationRequested)
                     return;

@@ -14,13 +14,13 @@ namespace Game.Scripts.HitImpacted
 
         protected override void OnHitImpacted(RaycastHit hit)
         {
-            if (hit.transform.TryGetComponent<CharacterController>(out var characterController))
-            {
-                DOVirtual.Float(From, To, Duration, currentForce =>
-                {
-                    characterController.Move(-hit.transform.forward * (currentForce * Time.deltaTime));
-                }).SetEase(Ease.OutQuad);
-            }
+            // if (hit.transform.TryGetComponent<CharacterController>(out var characterController))
+            // {
+            //     DOVirtual.Float(From, To, Duration, currentForce =>
+            //     {
+            //         characterController.Move(-hit.transform.forward * (currentForce * Time.deltaTime));
+            //     }).SetEase(Ease.OutQuad);
+            // }
         }
     }
 }

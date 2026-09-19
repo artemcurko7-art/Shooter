@@ -15,7 +15,7 @@ namespace Game.Scripts.HitImpacted
            _mainCamera = mainCamera;
         }
 
-        protected override void OnHitImpacted(RaycastHit hit) // 2 анимации крит урон и обычный урон
+        protected override void OnHitImpacted(RaycastHit hit)
         {
             var value = _pool.Get();
             value.Initialize(hit.point);
