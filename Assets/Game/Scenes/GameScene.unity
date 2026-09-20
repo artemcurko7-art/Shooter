@@ -3829,7 +3829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 501440169}
-  _cooldownSingle: 4
+  _cooldownSingle: 1
 --- !u!1 &763935822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4287,6 +4287,7 @@ MonoBehaviour:
   _effect: {fileID: 8477472808995241125, guid: 9c96429adeffbf7498697f7a15749f0e, type: 3}
   _camera: {fileID: 146493674}
   _flash: {fileID: 2100000, guid: db3c172164a39034d9302a4608786202, type: 2}
+  _cooldownFlash: 0.05
 --- !u!1 &846039602
 GameObject:
   m_ObjectHideFlags: 0
