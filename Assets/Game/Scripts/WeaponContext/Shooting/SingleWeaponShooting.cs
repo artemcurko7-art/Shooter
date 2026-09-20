@@ -55,7 +55,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             {
                 float calculationCooldown = _cooldown * SecondInMilliseconds;
                 
-                await UniTask.Delay((int)200, cancellationToken: token);
+                await UniTask.Delay((int)calculationCooldown, cancellationToken: token);
         
                 if (token.IsCancellationRequested)
                     return;
@@ -66,7 +66,6 @@ namespace Game.Scripts.WeaponContext.Shooting
                 Attacked?.Invoke();
 
                 var obj = _pool.Get();
-                // var obj = GameObject.Instantiate(bullet, transform.position, Quaternion.identity);
                 obj.Initialize(transform.position, transform.forward, radius, damage, speed);
             }
         }

@@ -14,6 +14,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private Effect _effect;
         [SerializeField] private Camera _camera;
         [SerializeField] private Material _flash;
+        [SerializeField] private float _cooldownFlash;
         
         public override void InstallBindings()
         {
@@ -32,7 +33,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<ISubscriber>()
                 .To<FlashHitImpacted>()
                 .AsCached()
-                .WithArguments(_flash);
+                .WithArguments(_flash, _cooldownFlash);
 
             Container
                 .Bind<ISubscriber>()
