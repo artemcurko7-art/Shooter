@@ -13,7 +13,8 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     {
         [Header("General")]
         [SerializeField] private Transform _container;
-        
+        [SerializeField] private Transform _shootPoint;
+         
         [Header("Single")]
         [SerializeField] private float _cooldownSingle;
         
@@ -56,7 +57,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesTo<SingleWeaponShooting>()
                 .AsCached()
-                .WithArguments(_cooldownSingle);
+                .WithArguments(_shootPoint, _cooldownSingle);
             
             Container
                 .BindInterfacesTo<MultiplierWeaponShooting>()

@@ -13,17 +13,19 @@ namespace Game.Scripts.WeaponContext.Shooting
         private const int SecondInMilliseconds = 1000;
         private readonly TrackerUnits _trackerUnits;
         private readonly BulletPool _pool;
+        private readonly Transform _transform;
         private readonly float _cooldown;
         private CancellationTokenSource _cancellationTokenSource;
         private bool _canShoot;
         
         public event Action Attacked;
         
-        public SingleWeaponShooting(TrackerUnits trackerUnits, BulletPool pool, float cooldown)
+        public SingleWeaponShooting(TrackerUnits trackerUnits, BulletPool pool, Transform transform, float cooldown)
         {
             Type = ShootingType.Single;
             _trackerUnits = trackerUnits;
             _pool = pool;
+            _transform = transform;
             _cooldown = cooldown;
         }
         
@@ -39,15 +41,15 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void StartShooting(Bullet bullet, Transform transform, float radius, int damage, float speed)
+        public void StartShooting(Bullet bullet, float radius, int damage, float speed)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(_cancellationTokenSource.Token, bullet, transform, radius, damage, speed).Forget();
+            StartCooldown(_cancellationTokenSource.Token, bullet, radius, damage, speed).Forget();
             
             Debug.Log("Single");
         }
         
-        private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, Transform transform, float radius, int damage, float speed)
+        private async UniTaskVoid StartCooldown(CancellationToken token, Bullet bullet, float radius, int damage, float speed)
         {
             _pool.SetPrefab(bullet);
             
@@ -66,7 +68,7 @@ namespace Game.Scripts.WeaponContext.Shooting
                 Attacked?.Invoke();
 
                 var obj = _pool.Get();
-                obj.Initialize(transform.position, transform.forward, radius, damage, speed);
+                obj.Initialize(_transform.position, _trackerUnits.Direction, radius, damage, speed);
             }
         }
     }

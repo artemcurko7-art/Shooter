@@ -5,12 +5,9 @@ namespace Game.Scripts.PlayerContext
 {
     public class TrackerUnits
     {
-        private const int SecondInMilliseconds = 1000;
-        private const float Cooldown = 0.3f;
         private readonly LayerMask _layerMask;
         private readonly Collider[] _results = new Collider[128];
         private readonly float _radius;
-        private CancellationTokenSource _cancellationTokenSource;
     
         public TrackerUnits(LayerMask layerMask, float radius)
         {
@@ -24,20 +21,25 @@ namespace Game.Scripts.PlayerContext
         public void FindNearestPosition(Vector3 position)
         {
             int hitCount = Physics.OverlapSphereNonAlloc(position, _radius, _results, _layerMask);
-            float closestDistance = Mathf.Infinity;
+            float closestDistanceSqr = Mathf.Infinity;
+
             Direction = Vector3.zero;
             IsTracker = false;
 
             for (int i = 0; i < hitCount; i++)
             {
                 Collider collider = _results[i];
-                Vector3 calculationDirection = collider.bounds.center - position;
-                float distance = calculationDirection.sqrMagnitude;
 
-                if (distance < closestDistance)
+                Vector3 targetPos = collider.transform.position;
+                targetPos.y = position.y;
+
+                Vector3 calculationDirection = targetPos - position;
+                float sqrDistance = calculationDirection.sqrMagnitude;
+
+                if (sqrDistance < closestDistanceSqr)
                 {
-                    closestDistance = distance;
-                    Direction = calculationDirection;
+                    closestDistanceSqr = sqrDistance;
+                    Direction = calculationDirection.normalized; 
                     IsTracker = true;
                 }
             }
