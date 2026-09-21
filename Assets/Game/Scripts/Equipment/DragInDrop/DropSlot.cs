@@ -15,6 +15,7 @@ namespace Game.Scripts.Equipment.DragInDrop
         private RectTransform _rectTransform;
         
         public event Action<Slot> Dropped;
+        public event Action<Slot> Removed;
         
         public Slot Slot { get; private set; }
         
@@ -42,6 +43,7 @@ namespace Game.Scripts.Equipment.DragInDrop
 
         public void Clear()
         {
+            Removed?.Invoke(Slot);
             Slot = null;
         }
     }

@@ -4635,7 +4635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 626205258}
-  _offset: {x: 0, y: 17.7, z: -19.9}
+  _offset: {x: 0, y: 17.7, z: -18.39}
 --- !u!1 &973380987
 GameObject:
   m_ObjectHideFlags: 0
@@ -6445,7 +6445,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 963194227}
+  m_Camera: {fileID: 146493674}
   m_PlaneDistance: 5
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -12881,7 +12881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5933356008646011861
 Transform:
   m_ObjectHideFlags: 0

@@ -6,11 +6,11 @@ namespace Game.Scripts.MV.StatContext
 {
     public abstract class Stat
     {
-        private float _value;
+        private int _value;
         
         public event Action<float> ValueChanged;
         
-        public Stat(float value, bool isPercentageValue)
+        public Stat(int value, bool isPercentageValue)
         {
             _value = value;
             IsPercentageValue = isPercentageValue;
@@ -19,7 +19,7 @@ namespace Game.Scripts.MV.StatContext
         public StatType Type => GetStatType();
         public bool IsPercentageValue { get; }
             
-        public float Value
+        public int Value
         {
             get => _value;
 
@@ -30,7 +30,7 @@ namespace Game.Scripts.MV.StatContext
             }
         }
 
-        public virtual void Increase(float amount)
+        public virtual void Increase(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
@@ -38,7 +38,7 @@ namespace Game.Scripts.MV.StatContext
             Value += amount;
         }
         
-        public virtual void Decrease(float amount)
+        public virtual void Decrease(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));

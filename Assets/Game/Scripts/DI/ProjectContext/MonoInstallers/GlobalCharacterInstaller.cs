@@ -1,3 +1,4 @@
+using Game.Scripts.CharacterContext.Data;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
@@ -6,7 +7,9 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
     {
         public override void InstallBindings()
         {
-            
+            Container
+                .Bind<CharacterData>()
+                .AsSingle();
         }
     }
 }

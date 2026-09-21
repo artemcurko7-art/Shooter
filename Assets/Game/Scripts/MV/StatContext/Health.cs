@@ -5,7 +5,7 @@ namespace Game.Scripts.MV.StatContext
 {
     public class Health : Stat
     {
-        public Health(float value, bool isPercentageValue) : base(value, isPercentageValue) { }
+        public Health(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
 
         protected override StatType GetStatType()
         {

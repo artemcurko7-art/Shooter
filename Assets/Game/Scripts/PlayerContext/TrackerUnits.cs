@@ -30,10 +30,10 @@ namespace Game.Scripts.PlayerContext
             {
                 Collider collider = _results[i];
 
-                Vector3 targetPos = collider.transform.position;
-                targetPos.y = position.y;
+                Vector3 targetPosition = collider.transform.position;
+                targetPosition.y = position.y;
 
-                Vector3 calculationDirection = targetPos - position;
+                Vector3 calculationDirection = targetPosition - position;
                 float sqrDistance = calculationDirection.sqrMagnitude;
 
                 if (sqrDistance < closestDistanceSqr)

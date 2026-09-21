@@ -35,6 +35,16 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void Bind()
         {
             Container
+                .BindInterfacesAndSelfTo<EquipmentService>()
+                .AsSingle()
+                .WithArguments(_equipmentContainer)
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<GeneralStatsHandler>()
+                .AsSingle();
+            
+            Container
                 .Bind<EquipmentSlotFactory>()
                 .AsSingle()
                 .WithArguments(_slot);
@@ -43,12 +53,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<SortingEquipmentByParameters>()
                 .AsSingle()
                 .WithArguments(_equipmentContainer);
-
-            Container
-                .BindInterfacesAndSelfTo<EquipmentService>()
-                .AsSingle()
-                .WithArguments(_equipmentContainer)
-                .NonLazy();
 
             Container
                 .Bind<DropSlot[]>()

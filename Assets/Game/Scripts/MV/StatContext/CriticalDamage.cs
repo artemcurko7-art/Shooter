@@ -4,7 +4,7 @@ namespace Game.Scripts.MV.StatContext
 {
     public class CriticalDamage : Stat
     {
-        public CriticalDamage(float value, bool isPercentageValue) : base(value, isPercentageValue) { }
+        public CriticalDamage(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
         
         protected override StatType GetStatType()
         {

@@ -1,4 +1,4 @@
-﻿namespace Game.Scripts.UserUtils
+﻿namespace Game.Scripts.Equipment.AttributeContext
 {
     public static class RarityEquipmentWeights
     {
