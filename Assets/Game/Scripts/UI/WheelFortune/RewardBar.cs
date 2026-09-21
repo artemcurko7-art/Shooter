@@ -16,9 +16,6 @@ namespace Game.Scripts.UI.WheelFortune
         public RectTransform RectTransform =>
             transform as RectTransform;
 
-        public RewardData.Reward Reward =>
-            _reward;
-
         public void Init(RewardData.Reward reward)
         {
             _reward = reward;
