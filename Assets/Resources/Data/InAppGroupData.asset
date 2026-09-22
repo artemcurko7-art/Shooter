@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e77cfa3b28557347b61857be2f386de, type: 3}
+  m_Name: InAppGroupData
+  m_EditorClassIdentifier: 
+  Groups:
+  - InApps:
+    - icon: {fileID: 21300000, guid: 7f4b9474f9a55304d8eb8f15fb088aba, type: 3}
+      frame: {fileID: 21300000, guid: 4b54a5a82967d6a458acf41baefe5772, type: 3}
+      count: 1
+    - icon: {fileID: 21300000, guid: 3e8bb429ce32e4057875dca9a44a38aa, type: 3}
+      frame: {fileID: 21300000, guid: f17ce5a2955803a4ea2243288f7b0ebd, type: 3}
+      count: 1
+  - InApps:
+    - icon: {fileID: 21300000, guid: 796520740bdc2464e8fc678e8b353d71, type: 3}
+      frame: {fileID: 21300000, guid: 02d6d4ac7474e424786e2f1ef5d30c5d, type: 3}
+      count: 1
+    - icon: {fileID: 21300000, guid: 1153160f0b4ccab41a2ff49af654e941, type: 3}
+      frame: {fileID: 21300000, guid: 02d6d4ac7474e424786e2f1ef5d30c5d, type: 3}
+      count: 1
+    - icon: {fileID: 21300000, guid: 99f09433d4acb784d8108ad18c427a06, type: 3}
+      frame: {fileID: 21300000, guid: 02d6d4ac7474e424786e2f1ef5d30c5d, type: 3}
+      count: 1
+    - icon: {fileID: 21300000, guid: 6695214fe6e551741b1da3297c20818f, type: 3}
+      frame: {fileID: 21300000, guid: 02d6d4ac7474e424786e2f1ef5d30c5d, type: 3}
+      count: 1
+    - icon: {fileID: 21300000, guid: 4c8e9b34fb9f32f45ac28c4bed8eed55, type: 3}
+      frame: {fileID: 21300000, guid: 02d6d4ac7474e424786e2f1ef5d30c5d, type: 3}
+      count: 1
+  - InApps:
+    - icon: {fileID: 21300000, guid: 8222ee04859dd4fe5b07c16b5439f249, type: 3}
+      frame: {fileID: 21300000, guid: 81d2ba112f0b2eb4ba31731e68a6e5ea, type: 3}
+      count: 500
+    - icon: {fileID: 21300000, guid: d26dfb6e166ea49938deb2366511908d, type: 3}
+      frame: {fileID: 21300000, guid: 81d2ba112f0b2eb4ba31731e68a6e5ea, type: 3}
+      count: 5
+  - InApps:
+    - icon: {fileID: 21300000, guid: 61725b696bb9b4c73bb7f577825b65b2, type: 3}
+      frame: {fileID: 21300000, guid: 81d2ba112f0b2eb4ba31731e68a6e5ea, type: 3}
+      count: 2000
+    - icon: {fileID: 21300000, guid: 9cbb2b1c3f0254c4782ee97f093b8a3d, type: 3}
+      frame: {fileID: 21300000, guid: 81d2ba112f0b2eb4ba31731e68a6e5ea, type: 3}
+      count: 50
