@@ -10,7 +10,7 @@ namespace Game.Scripts.HitImpacted
         private const float To = 0;
         private const float Duration = 0.5f;
         
-        public KnockbackHitImpacted(BulletPool bulletPool) : base(bulletPool) { }
+        public KnockbackHitImpacted(ProjectilePool projectilePool) : base(projectilePool) { }
 
         protected override void OnHitImpacted(RaycastHit hit)
         {

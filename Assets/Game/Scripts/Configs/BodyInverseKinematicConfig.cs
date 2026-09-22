@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Configs
 {
-    [CreateAssetMenu(menuName = "Source/Config/BodyIK", fileName = "BodyIK", order = 4)]
+    [CreateAssetMenu(menuName = "Source/Config/BodyIK", fileName = "BodyIK", order = 5)]
     public class BodyInverseKinematicConfig : ScriptableObject
     {
         [field: Header("Тип")]

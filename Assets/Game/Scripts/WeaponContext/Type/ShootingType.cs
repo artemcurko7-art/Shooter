@@ -3,8 +3,7 @@
     public enum ShootingType
     {
         None,
-		Single,
-		Multiplier,
+		RangedCombat,
 		Cutting,
     }
 }

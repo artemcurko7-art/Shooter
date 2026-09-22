@@ -9,7 +9,7 @@ namespace Game.Scripts.HitImpacted
         private readonly DamageTextPopupPool _pool;
         private readonly Camera _mainCamera;
 
-        public DamageTextPopupHitImpacted(DamageTextPopupPool pool, Camera mainCamera, BulletPool bulletPool) : base(bulletPool)
+        public DamageTextPopupHitImpacted(DamageTextPopupPool pool, Camera mainCamera, ProjectilePool projectilePool) : base(projectilePool)
         {
            _pool = pool; 
            _mainCamera = mainCamera;

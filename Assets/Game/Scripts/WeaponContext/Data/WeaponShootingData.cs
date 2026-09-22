@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Scripts.WeaponContext.Shooting;
 using Game.Scripts.WeaponContext.Type;
+using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Data
 {
@@ -28,7 +29,7 @@ namespace Game.Scripts.WeaponContext.Data
 
                 if (_shootings.ContainsKey(weaponShooting.Type))
                     throw new InvalidOperationException($"Duplicate type: {weaponShooting.Type}");
-            
+                
                 _shootings.Add(weaponShooting.Type, weaponShooting);
             }
         }

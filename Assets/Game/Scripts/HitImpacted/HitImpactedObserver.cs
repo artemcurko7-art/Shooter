@@ -6,23 +6,23 @@ namespace Game.Scripts.HitImpacted
 {
     public abstract class HitImpactedObserver : ISubscriber
     {
-        private readonly BulletPool _bulletPool;
+        private readonly ProjectilePool _projectilePool;
         
-        public HitImpactedObserver(BulletPool bulletPool)
+        public HitImpactedObserver(ProjectilePool projectilePool)
         {
-            _bulletPool = bulletPool;
+            _projectilePool = projectilePool;
         }
         
         public void Subscribe()
         {
-            _bulletPool.Added += OnAdded;
-            _bulletPool.Removed += OnRemoved;
+            _projectilePool.Added += OnAdded;
+            _projectilePool.Removed += OnRemoved;
         }
 
         public void Unsubscribe()
         {
-            _bulletPool.Added -= OnAdded;
-            _bulletPool.Removed -= OnRemoved;
+            _projectilePool.Added -= OnAdded;
+            _projectilePool.Removed -= OnRemoved;
         }
 
         protected abstract void OnHitImpacted(RaycastHit hit);

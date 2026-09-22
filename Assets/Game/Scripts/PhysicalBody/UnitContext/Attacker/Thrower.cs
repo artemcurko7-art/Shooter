@@ -6,19 +6,19 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 {
     public class Thrower : IUnitAttacker
     {
-        private readonly Bullet _bullet;
+        private readonly Projectile _projectile;
         
-        public Thrower(Bullet bullet)
+        public Thrower(Projectile projectile)
         {
             Type = UnitAttackerType.Thrower;
-            _bullet = bullet;
+            _projectile = projectile;
         }
         
         public UnitAttackerType Type { get; }
         
         public void Attack(Transform current, int damage)
         {
-            var obj = GameObject.Instantiate(_bullet, current.transform.position, Quaternion.identity);
+            var obj = GameObject.Instantiate(_projectile, current.transform.position, Quaternion.identity);
             obj.Initialize(current.transform.position, current.forward, 5, damage, 3);
         }
     }

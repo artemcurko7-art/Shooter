@@ -9,7 +9,7 @@ namespace Game.Scripts.HitImpacted
         private readonly EffectPool _pool;
         private readonly Effect _effect;
         
-        public EffectHitImpacted(EffectPool pool, Effect effect, BulletPool bulletPool) : base(bulletPool)
+        public EffectHitImpacted(EffectPool pool, Effect effect, ProjectilePool projectilePool) : base(projectilePool)
         {
             _pool = pool;
             _effect = effect;

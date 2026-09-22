@@ -50,22 +50,14 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             //     .AsSingle();
             
             Container // test
-                .Bind<WeaponConfig>()
-                .FromInstance(_configs[2])
+                .BindInterfacesAndSelfTo<WeaponConfig>()
+                .FromInstance(_configs[0])
                 .AsSingle();
             
             Container
-                .BindInterfacesTo<SingleWeaponShooting>()
+                .BindInterfacesTo<RangedCombatWeaponShooting>()
                 .AsCached()
-                .WithArguments(_shootPoint, _cooldownSingle);
-            
-            Container
-                .BindInterfacesTo<MultiplierWeaponShooting>()
-                .AsCached();
-            
-            Container
-                .BindInterfacesTo<CuttingWeaponShooting>()
-                .AsCached();
+                .WithArguments(_shootPoint);
         }
     }
 }

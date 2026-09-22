@@ -49,7 +49,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindBullet()
         {
             Container
-                .Bind<BulletPool>()
+                .Bind<ProjectilePool>()
                 .AsSingle();
         }
 

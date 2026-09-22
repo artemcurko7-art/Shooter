@@ -8,7 +8,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 {
     public class GlobalUnitInstaller : MonoInstaller
     {
-        [SerializeField] private Bullet _bullet;
+        [SerializeField] private Projectile projectile;
         
         public override void InstallBindings()
         {
@@ -34,7 +34,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
                 .Bind<IUnitAttacker>()
                 .To<Thrower>()
                 .AsCached()
-                .WithArguments(_bullet);
+                .WithArguments(projectile);
         }
     }
 }

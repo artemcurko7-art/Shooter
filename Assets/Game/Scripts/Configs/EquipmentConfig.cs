@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Configs
 {
-    [CreateAssetMenu(menuName = "Source/Config/Equipment", fileName = "Equipment", order = 5)]
+    [CreateAssetMenu(menuName = "Source/Config/Equipment", fileName = "Equipment", order = 6)]
     public class EquipmentConfig : ScriptableObject
     {
         [field: SerializeField] public EquipmentType Type { get; private set; }

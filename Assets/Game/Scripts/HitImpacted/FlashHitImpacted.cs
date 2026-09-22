@@ -13,7 +13,7 @@ namespace Game.Scripts.HitImpacted
         private readonly float _cooldownFlash;
         private CancellationTokenSource _cancellationTokenSource;
         
-        public FlashHitImpacted(Material flash, float cooldownFlash, BulletPool bulletPool) : base(bulletPool)
+        public FlashHitImpacted(Material flash, float cooldownFlash, ProjectilePool projectilePool) : base(projectilePool)
         {
             _flash = flash;
             _cooldownFlash = cooldownFlash;

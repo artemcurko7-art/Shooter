@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Configs
 {
-    [CreateAssetMenu(menuName = "Source/Config/Unit", fileName = "Unit", order = 2)]
+    [CreateAssetMenu(menuName = "Source/Config/Unit", fileName = "Unit", order = 3)]
     public class UnitConfig : ScriptableObject
     {
         [field: SerializeField] public UnitType Type { get; private set; }

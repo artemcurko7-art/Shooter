@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
 {
-    public class Bullet : PhysicalBody<Bullet>, IImpactReceiver
+    public class Projectile : PhysicalBody<Projectile>, IImpactReceiver
     {
         private LayerMask _layerMask;
         private Vector3 _direction;
@@ -16,7 +16,7 @@ namespace Game.Scripts.WeaponContext
         private int _damage;
         private float _speed;
         
-        public event Action<Bullet> Released;
+        public event Action<Projectile> Released;
         public event Action<RaycastHit> HitImpacted;
 
         private void Start()
