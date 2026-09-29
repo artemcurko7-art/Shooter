@@ -8,10 +8,9 @@ namespace Game.Scripts.UI.Animation
     public class SmoothScroll : MonoBehaviour
     {
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private float _duration = 0.5f;
 
         private Coroutine _scrollCoroutine;
-
-        public bool IsScrolling => _scrollCoroutine != null;
 
         private void Awake()
         {
@@ -24,10 +23,7 @@ namespace Game.Scripts.UI.Animation
             Stop();
         }
 
-        public void ScrollToY(
-            float targetY,
-            float duration,
-            Action onComplete = null)
+        public void ScrollToY(float targetY, Action onComplete = null)
         {
             if (!_scrollRect || !_scrollRect.content)
             {
@@ -38,21 +34,10 @@ namespace Game.Scripts.UI.Animation
             Stop();
 
             _scrollCoroutine = StartCoroutine(
-                ScrollRoutine(
-                    new Vector2(
-                        _scrollRect.content.anchoredPosition.x,
-                        targetY
-                    ),
-                    duration,
-                    onComplete
-                )
-            );
+                ScrollRoutine(new Vector2(_scrollRect.content.anchoredPosition.x, targetY), _duration, onComplete));
         }
 
-        public void ScrollToX(
-            float targetX,
-            float duration,
-            Action onComplete = null)
+        public void ScrollToX(float targetX, Action onComplete = null)
         {
             if (!_scrollRect || !_scrollRect.content)
             {
@@ -63,21 +48,10 @@ namespace Game.Scripts.UI.Animation
             Stop();
 
             _scrollCoroutine = StartCoroutine(
-                ScrollRoutine(
-                    new Vector2(
-                        targetX,
-                        _scrollRect.content.anchoredPosition.y
-                    ),
-                    duration,
-                    onComplete
-                )
-            );
+                ScrollRoutine(new Vector2(targetX, _scrollRect.content.anchoredPosition.y), _duration, onComplete));
         }
 
-        public void ScrollToPosition(
-            Vector2 targetPosition,
-            float duration,
-            Action onComplete = null)
+        public void ScrollToPosition(Vector2 targetPosition, Action onComplete = null)
         {
             if (!_scrollRect || !_scrollRect.content)
             {
@@ -87,13 +61,7 @@ namespace Game.Scripts.UI.Animation
 
             Stop();
 
-            _scrollCoroutine = StartCoroutine(
-                ScrollRoutine(
-                    targetPosition,
-                    duration,
-                    onComplete
-                )
-            );
+            _scrollCoroutine = StartCoroutine(ScrollRoutine(targetPosition, _duration, onComplete));
         }
 
         public void SetPosition(Vector2 position)
@@ -141,10 +109,7 @@ namespace Game.Scripts.UI.Animation
             _scrollCoroutine = null;
         }
 
-        private IEnumerator ScrollRoutine(
-            Vector2 targetPosition,
-            float duration,
-            Action onComplete)
+        private IEnumerator ScrollRoutine(Vector2 targetPosition, float duration, Action onComplete)
         {
             var content = _scrollRect.content;
             var startPosition = content.anchoredPosition;
@@ -155,6 +120,7 @@ namespace Game.Scripts.UI.Animation
 
                 _scrollCoroutine = null;
                 onComplete?.Invoke();
+
                 yield break;
             }
 
@@ -163,16 +129,10 @@ namespace Game.Scripts.UI.Animation
             while (elapsed < duration)
             {
                 elapsed += Time.unscaledDeltaTime;
-
                 var t = Mathf.Clamp01(elapsed / duration);
                 t = Mathf.SmoothStep(0f, 1f, t);
-
-                content.anchoredPosition = Vector2.Lerp(
-                    startPosition,
-                    targetPosition,
-                    t
-                );
-
+                
+                content.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
                 yield return null;
             }
 

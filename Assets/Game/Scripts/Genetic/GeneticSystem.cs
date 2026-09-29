@@ -214,15 +214,11 @@ namespace Game.Scripts.Genetic
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
                     RectTransformUtility.WorldToScreenPoint(null, elementCenter),
-                    null, out var viewportPoint))
-            {
-                return;
-            }
+                    null, out var viewportPoint)) { return; }
 
             var deltaY = viewportPoint.y - viewportRect.rect.center.y;
 
-            if (Mathf.Abs(deltaY) < 1f)
-                return;
+            if (Mathf.Abs(deltaY) < 1f) return;
 
             var targetY = contentRect.anchoredPosition.y - deltaY;
             targetY = GetClampedScrollY(contentRect, targetY);
@@ -231,8 +227,8 @@ namespace Game.Scripts.Genetic
             {
                 _smoothScroll?.SetPositionY(targetY);
 
-                if (!_smoothScroll)
-                {
+                if (!_smoothScroll) 
+                { 
                     contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
                 }
 
@@ -241,7 +237,7 @@ namespace Game.Scripts.Genetic
 
             if (_smoothScroll)
             {
-                _smoothScroll.ScrollToY(targetY, _rectScroll);
+                _smoothScroll.ScrollToY(targetY);
             }
             else
             {

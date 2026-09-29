@@ -1,23 +1,29 @@
-using System;
-using TMPro;
 using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Shop
 {
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
+    [RequireComponent(typeof(Button))]
     public class CategoryButton : MonoBehaviour
     {
-        private readonly Color _activeColor = Color.white;
+        private readonly Color _activeColor = Color.white.WithAlpha(100);
 
         [SerializeField] private TMP_Text _name;
-        [SerializeField] private Button _button;
         [SerializeField] private GameObject _underline;
         [SerializeField] private Color _disableColor;
         [SerializeField] private Categories _categories;
         [SerializeField] private RectTransform _target;
 
+        private Button _button;
         private bool _isActive;
+
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+        }
 
         private void OnEnable()
         {
@@ -31,7 +37,8 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            _categories.GetTarget();
+            _categories.Refresh(this);
+            _categories.GetTarget(_target);
         }
 
         public void SetActive(bool isActive)
