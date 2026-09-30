@@ -1,4 +1,3 @@
-using UnityEngine;
 using YG;
 
 namespace Game.Scripts.UI
@@ -43,7 +42,7 @@ namespace Game.Scripts.UI
                 _ => "Spin!",
             };
         }
-        
+
         public static string GetNotAvailableButtonText()
         {
             var languageCode = YG2.lang;
@@ -54,6 +53,19 @@ namespace Game.Scripts.UI
                 "en" => "Unavailable",
                 "tr" => "Mevcut değil",
                 _ => "Unavailable",
+            };
+        }
+
+        public static string GetDailyGiftsTitleText()
+        {
+            var languageCode = YG2.lang;
+
+            return languageCode switch
+            {
+                "ru" => "След. подарок через:",
+                "en" => "The next gift:",
+                "tr" => "Bir sonraki hediye",
+                _ => "The next gift:",
             };
         }
     }

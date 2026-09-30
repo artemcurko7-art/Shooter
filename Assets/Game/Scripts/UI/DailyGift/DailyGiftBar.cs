@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-namespace Game.Scripts.UI.DailyReward
+namespace Game.Scripts.UI.DailyGift
 {
     public class DailyGiftBar : MonoBehaviour
     {
@@ -27,6 +27,7 @@ namespace Game.Scripts.UI.DailyReward
 
             _darkFrame.SetActive(!isAvailable);
             _checkMark.SetActive(isTaken);
+            _rays.SetActive(isAvailable && !isTaken);
         }
 
         public void Init(DailyGiftData.DailyGift dailyGift, int dayIndex, bool isAvailable, bool isTaken)

@@ -1,4 +1,4 @@
-using Game.Scripts.UI.DailyReward;
+using Game.Scripts.UI.DailyGift;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

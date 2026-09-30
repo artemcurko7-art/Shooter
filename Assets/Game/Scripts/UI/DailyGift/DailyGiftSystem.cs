@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using YG;
 using Random = UnityEngine.Random;
 
-namespace Game.Scripts.UI.DailyReward
+namespace Game.Scripts.UI.DailyGift
 {
     public class DailyGiftSystem : Window
     {
@@ -14,6 +16,7 @@ namespace Game.Scripts.UI.DailyReward
         private readonly List<DailyGiftBar> _bars = new();
 
         [Header("Зависимости")]
+        [SerializeField] private TMP_Text _title;
         [SerializeField] private DailyGiftBar _giftBarPrefab;
         [SerializeField] private DailyGiftBar _superGiftBarPrefab;
         [SerializeField] private Transform _content;
@@ -22,7 +25,13 @@ namespace Game.Scripts.UI.DailyReward
 
         private void Start()
         {
+            InitializeTitleText();
             InitializeDailyRewards();
+        }
+
+        private void InitializeTitleText()
+        {
+            _title.text = Localization.GetDailyGiftsTitleText();
         }
 
         private void InitializeDailyRewards()

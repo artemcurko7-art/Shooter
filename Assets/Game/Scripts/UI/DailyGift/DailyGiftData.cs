@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Scripts.UI.DailyReward
+namespace Game.Scripts.UI.DailyGift
 {
     [CreateAssetMenu(fileName = "DailyGiftData", menuName = "Data/DailyGiftData")]
     public class DailyGiftData : ScriptableObject
