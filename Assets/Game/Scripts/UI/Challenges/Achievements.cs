@@ -133,7 +133,7 @@ namespace Game.Scripts.UI.Challenges
 
             if (_smoothScroll)
             {
-                _smoothScroll.ScrollToY(targetContentY, _scrollDuration); 
+                _smoothScroll.ScrollToY(targetContentY); 
             }
             else
             {
@@ -153,7 +153,7 @@ namespace Game.Scripts.UI.Challenges
             {
                 if (_smoothScroll)
                 {
-                    _smoothScroll.ScrollToPosition(_savedContentPosition, _closeScrollDuration, FinishCloseScroll);
+                    _smoothScroll.ScrollToPosition(_savedContentPosition, FinishCloseScroll);
                 }
                 else
                 {

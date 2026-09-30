@@ -16,5 +16,6 @@ namespace YG
         //Ежедневные подарки
         public int IdTakenDailyRewardCount = 3;
         public int IdAvailableDailyRewardCount = 4;
+        public long GiftEndTime;
     }
 }

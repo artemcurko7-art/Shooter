@@ -7,6 +7,7 @@ namespace Game.Scripts.UI.InApp
     public class InAppGroupBar : MonoBehaviour
     {
         private const int MaxAvailableBarsCount = 5;
+        private readonly List<InAppBar> _bars = new();
 
         [SerializeField] private GameObject _darkFrame;
         [SerializeField] private RectTransform _barsParent;
@@ -17,7 +18,6 @@ namespace Game.Scripts.UI.InApp
         private bool _isTaken;
 
         private InAppData.InAppGroup _group;
-        private List<InAppBar> _bars = new();
 
         public void InitializeBars(InAppData.InAppGroup group)
         {
