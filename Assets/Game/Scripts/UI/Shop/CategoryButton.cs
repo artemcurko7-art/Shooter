@@ -37,8 +37,8 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            _categories.Refresh(this);
-            _categories.GetTarget(_target);
+            _categories.RefreshCategory(this);
+            _categories.VerticalScrollMove(_target);
         }
 
         public void SetActive(bool isActive)

@@ -15,10 +15,10 @@ namespace Game.Scripts.UI.Shop
         private void Start()
         {
             if (_buttons.Count == 0) return;
-            Refresh(_buttons[0]);
+            RefreshCategory(_buttons[0]);
         }
 
-        public void Refresh(CategoryButton categoryButton)
+        public void RefreshCategory(CategoryButton categoryButton)
         {
             foreach (var button in _buttons)
             {
@@ -27,10 +27,10 @@ namespace Game.Scripts.UI.Shop
                 button.UpdateVisual();
             }
 
-            MoveCategory(categoryButton.transform as RectTransform);
+            HorizontalScrollMove(categoryButton.transform as RectTransform);
         }
 
-        public void GetTarget(RectTransform target)
+        public void VerticalScrollMove(RectTransform target)
         {
             if (!target || !_shopScroll)
                 return;
@@ -58,7 +58,7 @@ namespace Game.Scripts.UI.Shop
             _shopScroll.ScrollToY(targetY);
         }
 
-        private void MoveCategory(RectTransform target)
+        private void HorizontalScrollMove(RectTransform target)
         {
             if (!target || !_categoryScroll) return;
 
@@ -101,7 +101,7 @@ namespace Game.Scripts.UI.Shop
 
         private static ScrollRect GetScrollRect(SmoothScroll smoothScroll)
         {
-            return smoothScroll.GetComponent<ScrollRect>();
+            return smoothScroll == null ? null : smoothScroll.GetScrollRect;
         }
 
         private static void EnsureLayout(RectTransform content)

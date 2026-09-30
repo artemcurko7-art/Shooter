@@ -12,6 +12,8 @@ namespace Game.Scripts.UI.Animation
 
         private Coroutine _scrollCoroutine;
 
+        public ScrollRect GetScrollRect => _scrollRect;
+
         private void Awake()
         {
             if (!_scrollRect)
@@ -131,7 +133,7 @@ namespace Game.Scripts.UI.Animation
                 elapsed += Time.unscaledDeltaTime;
                 var t = Mathf.Clamp01(elapsed / duration);
                 t = Mathf.SmoothStep(0f, 1f, t);
-                
+
                 content.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
                 yield return null;
             }

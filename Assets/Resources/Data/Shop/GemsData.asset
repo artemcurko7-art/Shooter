@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10f4bd6f12fef4bbc28dd254613c24, type: 3}
+  m_Name: GemsData
+  m_EditorClassIdentifier: 
+  items:
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: 4ca0708151b60449d97a6e6a1455f979, type: 3}
+    count: 5
+    price: 0.99
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
+    count: 15
+    price: 1.99
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: d26dfb6e166ea49938deb2366511908d, type: 3}
+    count: 40
+    price: 3.99
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: a4eba34d54cfb432dae7ec118f7d6d2e, type: 3}
+    count: 90
+    price: 6.99
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: 9cbb2b1c3f0254c4782ee97f093b8a3d, type: 3}
+    count: 170
+    price: 9.99
+  - nameTextTranslations:
+      ru: 
+      en: 
+      tr: 
+    icon: {fileID: 21300000, guid: d25bd1f0354af4ccb924eaf16f85d23d, type: 3}
+    count: 300
+    price: 15.99
