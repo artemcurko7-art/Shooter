@@ -16,7 +16,7 @@ MonoBehaviour:
   <ShootingType>k__BackingField: 1
   <View>k__BackingField: {fileID: 8899664233776369094, guid: 62557249be8819c428c1c3dc80ab3af9, type: 3}
   <Projectile>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
-  <MaxCountShoot>k__BackingField: 5
+  <MaxCountShoot>k__BackingField: 30
   <CooldownShoot>k__BackingField: 0.2
   <CooldownReload>k__BackingField: 5
   <Radius>k__BackingField: 1

@@ -1,5 +1,5 @@
-using Game.Scripts.CharacterContext;
-using Game.Scripts.CharacterContext.Type;
+using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.Equipment.CharacterContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.Configs
@@ -9,6 +9,7 @@ namespace Game.Scripts.Configs
     {
         [field: SerializeField] public CharacterType Type { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
+        [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Character Model { get; private set; }
         [field: SerializeField] public CharacterStat[] Stats { get; private set; }
     }

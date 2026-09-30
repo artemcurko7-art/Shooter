@@ -1,42 +1,42 @@
 ﻿using System;
-using Game.Scripts.Equipment.Type;
+using Game.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Equipment.DragInDrop
 {
-    public class DropSlot : MonoBehaviour, IDropHandler
+    public abstract class DropSlot<T> : MonoBehaviour, IDropHandler where T : Slot
     {
-        [SerializeField] private Image _childRectTransform;
+        [field: SerializeField] protected Image Rarity { get; private set; }
+        [field: SerializeField] protected Image Icon { get; private set; }
         
-        [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
-
         private RectTransform _rectTransform;
+        private Sprite _currentRarity;
+        private Sprite _currentIcon;
         
-        public event Action<Slot> Dropped;
-        public event Action<Slot> Removed;
+        public T Slot { get; private set; }
         
-        public Slot Slot { get; private set; }
+        public event Action<T> Dropped;
+        public event Action<T> Removed;
         
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            _currentIcon = Icon.sprite;
+            _currentRarity = Rarity.sprite;
         }
 
-        public void OnDrop(PointerEventData eventData)
-        {
-            if (eventData.pointerDrag.TryGetComponent(out Slot slot))
-                if (slot.EquipmentItem.Type == EquipmentType)
-                    Set(slot);
-        }
+        public abstract void OnDrop(PointerEventData eventData);
 
-        public void Set(Slot slot)
+        public virtual void Set(T slot)
         {
             slot.transform.SetParent(transform);
             slot.transform.localPosition = Vector3.zero;
             slot.RectTransform.sizeDelta = _rectTransform.sizeDelta;
-            slot.ChildRectTransform.sizeDelta = _childRectTransform.rectTransform.sizeDelta;
+            Icon.sprite = slot.Icon.sprite;
+            Icon.color = Icon.color.GetAlpha(1);
+            slot.Rarity.color = slot.Rarity.color.GetAlpha(0);
             Slot = slot;
             Dropped?.Invoke(slot);
         }
@@ -44,6 +44,10 @@ namespace Game.Scripts.Equipment.DragInDrop
         public void Clear()
         {
             Removed?.Invoke(Slot);
+            Icon.sprite = null;
+            Icon.sprite = _currentIcon;
+            Rarity.sprite = _currentRarity;
+            Icon.color = Icon.color.GetAlpha(0);
             Slot = null;
         }
     }

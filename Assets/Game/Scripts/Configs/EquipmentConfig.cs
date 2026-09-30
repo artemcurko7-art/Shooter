@@ -1,4 +1,4 @@
-﻿using Game.Scripts.Equipment.Type;
+﻿using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.WeaponContext.Type;
 using NaughtyAttributes;

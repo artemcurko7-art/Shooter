@@ -1,5 +1,5 @@
 ﻿using Game.Scripts.Configs;
-using Game.Scripts.Equipment.Replacement;
+using Game.Scripts.Equipment.EquipmentContext.Replacement;
 using UnityEngine;
 using Zenject;
 

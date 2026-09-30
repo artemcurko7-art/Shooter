@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -6,17 +7,17 @@ using UnityEngine.UI;
 namespace Game.Scripts.Equipment.DragInDrop
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class DragSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public abstract class DragSlot<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler where T : Slot
     {
-        private Slot _slot;
+        protected T Slot;
         private Canvas _canvas;
         private GridLayoutGroup _gridLayoutGroup;
         private RectTransform _rectTransform;
         private Vector2 _sizeDelta;
         private int _indexHierarchy;
         
-        public event Action<Slot> BeginDragged;
-        public event Action<Slot> EndDragged;
+        public event Action<T> BeginDragged;
+        public event Action<T> EndDragged;
         
         public CanvasGroup CanvasGroup { get; private set; }
         
@@ -28,21 +29,21 @@ namespace Game.Scripts.Equipment.DragInDrop
             _rectTransform = GetComponent<RectTransform>();
         }
 
-        public void Initialize(Slot slot)
+        public void Initialize(T slot)
         {
-            _slot = slot;
-            _sizeDelta = _slot.ChildRectTransform.sizeDelta;
+            Slot = slot;
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void OnBeginDrag(PointerEventData eventData)
         {
             _indexHierarchy = _rectTransform.GetSiblingIndex();
             _rectTransform.SetParent(_canvas.transform);
             _rectTransform.SetAsLastSibling();
             CanvasGroup.blocksRaycasts = false;
-            _gridLayoutGroup.enabled = false;
+            Slot.Icon.color = Slot.Icon.color.GetAlpha(1);
+            Slot.Rarity.color = Slot.Rarity.color.GetAlpha(1);
             
-            BeginDragged?.Invoke(_slot);
+            BeginDragged?.Invoke(Slot);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -50,26 +51,17 @@ namespace Game.Scripts.Equipment.DragInDrop
             _rectTransform.anchoredPosition += eventData.delta * _canvas.scaleFactor;
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public virtual void OnEndDrag(PointerEventData eventData)
         {
-            bool isDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out DropSlot dropSlot);
-            bool isAreaDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out AreaDropSlot areaDropSlot);
-
-            if ((isDropSlot == false && isAreaDropSlot == false) || (isDropSlot && dropSlot.EquipmentType != _slot.EquipmentItem.Type))
-            {
-                ResetSettings();
-            }
-            else
-                EndDragged?.Invoke(_slot);
-            
+            EndDragged?.Invoke(Slot);
         }
 
-        public void ResetSettings()
+        public virtual void ResetSettings()
         {
             _rectTransform.SetParent(_gridLayoutGroup.transform);
             _rectTransform.SetSiblingIndex(_indexHierarchy);
-            _slot.ChildRectTransform.sizeDelta = _sizeDelta;
-            EndDragged?.Invoke(_slot);
+            Slot.Rarity.color = Slot.Rarity.color.GetAlpha(1);
+            EndDragged?.Invoke(Slot);
         }
     }
 }

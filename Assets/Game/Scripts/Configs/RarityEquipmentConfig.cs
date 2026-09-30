@@ -1,4 +1,4 @@
-﻿using Game.Scripts.Equipment.Type;
+﻿using Game.Scripts.Equipment.EquipmentContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.Configs

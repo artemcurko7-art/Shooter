@@ -29,7 +29,7 @@ namespace Game.Scripts.WeaponContext.Data
 
                 if (_weapons.ContainsKey(config.Type))
                     throw new InvalidOperationException($"Duplicate type: {config.Type}");
-            
+                
                 _weapons.Add(config.Type, config);
             }
         }

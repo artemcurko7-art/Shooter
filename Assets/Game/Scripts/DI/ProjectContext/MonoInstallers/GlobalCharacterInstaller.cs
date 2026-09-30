@@ -1,4 +1,4 @@
-using Game.Scripts.CharacterContext.Data;
+using Game.Scripts.Equipment.CharacterContext.Data;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers

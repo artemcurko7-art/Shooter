@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Game.Scripts.Equipment.AttributeContext;
+using Game.Scripts.Equipment.EquipmentContext.AttributeContext;
 
 namespace Game.Scripts.UserUtils
 {

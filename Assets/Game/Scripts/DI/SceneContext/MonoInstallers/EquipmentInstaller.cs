@@ -1,11 +1,17 @@
 ﻿using Game.Scripts.Equipment;
-using Game.Scripts.Equipment.Data;
-using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Equipment.Handler;
-using Game.Scripts.Equipment.Replacement;
+using Game.Scripts.Equipment.CharacterContext.Handler;
+using Game.Scripts.Equipment.CharacterContext.Replacement;
+using Game.Scripts.Equipment.EquipmentContext;
+using Game.Scripts.Equipment.EquipmentContext.Data;
+using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
+using Game.Scripts.Equipment.EquipmentContext.Handler;
+using Game.Scripts.Equipment.EquipmentContext.Replacement;
+using Game.Scripts.Equipment.EquipmentContext.Repository;
+using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
+using Game.Scripts.Service.Equipment.EquipmentContext;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +21,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class EquipmentInstaller : MonoInstaller
     {
-        [SerializeField] private Slot _slot;
-        [SerializeField] private DisplayReplacement _displayReplacement;
+        [SerializeField] private EquipmentSlot _slot;
+        [SerializeField] private EquipmentDisplayReplacement _displayReplacement;
         [SerializeField] private DisplayStat _displayStat;
         [SerializeField] private ReplacementStatContainer _statContainer;
-        [SerializeField] private DropSlot[] _dropSlots;
+        [SerializeField] private EquipmentDropSlot[] _dropSlots;
         [SerializeField] private Transform _equipmentContainer;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
@@ -35,7 +41,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void Bind()
         {
             Container
-                .BindInterfacesAndSelfTo<EquipmentService>()
+                .BindInterfacesAndSelfTo<EquipmentSlotRewardService>()
                 .AsSingle()
                 .WithArguments(_equipmentContainer)
                 .NonLazy();
@@ -55,7 +61,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_equipmentContainer);
 
             Container
-                .Bind<DropSlot[]>()
+                .Bind<EquipmentDropSlot[]>()
                 .FromInstance(_dropSlots)
                 .AsSingle();
         }
@@ -78,12 +84,12 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
 
             Container
-                .BindInterfacesAndSelfTo<ReplacementController>()
+                .BindInterfacesTo<EquipmentReplacementController>()
                 .AsSingle()
                 .WithArguments(_gridLayoutGroup);
             
             Container
-                .BindInterfacesTo<ReplacementService>()
+                .BindInterfacesTo<EquipmentReplacementService>()
                 .AsSingle()
                 .WithArguments(_statContainer);
 
@@ -94,7 +100,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             
             Container
                 .Bind<ISubscriber>()
-                .To<TabOpened>()
+                .To<EquipmentReplacementTabOpened>()
                 .AsSingle()
                 .WithArguments(_displayReplacement);
             
@@ -106,7 +112,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindHandler()
         {
             Container
-                .BindInterfacesAndSelfTo<SlotHandler>()
+                .BindInterfacesAndSelfTo<EquipmentSlotHandler>()
                 .AsSingle();
             
             Container
@@ -119,11 +125,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindRepository()
         {
             Container
-                .Bind<EquipmentSlotRepository>()
+                .Bind<SlotRepository<EquipmentSlot>>()
                 .AsSingle();
             
             Container
-                .BindInterfacesAndSelfTo<EquipmentFreeSlotRegistry>()
+                .BindInterfacesAndSelfTo<FreeSlotRegistry<EquipmentType, EquipmentSlot>>()
                 .AsSingle();
         }
     }
