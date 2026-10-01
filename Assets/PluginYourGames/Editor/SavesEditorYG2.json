@@ -1,12 +1,13 @@
 {
-    "IdSavedStatCount": 332,
+    "IdSavedStatCount": 334,
     "AttackStrength": 34.5,
     "CriticalDamage": 34.5,
-    "Armor": 34.0,
-    "MovementSpeed": 34.0,
+    "Armor": 34.5,
+    "MovementSpeed": 34.5,
     "ViewRange": 34.0,
     "IdTakenDailyRewardCount": 3,
     "IdAvailableDailyRewardCount": 4,
+    "GiftEndTime": 0,
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [

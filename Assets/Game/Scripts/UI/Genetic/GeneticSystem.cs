@@ -19,7 +19,7 @@ namespace Game.Scripts.Genetic
         [Header("Зависимости")]
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private SmoothScroll _smoothScroll;
-        [SerializeField] private Preview _preview;
+        [SerializeField] private GeneticPreview _geneticPreview;
         [SerializeField] private StatsData _statsData;
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private RectTransform _gridContainer;
@@ -100,8 +100,8 @@ namespace Game.Scripts.Genetic
 
         public void OpenPreview(StatsData.Stat stat, Vector3 statPosition)
         {
-            _preview.gameObject.SetActive(true);
-            _preview.Open(stat, statPosition);
+            _geneticPreview.gameObject.SetActive(true);
+            _geneticPreview.Open(stat, statPosition);
         }
 
         private IEnumerator CheckScrollOnEnable()
