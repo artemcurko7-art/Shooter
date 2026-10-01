@@ -26,5 +26,10 @@ namespace Game.Scripts.UI.TabContext
                 view.transform.SetSiblingIndex(_canvas.transform.childCount - 2 + _indexOffsetParent);
             }
         }
+
+        private void OnValidate()
+        {
+            _indexOffsetParent = Mathf.Clamp(_indexOffsetParent, 0, 1);
+        }
     }
 }
