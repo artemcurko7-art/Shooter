@@ -1625,6 +1625,7 @@ MonoBehaviour:
   _button: {fileID: 67816387}
   <Views>k__BackingField:
   - {fileID: 219546661}
+  _indexOffsetParent: 0
 --- !u!114 &67816389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3684,6 +3685,7 @@ MonoBehaviour:
   _button: {fileID: 160663021}
   <Views>k__BackingField:
   - {fileID: 965630656}
+  _indexOffsetParent: 0
 --- !u!114 &160663021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5127,6 +5129,7 @@ MonoBehaviour:
   <Views>k__BackingField:
   - {fileID: 585885473}
   - {fileID: 446054708}
+  _indexOffsetParent: 0
 --- !u!1 &247426314
 GameObject:
   m_ObjectHideFlags: 0
@@ -13507,6 +13510,7 @@ MonoBehaviour:
   _button: {fileID: 652024079}
   <Views>k__BackingField:
   - {fileID: 1039831304}
+  _indexOffsetParent: 0
 --- !u!114 &652024079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31823,6 +31827,7 @@ MonoBehaviour:
   _button: {fileID: 1661430268}
   <Views>k__BackingField:
   - {fileID: 1333352859}
+  _indexOffsetParent: 0
 --- !u!114 &1661430268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33840,6 +33845,7 @@ MonoBehaviour:
   <Views>k__BackingField:
   - {fileID: 1735974018}
   - {fileID: 446054708}
+  _indexOffsetParent: 0
 --- !u!1 &1789736966
 GameObject:
   m_ObjectHideFlags: 0
@@ -38798,6 +38804,7 @@ MonoBehaviour:
   - {fileID: 1816214644}
   - {fileID: 585885473}
   - {fileID: 446054708}
+  _indexOffsetParent: 0
 --- !u!114 &1982729764
 MonoBehaviour:
   m_ObjectHideFlags: 0

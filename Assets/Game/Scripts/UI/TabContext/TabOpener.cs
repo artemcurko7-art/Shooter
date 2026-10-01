@@ -6,6 +6,8 @@ namespace Game.Scripts.UI.TabContext
 {
     public class TabOpener : Tab
     {
+        [SerializeField] private int _indexOffsetParent;
+        
         private Canvas _canvas;
 
         private void Awake()
@@ -21,7 +23,7 @@ namespace Game.Scripts.UI.TabContext
             {
                 view.gameObject.SetActive(true);
                 view.transform.SetParent(_canvas.transform);
-                view.transform.SetAsLastSibling();
+                view.transform.SetSiblingIndex(_canvas.transform.childCount - 2 + _indexOffsetParent);
             }
         }
     }
