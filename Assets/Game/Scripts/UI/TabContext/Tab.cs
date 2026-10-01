@@ -1,12 +1,39 @@
-﻿namespace Game.Scripts.UI.TabContext
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
+
+namespace Game.Scripts.UI.TabContext
 {
-    public  class Tab 
+    public abstract class Tab : MonoBehaviour
     {
-        public Tab(TabView[] views)
+        [SerializeField] private Button _button;
+
+        private TabView[] _views;
+        
+        [field: SerializeField] protected List<TabView> Views { get; private set; }
+        
+        [Inject]
+        public void Construct(TabView[] views)
         {
-            Views = views;
+            _views = views;
         }
         
-        public TabView[] Views { get; }
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnClick);
+        }
+
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnClick);
+        }
+
+        protected virtual void OnClick()
+        {
+            foreach (var view in _views)
+                view.Clear();
+        }
     }
 }

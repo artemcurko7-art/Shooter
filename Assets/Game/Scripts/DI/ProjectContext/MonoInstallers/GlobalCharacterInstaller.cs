@@ -1,4 +1,5 @@
 using Game.Scripts.Equipment.CharacterContext.Data;
+using Game.Scripts.Equipment.CharacterContext.Provider;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
@@ -9,6 +10,10 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         {
             Container
                 .Bind<CharacterData>()
+                .AsSingle();
+            
+            Container
+                .Bind<CharacterProvider>()
                 .AsSingle();
         }
     }

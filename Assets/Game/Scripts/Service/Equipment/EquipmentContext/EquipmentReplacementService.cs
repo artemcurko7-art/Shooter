@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.EquipmentContext.Data;
 using Game.Scripts.Equipment.EquipmentContext.DragInDrop;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Scripts.Equipment.EquipmentContext
+namespace Game.Scripts.Equipment
 {
     public interface ITabService<T>
     {

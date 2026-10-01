@@ -11,9 +11,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<Tab>()
-                .AsSingle()
-                .WithArguments(_views);
+                .Bind<TabView[]>()
+                .FromInstance(_views)
+                .AsSingle();
         }
     }
 }
