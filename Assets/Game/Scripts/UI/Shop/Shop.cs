@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Shop
 {
-    public class Categories : MonoBehaviour
+    public class Shop : MonoBehaviour
     {
         [SerializeField] private List<CategoryButton> _buttons;
+        [SerializeField] private ShopPreview _preview;
         [SerializeField] private SmoothScroll _categoryScroll;
         [SerializeField] private SmoothScroll _shopScroll;
         [SerializeField] private float _shopScrollTopOffset;
@@ -28,6 +29,11 @@ namespace Game.Scripts.UI.Shop
             }
 
             HorizontalScrollMove(categoryButton.transform as RectTransform);
+        }
+
+        public void OpenPreview(BuyItemData.BuyItem buyItem, Vector3 startPosition)
+        {
+            _preview.Open(buyItem, startPosition);
         }
 
         public void VerticalScrollMove(RectTransform target)
@@ -101,7 +107,7 @@ namespace Game.Scripts.UI.Shop
 
         private static ScrollRect GetScrollRect(SmoothScroll smoothScroll)
         {
-            return smoothScroll == null ? null : smoothScroll.GetScrollRect;
+            return !smoothScroll ? null : smoothScroll.GetScrollRect;
         }
 
         private static void EnsureLayout(RectTransform content)

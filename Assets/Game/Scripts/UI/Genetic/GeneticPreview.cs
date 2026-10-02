@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-namespace Game.Scripts.UI
+namespace Game.Scripts.UI.Genetic
 {
     public class GeneticPreview : Window
     {
@@ -46,7 +46,7 @@ namespace Game.Scripts.UI
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
             _geneticTitle.text = Localization.GetGeneticTitleText();
-            _buyButtonText.text = Localization.GetLocalizedBuyText();
+            _buyButtonText.text = Localization.GetUpgradeText();
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
@@ -73,7 +73,7 @@ namespace Game.Scripts.UI
                 _imageBlinker.Disable();
             }
         }
-        
+
         private void OnBuyButtonClick()
         {
             if (_stat == null)
