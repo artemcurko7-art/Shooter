@@ -7,6 +7,7 @@ namespace Game.Scripts.Equipment
 {
     public abstract class Slot : MonoBehaviour
     {
+        [field: SerializeField] public DragSlot<Slot> Drag { get; private set; }
         [field: SerializeField] public Image Rarity { get; private set; }
         [field: SerializeField] public Image Icon { get; private set; }
         

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext.DragInDrop;
+using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.CharacterContext.Repository;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Service.Equipment.CharacterContext;
+using Game.Scripts.SquadContext.Type;
 
 namespace Game.Scripts.Equipment.CharacterContext.Handler
 {
@@ -14,17 +16,17 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
     {
         private readonly List<DropSlot<CharacterSlot>> _equippedSlots = new();
 
-
         public CharacterSlotHandler(
             SlotRepository<CharacterSlot> repository,
-            FreeSlotRegistry<CharacterPlaceDropSlotType, CharacterSlot> freeRegistry,
+            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
             CharacterDropSlot[] dropSlots,
+            CharacterProvider provider,
             CharacterSlotRewardService service)
-            : base(repository, freeRegistry, dropSlots, service) { }
-
+            : base(repository, freeRegistry, dropSlots, provider, service) { }
+        
         public event Action<bool> TabOpened;
 
-        public CharacterPlaceDropSlotType DropSlotType { get; private set; }
+        public SquadNumberType DropSlotType { get; private set; }
         
         public void DisableTab()
         {

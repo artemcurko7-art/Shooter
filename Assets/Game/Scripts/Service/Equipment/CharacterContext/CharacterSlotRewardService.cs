@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.CharacterContext
 {
-    public class CharacterSlotRewardService : SlotRewardService<CharacterData, CharacterSlotFactory>
+    public class CharacterSlotRewardService : SlotRewardService<CharacterSlot, CharacterData, CharacterSlotFactory>
     {
         public CharacterSlotRewardService(
             RarityEquipmentData rarityData,
@@ -18,16 +18,12 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
             Transform container)
             : base(rarityData, data, factory, container) { }
 
-        public event Action<CharacterSlot> Added;
-
         public override void Execute()
         {
             //RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             
             var view = Factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], Data.Characters[CharacterType.AttackAircraft], Container);
-            var view2 = Factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], Data.Characters[CharacterType.Physician], Container);
-            Added?.Invoke(view);
-            Added?.Invoke(view2);
+            OnAdded(view);
         }
     }
 }

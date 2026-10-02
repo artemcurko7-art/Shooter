@@ -8,12 +8,13 @@ namespace Game.Scripts.Equipment.DragInDrop
 {
     public abstract class DropSlot<T> : MonoBehaviour, IDropHandler where T : Slot
     {
-        [field: SerializeField] protected Image Rarity { get; private set; }
-        [field: SerializeField] protected Image Icon { get; private set; }
-        
         private RectTransform _rectTransform;
         private Sprite _currentRarity;
         private Sprite _currentIcon;
+        
+        [field: SerializeField] public Image Icon { get; private set; }
+        [field: SerializeField] protected Image Rarity { get; private set; }
+        
         
         public T Slot { get; private set; }
         
@@ -37,6 +38,7 @@ namespace Game.Scripts.Equipment.DragInDrop
             Icon.sprite = slot.Icon.sprite;
             Icon.color = Icon.color.GetAlpha(1);
             slot.Rarity.color = slot.Rarity.color.GetAlpha(0);
+            slot.Icon.color = slot.Icon.color.GetAlpha(0);
             Slot = slot;
             Dropped?.Invoke(slot);
         }

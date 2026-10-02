@@ -1,7 +1,8 @@
 ﻿using System;
-using Game.Scripts.Equipment.CharacterContext.Type;
+using System.Collections;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Extensions;
+using Game.Scripts.SquadContext.Type;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,9 +10,9 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
 {
     public class CharacterDropSlot : DropSlot<CharacterSlot>
     {
-        [field: SerializeField] public CharacterPlaceDropSlotType Type { get; private set; }
+        [field: SerializeField] public SquadNumberType Type { get; private set; }
 
-        public event Action<CharacterPlaceDropSlotType> TypeDropped;
+        public event Action<SquadNumberType> TypeDropped;
         
         public override void OnDrop(PointerEventData eventData)
         {
@@ -19,15 +20,14 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
             {
                 TypeDropped?.Invoke(Type);
                 Set(slot);
-                Icon.color = Icon.color.GetAlpha(1);
             }
         }
 
         public override void Set(CharacterSlot slot)
         {
             base.Set(slot);
-            
-            slot.Icon.color = slot.Icon.color.GetAlpha(0);
+
+            Icon.color = Color.white;
         }
     }
 }

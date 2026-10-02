@@ -1,85 +1,26 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
-using Game.Scripts.Equipment.CharacterContext.Data;
-using Game.Scripts.Equipment.CharacterContext.DragInDrop;
-using Game.Scripts.Equipment.CharacterContext.Handler;
-using Game.Scripts.Equipment.CharacterContext.Replacement;
-using Game.Scripts.Equipment.CharacterContext.Repository;
-using Game.Scripts.Equipment.CharacterContext.Type;
-using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Factory;
+﻿using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment.CharacterContext;
-using Game.Scripts.Service.Subscriber;
+using Game.Scripts.SquadContext;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class CharacterInstaller : MonoInstaller
     {
-        [SerializeField] private CharacterSlot _slot;
-        [SerializeField] private CharacterDropSlot[] _dropSlots;
-        [SerializeField] private DisplayCharacterReplacement _displayReplacement;
-        [SerializeField] private Canvas _canvas;
-        [SerializeField] private GridLayoutGroup _gridLayoutGroup;
-        [SerializeField] private Transform _container;
+        [SerializeField] private SquadPosition[] _squadPositions;
         
         public override void InstallBindings()
         {
-            Bind();
-            BindRepository();
-            BindReplacement();
-        }
-
-        private void Bind()
-        {
             Container
-                .Bind<CharacterData>()
-                .AsSingle();
-            
-            Container
-                .Bind<CharacterSlotRewardService>()
+                .Bind<CharacterService>()
                 .AsSingle()
-                .WithArguments(_container);
-            
-            Container
-                .Bind<CharacterSlotFactory>()
-                .AsSingle()
-                .WithArguments(_slot);
+                .WithArguments(_squadPositions)
+                .NonLazy();
 
             Container
-                .BindInterfacesAndSelfTo<CharacterSlotHandler>()
+                .Bind<CharacterFactory>()
                 .AsSingle();
-            
-            Container
-                .Bind<CharacterDropSlot[]>()
-                .FromInstance(_dropSlots)
-                .AsSingle();
-        }
-
-        private void BindRepository()
-        {
-            Container
-                .Bind<SlotRepository<CharacterSlot>>()
-                .AsSingle();
-            
-            Container
-                .Bind<FreeSlotRegistry<CharacterPlaceDropSlotType, CharacterSlot>>()
-                .AsSingle();
-        }   
-
-        private void BindReplacement()
-        {
-            Container
-                .BindInterfacesTo<CharacterReplacementController>()
-                .AsCached()
-                .WithArguments(_gridLayoutGroup);
-
-            Container
-                .Bind<ISubscriber>()
-                .To<CharacterReplacementTabOpened>()
-                .AsCached()
-                .WithArguments(_displayReplacement, _canvas, _gridLayoutGroup);
         }
     }
 }

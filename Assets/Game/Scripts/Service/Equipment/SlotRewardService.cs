@@ -1,10 +1,14 @@
-﻿using Game.Scripts.Equipment.EquipmentContext.Data;
+﻿using System;
+using Game.Scripts.Equipment;
+using Game.Scripts.Equipment.EquipmentContext.Data;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment
 {
-    public abstract class SlotRewardService<TData, TFactory>
+    public abstract class SlotRewardService<TSlot, TData, TFactory> where TSlot : Slot
     {
+        public event Action<TSlot> Added;
+        
         public SlotRewardService(RarityEquipmentData rarityData, TData data, TFactory factory, Transform container)
         {
             Data = data;
@@ -12,12 +16,17 @@ namespace Game.Scripts.Service.Equipment
             RarityData = rarityData;
             Container = container;
         }
-        
+
         protected RarityEquipmentData RarityData { get; }
         protected TData Data { get; }
         protected TFactory Factory { get; }
         protected Transform Container { get; }
-        
+
         public abstract void Execute();
+
+        protected void OnAdded(TSlot slot)
+        {
+            Added?.Invoke(slot);
+        }
     }
 }

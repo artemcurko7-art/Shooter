@@ -37,11 +37,11 @@ namespace Game.Scripts.Equipment.EquipmentContext
             
             _equipmentService.Added -= OnAdded;
 
-            foreach (var slot in Repository.Slots)
-            {
-                slot.Drag.BeginDragged -= OnBeginDragged;
-                slot.Drag.EndDragged -= OnEndDragged;
-            }
+            // foreach (var slot in Repository.Slots)
+            // {
+            //     slot.Drag.BeginDragged -= OnBeginDragged;
+            //     slot.Drag.EndDragged -= OnEndDragged;
+            // }
         }
 
         protected override void OnBeginDragged(EquipmentSlot slot)
@@ -62,10 +62,10 @@ namespace Game.Scripts.Equipment.EquipmentContext
         
         private void OnAdded(EquipmentSlot slot)
         {
-            slot.Drag.BeginDragged -= OnBeginDragged;
-            slot.Drag.BeginDragged += OnBeginDragged;
-            slot.Drag.EndDragged -= OnEndDragged;
-            slot.Drag.EndDragged += OnEndDragged;
+            // slot.Drag.BeginDragged -= OnBeginDragged;
+            // slot.Drag.BeginDragged += OnBeginDragged;
+            // slot.Drag.EndDragged -= OnEndDragged;
+            // slot.Drag.EndDragged += OnEndDragged;
 
             if (Repository.Has(slot))
                 return;

@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.EquipmentContext
 {
-    public class EquipmentSlotRewardService : SlotRewardService<EquipmentData, EquipmentSlotFactory>, IEquipmentService
+    public class EquipmentSlotRewardService : SlotRewardService<EquipmentSlot, EquipmentData, EquipmentSlotFactory>, IEquipmentService
     {
         private int _countType;
         private bool _isPercent;
@@ -26,7 +26,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             Transform container)
             : base(rarityData, data, factory, container) { }
         
-        public event Action<EquipmentSlot> Added;
+        //public event Action<EquipmentSlot> Added;
         
         public override void Execute()
         {
@@ -38,7 +38,8 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             stats = GetSortingStats(stats.ToList());
             
             var slot = Factory.Create(RarityData.Configs[rarityEquipmentType], config, stat, stats, Container);
-            Added?.Invoke(slot);
+            //Added?.Invoke(slot);
+            OnAdded(slot);
         }
 
         private Stat GetRandomStat(EquipmentType equipmentType, int index)

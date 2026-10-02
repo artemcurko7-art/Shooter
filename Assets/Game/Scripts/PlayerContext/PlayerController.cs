@@ -12,7 +12,6 @@ namespace Game.Scripts.PlayerContext
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private DirectUnit directUnit;
         [SerializeField] private float _speed;
         [SerializeField] private float _acceleration;
         [SerializeField] private float _deceleration;
@@ -24,7 +23,7 @@ namespace Game.Scripts.PlayerContext
         private Rotation _rotation;
         private IInput _input;
         private CharacterController _characterController;
-        private Animator _animator;
+        private Animator[] _animators;
         private Vector3 _lastNonZeroDirection;
         private Vector3 _currentVelocity;
         private float _currentSpeed;
@@ -39,7 +38,7 @@ namespace Game.Scripts.PlayerContext
             _input = input;
             
             _characterController = GetComponent<CharacterController>();
-            _animator = GetComponentInChildren<Animator>();
+            _animators = GetComponentsInChildren<Animator>();
         }
 
         private void Update()
@@ -48,8 +47,10 @@ namespace Game.Scripts.PlayerContext
             _mover.Move(_characterController, _acceleration, _deceleration, _speed);
             //_rotation.Rotate(transform, _unit.transform.position, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
             //_rotation.Rotate(transform, _weaponService.View.transform.position, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
-            _rotation.Rotate(transform, _trackerUnits.Direction, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
-            _animator.SetFloat(PlayerAnimationData.Params.Speed, _mover.Direction.sqrMagnitude, 0.05f, Time.deltaTime);
+            //_rotation.Rotate(transform, _trackerUnits.Direction, _input.Horizontal, _input.Vertical, _smooth * Time.deltaTime);
+            
+            foreach (var animator in _animators)
+                animator.SetFloat(PlayerAnimationData.Params.Speed, _mover.Direction.sqrMagnitude, 0.05f, Time.deltaTime);
         }
         
         // private void AffectImpact()
