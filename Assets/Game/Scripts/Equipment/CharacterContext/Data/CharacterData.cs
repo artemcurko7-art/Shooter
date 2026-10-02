@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.Configs;
+using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.CharacterContext.Type;
+using Game.Scripts.SquadContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext.Data
@@ -11,11 +13,13 @@ namespace Game.Scripts.Equipment.CharacterContext.Data
         private readonly CharacterConfig[] _configs;
         private readonly Dictionary<CharacterType, CharacterConfig> _characters = new();
         
-        public CharacterData()
+        public CharacterData(CharacterProvider provider)
         {
             _configs = Resources.LoadAll<CharacterConfig>("Configs/Characters");
             
             Fill();
+            
+            provider.Set(SquadNumberType.First, _characters[CharacterType.AttackAircraft].View);
         }
 
         public IReadOnlyDictionary<CharacterType, CharacterConfig> Characters => _characters;

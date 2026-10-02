@@ -4,6 +4,7 @@ using Zenject;
 
 namespace Game.Scripts.BodyIK
 {
+    [RequireComponent(typeof(Animator))]
     public class BodyInverseKinematic : MonoBehaviour
     {
         private const int Weight = 1;

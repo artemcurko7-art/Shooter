@@ -3,7 +3,6 @@
     public enum CharacterType
     {
         None,
-        Main,
         AttackAircraft,
         Physician,
         Archer,

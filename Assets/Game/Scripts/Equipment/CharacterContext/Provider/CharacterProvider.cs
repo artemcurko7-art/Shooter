@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Scripts.Equipment.CharacterContext.Type;
+using Game.Scripts.SquadContext.Type;
 
 namespace Game.Scripts.Equipment.CharacterContext.Provider
 {
     public class CharacterProvider : ICharacterProvider
     {
-        private readonly Dictionary<CharacterPlaceDropSlotType, Character> _characters = new();
+        private readonly Dictionary<SquadNumberType, Character> _characters = new();
 
         private CharacterProvider()
         {
-            foreach (var type in Enum.GetValues(typeof(CharacterPlaceDropSlotType)))
-            {
-                _characters.Add((CharacterPlaceDropSlotType)type, null);
-            }
+            foreach (var type in Enum.GetValues(typeof(SquadNumberType)))
+                _characters.Add((SquadNumberType)type, null);
         }
         
-        public IReadOnlyDictionary<CharacterPlaceDropSlotType, Character> Characters => _characters;
+        public IReadOnlyDictionary<SquadNumberType, Character> Characters => _characters;
         
-        public void Set(CharacterPlaceDropSlotType type, Character character)
+        public void Set(SquadNumberType type, Character character)
         {
             _characters[type] = character;
         }
 
-        public void Remove(CharacterPlaceDropSlotType type)
+        public void Remove(SquadNumberType type)
         {
             _characters.Remove(type);
         }

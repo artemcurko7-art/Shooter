@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60d1b7f577f92424890a5a8b41fd24f8, type: 3}
-  m_Name: SpecialForces_3
+  m_Name: AttackAircraft
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 4
-  <Name>k__BackingField: "\u0421\u043F\u0435\u0446\u043D\u0430\u0437_3"
-  <Icon>k__BackingField: {fileID: 21300000, guid: 2751e6e20ae85d0479d98ec785648893, type: 3}
-  <Model>k__BackingField: {fileID: 0}
+  <Type>k__BackingField: 1
+  <Name>k__BackingField: "\u0428\u0442\u0443\u0440\u043C\u043E\u0432\u0438\u043A"
+  <Icon>k__BackingField: {fileID: 21300000, guid: 860fe958c2ed5334a93fc75d6cd4268d, type: 3}
+  <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}
   <Stats>k__BackingField:
   - <Type>k__BackingField: 1
     <Value>k__BackingField: 500

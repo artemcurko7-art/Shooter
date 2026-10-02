@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment.CharacterContext
     {
         private readonly Dictionary<StatType, int> _stats = new();
         
-        [field: SerializeField] public CharacterDragSlot Drag { get; private set; }
+        //[field: SerializeField] public CharacterDragSlot Drag { get; private set; }
         
         public Character Character { get; private set; }
         public IReadOnlyDictionary<StatType, int> Stats => _stats;

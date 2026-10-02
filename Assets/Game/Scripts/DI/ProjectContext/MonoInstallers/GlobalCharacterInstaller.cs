@@ -13,7 +13,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
                 .AsSingle();
             
             Container
-                .Bind<CharacterProvider>()
+                .BindInterfacesAndSelfTo<CharacterProvider>()
                 .AsSingle();
         }
     }

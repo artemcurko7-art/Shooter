@@ -7,7 +7,7 @@ namespace Game.Scripts.Equipment.EquipmentContext
 {
     public class EquipmentSlot : Slot
     {
-        [field: SerializeField] public EquipmentDragSlot Drag { get; private set; }
+        //[field: SerializeField] public EquipmentDragSlot Drag { get; private set; }
         
         public EquipmentItem EquipmentItem { get; private set; }
 

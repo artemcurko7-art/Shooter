@@ -4,6 +4,7 @@ using Game.Scripts.Equipment.CharacterContext.Repository;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.SquadContext.Type;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,13 +36,13 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
         [SerializeField] private TMP_Text _criticalChanceDragged;
         [SerializeField] private TMP_Text _criticalDamageDragged;
 
-        private FreeSlotRegistry<CharacterPlaceDropSlotType, CharacterSlot> _freeSlotRegistry;
+        private FreeSlotRegistry<SquadNumberType, CharacterSlot> _freeSlotRegistry;
         private CharacterSlotHandler _handler;
         
         public RectTransform RectTransform { get; private set; }
         
         [Inject]
-        public void Construct(FreeSlotRegistry<CharacterPlaceDropSlotType, CharacterSlot> freeSlotRegistry, CharacterSlotHandler handler)
+        public void Construct(FreeSlotRegistry<SquadNumberType, CharacterSlot> freeSlotRegistry, CharacterSlotHandler handler)
         {
             _freeSlotRegistry = freeSlotRegistry;
             _handler = handler;

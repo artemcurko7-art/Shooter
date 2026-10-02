@@ -23,7 +23,7 @@ namespace Game.Scripts.UI.TabContext
             {
                 view.gameObject.SetActive(true);
                 view.transform.SetParent(_canvas.transform);
-                view.transform.SetSiblingIndex(_canvas.transform.childCount - 2 + _indexOffsetParent);
+                view.transform.SetSiblingIndex(_canvas.transform.childCount - 3 + _indexOffsetParent);
             }
         }
 
