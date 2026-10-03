@@ -7,6 +7,7 @@ namespace Game.Scripts.UI.Shop
     {
         private const int MAX_ITEMS_COUNT = 6;
 
+        [SerializeField] private Shop _shop;
         [SerializeField] private RectTransform _content;
         [SerializeField] private BuyItemBar _prefab;
         [SerializeField] private BuyItemData _data;
@@ -23,7 +24,7 @@ namespace Game.Scripts.UI.Shop
             for (var i = 0; i < MAX_ITEMS_COUNT && i < _data.items.Count; i++)
             {
                 var bar = Instantiate(_prefab, _content);
-                bar.Init(_data.items[i], false);
+                bar.Init(_shop, _data.items[i], false);
                 _bars.Add(bar);
             }
         }

@@ -17,6 +17,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: 4ca0708151b60449d97a6e6a1455f979, type: 3}
     count: 5
     price: 0.99
@@ -24,6 +25,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: d28d02fe3e93b4e49b33706a6c4c0def, type: 3}
     count: 15
     price: 1.99
@@ -31,6 +33,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: d26dfb6e166ea49938deb2366511908d, type: 3}
     count: 40
     price: 3.99
@@ -38,6 +41,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: a4eba34d54cfb432dae7ec118f7d6d2e, type: 3}
     count: 90
     price: 6.99
@@ -45,6 +49,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: 9cbb2b1c3f0254c4782ee97f093b8a3d, type: 3}
     count: 170
     price: 9.99
@@ -52,6 +57,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 1
     icon: {fileID: 21300000, guid: d25bd1f0354af4ccb924eaf16f85d23d, type: 3}
     count: 300
     price: 15.99

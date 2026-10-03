@@ -17,6 +17,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: fa8d7e24e8b094f028e98ed7813eed4d, type: 3}
     count: 1
     price: 3
@@ -24,6 +25,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: 484dcdaf0825148b886e56472fb3bb78, type: 3}
     count: 1
     price: 3
@@ -31,6 +33,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: 279752a51107d429c80f1530d653b8c9, type: 3}
     count: 1
     price: 3
@@ -38,6 +41,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: eb22d376b7994415aac9d7a87ff27901, type: 3}
     count: 1
     price: 6
@@ -45,6 +49,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: f6a78c692cf27471f8a5e16609281d22, type: 3}
     count: 1
     price: 10
@@ -52,6 +57,7 @@ MonoBehaviour:
       ru: 
       en: 
       tr: 
+    resource: 5
     icon: {fileID: 21300000, guid: cedea9cb0486e414d8ec8794ffb9846e, type: 3}
     count: 1
     price: 15

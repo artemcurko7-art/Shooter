@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.UI.Items;
 using UnityEngine;
 
 namespace Game.Scripts.UI.Shop
@@ -13,6 +14,7 @@ namespace Game.Scripts.UI.Shop
         public class BuyItem
         {
             public LocalizedText nameTextTranslations;
+            public ResourceType resource;
             public Sprite icon;
             public int count;
             public float price;
@@ -25,7 +27,7 @@ namespace Game.Scripts.UI.Shop
                 public string tr;
             }
 
-            public string GetLocalizedTask(string languageCode)
+            public string GetLocalizedName(string languageCode)
             {
                 return languageCode switch
                 {

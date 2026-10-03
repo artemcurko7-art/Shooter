@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Scripts.UI;
 using Game.Scripts.UI.Animation;
+using Game.Scripts.UI.Genetic;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;

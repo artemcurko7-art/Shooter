@@ -14,7 +14,7 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private TMP_Text _name;
         [SerializeField] private GameObject _underline;
         [SerializeField] private Color _disableColor;
-        [SerializeField] private Categories _categories;
+        [SerializeField] private Shop _shop;
         [SerializeField] private RectTransform _target;
 
         private Button _button;
@@ -37,8 +37,8 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            _categories.RefreshCategory(this);
-            _categories.VerticalScrollMove(_target);
+            _shop.RefreshCategory(this);
+            _shop.VerticalScrollMove(_target);
         }
 
         public void SetActive(bool isActive)

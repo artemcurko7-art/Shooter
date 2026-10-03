@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace YG
 {
@@ -14,8 +15,8 @@ namespace YG
         public float ViewRange = 1f;
 
         //Ежедневные подарки
-        public int IdTakenDailyRewardCount = 3;
-        public int IdAvailableDailyRewardCount = 4;
+        public List<int> TakenDailyGiftDays = new();
+        public long DailyGiftWeekStart;
         public long GiftEndTime;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -23,10 +24,32 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private DailyGiftData _data;
         [SerializeField] private List<Sprite> _frames;
 
+        private int _dayOfWeekNumber;
+        public DailyGiftData.DailyGift CurrentGift { get; private set; }
+
         private void Start()
         {
             InitializeTitleText();
+            InitializeTodayReward();
             InitializeDailyRewards();
+            Refresh();
+        }
+
+        public void Collect()
+        {
+            if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
+                return;
+
+            YG2.saves.TakenDailyGiftDays.Add(_dayOfWeekNumber);
+            YG2.SaveProgress();
+
+            Refresh();
+        }
+
+        private void InitializeTodayReward()
+        {
+            _dayOfWeekNumber = ((int)DateTime.Today.DayOfWeek + 6) % 7 + 1;
+            CurrentGift = _data.Gifts[_dayOfWeekNumber - 1];
         }
 
         private void InitializeTitleText()
@@ -41,25 +64,22 @@ namespace Game.Scripts.UI.DailyGift
 
             for (var i = 0; i < DAYS_IN_WEEK - 1; i++)
             {
-                var isAvailable = YG2.saves.IdAvailableDailyRewardCount >= i;
-                var isTaken = YG2.saves.IdTakenDailyRewardCount >= i;
+                var dayIndex = i + 1;
+
+                var isAvailable = _dayOfWeekNumber > dayIndex;
+                var isTaken = YG2.saves.TakenDailyGiftDays.Contains(DAYS_IN_WEEK);
 
                 var bar = Instantiate(_giftBarPrefab, _content);
 
-                bar.Init(_data.Gifts[i], GetRandomFrame(), i + 1, isAvailable, isTaken);
+                bar.Init(_data.Gifts[i], GetRandomFrame(), dayIndex);
 
                 _bars.Add(bar);
             }
-
-            var lastDayIndex = DAYS_IN_WEEK - 1;
-
-            var isLastAvailable = YG2.saves.IdAvailableDailyRewardCount >= lastDayIndex;
-            var isLastTaken = YG2.saves.IdTakenDailyRewardCount >= lastDayIndex;
-
+            
+            var isLastAvailable = _dayOfWeekNumber >= DAYS_IN_WEEK;
+            var isLastTaken = YG2.saves.TakenDailyGiftDays.Contains(DAYS_IN_WEEK);
             var superBar = Instantiate(_superGiftBarPrefab, _content);
-
-            superBar.Init(_data.Gifts[lastDayIndex], DAYS_IN_WEEK, isLastAvailable, isLastTaken);
-
+            superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
             _bars.Add(superBar);
         }
 
@@ -71,16 +91,12 @@ namespace Game.Scripts.UI.DailyGift
             if (_usedFrames.Count >= _frames.Count)
                 _usedFrames.Clear();
 
-            var availableFrames = _frames
-                .Where(frame => frame != null && !_usedFrames.Contains(frame))
-                .ToList();
+            var availableFrames = _frames.Where(frame => frame && !_usedFrames.Contains(frame)).ToList();
 
             if (availableFrames.Count == 0)
             {
                 _usedFrames.Clear();
-                availableFrames = _frames
-                    .Where(frame => frame != null)
-                    .ToList();
+                availableFrames = _frames.Where(frame => frame).ToList();
             }
 
             if (availableFrames.Count == 0)
@@ -92,6 +108,14 @@ namespace Game.Scripts.UI.DailyGift
             _usedFrames.Add(selectedFrame);
 
             return selectedFrame;
+        }
+
+        private void Refresh()
+        {
+            foreach (var bar in _bars)
+            {
+                bar.UpdateVisual();
+            }
         }
 
         protected override void Show()
