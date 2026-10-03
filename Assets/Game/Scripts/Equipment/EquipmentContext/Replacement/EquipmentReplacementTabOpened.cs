@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.Equipment.EquipmentContext.Handler;
 using Game.Scripts.Service.Subscriber;
+using UnityEngine;
 
 namespace Game.Scripts.Equipment.EquipmentContext.Replacement
 {

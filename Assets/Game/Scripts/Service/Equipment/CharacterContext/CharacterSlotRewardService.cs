@@ -5,25 +5,37 @@ using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.EquipmentContext.Data;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Factory;
+using Game.Scripts.Service.Equipment.Reward;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.CharacterContext
 {
-    public class CharacterSlotRewardService : SlotRewardService<CharacterSlot, CharacterData, CharacterSlotFactory>
+    public class CharacterSlotRewardService : SlotRewardService, ISlotRewardService<CharacterSlot>
     {
+        private readonly CharacterData _data;
+        private readonly CharacterSlotFactory _factory;
+        
+        public event Action<CharacterSlot> Rewarded;
+        
         public CharacterSlotRewardService(
             RarityEquipmentData rarityData,
+            Transform container,
             CharacterData data,
-            CharacterSlotFactory factory,
-            Transform container)
-            : base(rarityData, data, factory, container) { }
+            CharacterSlotFactory factory)
+            : base(rarityData, container)
+        {
+            _data = data;
+            _factory = factory;
+        }
 
         public override void Execute()
         {
             //RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             
-            var view = Factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], Data.Characters[CharacterType.AttackAircraft], Container);
-            OnAdded(view);
+            var view = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.AttackAircraft], Container);
+            var view2 = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.Physician], Container);
+            Rewarded?.Invoke(view);
+            Rewarded?.Invoke(view2);
         }
     }
 }

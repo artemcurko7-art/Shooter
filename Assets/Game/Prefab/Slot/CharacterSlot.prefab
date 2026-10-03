@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Rarity>k__BackingField: {fileID: 8175001339707652951}
   <Icon>k__BackingField: {fileID: 8928122896093037044}
-  <Drag>k__BackingField: {fileID: 1181012954000187911}
+  <CharacterDrag>k__BackingField: {fileID: 1181012954000187911}
 --- !u!114 &1181012954000187911
 MonoBehaviour:
   m_ObjectHideFlags: 0

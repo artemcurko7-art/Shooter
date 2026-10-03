@@ -1,56 +1,54 @@
 ﻿using Game.Scripts.Equipment.DragInDrop;
+using Game.Scripts.Equipment.Observer;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Service.Equipment.CharacterContext;
-using Game.Scripts.Service.Subscriber;
+using Game.Scripts.Extensions;
+using Game.Scripts.Service.Equipment.Reward;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment
 {
-    public abstract class SlotProcessor<TType, TSlot, TDropSlot> : ISubscriber 
-        where TSlot : Slot 
-        where TDropSlot : DropSlot<TSlot>
+    public abstract class SlotProcessor<TType, TSlot> : SlotProcessorObserver<TSlot> where TSlot : Slot
     {
-        private readonly CharacterSlotRewardService _service;
-
-        public SlotProcessor(SlotRepository<TSlot> repository, FreeSlotRegistry<TType, TSlot> freeRegistry, TDropSlot[] dropSlots)
+        protected SlotProcessor(
+            ISlotRewardService<TSlot> service,
+            SlotRepository<TSlot> repository,
+            DropSlot<TSlot>[] dropSlots,
+            FreeSlotRegistry<TType, TSlot> freeRegistry)
+            : base(service, repository, dropSlots)
         {
-            DropSlots = dropSlots;
-            //Sorting = sorting;
-            Repository = repository;
             FreeRegistry = freeRegistry;
         }
 
         public TSlot DraggedSlot { get; private set; }
         public TSlot DroppedSlot { get; private set; }
-        protected SlotRepository<TSlot> Repository { get; }
         protected FreeSlotRegistry<TType, TSlot> FreeRegistry { get; }
-        //protected SortingEquipmentByParameters Sorting { get; }
-        protected TDropSlot[] DropSlots { get; }
 
-        public virtual void Subscribe()
+        protected override void OnBeginDragged(TSlot slot)
         {
-            foreach (var dropSlot in DropSlots)
-                dropSlot.Dropped += OnDropped;
-        }
-
-        public virtual void Unsubscribe()
-        {
-            foreach (var dropSlot in DropSlots)
-                dropSlot.Dropped -= OnDropped;
-        }
-
-        protected virtual void OnBeginDragged(TSlot slot)
-        {
+            base.OnBeginDragged(slot);
+            
             DraggedSlot = slot;
         }
 
-        protected virtual void OnEndDragged(TSlot slot) { }
-        
-        protected virtual void OnDropped(TSlot slot)
+        protected override void OnEndDragged(TSlot slot)
         {
+            foreach (var dropSlot in DropSlots)
+            {
+                if (dropSlot.Slot == null)
+                {
+                    dropSlot.Icon.color = Color.white;
+                    dropSlot.Icon.color = dropSlot.Icon.color.GetAlpha(0f);
+                }
+            }
+        }
+        
+        protected override void OnDropped(TSlot slot)
+        {
+            base.OnDropped(slot);
+            
             DroppedSlot = slot;
         }
-
+        
         protected void Release()
         {
             DroppedSlot = null;

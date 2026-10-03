@@ -1,76 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
+﻿using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Service.Equipment.EquipmentContext;
-using UnityEngine;
+using Game.Scripts.Service.Equipment.Reward;
 
 namespace Game.Scripts.Equipment.EquipmentContext.Handler
 {
-    public class EquipmentSlotHandler : EquipmentSlotProcessor, ITabService<EquipmentSlotHandler>
+    public class EquipmentSlotHandler : SlotHandler<EquipmentSlotHandler, EquipmentType, EquipmentSlot>
     {
-        private readonly List<EquipmentDropSlot> _equippedSlots = new();
-
         public EquipmentSlotHandler(
+            ISlotRewardService<EquipmentSlot> service,
             SlotRepository<EquipmentSlot> repository,
-            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             EquipmentDropSlot[] dropSlots,
-            IEquipmentService equipmentService,
-            SortingEquipmentByParameters sorting) 
-            : base(equipmentService, repository, freeRegistry, dropSlots, sorting) { }
-
-        public event Action<bool> TabOpened;
-        
-        public void DisableTab()
-        {
-            TabOpened?.Invoke(false);
-        }
-
-        protected override void OnBeginDragged(EquipmentSlot slot)
-        {
-            base.OnBeginDragged(slot);
-            
-            foreach (var dropSlot in DropSlots)
-            {
-                if (dropSlot.Slot == slot)
-                {
-                    dropSlot.Clear();
-                    _equippedSlots.Remove(dropSlot);
-                    Release();
-                }
-            }
-        }
-        
-        protected override void OnEndDragged(EquipmentSlot slot)
-        {
-            if (Repository.Has(slot) == false && slot != DroppedSlot)
-            {
-                Repository.Add(slot);
-                Sorting.Sort(Repository.Slots);
-            }
-            
-            slot.Drag.CanvasGroup.blocksRaycasts = true;
-        }
-        
-        protected override void OnDropped(EquipmentSlot slot)
-        {
-            base.OnDropped(slot);
-
-            foreach (var dropSlot in DropSlots)
-            {
-                if (dropSlot.Slot == slot)
-                {
-                    if (_equippedSlots.Contains(dropSlot))
-                        TabOpened?.Invoke(true);
-                    else
-                        _equippedSlots.Add(dropSlot);
-                }
-            }
-            
-            Repository.Remove(slot);
-            Sorting.Sort(Repository.Slots);
-            Assign(slot);
-        }
+            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry)
+            : base(service, repository, dropSlots, freeRegistry) { }
     }
 }

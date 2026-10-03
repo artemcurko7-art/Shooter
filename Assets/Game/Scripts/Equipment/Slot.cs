@@ -7,14 +7,14 @@ namespace Game.Scripts.Equipment
 {
     public abstract class Slot : MonoBehaviour
     {
-        [field: SerializeField] public DragSlot<Slot> Drag { get; private set; }
         [field: SerializeField] public Image Rarity { get; private set; }
         [field: SerializeField] public Image Icon { get; private set; }
-        
+
+        public DragSlot Drag => GetDrag();
         public RarityEquipmentConfig RarityEquipmentConfig { get; private set; }
         public RectTransform RectTransform { get; private set; }
         public string Name { get; private set; }
-        
+
         private void Awake()
         {
             RectTransform = GetComponent<RectTransform>();
@@ -27,5 +27,7 @@ namespace Game.Scripts.Equipment
             Icon.sprite = icon;
             Name = name;
         }
+
+        protected abstract DragSlot GetDrag();
     }
 }

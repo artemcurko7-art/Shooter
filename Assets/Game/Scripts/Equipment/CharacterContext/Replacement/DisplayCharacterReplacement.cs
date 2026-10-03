@@ -57,11 +57,11 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
             // _iconDropped.sprite = _freeSlotRegistry.EquippedSlots[CharacterPlaceDropSlotType.First].Icon.sprite;
             
             _levelDropped.text = 15.ToString();
-            _healthDropped.text = _freeSlotRegistry.EquippedSlots[_handler.DropSlotType].Stats[StatType.Health].ToString();
-            _attackDropped.text = _freeSlotRegistry.EquippedSlots[_handler.DropSlotType].Stats[StatType.Attack].ToString();
-            _defenceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.DropSlotType].Stats[StatType.Defence].ToString();
-            _criticalChanceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.DropSlotType].Stats[StatType.CriticalChance].ToString();
-            _criticalDamageDropped.text = _freeSlotRegistry.EquippedSlots[_handler.DropSlotType].Stats[StatType.CriticalDamage].ToString();
+            _healthDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Health].ToString();
+            _attackDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Attack].ToString();
+            _defenceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Defence].ToString();
+            _criticalChanceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.CriticalChance].ToString();
+            _criticalDamageDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.CriticalDamage].ToString();
 
             //_rarityDragged.sprite = _handler.DraggedSlot.Rarity.sprite;
             _nameDragged.text = _handler.DraggedSlot.Name;

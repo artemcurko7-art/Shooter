@@ -12023,6 +12023,7 @@ RectTransform:
   - {fileID: 1377152663}
   - {fileID: 988063848}
   - {fileID: 1888506797}
+  - {fileID: 670149421}
   m_Father: {fileID: 1816214643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -13941,6 +13942,7 @@ GameObject:
   - component: {fileID: 670149421}
   - component: {fileID: 670149423}
   - component: {fileID: 670149422}
+  - component: {fileID: 670149424}
   m_Layer: 5
   m_Name: EquipmentReplacement
   m_TagString: Untagged
@@ -13955,18 +13957,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670149420}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1401356139}
   - {fileID: 1362700547}
-  m_Father: {fileID: 1816214643}
+  m_Father: {fileID: 585885472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 287.33}
+  m_AnchoredPosition: {x: 0, y: 455.47995}
   m_SizeDelta: {x: 1029, y: 1199.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670149422
@@ -14003,6 +14005,18 @@ MonoBehaviour:
   _nameDragged: {fileID: 116258451}
   _iconDropped: {fileID: 1274527786}
   _iconDragged: {fileID: 1487048645}
+--- !u!114 &670149424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670149420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3570667e81fd4e1faecec113992b7304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &671402657
 GameObject:
   m_ObjectHideFlags: 0
@@ -14448,8 +14462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 689451063}
   <Icon>k__BackingField: {fileID: 773345779}
+  <Rarity>k__BackingField: {fileID: 689451063}
   <EquipmentType>k__BackingField: 3
 --- !u!1 &693794353
 GameObject:
@@ -14975,7 +14989,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721516704}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14989,12 +15003,12 @@ RectTransform:
   - {fileID: 566175161}
   - {fileID: 2067415935}
   - {fileID: 578172103}
-  m_Father: {fileID: 1816214643}
+  m_Father: {fileID: 1735974017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.014984131, y: 168.14001}
+  m_SizeDelta: {x: 65.5, y: 336.30005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721516707
 MonoBehaviour:
@@ -18964,8 +18978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 927891763}
   <Icon>k__BackingField: {fileID: 182906278}
+  <Rarity>k__BackingField: {fileID: 927891763}
   <EquipmentType>k__BackingField: 2
 --- !u!1 &928688629
 GameObject:
@@ -25340,8 +25354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1332360269}
   <Icon>k__BackingField: {fileID: 176540663}
+  <Rarity>k__BackingField: {fileID: 1332360269}
   <EquipmentType>k__BackingField: 6
 --- !u!1 &1333352856
 GameObject:
@@ -32668,8 +32682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1688680379}
   <Icon>k__BackingField: {fileID: 977757001}
+  <Rarity>k__BackingField: {fileID: 1688680379}
   <EquipmentType>k__BackingField: 4
 --- !u!1 &1696306231
 GameObject:
@@ -32970,8 +32984,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1718016888}
   <Icon>k__BackingField: {fileID: 1473561500}
+  <Rarity>k__BackingField: {fileID: 1718016888}
   <EquipmentType>k__BackingField: 5
 --- !u!1 &1719707208
 GameObject:
@@ -33063,8 +33077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f035d5889e430082af78d2393e6a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 922091947}
   <Icon>k__BackingField: {fileID: 1706992307}
+  <Rarity>k__BackingField: {fileID: 922091947}
   <Type>k__BackingField: 1
 --- !u!1 &1724282027
 GameObject:
@@ -33364,8 +33378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172287f810bb4f8fbc1520cd5e10b583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1730367943}
   <Icon>k__BackingField: {fileID: 2069837683}
+  <Rarity>k__BackingField: {fileID: 1730367943}
   <EquipmentType>k__BackingField: 1
 --- !u!1 &1735974016
 GameObject:
@@ -33401,6 +33415,7 @@ RectTransform:
   - {fileID: 1936816497}
   - {fileID: 1199335909}
   - {fileID: 1032415283}
+  - {fileID: 721516705}
   m_Father: {fileID: 1816214643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -35281,9 +35296,7 @@ RectTransform:
   - {fileID: 638514660}
   - {fileID: 1661093089}
   - {fileID: 585885472}
-  - {fileID: 670149421}
   - {fileID: 1735974017}
-  - {fileID: 721516705}
   - {fileID: 446054707}
   m_Father: {fileID: 1563917328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -38006,8 +38019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f035d5889e430082af78d2393e6a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1466867605}
   <Icon>k__BackingField: {fileID: 1465911741}
+  <Rarity>k__BackingField: {fileID: 1466867605}
   <Type>k__BackingField: 2
 --- !u!114 &1916372205
 MonoBehaviour:
@@ -38507,8 +38520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f035d5889e430082af78d2393e6a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rarity>k__BackingField: {fileID: 1806289769}
   <Icon>k__BackingField: {fileID: 1167631064}
+  <Rarity>k__BackingField: {fileID: 1806289769}
   <Type>k__BackingField: 3
 --- !u!114 &1930923269
 MonoBehaviour:
@@ -41621,7 +41634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Rarity>k__BackingField: {fileID: 0}
   <Icon>k__BackingField: {fileID: 0}
-  <Drag>k__BackingField: {fileID: 1641595117293935735}
+  <CharacterDrag>k__BackingField: {fileID: 0}
 --- !u!1 &4579945274802184546
 GameObject:
   m_ObjectHideFlags: 0

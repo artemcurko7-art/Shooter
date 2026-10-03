@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Extensions;
 using Game.Scripts.SquadContext.Type;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,13 +19,6 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
                 TypeDropped?.Invoke(Type);
                 Set(slot);
             }
-        }
-
-        public override void Set(CharacterSlot slot)
-        {
-            base.Set(slot);
-
-            Icon.color = Color.white;
         }
     }
 }

@@ -9,6 +9,7 @@ using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.Service.Equipment.Reward;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.EquipmentContext
@@ -20,6 +21,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         private readonly DisplayStatFactory _displayStatFactory;
         private readonly ComparisonStat _comparisonStat;
         private readonly ReplacementStatContainer _statContainer;
+        private readonly EquipmentDropSlot[] _dropSlots;
         private List<DisplayStat> _displayStatDraggables;
         private List<DisplayStat> _displayStatDroppables;
         private DisplayStat _displayStatDragged;
@@ -27,23 +29,23 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         private bool _isReopening;
 
         public EquipmentReplacementService(
-            IEquipmentService equipmentService,
+            ISlotRewardService<EquipmentSlot> service,
             SlotRepository<EquipmentSlot> repository,
-            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             EquipmentDropSlot[] dropSlots,
-            SortingEquipmentByParameters sorting,
-            ITabService<EquipmentSlotHandler> tabService,
+            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
+            SortingEquipmentByParameters sorting, ITabService<EquipmentSlotHandler> tabService,
             DisplayStatData displayStatData,
             DisplayStatFactory displayStatFactory,
             ComparisonStat comparisonStat,
             ReplacementStatContainer statContainer)
-            : base(equipmentService, repository, freeRegistry, dropSlots, sorting)
+            : base(service, repository, dropSlots, freeRegistry, sorting)
         {
             _tabService = tabService;
             _displayStatData = displayStatData;
             _displayStatFactory = displayStatFactory;
             _comparisonStat = comparisonStat;
             _statContainer = statContainer;
+            _dropSlots = dropSlots;
         }
 
         public EquipmentSlot EquipmentSlot => DraggedSlot;
@@ -95,7 +97,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
                 _displayStatDraggables.Clear();
                 _displayStatDroppables.Clear();
                 
-                foreach (var dropSlot in DropSlots)
+                foreach (var dropSlot in _dropSlots)
                     if (dropSlot.EquipmentType == DroppedSlot.EquipmentItem.Type)
                         FreeRegistry.Register(dropSlot.EquipmentType, DroppedSlot);
 
@@ -105,7 +107,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
 
         private void CreateDisplayStat(out DisplayStat displayStat, out List<DisplayStat> displayStats, EquipmentSlot slot, Transform mainContainer, Transform additionalContainer)
         {
-            displayStats = new();
+            displayStats = new List<DisplayStat>();
             
             Stat mainDraggedStat = slot.EquipmentItem.MainStat;
 

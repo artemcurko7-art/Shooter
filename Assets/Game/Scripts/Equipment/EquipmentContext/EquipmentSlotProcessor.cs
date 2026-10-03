@@ -1,53 +1,29 @@
 ﻿using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Service.Equipment.EquipmentContext;
-using UnityEngine;
+using Game.Scripts.Service.Equipment.Reward;
 
 namespace Game.Scripts.Equipment.EquipmentContext
 {
-    public abstract class EquipmentSlotProcessor : SlotProcessor<EquipmentType, EquipmentSlot, EquipmentDropSlot>
+    public abstract class EquipmentSlotProcessor : SlotProcessor<EquipmentType, EquipmentSlot>
     {
-        private readonly IEquipmentService _equipmentService;
+        private readonly SortingEquipmentByParameters _sorting;
         
         protected EquipmentSlotProcessor(
-            IEquipmentService equipmentService,
+            ISlotRewardService<EquipmentSlot> service,
             SlotRepository<EquipmentSlot> repository,
-            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             EquipmentDropSlot[] dropSlots,
+            FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             SortingEquipmentByParameters sorting)
-            : base(repository, freeRegistry, dropSlots)
+            : base(service, repository, dropSlots, freeRegistry)
         {
-            _equipmentService = equipmentService;
-            Sorting = sorting;
+            _sorting = sorting;
         }
         
-        protected SortingEquipmentByParameters Sorting { get; }
-
-        public override void Subscribe()
-        {
-            base.Subscribe();
-            
-            _equipmentService.Added += OnAdded;
-        }
-
-        public override void Unsubscribe()
-        {
-            base.Unsubscribe();
-            
-            _equipmentService.Added -= OnAdded;
-
-            // foreach (var slot in Repository.Slots)
-            // {
-            //     slot.Drag.BeginDragged -= OnBeginDragged;
-            //     slot.Drag.EndDragged -= OnEndDragged;
-            // }
-        }
-
         protected override void OnBeginDragged(EquipmentSlot slot)
         {
             base.OnBeginDragged(slot);
-            
+                
             if (FreeRegistry.EquippedSlots[slot.EquipmentItem.Type] == slot)
                 FreeRegistry.Unregister(slot.EquipmentItem.Type);
         }
@@ -60,18 +36,11 @@ namespace Game.Scripts.Equipment.EquipmentContext
                 FreeRegistry.Register(slot.EquipmentItem.Type, slot);
         }
         
-        private void OnAdded(EquipmentSlot slot)
+        protected override void OnRewarded(EquipmentSlot slot)
         {
-            // slot.Drag.BeginDragged -= OnBeginDragged;
-            // slot.Drag.BeginDragged += OnBeginDragged;
-            // slot.Drag.EndDragged -= OnEndDragged;
-            // slot.Drag.EndDragged += OnEndDragged;
-
-            if (Repository.Has(slot))
-                return;
+            base.OnRewarded(slot);
             
-            Repository.Add(slot);
-            Sorting.Sort(Repository.Slots);
+            _sorting.Sort(Repository.Slots);
         }
     }
 }

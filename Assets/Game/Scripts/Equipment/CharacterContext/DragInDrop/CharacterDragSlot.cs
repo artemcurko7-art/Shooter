@@ -7,8 +7,6 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
 {
     public class CharacterDragSlot : DragSlot<CharacterSlot>
     {
-        public bool IsDropSlotSuccess { get; private set; }
-        
         public override void OnBeginDrag(PointerEventData eventData)
         {
             base.OnBeginDrag(eventData);
@@ -18,10 +16,9 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            //bool isDropSlot = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out CharacterDropSlot dropSlot);
-            IsDropSlotSuccess = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out CharacterDropSlot dropSlot);
+            bool isDropSlotSuccess = eventData.pointerCurrentRaycast.gameObject.TryGetComponent(out CharacterDropSlot dropSlot);
 
-            if (IsDropSlotSuccess == false)
+            if (isDropSlotSuccess == false)
                 ResetSettings();
             else
                 base.OnEndDrag(eventData);

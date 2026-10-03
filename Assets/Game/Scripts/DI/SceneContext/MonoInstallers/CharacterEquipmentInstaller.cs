@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
+﻿using Game.Scripts.Equipment;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Equipment.CharacterContext.Data;
 using Game.Scripts.Equipment.CharacterContext.DragInDrop;
 using Game.Scripts.Equipment.CharacterContext.Handler;
@@ -7,7 +8,9 @@ using Game.Scripts.Equipment.CharacterContext.Repository;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
+using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Equipment.CharacterContext;
+using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.SquadContext.Type;
 using UnityEngine;
@@ -37,9 +40,13 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<CharacterData>()
                 .AsSingle();
+
+            Container
+                .BindInterfacesTo<CharacterSlotProcessor>()
+                .AsSingle();
             
             Container
-                .Bind<CharacterSlotRewardService>()
+                .BindInterfacesAndSelfTo<CharacterSlotRewardService>()
                 .AsSingle()
                 .WithArguments(_container);
             

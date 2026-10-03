@@ -2,38 +2,42 @@
 using Game.Scripts.Equipment.CharacterContext.Handler;
 using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Service.Equipment.CharacterContext;
+using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.SquadContext.Type;
 
 namespace Game.Scripts.Equipment.CharacterContext.Replacement
 {
-    public class CharacterReplacementController : CharacterSlotProcessor, IReplaceable<CharacterReplacementController>
+    public class CharacterReplacementController : ReplacementController<CharacterReplacementController, SquadNumberType, CharacterSlot>
     {
+        private readonly CharacterDropSlot[] _dropSlots;
+        private readonly CharacterProvider _provider;
         private readonly ITabService<CharacterSlotHandler> _tabService;
         private bool _isTabActive;
         
         public CharacterReplacementController(
+            ISlotRewardService<CharacterSlot> service,
             SlotRepository<CharacterSlot> repository,
-            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
             CharacterDropSlot[] dropSlots,
+            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
             CharacterProvider provider,
-            CharacterSlotRewardService service,
             ITabService<CharacterSlotHandler> tabService)
-            : base(repository, freeRegistry, dropSlots, provider, service)
+            : base(service, repository, dropSlots, freeRegistry)
         {
+            _dropSlots = dropSlots;
+            _provider = provider;
             _tabService = tabService;
         }
 
-        public void Replace()
+        public override void Replace()
         {
-            foreach (var dropSlot in DropSlots)
+            foreach (var dropSlot in _dropSlots)
             {
-                if (dropSlot.Type == SquadNumberType.First)
+                if (dropSlot.Type == SquadNumberType.Second)
                 {
                     FreeRegistry.EquippedSlots[dropSlot.Type].Drag.ResetSettings();
                     dropSlot.Set(DroppedSlot);
                     FreeRegistry.Register(dropSlot.Type, DroppedSlot);
-                    Provider.Set(dropSlot.Type, dropSlot.Slot.Character);
+                    _provider.Set(dropSlot.Type, dropSlot.Slot.Character);
                     _tabService.DisableTab();
                 }
             }

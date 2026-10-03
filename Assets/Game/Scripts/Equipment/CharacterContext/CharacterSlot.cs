@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext.DragInDrop;
+using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.MV.StatContext.Type;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Game.Scripts.Equipment.CharacterContext
     {
         private readonly Dictionary<StatType, int> _stats = new();
         
-        //[field: SerializeField] public CharacterDragSlot Drag { get; private set; }
+        [field: SerializeField] public CharacterDragSlot CharacterDrag { get; private set; }
         
         public Character Character { get; private set; }
         public IReadOnlyDictionary<StatType, int> Stats => _stats;
@@ -20,8 +21,14 @@ namespace Game.Scripts.Equipment.CharacterContext
 
             foreach (var stat in stats)
                 _stats.Add(stat.Type, stat.Value);
-            
-            Drag.Initialize(this);
+
+            GetDrag();
+        }
+
+        protected override DragSlot GetDrag()
+        {
+            CharacterDrag.Initialize(this);
+            return CharacterDrag;
         }
     }
 }

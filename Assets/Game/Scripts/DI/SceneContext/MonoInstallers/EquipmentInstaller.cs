@@ -12,6 +12,7 @@ using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Equipment.EquipmentContext;
+using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 using UnityEngine.UI;

@@ -39,6 +39,7 @@ namespace Game.Scripts.Equipment.DragInDrop
             Icon.color = Icon.color.GetAlpha(1);
             slot.Rarity.color = slot.Rarity.color.GetAlpha(0);
             slot.Icon.color = slot.Icon.color.GetAlpha(0);
+            Icon.color = Color.white;
             Slot = slot;
             Dropped?.Invoke(slot);
         }

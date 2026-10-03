@@ -1,87 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using Game.Scripts.Equipment.CharacterContext.DragInDrop;
-using Game.Scripts.Equipment.CharacterContext.Provider;
-using Game.Scripts.Equipment.CharacterContext.Repository;
-using Game.Scripts.Equipment.CharacterContext.Type;
-using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Equipment.EquipmentContext;
+﻿using Game.Scripts.Equipment.CharacterContext.DragInDrop;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Service.Equipment.CharacterContext;
+using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.SquadContext.Type;
+using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext.Handler
 {
-    public class CharacterSlotHandler : CharacterSlotProcessor, ITabService<CharacterSlotHandler>
+    public class CharacterSlotHandler : SlotHandler<CharacterSlotHandler, SquadNumberType, CharacterSlot>
     {
-        private readonly List<DropSlot<CharacterSlot>> _equippedSlots = new();
+        private readonly CharacterDropSlot[] _dropSlots;
 
         public CharacterSlotHandler(
+            ISlotRewardService<CharacterSlot> service,
             SlotRepository<CharacterSlot> repository,
-            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
             CharacterDropSlot[] dropSlots,
-            CharacterProvider provider,
-            CharacterSlotRewardService service)
-            : base(repository, freeRegistry, dropSlots, provider, service) { }
-        
-        public event Action<bool> TabOpened;
-
-        public SquadNumberType DropSlotType { get; private set; }
-        
-        public void DisableTab()
+            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry)
+            : base(service, repository, dropSlots, freeRegistry)
         {
-            TabOpened?.Invoke(false);
+            _dropSlots = dropSlots;
         }
 
-        protected override void OnBeginDragged(CharacterSlot slot)
-        {
-            base.OnBeginDragged(slot);
-            
-            foreach (var dropSlot in DropSlots)
-            {
-                if (dropSlot.Slot == slot)
-                {
-                    dropSlot.Clear();
-                    _equippedSlots.Remove(dropSlot);
-                    Release();
-                }
-            }
-        }
-        
-        protected override void OnEndDragged(CharacterSlot slot)
-        {
-            if (Repository.Has(slot) == false && slot != DroppedSlot)
-            {
-                Repository.Add(slot);
-                //Sorting.Sort(Repository.Slots);
-            }
-            
-            slot.Drag.CanvasGroup.blocksRaycasts = true;
-        }
-        
-        protected override void OnDropped(CharacterSlot slot)
-        {
-            base.OnDropped(slot);
-            
-            foreach (var dropSlot in DropSlots)
-            {
-                if (dropSlot.Slot == slot)
-                {
-                    if (_equippedSlots.Contains(dropSlot))
-                    {
-                        DropSlotType = dropSlot.Type;
-                        TabOpened?.Invoke(true);
-                    }
-                    else
-                    {
-                        _equippedSlots.Add(dropSlot);
-                    }
-                }
-            }
+        public SquadNumberType SquadNumberType { get; private set; }
 
-            Repository.Remove(slot);
-            //Sorting.Sort(Repository.Slots);
-            Assign(slot);
+        public override void Subscribe()
+        {
+            base.Subscribe();
+
+            foreach (var dropSlot in _dropSlots)
+                dropSlot.TypeDropped += OnTypeDropped;
+        }
+
+        public override void Unsubscribe()
+        {
+            base.Unsubscribe();
+            
+            foreach (var dropSlot in _dropSlots)
+                dropSlot.TypeDropped -= OnTypeDropped;
+        }
+
+        private void OnTypeDropped(SquadNumberType type)
+        {
+            SquadNumberType = type;
         }
     }
 }
