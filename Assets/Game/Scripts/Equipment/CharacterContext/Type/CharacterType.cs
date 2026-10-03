@@ -4,7 +4,7 @@
     {
         None,
         AttackAircraft,
-        Physician,
-        Archer,
+        Healer,
+        Thrower,
     }
 }

@@ -33,7 +33,7 @@ namespace Game.Scripts.Equipment.EquipmentContext
                     
                     foreach (var slot in slots)
                     {
-                        if ((RarityEquipmentType)rarityType == slot.RarityEquipmentConfig.Type && (EquipmentType)type == slot.EquipmentItem.Type)
+                        if ((RarityEquipmentType)rarityType == slot.RarityConfig.Type && (EquipmentType)type == slot.EquipmentItem.Type)
                         {
                             slot.transform.SetSiblingIndex(_index);
                             _index--;

@@ -18,7 +18,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
         public event Action<CharacterSlot> Rewarded;
         
         public CharacterSlotRewardService(
-            RarityEquipmentData rarityData,
+            RarityData rarityData,
             Transform container,
             CharacterData data,
             CharacterSlotFactory factory)
@@ -33,7 +33,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
             //RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             
             var view = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.AttackAircraft], Container);
-            var view2 = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.Physician], Container);
+            var view2 = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.Healer], Container);
             Rewarded?.Invoke(view);
             Rewarded?.Invoke(view2);
         }

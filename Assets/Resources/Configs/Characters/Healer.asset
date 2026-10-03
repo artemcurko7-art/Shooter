@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60d1b7f577f92424890a5a8b41fd24f8, type: 3}
-  m_Name: Physican
+  m_Name: Healer
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 2
-  <Name>k__BackingField: "\u041C\u0435\u0442\u0430\u0442\u0435\u043B\u044C"
+  <Name>k__BackingField: "\u0426\u0435\u043B\u0438\u0442\u0435\u043B\u044C"
   <Icon>k__BackingField: {fileID: 21300000, guid: 7a113aa97e40b02409a415131bb41ecb, type: 3}
   <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}
   <Stats>k__BackingField:

@@ -25,7 +25,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         public event Action<EquipmentSlot> Rewarded;
         
         public EquipmentSlotRewardService(
-            RarityEquipmentData rarityData,
+            RarityData rarityData,
             Transform container, EquipmentData data,
             EquipmentSlotFactory factory)
             : base(rarityData, container)

@@ -6,19 +6,19 @@ using UnityEngine;
 
 namespace Game.Scripts.Equipment.EquipmentContext.Data
 {
-    public class RarityEquipmentData
+    public class RarityData
     {
-        private readonly RarityEquipmentConfig[] _configs;
-        private readonly Dictionary<RarityEquipmentType, RarityEquipmentConfig> _rarityConfigs = new();
+        private readonly RarityConfig[] _configs;
+        private readonly Dictionary<RarityEquipmentType, RarityConfig> _rarityConfigs = new();
         
-        public RarityEquipmentData()
+        public RarityData()
         {
-            _configs = Resources.LoadAll<RarityEquipmentConfig>("Configs/RarityEquipment");
+            _configs = Resources.LoadAll<RarityConfig>("Configs/RarityEquipment");
             
             Fill();
         }
         
-        public IReadOnlyDictionary<RarityEquipmentType, RarityEquipmentConfig> Configs => _rarityConfigs;
+        public IReadOnlyDictionary<RarityEquipmentType, RarityConfig> Configs => _rarityConfigs;
         
         private void Fill()
         {

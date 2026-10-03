@@ -16,7 +16,7 @@ namespace Game.Scripts.Factory
             _slot = slot;
         }
 
-        public CharacterSlot Create(RarityEquipmentConfig rarityConfig, CharacterConfig config, Transform container)
+        public CharacterSlot Create(RarityConfig rarityConfig, CharacterConfig config, Transform container)
         {
             var slot = _container.InstantiatePrefabForComponent<CharacterSlot>(_slot, Vector3.zero, Quaternion.identity, container);
             slot.Initialize(rarityConfig, config.Icon, config.Name);

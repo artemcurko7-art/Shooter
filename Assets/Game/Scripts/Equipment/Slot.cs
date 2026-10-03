@@ -11,7 +11,7 @@ namespace Game.Scripts.Equipment
         [field: SerializeField] public Image Icon { get; private set; }
 
         public DragSlot Drag => GetDrag();
-        public RarityEquipmentConfig RarityEquipmentConfig { get; private set; }
+        public RarityConfig RarityConfig { get; private set; }
         public RectTransform RectTransform { get; private set; }
         public string Name { get; private set; }
 
@@ -20,10 +20,10 @@ namespace Game.Scripts.Equipment
             RectTransform = GetComponent<RectTransform>();
         }
 
-        public void Initialize(RarityEquipmentConfig rarityEquipmentConfig, Sprite icon, string name)
+        public void Initialize(RarityConfig rarityConfig, Sprite icon, string name)
         {
-            RarityEquipmentConfig = rarityEquipmentConfig;
-            Rarity.sprite = rarityEquipmentConfig.Icon;
+            RarityConfig = rarityConfig;
+            Rarity.sprite = rarityConfig.Icon;
             Icon.sprite = icon;
             Name = name;
         }

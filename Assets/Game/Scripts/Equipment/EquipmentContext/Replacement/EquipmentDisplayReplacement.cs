@@ -30,8 +30,8 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
         
         private void OnEnable()
         {
-            _rarityDropped.sprite = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].RarityEquipmentConfig.Icon;
-            _rarityDragged.sprite = _service.EquipmentSlot.RarityEquipmentConfig.Icon;
+            _rarityDropped.sprite = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].RarityConfig.Icon;
+            _rarityDragged.sprite = _service.EquipmentSlot.RarityConfig.Icon;
             
             _nameDropped.text = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].Name;
             _nameDragged.text = _service.EquipmentSlot.Name;

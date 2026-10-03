@@ -5,13 +5,13 @@ namespace Game.Scripts.Service.Equipment.Reward
 {
     public abstract class SlotRewardService
     {
-        public SlotRewardService(RarityEquipmentData rarityData, Transform container)
+        public SlotRewardService(RarityData rarityData, Transform container)
         {
             RarityData = rarityData;
             Container = container;
         }
         
-        protected RarityEquipmentData RarityData { get; }
+        protected RarityData RarityData { get; }
         protected Transform Container { get; }
 
         public abstract void Execute();
