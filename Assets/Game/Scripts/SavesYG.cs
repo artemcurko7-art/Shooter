@@ -16,7 +16,9 @@ namespace YG
 
         //Ежедневные подарки
         public List<int> TakenDailyGiftDays = new();
-        public long DailyGiftWeekStart;
+        public int TakenDailyGiftBoxes;
+        public int TotalCollectedGifts;
+        public int DailyGiftWeek;
         public long GiftEndTime;
     }
 }

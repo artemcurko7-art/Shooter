@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,43 +17,84 @@ namespace Game.Scripts.UI.Shop
         private Button _button;
         private BuyItemData.BuyItem _buyItem;
 
-        private void Awake()
+        private void Start()
         {
             _button = GetComponent<Button>();
         }
 
         private void OnEnable()
         {
-            _button.onClick.AddListener(OnButtonClock);
+            if (_button == null)
+                _button = GetComponent<Button>();
+
+            if (_button != null)
+                _button.onClick.AddListener(OnButtonClick);
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(OnButtonClock);
+            if (_button != null)
+                _button.onClick.RemoveListener(OnButtonClick);
         }
 
         public void Init(Shop shop, BuyItemData.BuyItem buyItem, bool isTaken)
         {
+            if (shop == null)
+            {
+                Debug.LogWarning($"{nameof(BuyItemBar)}: Shop is null.", this);
+                return;
+            }
+
+            if (buyItem == null)
+            {
+                Debug.LogWarning($"{nameof(BuyItemBar)}: BuyItem is null.", this);
+                return;
+            }
+
             _shop = shop;
             _buyItem = buyItem;
+            _isTaken = isTaken;
 
             UpdateDisplay();
         }
 
         public void UpdateDisplay()
         {
-            if (_buyItem == null) return;
-            if (_buyItem.icon) _icon.sprite = _buyItem.icon;
-            if (_count) _count.text = _buyItem.count > 0 ? _buyItem.count.ToString() : string.Empty;
-            if (_price) _price.text = _buyItem.price > 0 ? '$' + _buyItem.price.ToString() : string.Empty;
-            if (_checkMark) _checkMark.SetActive(_isTaken);
+            if (_buyItem == null)
+                return;
+
+            if (_icon != null && _buyItem.icon != null)
+                _icon.sprite = _buyItem.icon;
+
+            if (_count != null)
+                _count.text = _buyItem.count > 0 ? _buyItem.count.ToString() : string.Empty;
+
+            if (_price != null)
+                _price.text = _buyItem.price > 0 ? $"${_buyItem.price}" : string.Empty;
+
+            if (_checkMark != null)
+                _checkMark.SetActive(_isTaken);
         }
 
-        private void OnButtonClock()
+        private void OnButtonClick()
         {
-            if (!_shop || _buyItem == null) return;
-            Debug.Log("OpenPreview");
+            if (_shop.IsPreviewAnimating) return;
 
+            Debug.Log($"BuyItemBar clicked: {_buyItem?.resource}", this);
+
+            if (_shop == null)
+            {
+                Debug.LogWarning("BuyItemBar: Shop is NULL.", this);
+                return;
+            }
+
+            if (_buyItem == null)
+            {
+                Debug.LogWarning("BuyItemBar: BuyItem is NULL.", this);
+                return;
+            }
+
+            Debug.Log("BuyItemBar: calling Shop.OpenPreview()", this);
 
             _shop.OpenPreview(_buyItem, transform.position);
         }

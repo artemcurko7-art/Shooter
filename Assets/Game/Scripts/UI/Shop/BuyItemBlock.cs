@@ -12,7 +12,7 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private BuyItemBar _prefab;
         [SerializeField] private BuyItemData _data;
 
-        private List<BuyItemBar> _bars = new();
+        private readonly List<BuyItemBar> _bars = new();
 
         private void Start()
         {
@@ -21,10 +21,63 @@ namespace Game.Scripts.UI.Shop
 
         private void InitializeBars()
         {
-            for (var i = 0; i < MAX_ITEMS_COUNT && i < _data.items.Count; i++)
+            if (_shop == null)
             {
+                Debug.LogWarning($"{nameof(BuyItemBlock)}: Shop is not assigned.", this);
+                return;
+            }
+
+            if (_content == null)
+            {
+                Debug.LogWarning($"{nameof(BuyItemBlock)}: Content is not assigned.", this);
+                return;
+            }
+
+            if (_prefab == null)
+            {
+                Debug.LogWarning($"{nameof(BuyItemBlock)}: BuyItemBar prefab is not assigned.", this);
+                return;
+            }
+
+            if (_data == null)
+            {
+                Debug.LogWarning($"{nameof(BuyItemBlock)}: BuyItemData is not assigned.", this);
+                return;
+            }
+
+            if (_data.items == null || _data.items.Count == 0)
+                return;
+
+            if (_bars.Count > 0)
+                return;
+
+            var itemsCount = Mathf.Min(MAX_ITEMS_COUNT, _data.items.Count);
+
+            for (var i = 0; i < itemsCount; i++)
+            {
+                var buyItem = _data.items[i];
+
+                if (buyItem == null)
+                {
+                    Debug.LogWarning(
+                        $"{nameof(BuyItemBlock)}: Item at index {i} is null.",
+                        this);
+
+                    continue;
+                }
+
                 var bar = Instantiate(_prefab, _content);
-                bar.Init(_shop, _data.items[i], false);
+
+                if (bar == null)
+                {
+                    Debug.LogWarning(
+                        $"{nameof(BuyItemBlock)}: Failed to instantiate BuyItemBar at index {i}.",
+                        this);
+
+                    continue;
+                }
+
+                bar.Init(_shop, buyItem, false);
                 _bars.Add(bar);
             }
         }

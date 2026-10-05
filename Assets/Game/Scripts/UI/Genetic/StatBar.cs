@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Scripts.UI.Genetic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Scripts.Genetic
