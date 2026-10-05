@@ -14,8 +14,13 @@ namespace Game.Scripts.UI.Animation
 
         private Vector2 _originPosition = Vector2.zero;
 
-        public void Open(CanvasGroup canvasGroup, RectTransform target, Vector3 startPosition, Ease scaleEase,
-            Ease positionEase, float duration)
+        public void Open(
+            CanvasGroup canvasGroup,
+            RectTransform target,
+            Vector3 startPosition,
+            Ease scaleEase,
+            Ease positionEase,
+            float duration)
         {
             if (!canvasGroup)
                 throw new ArgumentException("_canvasGroup не может быть null.", nameof(canvasGroup));
@@ -23,23 +28,37 @@ namespace Game.Scripts.UI.Animation
             if (!target)
                 throw new ArgumentException("_target не может быть null.", nameof(target));
 
+            canvasGroup.DOKill();
+            target.DOKill();
+
             target.gameObject.SetActive(true);
             target.position = startPosition;
             target.localScale = _startScale;
-            canvasGroup.alpha = 0;
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
 
             _originPosition = target.anchoredPosition;
 
-            if (canvasGroup)
-                canvasGroup.interactable = false;
+            canvasGroup
+                .DOFade(1f, duration)
+                .SetEase(Ease.Linear);
 
-            canvasGroup.DOFade(1f, duration).SetEase(Ease.Linear);
-            target.DOAnchorPos(_endPosition, duration).SetEase(positionEase);
-            target.DOScale(_endScale, duration).SetEase(scaleEase).OnComplete(() =>
-            {
-                if (canvasGroup)
+            target
+                .DOAnchorPos(_endPosition, duration)
+                .SetEase(positionEase);
+
+            target
+                .DOScale(_endScale, duration)
+                .SetEase(scaleEase)
+                .OnComplete(() =>
+                {
+                    if (!canvasGroup)
+                        return;
+
                     canvasGroup.interactable = true;
-            });
+                    canvasGroup.blocksRaycasts = true;
+                });
         }
 
         public void Close(CanvasGroup canvasGroup, RectTransform target)
@@ -50,19 +69,34 @@ namespace Game.Scripts.UI.Animation
             if (!target)
                 throw new ArgumentException("_target не может быть null.", nameof(target));
 
-            canvasGroup.DOFade(0f, CLOSE_DURATION).SetEase(Ease.OutExpo);
+            canvasGroup.DOKill();
+            target.DOKill();
 
-            if (_originPosition != Vector2.zero) 
-                target.DOAnchorPos(_originPosition, CLOSE_DURATION).SetEase(Ease.Linear);
-            
-            target.DOScale(_startScale, CLOSE_DURATION).SetEase(Ease.Linear).OnComplete(() =>
+            canvasGroup
+                .DOFade(0f, CLOSE_DURATION)
+                .SetEase(Ease.OutExpo);
+
+            if (_originPosition != Vector2.zero)
             {
-                if (canvasGroup)
-                    canvasGroup.interactable = false;
+                target
+                    .DOAnchorPos(_originPosition, CLOSE_DURATION)
+                    .SetEase(Ease.Linear);
+            }
 
-                _originPosition = Vector2.zero;
-                target.gameObject.SetActive(false);
-            });
+            target
+                .DOScale(_startScale, CLOSE_DURATION)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    if (!canvasGroup || !target)
+                        return;
+
+                    canvasGroup.interactable = false;
+                    canvasGroup.blocksRaycasts = false;
+
+                    _originPosition = Vector2.zero;
+                    target.gameObject.SetActive(false);
+                });
         }
     }
 }

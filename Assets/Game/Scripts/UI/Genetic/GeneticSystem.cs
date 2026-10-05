@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Game.Scripts.UI;
+using Game.Scripts.Genetic;
 using Game.Scripts.UI.Animation;
-using Game.Scripts.UI.Genetic;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-namespace Game.Scripts.Genetic
+namespace Game.Scripts.UI.Genetic
 {
     public class GeneticSystem : MonoBehaviour
     {
@@ -215,7 +214,10 @@ namespace Game.Scripts.Genetic
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
                     RectTransformUtility.WorldToScreenPoint(null, elementCenter),
-                    null, out var viewportPoint)) { return; }
+                    null, out var viewportPoint))
+            {
+                return;
+            }
 
             var deltaY = viewportPoint.y - viewportRect.rect.center.y;
 
@@ -223,13 +225,13 @@ namespace Game.Scripts.Genetic
 
             var targetY = contentRect.anchoredPosition.y - deltaY;
             targetY = GetClampedScrollY(contentRect, targetY);
-            
+
             if (!animated)
             {
                 _smoothScroll?.SetPositionY(targetY);
 
-                if (!_smoothScroll) 
-                { 
+                if (!_smoothScroll)
+                {
                     contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
                 }
 
@@ -246,11 +248,11 @@ namespace Game.Scripts.Genetic
             }
         }
 
-        private float GetClampedScrollY(RectTransform content, float targetY) 
-        { 
+        private float GetClampedScrollY(RectTransform content, float targetY)
+        {
             var contentHeight = content.rect.height;
             var viewportHeight = _scrollRect.viewport.rect.height;
-            
+
             if (contentHeight <= viewportHeight)
                 return content.anchoredPosition.y;
 
