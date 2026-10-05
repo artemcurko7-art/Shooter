@@ -6,6 +6,6 @@ namespace Game.Scripts.Equipment.CharacterContext.Provider
 {
     public interface ICharacterProvider
     {
-        public IReadOnlyDictionary<SquadNumberType, Character> Characters { get; }
+        public IReadOnlyDictionary<SquadNumberType, CharacterType> Characters { get; }
     }
 }

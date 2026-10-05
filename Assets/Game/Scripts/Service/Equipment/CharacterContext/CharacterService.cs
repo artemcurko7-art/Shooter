@@ -6,48 +6,67 @@ using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Factory;
 using Game.Scripts.SquadContext;
-using Game.Scripts.SquadContext.Type;
+using Game.Scripts.WeaponContext;
+using Game.Scripts.WeaponContext.Data;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.CharacterContext
 {
-    public class CharacterService
+    public class CharacterService : ICharacterService
     {
-        private readonly CharacterFactory _factory;
+        private const float FormationSpacing = 1.5f;
+
+        private readonly ICharacterData _data;
         private readonly ICharacterProvider _provider;
+        private readonly CharacterFactory _factory;
+        private readonly WeaponData _weaponData;
+        private readonly WeaponViewFactory _weaponViewFactory;
         private readonly SquadPosition[] _squadPositions;
         private readonly List<Character> _characters = new();
+        private readonly List<WeaponView> _weaponViews = new();
         private readonly Dictionary<int, Vector3[]> Offsets = new()
         {
             [1] = new[] { Vector3.zero },
-            [2] = new[] { new Vector3(-2, 0, 0), new Vector3(2, 0, 0) },
-            [3] = new[] { new Vector3(0, 0, 2), new Vector3(-2, 0, 0), new Vector3(2, 0, 0) },
-            [4] = new[] { new Vector3(0, 0, 2), new Vector3(2, 0, 0), new Vector3(-2, 0, 0), new Vector3(0, 0, -2) }
+            [2] = new[] { new Vector3(-FormationSpacing, 0, 0), new Vector3(FormationSpacing, 0, 0) },
+            [3] = new[] { new Vector3(0, 0, FormationSpacing), new Vector3(-FormationSpacing, 0, 0), new Vector3(FormationSpacing, 0, 0) },
+            [4] = new[] { new Vector3(0, 0, FormationSpacing), new Vector3(FormationSpacing, 0, 0), new Vector3(-FormationSpacing, 0, 0), new Vector3(0, 0, -FormationSpacing) }
         };
         
-        public CharacterService(CharacterFactory factory, ICharacterProvider provider, SquadPosition[] squadPositions)
+        public CharacterService(
+            ICharacterData data,
+            ICharacterProvider provider,
+            CharacterFactory factory,
+            WeaponData weaponData,
+            WeaponViewFactory weaponViewFactory,
+            SquadPosition[] squadPositions)
         {
-            _factory = factory;
+            _data = data;
             _provider = provider;
+            _factory = factory;
+            _weaponData = weaponData;
+            _weaponViewFactory = weaponViewFactory;
             _squadPositions = squadPositions;
 
             Create();
         }
-
+        
+        public IReadOnlyList<WeaponView> WeaponViews => _weaponViews;
 
         private void Create()
         {
-            foreach (var (type, character) in _provider.Characters)
+            foreach (var (squadNumberType, type) in _provider.Characters)
             {
-                if (character == null) 
-                    continue;
+                if (type == CharacterType.None) 
+                     continue;
                 
-                var squadPosition = _squadPositions.FirstOrDefault(squadPosition => squadPosition.Type == type);
-
-                var view = _factory.Create(character, squadPosition.transform);
+                var squadPosition = _squadPositions.FirstOrDefault(squadPosition => squadPosition.Type == squadNumberType);
+                
+                var view = _factory.Create(_data.Characters[type].View, _data.Characters[type].WeaponType, squadPosition.transform);
+                var weaponView = _weaponViewFactory.Create(_weaponData.Weapons[view.WeaponType], view.Weapon, view.ShootPosition);
                 _characters.Add(view);
+                _weaponViews.Add(weaponView);
             }
-
+            
             ApplyPosition();
         }
 

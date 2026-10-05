@@ -3,6 +3,7 @@ using System.Linq;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.WeaponContext.Type;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Game.Scripts.Configs
     public class CharacterConfig : ScriptableObject
     {
         [field: SerializeField] public CharacterType Type { get; private set; }
+        [field: SerializeField] public WeaponType WeaponType { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Character View { get; private set; }
@@ -24,13 +26,10 @@ namespace Game.Scripts.Configs
 
         private void OnValidate()
         {
-            // Получаем типы без 0-го элемента для проверки длины
             var requiredTypes = GetFilteredStatTypes();
 
             if (Stats == null || Stats.Length != requiredTypes.Length)
-            {
                 RebuildStatsArray();
-            }
         }
 
         private void RebuildStatsArray()

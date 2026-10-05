@@ -11,20 +11,20 @@ namespace Game.Scripts.Service.Weapon
         private readonly WeaponViewFactory _factory;
         private readonly Transform _container;
         
-        public WeaponService(WeaponConfig config, WeaponViewFactory factory, Transform container)
-        {
-            _container = container;
-            _config = config;
-            _factory = factory;
-            
-            Create();
-        }
+        // public WeaponService(WeaponConfig config, WeaponViewFactory factory, Transform container)
+        // {
+        //     _container = container;
+        //     _config = config;
+        //     _factory = factory;
+        //     
+        //     //Create();
+        // }
 
         public WeaponView View { get; private set; }
         
-        private void Create()
-        {
-            View = _factory.Create(_config, _container);
-        }
+        // private void Create()
+        // {
+        //     View = _factory.Create(_config, _container);
+        // }
     }
 }

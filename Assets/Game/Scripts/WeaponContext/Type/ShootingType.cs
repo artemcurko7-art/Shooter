@@ -4,6 +4,6 @@
     {
         None,
 		RangedCombat,
-		Cutting,
+		Melee,
     }
 }

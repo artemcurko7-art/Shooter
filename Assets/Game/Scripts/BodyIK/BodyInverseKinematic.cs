@@ -19,11 +19,11 @@ namespace Game.Scripts.BodyIK
             _animator = GetComponent<Animator>();
         }
 
-        private void OnAnimatorIK(int layerIndex)
-        {
-            SetIK(AvatarIKGoal.LeftHand, _weaponService.View.LeftHandGrip.position, _weaponService.View.LeftHandGrip.rotation);
-            SetIK(AvatarIKGoal.RightHand, _weaponService.View.RightHandGrip.position, _weaponService.View.RightHandGrip.rotation);
-        }
+        // private void OnAnimatorIK(int layerIndex)
+        // {
+        //     SetIK(AvatarIKGoal.LeftHand, _weaponService.View.LeftHandGrip.position, _weaponService.View.LeftHandGrip.rotation);
+        //     SetIK(AvatarIKGoal.RightHand, _weaponService.View.RightHandGrip.position, _weaponService.View.RightHandGrip.rotation);
+        // }
 
         private void SetIK(AvatarIKGoal type, Vector3 position, Quaternion rotation)
         {

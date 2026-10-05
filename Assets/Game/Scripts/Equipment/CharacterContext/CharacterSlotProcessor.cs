@@ -65,7 +65,7 @@ namespace Game.Scripts.Equipment.CharacterContext
             if (FreeRegistry.EquippedSlots[_squadNumberType] == null)
             {
                 FreeRegistry.Register(_squadNumberType, slot);
-                _provider.Set(_squadNumberType, slot.Character);
+                _provider.Set(_squadNumberType, slot.Type);
             }
         }
 

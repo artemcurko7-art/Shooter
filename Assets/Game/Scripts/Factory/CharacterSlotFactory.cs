@@ -20,7 +20,7 @@ namespace Game.Scripts.Factory
         {
             var slot = _container.InstantiatePrefabForComponent<CharacterSlot>(_slot, Vector3.zero, Quaternion.identity, container);
             slot.Initialize(rarityConfig, config.Icon, config.Name);
-            slot.Initialize(config.View, config.Stats);
+            slot.Initialize(config.Type, config.Stats);
             slot.transform.localScale = Vector3.one;
             
             return slot;

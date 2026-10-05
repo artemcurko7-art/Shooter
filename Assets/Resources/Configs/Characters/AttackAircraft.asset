@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AttackAircraft
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
+  <WeaponType>k__BackingField: 1
   <Name>k__BackingField: "\u0428\u0442\u0443\u0440\u043C\u043E\u0432\u0438\u043A"
   <Icon>k__BackingField: {fileID: 21300000, guid: 860fe958c2ed5334a93fc75d6cd4268d, type: 3}
   <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}

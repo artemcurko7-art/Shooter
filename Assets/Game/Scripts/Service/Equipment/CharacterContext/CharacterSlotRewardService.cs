@@ -12,7 +12,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
 {
     public class CharacterSlotRewardService : SlotRewardService, ISlotRewardService<CharacterSlot>
     {
-        private readonly CharacterData _data;
+        private readonly ICharacterData _data;
         private readonly CharacterSlotFactory _factory;
         
         public event Action<CharacterSlot> Rewarded;
@@ -20,7 +20,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
         public CharacterSlotRewardService(
             RarityData rarityData,
             Transform container,
-            CharacterData data,
+            ICharacterData data,
             CharacterSlotFactory factory)
             : base(rarityData, container)
         {
@@ -31,9 +31,8 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
         public override void Execute()
         {
             //RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
-            
-            var view = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.AttackAircraft], Container);
-            var view2 = _factory.Create(RarityData.Configs[RarityEquipmentType.Mythical], _data.Characters[CharacterType.Healer], Container);
+            var view = _factory.Create(RarityData.Configs[RarityType.Mythical], _data.Characters[CharacterType.AttackAircraft], Container);
+            var view2 = _factory.Create(RarityData.Configs[RarityType.Mythical], _data.Characters[CharacterType.Healer], Container);
             Rewarded?.Invoke(view);
             Rewarded?.Invoke(view2);
         }

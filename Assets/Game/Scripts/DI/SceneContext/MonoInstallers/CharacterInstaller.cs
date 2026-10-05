@@ -13,10 +13,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<CharacterService>()
+                .BindInterfacesAndSelfTo<CharacterService>()
                 .AsSingle()
-                .WithArguments(_squadPositions)
-                .NonLazy();
+                .WithArguments(_squadPositions);
 
             Container
                 .Bind<CharacterFactory>()

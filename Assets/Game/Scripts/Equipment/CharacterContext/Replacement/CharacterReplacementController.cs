@@ -37,7 +37,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
                     FreeRegistry.EquippedSlots[dropSlot.Type].Drag.ResetSettings();
                     dropSlot.Set(DroppedSlot);
                     FreeRegistry.Register(dropSlot.Type, DroppedSlot);
-                    _provider.Set(dropSlot.Type, dropSlot.Slot.Character);
+                    _provider.Set(dropSlot.Type, dropSlot.Slot.Type);
                     _tabService.DisableTab();
                 }
             }

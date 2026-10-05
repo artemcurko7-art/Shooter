@@ -5908,10 +5908,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 391204264}
+  - {fileID: 763935824}
   - {fileID: 740496484}
   - {fileID: 200752803}
+  - {fileID: 1521377975}
   - {fileID: 1029414153}
-  - {fileID: 763935824}
   - {fileID: 465046870}
   - {fileID: 821481730}
   _installerPrefabs: []
@@ -7150,6 +7151,50 @@ Transform:
   - {fileID: 1574357533}
   m_Father: {fileID: 573277536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1521377973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1521377974}
+  - component: {fileID: 1521377975}
+  m_Layer: 0
+  m_Name: Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1521377974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521377973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2097756510}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1521377975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521377973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 843702a5532b482c925cc562188bd0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1532085471
 GameObject:
   m_ObjectHideFlags: 0
@@ -8941,6 +8986,7 @@ Transform:
   - {fileID: 763935823}
   - {fileID: 465046869}
   - {fileID: 821481729}
+  - {fileID: 1521377974}
   m_Father: {fileID: 1206506452}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &12380789077087164
@@ -14588,6 +14634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da9cd4b8fd6400eacd25961b669ab09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Weapon>k__BackingField: {fileID: 0}
+  <ShootPosition>k__BackingField: {fileID: 0}
 --- !u!1 &9182512502017828329
 GameObject:
   m_ObjectHideFlags: 0

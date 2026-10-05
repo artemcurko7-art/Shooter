@@ -36,14 +36,14 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         
         public override void Execute()
         {
-            RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
+            RarityType rarityType = WeightedRandomSampling.GetRandomWeighted<RarityType>();
             EquipmentType equipmentType = WeightedRandomSampling.GetRandomWeighted<EquipmentType>();
             EquipmentConfig config = GetRandomEquipmentConfig(equipmentType, out int index);          
             Stat stat = GetRandomStat(equipmentType, index);
-            Stat[] stats = GetRandomStats(rarityEquipmentType, equipmentType, index);
+            Stat[] stats = GetRandomStats(rarityType, equipmentType, index);
             stats = GetSortingStats(stats.ToList());
             
-            var slot = _factory.Create(RarityData.Configs[rarityEquipmentType], config, stat, stats, Container);
+            var slot = _factory.Create(RarityData.Configs[rarityType], config, stat, stats, Container);
             Rewarded?.Invoke(slot);
         }
 
@@ -66,13 +66,13 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             return config;
         }
 
-        private Stat[] GetRandomStats(RarityEquipmentType rarityEquipmentType, EquipmentType equipmentType, int index)
+        private Stat[] GetRandomStats(RarityType rarityType, EquipmentType equipmentType, int index)
         {
             List<StatInfoData> statInfoDates = new List<StatInfoData>(_data.Configs[equipmentType][index].AdditionalStats);
             List<Stat> stats = new();
             statInfoDates.Shuffle();
             
-            int count = NumberGeneration.GetIntegerRandom(RarityData.Configs[rarityEquipmentType].MaxParameter - 1, RarityData.Configs[rarityEquipmentType].MaxParameter + 1);
+            int count = NumberGeneration.GetIntegerRandom(RarityData.Configs[rarityType].MaxParameter - 1, RarityData.Configs[rarityType].MaxParameter + 1);
             int calculationCountParameter = statInfoDates.Count - count;
 
             for (int j = 0; j < calculationCountParameter; j++)

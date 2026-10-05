@@ -4,11 +4,12 @@ using Game.Scripts.Configs;
 using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.SquadContext.Type;
+using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext.Data
 {
-    public class CharacterData
+    public class CharacterData : ICharacterData
     {
         private readonly CharacterConfig[] _configs;
         private readonly Dictionary<CharacterType, CharacterConfig> _characters = new();
@@ -19,7 +20,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Data
             
             Fill();
             
-            provider.Set(SquadNumberType.First, _characters[CharacterType.AttackAircraft].View);
+            provider.Set(SquadNumberType.First, CharacterType.AttackAircraft);
         }
 
         public IReadOnlyDictionary<CharacterType, CharacterConfig> Characters => _characters;

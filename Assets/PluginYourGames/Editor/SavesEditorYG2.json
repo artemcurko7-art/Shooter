@@ -1,5 +1,5 @@
 {
-    "IdSavedStatCount": 336,
+    "IdSavedStatCount": 337,
     "AttackStrength": 34.5,
     "CriticalDamage": 34.5,
     "Armor": 34.5,
@@ -7,7 +7,8 @@
     "ViewRange": 34.0,
     "TakenDailyGiftDays": [
         3,
-        5
+        5,
+        6
     ],
     "DailyGiftWeekStart": 0,
     "GiftEndTime": 0,

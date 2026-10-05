@@ -19,9 +19,9 @@ namespace Game.Scripts.Equipment.EquipmentContext
         {
             _index = slots.Count - 1;
 
-            foreach (var rarityType in Enum.GetValues(typeof(RarityEquipmentType)))
+            foreach (var rarityType in Enum.GetValues(typeof(RarityType)))
             {
-                if ((RarityEquipmentType)rarityType == RarityEquipmentType.None)
+                if ((RarityType)rarityType == RarityType.None)
                     continue;
                 
                 var types = Enum.GetValues(typeof(EquipmentType));
@@ -33,7 +33,7 @@ namespace Game.Scripts.Equipment.EquipmentContext
                     
                     foreach (var slot in slots)
                     {
-                        if ((RarityEquipmentType)rarityType == slot.RarityConfig.Type && (EquipmentType)type == slot.EquipmentItem.Type)
+                        if ((RarityType)rarityType == slot.RarityConfig.Type && (EquipmentType)type == slot.EquipmentItem.Type)
                         {
                             slot.transform.SetSiblingIndex(_index);
                             _index--;

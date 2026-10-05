@@ -2,7 +2,7 @@
 
 namespace Game.Scripts.Equipment.EquipmentContext.Type
 {
-    public enum RarityEquipmentType
+    public enum RarityType
     {
         None,
         [Weight(RarityEquipmentWeights.Usual)]Usual,

@@ -9,7 +9,8 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<CharacterData>()
+                .Bind<ICharacterData>()
+                .To<CharacterData>()
                 .AsSingle();
             
             Container

@@ -38,10 +38,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void Bind()
         {
             Container
-                .Bind<CharacterData>()
-                .AsSingle();
-
-            Container
                 .BindInterfacesTo<CharacterSlotProcessor>()
                 .AsSingle();
             

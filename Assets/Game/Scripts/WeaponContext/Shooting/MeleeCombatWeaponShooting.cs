@@ -11,15 +11,15 @@ using Zenject;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {
-    [WeaponShootingType(ShootingType.RangedCombat)]
-    public class RangedCombatWeaponShooting : WeaponShooting, IWeaponShooting
+    [WeaponShootingType(ShootingType.Melee)]
+    public class MeleeCombatWeaponShooting : WeaponShooting, IWeaponShooting
     {
         private const int SecondInMilliseconds = 1000;
         private CancellationTokenSource _cancellationTokenSource;
         private int _countShoot;
         private bool _canShoot = true;
 
-        public RangedCombatWeaponShooting(
+        public MeleeCombatWeaponShooting(
             IWeaponShootingConfig config,
             TrackerUnits trackerUnits,
             ProjectilePool projectilePool) 
@@ -42,7 +42,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource = new CancellationTokenSource();
             StartCooldown(transform, _cancellationTokenSource.Token).Forget();
             
-            Debug.Log("Ranged combat");
+            Debug.Log("Melee combat");
         }
         
         protected override ShootingType GetType()

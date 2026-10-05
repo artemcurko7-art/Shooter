@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.SquadContext.Type;
+using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext.Provider
 {
     public class CharacterProvider : ICharacterProvider
     {
-        private readonly Dictionary<SquadNumberType, Character> _characters = new();
+        private readonly Dictionary<SquadNumberType, CharacterType> _characters = new();
 
         private CharacterProvider()
         {
             foreach (var type in Enum.GetValues(typeof(SquadNumberType)))
-                _characters.Add((SquadNumberType)type, null);
+                _characters.Add((SquadNumberType)type, CharacterType.None);
         }
         
-        public IReadOnlyDictionary<SquadNumberType, Character> Characters => _characters;
+        public IReadOnlyDictionary<SquadNumberType, CharacterType> Characters => _characters;
         
-        public void Set(SquadNumberType type, Character character)
+        public void Set(SquadNumberType squadNumberType, CharacterType type)
         {
-            _characters[type] = character;
+            _characters[squadNumberType] = type;
         }
 
-        public void Remove(SquadNumberType type)
+        public void Remove(SquadNumberType squadNumberType)
         {
-            _characters.Remove(type);
+            _characters.Remove(squadNumberType);
         }
     }
 }

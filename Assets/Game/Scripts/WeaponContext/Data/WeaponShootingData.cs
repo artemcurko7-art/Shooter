@@ -1,36 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Game.Scripts.Extensions;
+using Game.Scripts.WeaponContext.Attribute;
 using Game.Scripts.WeaponContext.Shooting;
 using Game.Scripts.WeaponContext.Type;
-using UnityEngine;
 
 namespace Game.Scripts.WeaponContext.Data
 {
     public class WeaponShootingData
     {
-        private readonly IWeaponShooting[] _weaponShootings;
-        private readonly Dictionary<ShootingType, IWeaponShooting> _shootings = new();
-    
-        public WeaponShootingData(IWeaponShooting[] weaponShootings)
+        private readonly Dictionary<ShootingType, System.Type> _shootings = new();
+        
+        public WeaponShootingData()
         {
-            _weaponShootings = weaponShootings;
-            
             Fill();
         }
         
-        public IReadOnlyDictionary<ShootingType, IWeaponShooting> Shootings => _shootings;
-
+        public IReadOnlyDictionary<ShootingType, System.Type> Shootings => _shootings;
+        
         private void Fill()
         {
-            foreach (var weaponShooting in _weaponShootings)
-            {
-                if (weaponShooting.Type == ShootingType.None)
-                    throw new InvalidOperationException($"Not type: {weaponShooting.Type}");
+            var types = ReflectionExtensions.GetImplementations<IWeaponShooting>();
 
-                if (_shootings.ContainsKey(weaponShooting.Type))
-                    throw new InvalidOperationException($"Duplicate type: {weaponShooting.Type}");
-                
-                _shootings.Add(weaponShooting.Type, weaponShooting);
+            foreach (var type in types)
+            {
+                var attribute = type.GetCustomAttribute<WeaponShootingTypeAttribute>();
+            
+                if (attribute == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Class '{type.Name}' implements IWeaponShooting but is missing [ShootingType] attribute!");
+                }
+
+                ShootingType shootingType = attribute.Type;
+
+                if (shootingType == ShootingType.None)
+                {
+                    throw new InvalidOperationException(
+                        $"Class '{type.Name}' cannot be assigned to ShootingType.None!");
+                }
+
+                if (_shootings.TryAdd(shootingType, type) == false)
+                {
+                    throw new InvalidOperationException(
+                        $"Duplicate ShootingType registration for '{shootingType}'. " +
+                        $"Conflict between '{_shootings[shootingType].Name}' and '{type.Name}'.");
+                }
             }
         }
     }

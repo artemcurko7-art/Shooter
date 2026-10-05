@@ -1,7 +1,9 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Factory;
 using Game.Scripts.Provider;
+using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Weapon;
+using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
@@ -19,12 +21,14 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private float _cooldownSingle;
         
         private WeaponProvider _provider;
+        private ICharacterService _characterService;
         private WeaponConfig[] _configs; // test
         
         [Inject]
-        public void Construct(WeaponProvider provider)
+        public void Construct(WeaponProvider provider)//, ICharacterService characterService)
         {
             _provider = provider;
+            //_characterService = characterService;
             _configs = Resources.LoadAll<WeaponConfig>("Configs/Weapon"); // test
         }
         
@@ -37,27 +41,33 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<WeaponService>()
                 .AsSingle()
-                .WithArguments(_container)
                 .NonLazy();
             
             Container
                 .Bind<WeaponViewFactory>()
                 .AsSingle();
+
+            // foreach (var weaponView in _characterService.WeaponViews)
+            // {
+            //     Container
+            //         .Bind<IWeaponShooting>()
+            //         .FromInstance(weaponView.Weapon.Shooting)
+            //         .AsCached();
+            // }
             
             // Container
             //     .Bind<WeaponConfig>()
             //     .FromInstance(_provider.Config)
             //     .AsSingle();
             
-            Container // test
-                .BindInterfacesAndSelfTo<WeaponConfig>()
-                .FromInstance(_configs[0])
-                .AsSingle();
-            
-            Container
-                .BindInterfacesTo<RangedCombatWeaponShooting>()
-                .AsCached()
-                .WithArguments(_shootPoint);
+            // Container // test
+            //     .BindInterfacesAndSelfTo<WeaponConfig>()
+            //     .FromInstance(_configs[0])
+            //     .AsSingle();
+
+            // Container
+            //     .BindInterfacesTo<RangedCombatWeaponShooting>()
+            //     .AsCached();
         }
     }
 }

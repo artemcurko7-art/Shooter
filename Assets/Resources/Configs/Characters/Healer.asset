@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Healer
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 2
+  <WeaponType>k__BackingField: 2
   <Name>k__BackingField: "\u0426\u0435\u043B\u0438\u0442\u0435\u043B\u044C"
   <Icon>k__BackingField: {fileID: 21300000, guid: 7a113aa97e40b02409a415131bb41ecb, type: 3}
   <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}

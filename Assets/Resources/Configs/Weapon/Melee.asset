@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 299092701dbc03048aec173b5ac4c664, type: 3}
-  m_Name: Pistol
+  m_Name: Melee
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
-  <ShootingType>k__BackingField: 1
-  <View>k__BackingField: {fileID: 8899664233776369094, guid: 62557249be8819c428c1c3dc80ab3af9, type: 3}
+  <Type>k__BackingField: 2
+  <ShootingType>k__BackingField: 2
+  <View>k__BackingField: {fileID: 1085653860310142931, guid: 0db952896c549b54d8a2088947ba2298, type: 3}
   <Projectile>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
-  <Scale>k__BackingField: {x: 1.5, y: 1.5, z: 1.5}
-  <MaxCountShoot>k__BackingField: 5
-  <CooldownShoot>k__BackingField: 1
-  <CooldownReload>k__BackingField: 2
+  <Scale>k__BackingField: {x: 1.1, y: 1.1, z: 1.1}
+  <MaxCountShoot>k__BackingField: 30
+  <CooldownShoot>k__BackingField: 0.5
+  <CooldownReload>k__BackingField: 5
   <Radius>k__BackingField: 1
   <Speed>k__BackingField: 500
   <Damage>k__BackingField: 30

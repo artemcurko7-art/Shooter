@@ -10,11 +10,11 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
 {
     public class GeneralStatsHandler : ISubscriber
     {
-        private readonly CharacterData _characterData;
+        private readonly ICharacterData _characterData;
         private readonly EquipmentDropSlot[] _dropSlots;
         private readonly Dictionary<StatType, int> _stats = new();
         
-        public GeneralStatsHandler(CharacterData characterData, EquipmentDropSlot[] dropSlots)
+        public GeneralStatsHandler(ICharacterData characterData, EquipmentDropSlot[] dropSlots)
         {
             _characterData = characterData;
             _dropSlots = dropSlots;
