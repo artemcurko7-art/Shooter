@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Game.Scripts.UI.Animation;
 using TMPro;
@@ -40,8 +41,8 @@ namespace Game.Scripts.UI.DailyGift
 
         public void Collect()
         {
-            //if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
-            //    return;
+            if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
+                return;
 
             YG2.saves.TakenDailyGiftDays.Add(_dayOfWeekNumber);
             YG2.SaveProgress();
@@ -65,7 +66,7 @@ namespace Game.Scripts.UI.DailyGift
 
         private static int GetCurrentWeek()
         {
-            return System.Globalization.ISOWeek.GetWeekOfYear(DateTime.Today);
+            return ISOWeek.GetWeekOfYear(DateTime.Today);
         }
 
         private void InitializeTodayReward()

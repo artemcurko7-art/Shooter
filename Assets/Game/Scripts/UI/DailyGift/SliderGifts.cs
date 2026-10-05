@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -12,6 +13,8 @@ namespace Game.Scripts.UI.DailyGift
         private readonly int _maxGiftsCount = 3;
 
         [SerializeField] private Slider _slider;
+        [SerializeField] private Color _takenColor = Color.white.WithAlpha(100);
+        [SerializeField] private Color _defaultColor = Color.blue.WithAlpha(100);
         [SerializeField] private int _maxDaysCount = 21;
         [SerializeField] private List<GiftDay> _giftDays;
 
@@ -33,6 +36,7 @@ namespace Game.Scripts.UI.DailyGift
             for (var i = 0; i < _giftDays.Count && i < _maxGiftsCount; i++)
             {
                 _giftDays[i].Init();
+                _giftDays[i].UpdateVisual(_defaultColor, _takenColor);
             }
         }
 
@@ -43,10 +47,19 @@ namespace Game.Scripts.UI.DailyGift
             public int dayCount;
             public Image dayBackground;
             public Image giftIcon;
+            public GiftBox giftBox;
 
             public void Init()
             {
                 day.text = dayCount.ToString();
+            }
+
+            public void UpdateVisual(Color defaultColor, Color takenColor)
+            {
+                var collectedGifts = YG2.saves.TotalCollectedGifts;
+                giftIcon.color = collectedGifts < dayCount ? Color.gray : Color.white;
+                dayBackground.color = collectedGifts < dayCount ? defaultColor : takenColor;
+                giftBox.SwitchRay(collectedGifts >= dayCount);
             }
         }
     }
