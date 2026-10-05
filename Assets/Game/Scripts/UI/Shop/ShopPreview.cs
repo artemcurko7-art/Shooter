@@ -1,11 +1,8 @@
 using System;
-using Game.Scripts.Genetic;
 using Game.Scripts.UI.Animation;
-using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.Shop
 {

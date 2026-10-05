@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using YG;
 using Random = UnityEngine.Random;
 
@@ -23,12 +23,15 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private Transform _content;
         [SerializeField] private DailyGiftData _data;
         [SerializeField] private List<Sprite> _frames;
+        [SerializeField] private BuyEffect _buyEffect;
 
         private int _dayOfWeekNumber;
         public DailyGiftData.DailyGift CurrentGift { get; private set; }
 
         private void Start()
         {
+            CheckNewWeek();
+
             InitializeTitleText();
             InitializeTodayReward();
             InitializeDailyRewards();
@@ -37,13 +40,32 @@ namespace Game.Scripts.UI.DailyGift
 
         public void Collect()
         {
-            if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
-                return;
+            //if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
+            //    return;
 
             YG2.saves.TakenDailyGiftDays.Add(_dayOfWeekNumber);
             YG2.SaveProgress();
 
+            _buyEffect.Animate(CurrentGift.icon, CurrentGift.count, _bars[_dayOfWeekNumber - 1].transform.position);
             Refresh();
+        }
+
+        private void CheckNewWeek()
+        {
+            var currentWeek = GetCurrentWeek();
+
+            if (YG2.saves.DailyGiftWeek == currentWeek)
+                return;
+
+            YG2.saves.DailyGiftWeek = currentWeek;
+            YG2.saves.TakenDailyGiftDays.Clear();
+
+            YG2.SaveProgress();
+        }
+
+        private static int GetCurrentWeek()
+        {
+            return System.Globalization.ISOWeek.GetWeekOfYear(DateTime.Today);
         }
 
         private void InitializeTodayReward()
@@ -65,19 +87,11 @@ namespace Game.Scripts.UI.DailyGift
             for (var i = 0; i < DAYS_IN_WEEK - 1; i++)
             {
                 var dayIndex = i + 1;
-
-                var isAvailable = _dayOfWeekNumber > dayIndex;
-                var isTaken = YG2.saves.TakenDailyGiftDays.Contains(DAYS_IN_WEEK);
-
                 var bar = Instantiate(_giftBarPrefab, _content);
-
                 bar.Init(_data.Gifts[i], GetRandomFrame(), dayIndex);
-
                 _bars.Add(bar);
             }
-            
-            var isLastAvailable = _dayOfWeekNumber >= DAYS_IN_WEEK;
-            var isLastTaken = YG2.saves.TakenDailyGiftDays.Contains(DAYS_IN_WEEK);
+
             var superBar = Instantiate(_superGiftBarPrefab, _content);
             superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
             _bars.Add(superBar);
