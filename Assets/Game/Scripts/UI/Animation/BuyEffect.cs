@@ -13,7 +13,8 @@ namespace Game.Scripts.UI.Animation
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Image _image;
 
-        [Header("Animation")]
+        [Header(
+            "Animation (Укажите endPosition или offset \n если конечная точка просто выше)")]
         [SerializeField] private Vector3 _endPosition = Vector3.zero;
         [SerializeField] private float _upOffset = 750f;
         [SerializeField] private float _scaleDuration = 0.5f;
@@ -74,12 +75,17 @@ namespace Game.Scripts.UI.Animation
             var endPosition = Vector3.zero;
 
             if (_endPosition != Vector3.zero)
+            {
                 endPosition = _endPosition;
+            }
             else
-                endPosition.y = startPosition.y + _upOffset;
+            {
+                endPosition = startPosition;
+                endPosition.y += _upOffset;
+            }
 
             _target
-                .DOLocalMove(endPosition, _offsetDuration)
+                .DOMove(endPosition, _offsetDuration)
                 .SetEase(_offsetEase)
                 .OnComplete(() => FadeOut(onComplete));
 

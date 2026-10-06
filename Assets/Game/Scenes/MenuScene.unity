@@ -19499,7 +19499,7 @@ MonoBehaviour:
   _count: {fileID: 1526485716}
   _canvasGroup: {fileID: 380692095}
   _image: {fileID: 1738038336}
-  _endPosition: {x: 0, y: 1100, z: 0}
+  _endPosition: {x: 0, y: 5, z: 0}
   _upOffset: 1
   _scaleDuration: 0.5
   _offsetDuration: 1
@@ -27382,7 +27382,7 @@ MonoBehaviour:
   _canvasGroup: {fileID: 512642695}
   _image: {fileID: 431940726}
   _endPosition: {x: 0, y: 0, z: 0}
-  _upOffset: 300
+  _upOffset: 1
   _scaleDuration: 1
   _offsetDuration: 0.5
   _fadeDuration: 0.5

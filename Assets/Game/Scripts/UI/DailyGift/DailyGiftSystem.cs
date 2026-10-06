@@ -41,8 +41,8 @@ namespace Game.Scripts.UI.DailyGift
 
         public void Collect()
         {
-            if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
-                return;
+            //if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
+            //    return;
 
             YG2.saves.TakenDailyGiftDays.Add(_dayOfWeekNumber);
             YG2.SaveProgress();
