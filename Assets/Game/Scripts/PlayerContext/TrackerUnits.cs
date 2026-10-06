@@ -14,16 +14,15 @@ namespace Game.Scripts.PlayerContext
             _layerMask = layerMask;
             _radius = radius;
         }
-    
-        public Vector3 Direction { get; private set; }
+        
         public bool IsTracker { get; private set; }
         
-        public void FindNearestPosition(Vector3 position)
+        public Vector3 GetNearestPosition(Vector3 position)
         {
             int hitCount = Physics.OverlapSphereNonAlloc(position, _radius, _results, _layerMask);
             float closestDistanceSqr = Mathf.Infinity;
 
-            Direction = Vector3.zero;
+            Vector3 direction = Vector3.zero;
             IsTracker = false;
 
             for (int i = 0; i < hitCount; i++)
@@ -39,10 +38,12 @@ namespace Game.Scripts.PlayerContext
                 if (sqrDistance < closestDistanceSqr)
                 {
                     closestDistanceSqr = sqrDistance;
-                    Direction = calculationDirection.normalized; 
+                    direction = calculationDirection.normalized;
                     IsTracker = true;
                 }
             }
+            
+            return direction;
         }
     }
 }

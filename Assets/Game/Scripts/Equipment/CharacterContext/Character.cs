@@ -1,4 +1,6 @@
-﻿using Game.Scripts.PlayerContext;
+﻿using System;
+using System.Collections;
+using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
@@ -14,6 +16,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private Rotation _rotation;
         private TrackerUnits _trackerUnits;
         private IInput _input;
+        private Vector3 _direction;
         
         public WeaponType WeaponType { get; private set; }
         
@@ -28,11 +31,22 @@ namespace Game.Scripts.Equipment.CharacterContext
         public void Initialize(WeaponType weaponType)
         {
             WeaponType = weaponType;
+            StartCoroutine(StartTrackerUnits());
         }
         
         private void Update()
         {
-            _rotation.Rotate(transform, _trackerUnits.Direction, _input.Horizontal, _input.Vertical, 240 * Time.deltaTime);
+            _rotation.Rotate(transform, _direction, _input.Horizontal, _input.Vertical, 240 * Time.deltaTime);
+        }
+        
+        private IEnumerator StartTrackerUnits()
+        {
+            while (enabled)
+            {
+                yield return new WaitForSeconds(0.1f);
+            
+                _direction = _trackerUnits.GetNearestPosition(transform.position);
+            }
         }
     }
 }

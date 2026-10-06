@@ -73,7 +73,7 @@ namespace Game.Scripts.WeaponContext.Shooting
                 {
                     Attacked?.Invoke();
                     var obj = ProjectilePool.Get();
-                    obj.Initialize(transform.position, TrackerUnits.Direction, Config.Radius, Config.Damage, Config.Speed);
+                    obj.Initialize(transform.position, TrackerUnits.GetNearestPosition(transform.position), Config.Radius, Config.Damage, Config.Speed);
                     _countShoot++;
                 }
 

@@ -26,24 +26,24 @@ namespace Game.Scripts.PlayerContext
             Transform = GetComponent<Transform>();
         }
 
-        private void Start()
-        {
-            StartCoroutine(StartTrackerUnits());
-        }
+        // private void Start()
+        // {
+        //     StartCoroutine(StartTrackerUnits());
+        // }
 
         public void TakeDamage(int damage)
         {
             //_health.Increase(damage);
         }
 
-        private IEnumerator StartTrackerUnits()
-        {
-            while (enabled)
-            {
-                yield return new WaitForSeconds(0.1f);
-            
-                _trackerUnits.FindNearestPosition(transform.position);
-            }
-        }
+        // private IEnumerator StartTrackerUnits()
+        // {
+        //     while (enabled)
+        //     {
+        //         yield return new WaitForSeconds(0.1f);
+        //     
+        //         _trackerUnits.FindNearestPosition(transform.position);
+        //     }
+        // }
     }
 }
