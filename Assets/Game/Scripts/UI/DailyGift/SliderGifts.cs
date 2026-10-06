@@ -10,10 +10,10 @@ namespace Game.Scripts.UI.DailyGift
 {
     public class SliderGifts : MonoBehaviour
     {
-        private readonly int _maxGiftsCount = 3;
+        private const int MAX_GIFTS_COUNT = 3;
 
         [SerializeField] private Slider _slider;
-        [SerializeField] private Color _takenColor = Color.white.WithAlpha(100);
+        [SerializeField] private Color _unlockedColor = Color.white.WithAlpha(100);
         [SerializeField] private Color _defaultColor = Color.blue.WithAlpha(100);
         [SerializeField] private int _maxDaysCount = 21;
         [SerializeField] private List<GiftDay> _giftDays;
@@ -24,42 +24,78 @@ namespace Game.Scripts.UI.DailyGift
             InitializeGifts();
         }
 
+        private void Start()
+        {
+            UpdateVisual();
+        }
+
         private void InitializeSlider()
         {
             _slider.minValue = 0f;
             _slider.maxValue = _maxDaysCount;
-            _slider.value = YG2.saves.TotalCollectedGifts;
         }
 
         private void InitializeGifts()
         {
-            for (var i = 0; i < _giftDays.Count && i < _maxGiftsCount; i++)
+            for (var i = 0; i < _giftDays.Count && i < MAX_GIFTS_COUNT; i++)
             {
                 _giftDays[i].Init();
-                _giftDays[i].UpdateVisual(_defaultColor, _takenColor);
+            }
+        }
+
+        public void UpdateVisual()
+        {
+            _slider.value = YG2.saves.TotalCollectedGifts;
+
+            foreach (var giftDay in _giftDays)
+            {
+                giftDay.UpdateVisual(_defaultColor, _unlockedColor);
             }
         }
 
         [Serializable]
         public class GiftDay
         {
+            public int id;
             public TMP_Text day;
             public int dayCount;
             public Image dayBackground;
-            public Image giftIcon;
             public GiftBox giftBox;
 
             public void Init()
             {
-                day.text = dayCount.ToString();
+                if (day != null)
+                    day.text = dayCount.ToString();
+
+                if (giftBox != null)
+                    giftBox.Init(this);
             }
 
-            public void UpdateVisual(Color defaultColor, Color takenColor)
+            public void UpdateVisual(Color defaultColor, Color unlockedColor)
             {
                 var collectedGifts = YG2.saves.TotalCollectedGifts;
-                giftIcon.color = collectedGifts < dayCount ? Color.gray : Color.white;
-                dayBackground.color = collectedGifts < dayCount ? defaultColor : takenColor;
-                giftBox.SwitchRay(collectedGifts >= dayCount);
+                var isUnlocked = collectedGifts >= dayCount;
+                var isCollected = YG2.saves.TakenDailyGiftBoxes.Contains(id);
+
+                if (dayBackground != null)
+                    dayBackground.color = isUnlocked ? unlockedColor : defaultColor;
+
+                if (giftBox != null)
+                    giftBox.UpdateVisible(isUnlocked, isCollected);
+            }
+
+            public void Collect()
+            {
+                var collectedGifts = YG2.saves.TotalCollectedGifts;
+
+                if (collectedGifts < dayCount)
+                    return;
+
+                if (YG2.saves.TakenDailyGiftBoxes.Contains(id))
+                    return;
+
+                YG2.saves.TakenDailyGiftBoxes.Add(id);
+                YG2.SaveProgress();
             }
         }
     }

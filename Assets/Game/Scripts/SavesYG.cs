@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Scripts.UI.DailyGift;
 using UnityEngine;
 
 namespace YG
@@ -16,7 +17,7 @@ namespace YG
 
         //Ежедневные подарки
         public List<int> TakenDailyGiftDays = new();
-        public int TakenDailyGiftBoxes;
+        public List<int> TakenDailyGiftBoxes = new();
         public int TotalCollectedGifts;
         public int DailyGiftWeek;
         public long GiftEndTime;

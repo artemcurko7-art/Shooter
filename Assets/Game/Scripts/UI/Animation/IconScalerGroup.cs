@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
@@ -8,6 +9,9 @@ namespace Game.Scripts.UI.Animation
         [SerializeField] private int _startSelectedIndex = 0;
 
         private IconScaler _selectedIcon;
+
+        public event Action<string> NameChanged;
+        public event Action<Vector3> IconSelected;
 
         private void Start()
         {
@@ -29,7 +33,7 @@ namespace Game.Scripts.UI.Animation
             }
         }
 
-        public void Select(IconScaler icon)
+        public void Select(IconScaler icon, string word)
         {
             if (!icon || icon == _selectedIcon)
                 return;
@@ -39,6 +43,11 @@ namespace Game.Scripts.UI.Animation
 
             _selectedIcon = icon;
             _selectedIcon.SetSelected(true);
+
+            IconSelected?.Invoke(_selectedIcon.transform.position);
+
+            if (word == string.Empty) return;
+            NameChanged?.Invoke(word);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private DailyGiftBar _superGiftBarPrefab;
         [SerializeField] private Transform _content;
         [SerializeField] private DailyGiftData _data;
+        [SerializeField] private SliderGifts _sliderGifts;
         [SerializeField] private List<Sprite> _frames;
         [SerializeField] private BuyEffect _buyEffect;
 
@@ -41,14 +42,18 @@ namespace Game.Scripts.UI.DailyGift
 
         public void Collect()
         {
-            //if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
-            //    return;
+            if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
+                return;
 
             YG2.saves.TakenDailyGiftDays.Add(_dayOfWeekNumber);
+            YG2.saves.TotalCollectedGifts++;
             YG2.SaveProgress();
+
 
             _buyEffect.Animate(CurrentGift.icon, CurrentGift.count, _bars[_dayOfWeekNumber - 1].transform.position);
             Refresh();
+
+            _sliderGifts.UpdateVisual();
         }
 
         private void CheckNewWeek()
