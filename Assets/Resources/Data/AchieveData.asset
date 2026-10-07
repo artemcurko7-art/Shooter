@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Achieves:
   - icon: {fileID: 21300000, guid: cb873b07dc75243c1942d89018500c32, type: 3}
+    color: {r: 1, g: 0.21226418, b: 0.21226418, a: 1}
     AchieveNameTranslations:
       Ru: "\u041F\u0435\u0440\u0432\u044B\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
       En: 
@@ -27,6 +28,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 0
   - icon: {fileID: 21300000, guid: 224244c7ba5b14ae38f0fe885c73dfaa, type: 3}
+    color: {r: 1, g: 0.4937107, b: 0.24056602, a: 1}
     AchieveNameTranslations:
       Ru: "\u041C\u0435\u0442\u043A\u0438\u0439 \u0433\u043B\u0430\u0437"
       En: 
@@ -40,6 +42,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 1
   - icon: {fileID: 21300000, guid: 59a6ec29f18a14d9497453eadf418456, type: 3}
+    color: {r: 1, g: 0.75, b: 0.25, a: 1}
     AchieveNameTranslations:
       Ru: "\u0411\u0435\u0437 \u043F\u043E\u0449\u0430\u0434\u044B"
       En: 
@@ -53,6 +56,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 1
   - icon: {fileID: 21300000, guid: 978f5921e87d04a7f88a2dc6c330fab2, type: 3}
+    color: {r: 1, g: 1, b: 0.2028302, a: 1}
     AchieveNameTranslations:
       Ru: "\u0411\u043E\u0441\u0441 \u043F\u043E\u0432\u0435\u0440\u0436\u0435\u043D"
       En: 
@@ -65,6 +69,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 1
   - icon: {fileID: 21300000, guid: c5e89d08241b54ec7bc004a7b9bcd16b, type: 3}
+    color: {r: 0.41823915, g: 1, b: 0.1273585, a: 1}
     AchieveNameTranslations:
       Ru: "\u041D\u0430 \u0448\u0430\u0433 \u0432\u043F\u0435\u0440\u0435\u0434\u0438"
       En: 
@@ -78,6 +83,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 0
   - icon: {fileID: 21300000, guid: 2d66f54b5deec49179f8d5abaa971447, type: 3}
+    color: {r: 0.25, g: 1, b: 0.49999994, a: 1}
     AchieveNameTranslations:
       Ru: "\u041E\u0434\u0438\u043D \u043F\u0440\u043E\u0442\u0438\u0432 \u0432\u0441\u0435\u0445"
       En: 
@@ -90,6 +96,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 0
   - icon: {fileID: 21300000, guid: 4d884a85224974b57956b27413aad943, type: 3}
+    color: {r: 0.18396229, g: 0.7279877, b: 1, a: 1}
     AchieveNameTranslations:
       Ru: "\u041D\u0435\u0443\u0434\u0435\u0440\u0436\u0438\u043C\u044B\u0439"
       En: 
@@ -101,6 +108,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 0
   - icon: {fileID: 21300000, guid: 455d317bd36c5444483f77940660f34b, type: 3}
+    color: {r: 0.25, g: 0.25, b: 1, a: 1}
     AchieveNameTranslations:
       Ru: "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u0440\u0443\u0431\u0435\u0436"
       En: 
@@ -113,6 +121,7 @@ MonoBehaviour:
       Tr: 
     isOpened: 0
   - icon: {fileID: 21300000, guid: a3f6ade06695e433b90d2395867e368a, type: 3}
+    color: {r: 0.5691825, g: 0.3537736, b: 1, a: 1}
     AchieveNameTranslations:
       Ru: "\u041B\u0435\u0433\u0435\u043D\u0434\u0430 \u0430\u0440\u0435\u043D\u044B"
       En: 

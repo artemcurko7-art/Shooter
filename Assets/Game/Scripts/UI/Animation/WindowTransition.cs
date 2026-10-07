@@ -35,7 +35,7 @@ namespace Game.Scripts.UI.Animation
             target.position = startPosition;
             target.localScale = _startScale;
             canvasGroup.alpha = 0f;
-            canvasGroup.interactable = false;
+            //canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
 
             _originPosition = target.anchoredPosition;
