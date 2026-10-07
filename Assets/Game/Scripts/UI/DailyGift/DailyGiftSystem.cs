@@ -26,6 +26,7 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private SliderGifts _sliderGifts;
         [SerializeField] private List<Sprite> _frames;
         [SerializeField] private BuyEffect _buyEffect;
+        [SerializeField] private ContentDisplayer _displayer;
 
         private int _dayOfWeekNumber;
         public DailyGiftData.DailyGift CurrentGift { get; private set; }
@@ -101,6 +102,8 @@ namespace Game.Scripts.UI.DailyGift
             var superBar = Instantiate(_superGiftBarPrefab, _content);
             superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
             _bars.Add(superBar);
+
+            _displayer.InitChildren();
         }
 
         private Sprite GetRandomFrame()

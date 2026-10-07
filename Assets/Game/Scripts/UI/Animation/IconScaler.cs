@@ -24,8 +24,6 @@ namespace Game.Scripts.UI.Animation
         private Tween _scaleTween;
         private Tween _moveTween;
 
-        public bool IsSelected { get; private set; }
-
         private void Awake()
         {
             _initialScale = transform.localScale;
@@ -49,8 +47,6 @@ namespace Game.Scripts.UI.Animation
 
         public void SetSelected(bool selected, bool animated = true)
         {
-            IsSelected = selected;
-
             var targetScale = selected
                 ? _initialScale * _selectedScale
                 : _initialScale;
@@ -60,6 +56,7 @@ namespace Game.Scripts.UI.Animation
                 : _initialPosition;
 
             _scaleTween?.Kill();
+            _moveTween?.Kill();
 
             if (!animated)
             {
