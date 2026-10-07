@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.UI.Animation;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using YG;
+using Image = UnityEngine.UI.Image;
+using Slider = UnityEngine.UI.Slider;
 
 namespace Game.Scripts.UI.DailyGift
 {
@@ -13,6 +16,7 @@ namespace Game.Scripts.UI.DailyGift
         private const int MAX_GIFTS_COUNT = 3;
 
         [SerializeField] private Slider _slider;
+        [SerializeField] private SliderDisplayer _displayer;
         [SerializeField] private Color _unlockedColor = Color.white.WithAlpha(100);
         [SerializeField] private Color _defaultColor = Color.blue.WithAlpha(100);
         [SerializeField] private int _maxDaysCount = 21;
@@ -33,6 +37,8 @@ namespace Game.Scripts.UI.DailyGift
         {
             _slider.minValue = 0f;
             _slider.maxValue = _maxDaysCount;
+            
+            _displayer.InitTarget(YG2.saves.TotalCollectedGifts);
         }
 
         private void InitializeGifts()
@@ -45,8 +51,6 @@ namespace Game.Scripts.UI.DailyGift
 
         public void UpdateVisual()
         {
-            _slider.value = YG2.saves.TotalCollectedGifts;
-
             foreach (var giftDay in _giftDays)
             {
                 giftDay.UpdateVisual(_defaultColor, _unlockedColor);
