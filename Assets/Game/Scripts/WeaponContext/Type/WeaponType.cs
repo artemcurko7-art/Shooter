@@ -6,5 +6,6 @@ namespace Game.Scripts.WeaponContext.Type
         Pistol,
         Machete,
         Pecheneg,
+        Medusa,
     }
 }

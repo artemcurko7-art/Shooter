@@ -1,4 +1,7 @@
+using System;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Service.Weapon;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 using Zenject;
 
@@ -8,23 +11,23 @@ namespace Game.Scripts.BodyIK
     public class BodyInverseKinematic : MonoBehaviour
     {
         private const int Weight = 1;
-
-        private WeaponService _weaponService;
+        
+        private WeaponView _weaponView;
         private Animator _animator;
-    
-        [Inject]
-        public void Construct(WeaponService weaponService)
+
+        private void Awake()
         {
-            _weaponService = weaponService;
             _animator = GetComponent<Animator>();
         }
 
-        // private void OnAnimatorIK(int layerIndex)
-        // {
-        //     SetIK(AvatarIKGoal.LeftHand, _weaponService.View.LeftHandGrip.position, _weaponService.View.LeftHandGrip.rotation);
-        //     SetIK(AvatarIKGoal.RightHand, _weaponService.View.RightHandGrip.position, _weaponService.View.RightHandGrip.rotation);
-        // }
-
+        private void OnAnimatorIK(int layerIndex)
+        {
+            _weaponView = GetComponentInChildren<WeaponView>(); // временно
+            
+            SetIK(AvatarIKGoal.LeftHand, _weaponView.LeftHandGrip.position, _weaponView.LeftHandGrip.rotation);
+            SetIK(AvatarIKGoal.RightHand, _weaponView.RightHandGrip.position, _weaponView.RightHandGrip.rotation);
+        }
+        
         private void SetIK(AvatarIKGoal type, Vector3 position, Quaternion rotation)
         {
             _animator.SetIKPositionWeight(type, Weight);

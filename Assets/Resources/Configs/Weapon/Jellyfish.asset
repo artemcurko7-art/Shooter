@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 299092701dbc03048aec173b5ac4c664, type: 3}
+  m_Name: Jellyfish
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 4
+  <ShootingType>k__BackingField: 1
+  <View>k__BackingField: {fileID: 2485039719968054889, guid: cd7acab9b1ebb14499df65f99925497f, type: 3}
+  <Projectile>k__BackingField: {fileID: 3014235142251982699, guid: 0df1581bfcbbc1d478c6c9b4bd1098d9, type: 3}
+  <Scale>k__BackingField: {x: 1.5, y: 1.5, z: 1.5}
+  <MaxCountShoot>k__BackingField: 5
+  <CooldownShoot>k__BackingField: 1
+  <CooldownReload>k__BackingField: 2
+  <Radius>k__BackingField: 1
+  <Speed>k__BackingField: 500
+  <Damage>k__BackingField: 30
