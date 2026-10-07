@@ -41,7 +41,7 @@ namespace Game.Scripts.UI.Animation
             _originPosition = target.anchoredPosition;
 
             canvasGroup
-                .DOFade(1f, duration)
+                .DOFade(1f, duration / 2)
                 .SetEase(Ease.Linear);
 
             target

@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,27 +13,45 @@ namespace Game.Scripts.UI.Animation
         private float _targetValue;
         private Tween _valueTween;
 
+        private bool _initialized;
+        private bool _hasBeenEnabled;
+
         private void OnEnable()
         {
-            if (_targetValue > 0)
-                Animate(_targetValue);
+            _hasBeenEnabled = true;
+
+            if (!_initialized)
+                return;
+
+            PlayAnimation();
         }
-        
+
+        private void OnDisable()
+        {
+            _valueTween?.Kill();
+            _valueTween = null;
+        }
+
         public void InitTarget(int targetValue)
         {
             _targetValue = targetValue;
+            _initialized = true;
+
+            if (_hasBeenEnabled && gameObject.activeInHierarchy)
+                PlayAnimation();
         }
 
-        private void Animate(float targetValue)
+        private void PlayAnimation()
         {
             _valueTween?.Kill();
-            _targetValue = targetValue;
+
             _slider.value = 0;
 
             _valueTween = DOTween
-                .To(() => 0, x => _slider.value = x, _targetValue, _duration)
+                .To(() => 0f, value => _slider.value = value, _targetValue, _duration)
                 .SetEase(_ease)
-                .SetUpdate(true);
+                .SetUpdate(true)
+                .SetDelay(0.5f);
         }
     }
 }

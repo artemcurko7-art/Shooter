@@ -27145,7 +27145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ease: 21
+  _readOnlyChildren: 0
+  _ease: 27
   _duration: 0.5
   _delay: 0.1
 --- !u!1 &1329610269
@@ -27334,7 +27335,9 @@ MonoBehaviour:
   - {fileID: 633347606}
   - {fileID: 453975344}
   - {fileID: 768948066}
+  _items: []
   _preview: {fileID: 855745172}
+  _displayer: {fileID: 1640970945}
   _categoryScroll: {fileID: 1397689050}
   _shopScroll: {fileID: 486689954}
   _shopScrollTopOffset: 140
@@ -34302,6 +34305,7 @@ GameObject:
   - component: {fileID: 1640970942}
   - component: {fileID: 1640970944}
   - component: {fileID: 1640970943}
+  - component: {fileID: 1640970945}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -34373,6 +34377,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1640970945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640970941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _readOnlyChildren: 0
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.05
 --- !u!1 &1642652721
 GameObject:
   m_ObjectHideFlags: 0

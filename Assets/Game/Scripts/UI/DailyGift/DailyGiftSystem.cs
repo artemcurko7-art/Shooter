@@ -103,7 +103,7 @@ namespace Game.Scripts.UI.DailyGift
             superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
             _bars.Add(superBar);
 
-            _displayer.InitChildren();
+            _displayer.InitTargets(_bars.Select(bar => bar.transform).ToList());
         }
 
         private Sprite GetRandomFrame()

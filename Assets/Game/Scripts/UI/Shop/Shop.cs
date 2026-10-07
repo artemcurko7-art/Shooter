@@ -9,14 +9,45 @@ namespace Game.Scripts.UI.Shop
     public class Shop : MonoBehaviour
     {
         [SerializeField] private List<CategoryButton> _buttons;
+        [SerializeField] private List<Transform> _items;
         [SerializeField] private ShopPreview _preview;
+        [SerializeField] private ContentDisplayer _displayer;
         [SerializeField] private SmoothScroll _categoryScroll;
         [SerializeField] private SmoothScroll _shopScroll;
         [SerializeField] private float _shopScrollTopOffset;
 
         public bool IsPreviewAnimating => _preview.IsEffectAnimating;
 
-        private void Start()
+        private void Awake()
+        {
+            Refresh();
+            InitializeItemsTransform();
+        }
+
+        private void InitializeItemsTransform()
+        {
+            _items.Clear();
+
+            var blocks = GetComponentsInChildren<BuyItemBlock>(true);
+
+            foreach (var block in blocks)
+            {
+                if (!block)
+                    continue;
+
+                block.InitializeBars(out var items);
+
+                foreach (var item in (items))
+                {
+                    _items.Add(item);
+                }
+            }
+
+            if (!_displayer) return;
+            _displayer.InitTargets(_items);
+        }
+
+        private void Refresh()
         {
             if (_buttons == null || _buttons.Count == 0)
                 return;
@@ -59,21 +90,11 @@ namespace Game.Scripts.UI.Shop
 
         public void OpenPreview(BuyItemData.BuyItem buyItem, Vector3 startPosition)
         {
-            Debug.Log("Shop.OpenPreview()", this);
-
             if (_preview == null)
-            {
-                Debug.LogWarning("Shop: ShopPreview is NULL.", this);
                 return;
-            }
 
             if (buyItem == null)
-            {
-                Debug.LogWarning("Shop: BuyItem is NULL.", this);
                 return;
-            }
-
-            Debug.Log("Shop: calling ShopPreview.Open()", _preview);
 
             _preview.Open(buyItem, startPosition);
         }
@@ -81,16 +102,10 @@ namespace Game.Scripts.UI.Shop
         public void VerticalScrollMove(RectTransform target)
         {
             if (target == null)
-            {
-                Debug.LogWarning($"{nameof(Shop)}: Vertical scroll target is null.", this);
                 return;
-            }
 
             if (_shopScroll == null)
-            {
-                Debug.LogWarning($"{nameof(Shop)}: Shop SmoothScroll is not assigned.", this);
                 return;
-            }
 
             var scrollRect = GetScrollRect(_shopScroll);
 
@@ -98,16 +113,10 @@ namespace Game.Scripts.UI.Shop
                 return;
 
             if (scrollRect.content == null)
-            {
-                Debug.LogWarning($"{nameof(Shop)}: Shop ScrollRect content is not assigned.", this);
                 return;
-            }
 
             if (scrollRect.viewport == null)
-            {
-                Debug.LogWarning($"{nameof(Shop)}: Shop ScrollRect viewport is not assigned.", this);
                 return;
-            }
 
             var content = scrollRect.content;
 
@@ -135,13 +144,7 @@ namespace Game.Scripts.UI.Shop
                 return;
 
             if (_categoryScroll == null)
-            {
-                Debug.LogWarning(
-                    $"{nameof(Shop)}: Category SmoothScroll is not assigned.",
-                    this);
-
                 return;
-            }
 
             var scrollRect = GetScrollRect(_categoryScroll);
 
@@ -149,22 +152,10 @@ namespace Game.Scripts.UI.Shop
                 return;
 
             if (scrollRect.content == null)
-            {
-                Debug.LogWarning(
-                    $"{nameof(Shop)}: Category ScrollRect content is not assigned.",
-                    this);
-
                 return;
-            }
 
             if (scrollRect.viewport == null)
-            {
-                Debug.LogWarning(
-                    $"{nameof(Shop)}: Category ScrollRect viewport is not assigned.",
-                    this);
-
                 return;
-            }
 
             var content = scrollRect.content;
             var viewport = scrollRect.viewport;
@@ -214,10 +205,7 @@ namespace Game.Scripts.UI.Shop
 
         private static ScrollRect GetScrollRect(SmoothScroll smoothScroll)
         {
-            if (smoothScroll == null)
-                return null;
-
-            return smoothScroll.GetScrollRect;
+            return !smoothScroll ? null : smoothScroll.GetScrollRect;
         }
 
         private static void EnsureLayout(RectTransform content)
