@@ -13,6 +13,7 @@ namespace Game.Scripts.UI.Challenges
         public class Achieve
         {
             public Sprite icon;
+            public Color color;
             public LocalizedName AchieveNameTranslations;
             public LocalizedDescription AchieveDescriptionTranslations;
             public bool isOpened;

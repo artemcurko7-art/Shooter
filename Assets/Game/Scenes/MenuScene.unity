@@ -12966,6 +12966,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6618b636537977546812e573e16322ec, type: 3}
   - {fileID: 21300000, guid: 5d177b05f4c066041a82e5d75c9bc72b, type: 3}
   _buyEffect: {fileID: 1363352555}
+  _displayer: {fileID: 1328640438}
 --- !u!114 &571640086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27264,6 +27265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1328640436}
   - component: {fileID: 1328640437}
+  - component: {fileID: 1328640438}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -27314,6 +27316,22 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 3
+--- !u!114 &1328640438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328640435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _readOnlyChildren: 0
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.1
 --- !u!1 &1329610269
 GameObject:
   m_ObjectHideFlags: 0
@@ -27500,7 +27518,9 @@ MonoBehaviour:
   - {fileID: 633347606}
   - {fileID: 453975344}
   - {fileID: 768948066}
+  _items: []
   _preview: {fileID: 855745172}
+  _displayer: {fileID: 1640970945}
   _categoryScroll: {fileID: 1397689050}
   _shopScroll: {fileID: 486689954}
   _shopScrollTopOffset: 140
@@ -34468,6 +34488,7 @@ GameObject:
   - component: {fileID: 1640970942}
   - component: {fileID: 1640970944}
   - component: {fileID: 1640970943}
+  - component: {fileID: 1640970945}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -34539,6 +34560,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1640970945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640970941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _readOnlyChildren: 0
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.05
 --- !u!1 &1642652721
 GameObject:
   m_ObjectHideFlags: 0
@@ -38534,7 +38571,7 @@ MonoBehaviour:
     m_Top: 25
     m_Bottom: 5
   m_ChildAlignment: 1
-  m_Spacing: 0
+  m_Spacing: 15
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -41720,6 +41757,7 @@ GameObject:
   - component: {fileID: 1942532729}
   - component: {fileID: 1942532728}
   - component: {fileID: 1942532730}
+  - component: {fileID: 1942532731}
   m_Layer: 5
   m_Name: SliderPanel
   m_TagString: Untagged
@@ -41800,6 +41838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 559647911}
+  _displayer: {fileID: 1942532731}
   _unlockedColor: {r: 0.9607844, g: 0.8705883, b: 0, a: 100}
   _defaultColor: {r: 0.08235294, g: 0.18431373, b: 0.36862746, a: 1}
   _maxDaysCount: 21
@@ -41819,6 +41858,21 @@ MonoBehaviour:
     dayCount: 21
     dayBackground: {fileID: 247426316}
     giftBox: {fileID: 1789736971}
+--- !u!114 &1942532731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942532726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e9b65ebfb75b44b9dbf2df377452b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slider: {fileID: 559647911}
+  _duration: 3
+  _ease: 27
 --- !u!1 &1944938669
 GameObject:
   m_ObjectHideFlags: 0

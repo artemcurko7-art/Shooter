@@ -13,22 +13,17 @@ namespace Game.Scripts.UI.Challenges
         [Header("Ссылки")]
         [SerializeField] private Image _background;
         [SerializeField] private Image _descriptionBackground;
-        [SerializeField] private Image _frame;
         [SerializeField] private Image _icon;
         [SerializeField] private Image _lock;
         [SerializeField] private Image _checkMark;
 
         [Header("Спрайты")]
-        [SerializeField] private Sprite _redBackgroundSprite;
-        [SerializeField] private Sprite _greenBackgroundSprite;
         [SerializeField] private Sprite _redFrameSprite;
         [SerializeField] private Sprite _greenFrameSprite;
 
         [Header("Текст")]
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _description;
-        [SerializeField] private Color _redColor;
-        [SerializeField] private Color _greenColor;
         [SerializeField] private TextAppear _textAppear;
 
         [Header("Кнопки")]
@@ -117,6 +112,15 @@ namespace Game.Scripts.UI.Challenges
             if (_icon)
                 _icon.sprite = achieve.icon;
 
+            if (_background)
+                _background.color = achieve.color;
+
+            if (_descriptionBackground)
+            {
+                _descriptionBackground.color = achieve.color;
+                _descriptionBackground.gameObject.SetActive(false);
+            }
+
             if (_description)
                 _description.text = achieve.GetLocalizedDescription(YG2.lang);
 
@@ -125,37 +129,7 @@ namespace Game.Scripts.UI.Challenges
 
             if (_lock)
                 _lock.gameObject.SetActive(!_isOpened);
-
-            if (_descriptionBackground)
-            {
-                _descriptionBackground.color = _isOpened
-                    ? _greenColor
-                    : _redColor;
-
-                _descriptionBackground.gameObject.SetActive(false);
-            }
-
-            if (_background)
-            {
-                _background.sprite = _isOpened
-                    ? _greenBackgroundSprite
-                    : _redBackgroundSprite;
-            }
-
-            if (_frame)
-            {
-                _frame.sprite = _isOpened
-                    ? _greenFrameSprite
-                    : _redFrameSprite;
-            }
-
-            if (_closeButton)
-            {
-                _closeButton.image.color = _isOpened
-                    ? _greenColor
-                    : _redColor;
-            }
-
+           
             IsDescriptionExpanded = false;
 
             if (RectTransform)

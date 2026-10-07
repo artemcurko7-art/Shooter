@@ -40,16 +40,10 @@ namespace Game.Scripts.UI.Shop
         public void Init(Shop shop, BuyItemData.BuyItem buyItem, bool isTaken)
         {
             if (shop == null)
-            {
-                Debug.LogWarning($"{nameof(BuyItemBar)}: Shop is null.", this);
                 return;
-            }
 
             if (buyItem == null)
-            {
-                Debug.LogWarning($"{nameof(BuyItemBar)}: BuyItem is null.", this);
                 return;
-            }
 
             _shop = shop;
             _buyItem = buyItem;
@@ -78,23 +72,14 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            if (_shop.IsPreviewAnimating) return;
-
-            Debug.Log($"BuyItemBar clicked: {_buyItem?.resource}", this);
-
             if (_shop == null)
-            {
-                Debug.LogWarning("BuyItemBar: Shop is NULL.", this);
                 return;
-            }
 
             if (_buyItem == null)
-            {
-                Debug.LogWarning("BuyItemBar: BuyItem is NULL.", this);
                 return;
-            }
 
-            Debug.Log("BuyItemBar: calling Shop.OpenPreview()", this);
+            if (_shop.IsPreviewAnimating)
+                return;
 
             _shop.OpenPreview(_buyItem, transform.position);
         }

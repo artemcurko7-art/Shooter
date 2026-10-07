@@ -35,13 +35,13 @@ namespace Game.Scripts.UI.Animation
             target.position = startPosition;
             target.localScale = _startScale;
             canvasGroup.alpha = 0f;
-            canvasGroup.interactable = false;
+            //canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
 
             _originPosition = target.anchoredPosition;
 
             canvasGroup
-                .DOFade(1f, duration)
+                .DOFade(1f, duration / 2)
                 .SetEase(Ease.Linear);
 
             target
