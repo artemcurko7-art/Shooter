@@ -1,8 +1,8 @@
 using Game.Scripts.Configs;
 
-namespace Game.Scripts.Provider
+namespace Game.Scripts.WeaponContext.Provider
 {
-    public class WeaponProvider
+    public class WeaponProvider : IWeaponProvider
     {
         public WeaponConfig Config { get; private set; }
     

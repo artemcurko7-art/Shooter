@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 {
-    public class Melee : IUnitAttacker
+    public class MeleeAttacker : IUnitAttacker
     {
         private const float Distance = 5;
         
-        public Melee()
+        public MeleeAttacker()
         {
             Type = UnitAttackerType.Melee;
         }

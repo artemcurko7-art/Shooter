@@ -1,4 +1,3 @@
-using Game.Scripts.Provider;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;

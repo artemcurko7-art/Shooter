@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Game.Scripts.MV.StatContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.WeaponContext.Type;
@@ -19,6 +20,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private Vector3 _direction;
         
         public WeaponType WeaponType { get; private set; }
+        public Stat[] Stats { get; private set; }
         
         [Inject]
         public void Construct(Rotation rotation, TrackerUnits trackerUnits, IInput input)
@@ -28,9 +30,10 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(WeaponType weaponType)
+        public void Initialize(WeaponType weaponType, Stat[] stats)
         {
             WeaponType = weaponType;
+            Stats = stats;
             StartCoroutine(StartTrackerUnits());
         }
         

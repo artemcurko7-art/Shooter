@@ -1,4 +1,5 @@
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Repository;
 using Zenject;
 
 namespace Game.Scripts.DI.SceneContext.MonoInstallers
@@ -8,7 +9,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<Health>()
+                .Bind<StatRepository>()
                 .AsSingle();
         }
     }

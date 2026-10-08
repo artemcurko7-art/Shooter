@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 {
-    public class AreaDamage : IUnitAttacker
+    public class AreaDamageAttacker : IUnitAttacker
     {
         private readonly LayerMask _layerMask;
         private readonly Collider[] _colliders = new Collider[8];
         
-        public AreaDamage()
+        public AreaDamageAttacker()
         {
             Type = UnitAttackerType.AreaDamage;
             _layerMask = LayerMask.GetMask(nameof(Player));

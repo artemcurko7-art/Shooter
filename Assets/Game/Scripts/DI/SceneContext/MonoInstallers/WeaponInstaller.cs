@@ -1,10 +1,10 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Factory;
-using Game.Scripts.Provider;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Weapon;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
+using Game.Scripts.WeaponContext.Provider;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 using Zenject;

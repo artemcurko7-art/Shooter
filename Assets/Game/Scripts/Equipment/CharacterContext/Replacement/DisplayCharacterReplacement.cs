@@ -58,7 +58,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
             
             _levelDropped.text = 15.ToString();
             _healthDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Health].ToString();
-            _attackDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Attack].ToString();
+            _attackDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Damage].ToString();
             _defenceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.Defence].ToString();
             _criticalChanceDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.CriticalChance].ToString();
             _criticalDamageDropped.text = _freeSlotRegistry.EquippedSlots[_handler.SquadNumberType].Stats[StatType.CriticalDamage].ToString();
@@ -68,7 +68,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
             _iconDragged.sprite = _handler.DraggedSlot.Icon.sprite;
             _levelDragged.text = 3.ToString();
             _healthDragged.text = _handler.DraggedSlot.Stats[StatType.Health].ToString();
-            _attackDragged.text = _handler.DraggedSlot.Stats[StatType.Attack].ToString();
+            _attackDragged.text = _handler.DraggedSlot.Stats[StatType.Damage].ToString();
             _defenceDragged.text = _handler.DraggedSlot.Stats[StatType.Defence].ToString();
             _criticalChanceDragged.text = _handler.DraggedSlot.Stats[StatType.CriticalChance].ToString();
             _criticalDamageDragged.text = _handler.DraggedSlot.Stats[StatType.CriticalDamage].ToString();

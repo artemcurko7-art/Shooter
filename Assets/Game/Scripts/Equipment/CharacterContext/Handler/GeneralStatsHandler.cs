@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext.Data;
+using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
 using Game.Scripts.MV.StatContext.Type;
@@ -70,6 +71,9 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
 
             foreach (var character in _characterData.Characters) // test
             {
+                if (character.Key == CharacterType.Healer)
+                    continue;
+                
                 foreach (var stat in character.Value.Stats)
                     _stats[stat.Type] += stat.Value;
             }

@@ -1,6 +1,6 @@
 using Game.Scripts.Factory;
-using Game.Scripts.Provider;
 using Game.Scripts.WeaponContext.Data;
+using Game.Scripts.WeaponContext.Provider;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers

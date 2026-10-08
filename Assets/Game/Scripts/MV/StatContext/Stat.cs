@@ -30,7 +30,7 @@ namespace Game.Scripts.MV.StatContext
             }
         }
 
-        public virtual void Increase(int amount)
+        public void Increase(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
@@ -38,7 +38,7 @@ namespace Game.Scripts.MV.StatContext
             Value += amount;
         }
         
-        public virtual void Decrease(int amount)
+        public void Decrease(int amount)
         {
             if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));

@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext.Handler;
+using Game.Scripts.Equipment.EquipmentContext.Provider;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Service.Equipment.Reward;
@@ -9,6 +10,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
 {
     public class EquipmentReplacementController : ReplacementController<EquipmentReplacementController, EquipmentType, EquipmentSlot>
     {
+        private readonly EquipmentProvider _provider;
         private readonly EquipmentDropSlot[] _dropSlots;
         private readonly ITabService<EquipmentSlotHandler> _tabService;
         private readonly GridLayoutGroup _gridLayoutGroup;
@@ -17,12 +19,14 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
         public EquipmentReplacementController(
             ISlotRewardService<EquipmentSlot> service,
             SlotRepository<EquipmentSlot> repository,
+            EquipmentProvider provider,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             ITabService<EquipmentSlotHandler> tabService,
             GridLayoutGroup gridLayoutGroup)
             : base(service, repository, dropSlots, freeRegistry)
         {
+            _provider = provider;
             _dropSlots = dropSlots;
             _tabService = tabService;
             _gridLayoutGroup = gridLayoutGroup;
@@ -50,6 +54,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
                 {
                     FreeRegistry.EquippedSlots[dropSlot.EquipmentType].Drag.ResetSettings();
                     dropSlot.Set(DroppedSlot);
+                    _provider.Set(DroppedSlot.EquipmentItem.Type, DroppedSlot.EquipmentItem);
                     FreeRegistry.Register(dropSlot.EquipmentType, DroppedSlot);
                     _tabService.DisableTab();
                     _gridLayoutGroup.enabled = true;

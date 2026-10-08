@@ -4,7 +4,7 @@
     {
         None,
         Health,
-        Attack,
+        Damage,
         Defence,
         CriticalChance,
         CriticalDamage,

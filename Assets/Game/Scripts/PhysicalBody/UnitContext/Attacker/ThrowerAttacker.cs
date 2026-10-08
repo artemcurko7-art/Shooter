@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 {
-    public class Thrower : IUnitAttacker
+    public class ThrowerAttacker : IUnitAttacker
     {
         private readonly Projectile _projectile;
         
-        public Thrower(Projectile projectile)
+        public ThrowerAttacker(Projectile projectile)
         {
             Type = UnitAttackerType.Thrower;
             _projectile = projectile;

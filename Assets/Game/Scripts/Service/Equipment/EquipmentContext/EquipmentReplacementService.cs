@@ -4,6 +4,7 @@ using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.EquipmentContext.Data;
 using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext.Handler;
+using Game.Scripts.Equipment.EquipmentContext.Provider;
 using Game.Scripts.Equipment.EquipmentContext.Replacement;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
@@ -31,6 +32,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         public EquipmentReplacementService(
             ISlotRewardService<EquipmentSlot> service,
             SlotRepository<EquipmentSlot> repository,
+            EquipmentProvider provider,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             SortingEquipmentByParameters sorting, ITabService<EquipmentSlotHandler> tabService,
@@ -38,7 +40,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             DisplayStatFactory displayStatFactory,
             ComparisonStat comparisonStat,
             ReplacementStatContainer statContainer)
-            : base(service, repository, dropSlots, freeRegistry, sorting)
+            : base(service, repository, provider, dropSlots, freeRegistry, sorting)
         {
             _tabService = tabService;
             _displayStatData = displayStatData;

@@ -1,7 +1,7 @@
 ﻿using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
-using Game.Scripts.Provider;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.WeaponContext.Data;
+using Game.Scripts.WeaponContext.Provider;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment.EquipmentContext.Handler

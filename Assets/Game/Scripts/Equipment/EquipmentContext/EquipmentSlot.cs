@@ -13,7 +13,6 @@ namespace Game.Scripts.Equipment.EquipmentContext
         public void Initialize(EquipmentItem equipmentItem)
         {
             EquipmentItem = equipmentItem;
-            GetDrag();
         }
         
         protected override DragSlot GetDrag()

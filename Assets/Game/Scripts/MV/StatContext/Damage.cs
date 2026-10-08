@@ -8,7 +8,7 @@ namespace Game.Scripts.MV.StatContext
         
         protected override StatType GetStatType()
         {
-            return StatType.Attack;
+            return StatType.Damage;
         }
     }
 }
