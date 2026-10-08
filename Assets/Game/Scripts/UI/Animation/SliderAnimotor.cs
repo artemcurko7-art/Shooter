@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class SliderDisplayer : MonoBehaviour
+    public class SliderAnimotor : MonoBehaviour
     {
+        [SerializeField] private bool _animateOnEnable = true;
         [SerializeField] private Slider _slider;
         [SerializeField] private float _duration;
         [SerializeField] private Ease _ease;
@@ -14,13 +15,13 @@ namespace Game.Scripts.UI.Animation
         private Tween _valueTween;
 
         private bool _initialized;
-        private bool _hasBeenEnabled;
 
         private void OnEnable()
         {
-            _hasBeenEnabled = true;
-
             if (!_initialized)
+                return;
+
+            if (!_animateOnEnable)
                 return;
 
             PlayAnimation();
@@ -37,8 +38,18 @@ namespace Game.Scripts.UI.Animation
             _targetValue = targetValue;
             _initialized = true;
 
-            if (_hasBeenEnabled && gameObject.activeInHierarchy)
-                PlayAnimation();
+            if (!_animateOnEnable)
+            {
+                _slider.value = _targetValue;
+            }
+        }
+
+        public void Play()
+        {
+            if (!_initialized)
+                return;
+
+            PlayAnimation();
         }
 
         private void PlayAnimation()
@@ -48,7 +59,11 @@ namespace Game.Scripts.UI.Animation
             _slider.value = 0;
 
             _valueTween = DOTween
-                .To(() => 0f, value => _slider.value = value, _targetValue, _duration)
+                .To(
+                    () => 0f,
+                    value => _slider.value = value,
+                    _targetValue,
+                    _duration)
                 .SetEase(_ease)
                 .SetUpdate(true)
                 .SetDelay(0.5f);

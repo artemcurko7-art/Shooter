@@ -9,13 +9,22 @@ namespace Game.Scripts.UI.Animation
     {
         private readonly List<Transform> _targets = new();
 
-        [SerializeField] private bool _readOnlyChildren;
+        [SerializeField] private bool _getOnlyChildren;
+        [SerializeField] private bool _animateOnEnable = true;
         [SerializeField] private Ease _ease;
         [SerializeField] private float _duration;
         [SerializeField] private float _delay;
 
         private Vector3 _initialScale;
         private bool _initialized;
+
+        private void OnEnable()
+        {
+            if (!_animateOnEnable)
+                return;
+
+            PlayAnimation();
+        }
 
         private void OnDisable()
         {
@@ -29,7 +38,7 @@ namespace Game.Scripts.UI.Animation
         {
             _targets.Clear();
 
-            if (_readOnlyChildren || items == null || items.Count == 0)
+            if (_getOnlyChildren || items == null || items.Count == 0)
             {
                 CollectChildren();
             }

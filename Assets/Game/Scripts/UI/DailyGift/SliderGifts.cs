@@ -4,7 +4,6 @@ using Game.Scripts.UI.Animation;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 using YG;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
@@ -16,7 +15,7 @@ namespace Game.Scripts.UI.DailyGift
         private const int MAX_GIFTS_COUNT = 3;
 
         [SerializeField] private Slider _slider;
-        [SerializeField] private SliderDisplayer _displayer;
+        [SerializeField] private SliderAnimotor _sliderAnimotor;
         [SerializeField] private Color _unlockedColor = Color.white.WithAlpha(100);
         [SerializeField] private Color _defaultColor = Color.blue.WithAlpha(100);
         [SerializeField] private int _maxDaysCount = 21;
@@ -37,8 +36,8 @@ namespace Game.Scripts.UI.DailyGift
         {
             _slider.minValue = 0f;
             _slider.maxValue = _maxDaysCount;
-            
-            _displayer.InitTarget(YG2.saves.TotalCollectedGifts);
+
+            _sliderAnimotor.InitTarget(YG2.saves.TotalCollectedGifts);
         }
 
         private void InitializeGifts()
@@ -47,6 +46,11 @@ namespace Game.Scripts.UI.DailyGift
             {
                 _giftDays[i].Init();
             }
+        }
+
+        public void Play()
+        {
+            _sliderAnimotor.Play();
         }
 
         public void UpdateVisual()
