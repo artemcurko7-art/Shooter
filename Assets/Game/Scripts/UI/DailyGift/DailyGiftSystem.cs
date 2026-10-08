@@ -151,6 +151,8 @@ namespace Game.Scripts.UI.DailyGift
                 _positionEase,
                 _duration
             );
+            
+            _displayer.Play();
         }
 
         protected override void Hide()

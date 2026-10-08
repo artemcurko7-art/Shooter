@@ -8,7 +8,11 @@ namespace Game.Scripts.UI.TabContext
     {
         private Transform _currentHierarchy;
         private int _indexHierarchy;
-        
+
+        public bool IsOpened => gameObject.activeSelf;
+
+        public event Action Opened;
+
         [Inject]
         private void Construct()
         {
@@ -21,6 +25,15 @@ namespace Game.Scripts.UI.TabContext
             transform.SetParent(_currentHierarchy, false);
             transform.SetSiblingIndex(_indexHierarchy);
             gameObject.SetActive(false);
+        }
+
+        public void Open()
+        {
+            if (IsOpened)
+                return;
+
+            gameObject.SetActive(true);
+            Opened?.Invoke();
         }
     }
 }

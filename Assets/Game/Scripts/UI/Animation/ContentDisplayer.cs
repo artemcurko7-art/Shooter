@@ -16,17 +16,6 @@ namespace Game.Scripts.UI.Animation
 
         private Vector3 _initialScale;
         private bool _initialized;
-        private bool _hasBeenEnabled;
-
-        private void OnEnable()
-        {
-            _hasBeenEnabled = true;
-
-            if (!_initialized)
-                return;
-
-            PlayAnimation();
-        }
 
         private void OnDisable()
         {
@@ -57,9 +46,14 @@ namespace Game.Scripts.UI.Animation
 
             _initialScale = _targets[0].localScale;
             _initialized = true;
+        }
 
-            if (_hasBeenEnabled && gameObject.activeInHierarchy)
-                PlayAnimation();
+        public void Play()
+        {
+            if (!_initialized || _targets.Count == 0)
+                return;
+
+            PlayAnimation();
         }
 
         private void CollectChildren()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.UI.Animation;
+using Game.Scripts.UI.TabContext;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace Game.Scripts.UI.Shop
 {
     public class Shop : MonoBehaviour
     {
+        [SerializeField] private TabView _tabView;
         [SerializeField] private List<CategoryButton> _buttons;
         [SerializeField] private List<Transform> _items;
         [SerializeField] private ShopPreview _preview;
@@ -24,6 +26,18 @@ namespace Game.Scripts.UI.Shop
             InitializeItemsTransform();
         }
 
+        private void OnEnable()
+        {
+            if (_tabView != null)
+                _tabView.Opened += PlayOpenAnimation;
+        }
+
+        private void OnDisable()
+        {
+            if (_tabView != null)
+                _tabView.Opened -= PlayOpenAnimation;
+        }
+
         private void InitializeItemsTransform()
         {
             _items.Clear();
@@ -37,14 +51,24 @@ namespace Game.Scripts.UI.Shop
 
                 block.InitializeBars(out var items);
 
-                foreach (var item in (items))
+                foreach (var item in items)
                 {
                     _items.Add(item);
                 }
             }
 
-            if (!_displayer) return;
+            if (!_displayer)
+                return;
+
             _displayer.InitTargets(_items);
+        }
+
+        private void PlayOpenAnimation()
+        {
+            if (!_displayer)
+                return;
+
+            _displayer.Play();
         }
 
         private void Refresh()

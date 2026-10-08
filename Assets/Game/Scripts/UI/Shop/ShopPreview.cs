@@ -41,8 +41,6 @@ namespace Game.Scripts.UI.Shop
         {
             if (_effect.IsAnimating) return;
 
-            Debug.Log("ShopPreview.Open()", this);
-
             if (buyItem == null)
             {
                 Debug.LogWarning("ShopPreview: BuyItem is NULL.", this);

@@ -18,10 +18,6 @@ namespace Game.Scripts.UI.Challenges
         [SerializeField] private LayoutGroup _content;
         [SerializeField] private SmoothScroll _smoothScroll;
 
-        [Header("Скролл")]
-        [SerializeField] private float _scrollDuration = 0.5f;
-        [SerializeField] private float _closeScrollDuration = 0.3f;
-
         private Vector2 _savedContentPosition;
         private bool _contentPositionSaved;
         private float _topOffset;

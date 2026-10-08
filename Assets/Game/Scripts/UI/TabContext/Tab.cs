@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,15 +10,16 @@ namespace Game.Scripts.UI.TabContext
         [SerializeField] private Button _button;
 
         private TabView[] _views;
-        
-        [field: SerializeField] protected List<TabView> Views { get; private set; }
-        
+
+        [field: SerializeField]
+        protected List<TabView> Views { get; private set; }
+
         [Inject]
         public void Construct(TabView[] views)
         {
             _views = views;
         }
-        
+
         private void OnEnable()
         {
             _button.onClick.AddListener(OnClick);
@@ -33,7 +33,12 @@ namespace Game.Scripts.UI.TabContext
         protected virtual void OnClick()
         {
             foreach (var view in _views)
+            {
+                if (!view)
+                    continue;
+
                 view.Clear();
+            }
         }
     }
 }
