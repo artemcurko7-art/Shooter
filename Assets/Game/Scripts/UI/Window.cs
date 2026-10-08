@@ -23,7 +23,14 @@ namespace Game.Scripts.UI
         [SerializeField] protected Button _openButton;
         [SerializeField] protected Button _exitButton;
 
-        protected bool _isTransitionActive;
+        private bool _isOpened;
+
+        private bool IsTransitionActive { get; set; }
+
+        protected virtual void Awake()
+        {
+            _isOpened = _rectTransform && _rectTransform.gameObject.activeSelf;
+        }
 
         protected virtual void OnEnable()
         {
@@ -51,12 +58,45 @@ namespace Game.Scripts.UI
 
         private void OnOpenButtonClick()
         {
+            if (!TryBeginOpen())
+                return;
+
             Show();
         }
 
         private void OnExitButtonClick()
         {
+            if (!TryBeginClose())
+                return;
+
             Hide();
+        }
+
+        protected bool TryBeginOpen()
+        {
+            if (_isOpened || IsTransitionActive)
+                return false;
+
+            _isOpened = true;
+            IsTransitionActive = true;
+
+            return true;
+        }
+
+        protected bool TryBeginClose()
+        {
+            if (!_isOpened || IsTransitionActive)
+                return false;
+
+            _isOpened = false;
+            IsTransitionActive = true;
+
+            return true;
+        }
+
+        protected void FinishTransition()
+        {
+            IsTransitionActive = false;
         }
 
         private void OnViewClosed()
@@ -66,14 +106,19 @@ namespace Game.Scripts.UI
 
         private void QuickClose()
         {
-            if (!_transition || !_canvasGroup || !_rectTransform) return;
+            if (!_transition || !_canvasGroup || !_rectTransform)
+                return;
 
-            _transition.QuickClose(_canvasGroup, _rectTransform);
+            _isOpened = false;
+            IsTransitionActive = false;
+
+            _transition.QuickClose(
+                _canvasGroup,
+                _rectTransform
+            );
         }
 
         protected abstract void Show();
         protected abstract void Hide();
-
-        protected bool IsTransitionActive => _isTransitionActive;
     }
 }

@@ -1715,7 +1715,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1127172225}
   _canvasGroup: {fileID: 1127172226}
   _transition: {fileID: 1563917329}
-  _tabView: {fileID: 0}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 53290208}
   _exitButton: {fileID: 595361970}
   _content: {fileID: 1250196439}
@@ -3636,6 +3636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 148035906}
+  - component: {fileID: 148035907}
   m_Layer: 5
   m_Name: Gifts
   m_TagString: Untagged
@@ -3666,6 +3667,23 @@ RectTransform:
   m_AnchoredPosition: {x: 8.97499, y: 6.999878}
   m_SizeDelta: {x: 86.585, y: 18.38}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &148035907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148035905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _getOnlyChildren: 1
+  _animateOnEnable: 1
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.2
 --- !u!1 &149395751
 GameObject:
   m_ObjectHideFlags: 0
@@ -4263,7 +4281,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 148035906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22220,7 +22238,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 612001856}
   _canvasGroup: {fileID: 612001857}
   _transition: {fileID: 1563917329}
-  _tabView: {fileID: 0}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 1551499544}
   _exitButton: {fileID: 1525844977}
   _barPrefab: {fileID: 2786876872750652668, guid: fd1867316999e314880ae02cd7168612, type: 3}
@@ -27960,7 +27978,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1354266741}
   - {fileID: 130107007}
@@ -31357,7 +31375,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1457319403}
   - {fileID: 1088106735}
@@ -36848,7 +36866,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1083682003}
   - {fileID: 1857658446}
@@ -38024,7 +38042,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1638590398}
   _canvasGroup: {fileID: 1638590399}
   _transition: {fileID: 1563917329}
-  _tabView: {fileID: 0}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 346781640}
   _exitButton: {fileID: 1744660630}
   _prefab: {fileID: 678317370431005646, guid: b90a227ad8e647740abaac7630f9e608, type: 3}
@@ -38493,7 +38511,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 104345456}
   _canvasGroup: {fileID: 104345457}
   _transition: {fileID: 1563917329}
-  _tabView: {fileID: 0}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 1842224250}
   _exitButton: {fileID: 1759665918}
   _leaderboard: {fileID: 272134660}
@@ -40615,7 +40633,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1046474187}
   _canvasGroup: {fileID: 1046474188}
   _transition: {fileID: 1563917329}
-  _tabView: {fileID: 0}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 27065613}
   _exitButton: {fileID: 1879545203}
   _data: {fileID: 11400000, guid: b84687459080524459d935a1a1ba1cce, type: 2}

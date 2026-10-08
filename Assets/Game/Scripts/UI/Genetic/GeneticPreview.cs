@@ -28,25 +28,39 @@ namespace Game.Scripts.UI.Genetic
         protected override void OnEnable()
         {
             base.OnEnable();
-            _buyStatButton.onClick.AddListener(OnBuyButtonClick);
+
+            if (_buyStatButton)
+                _buyStatButton.onClick.AddListener(OnBuyButtonClick);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
-            Close();
+
+            if (_buyStatButton)
+                _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
+
+            CloseImmediate();
         }
 
         public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
-            if (_rectTransform.gameObject.activeInHierarchy) return;
+            if (!TryBeginOpen())
+                return;
+
+            if (stat == null)
+            {
+                FinishTransition();
+                return;
+            }
 
             _stat = stat;
+
             _icon.sprite = stat.icon;
             _title.text = stat.GetLocalizedName(YG2.lang);
             _geneticTitle.text = Localization.GetGeneticTitleText();
             _buyButtonText.text = Localization.GetUpgradeText();
+
             _background.color = Color.grey;
             _scrollRect.enabled = false;
 
@@ -58,27 +72,32 @@ namespace Game.Scripts.UI.Genetic
 
             var canBuy = _buyStatButton.interactable;
 
-            _transition.Open(_canvasGroup, _rectTransform, startPosition, _scaleEase, _positionEase, _duration);
+            _transition.Open(
+                _canvasGroup,
+                _rectTransform,
+                startPosition,
+                _scaleEase,
+                _positionEase,
+                _duration,
+                FinishTransition
+            );
 
-            if (!_imageBlinker) return;
+            if (!_imageBlinker)
+                return;
 
             _imageBlinker.ResetToBaseColor();
 
             if (canBuy)
-            {
                 _imageBlinker.Enable();
-            }
             else
-            {
                 _imageBlinker.Disable();
-            }
         }
 
         private void OnBuyButtonClick()
         {
             if (_stat == null)
             {
-                Debug.LogError("[Preview] _stat не передается в open!");
+                Debug.LogError("[Preview] _stat не передается в Open!");
                 return;
             }
 
@@ -88,20 +107,48 @@ namespace Game.Scripts.UI.Genetic
 
         private void Close()
         {
+            if (!TryBeginClose())
+                return;
+
             if (_imageBlinker)
-            {
                 _imageBlinker.Disable();
-            }
 
             _background.color = Color.white;
             _scrollRect.enabled = true;
-            _transition.Close(_canvasGroup, _rectTransform);
+
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
+
             _stat = null;
+        }
+
+        private void CloseImmediate()
+        {
+            _stat = null;
+
+            if (_imageBlinker)
+                _imageBlinker.Disable();
+
+            if (_background)
+                _background.color = Color.white;
+
+            if (_scrollRect)
+                _scrollRect.enabled = true;
+
+            if (_canvasGroup && _rectTransform)
+            {
+                _transition.QuickClose(
+                    _canvasGroup,
+                    _rectTransform
+                );
+            }
         }
 
         protected override void Show()
         {
-            throw new System.NotImplementedException();
         }
 
         protected override void Hide()
