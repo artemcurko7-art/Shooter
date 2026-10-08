@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game.Scripts.UI.Animation;
 using UnityEngine;
 
 namespace Game.Scripts.UI.InApp
@@ -9,7 +10,7 @@ namespace Game.Scripts.UI.InApp
         [SerializeField] private InAppData _data;
         [SerializeField] private RectTransform _groupParent;
 
-        private List<InAppGroupBar> _groupBars = new();
+        private readonly List<InAppGroupBar> _groupBars = new();
 
         private void Start()
         {
@@ -20,7 +21,11 @@ namespace Game.Scripts.UI.InApp
         {
             foreach (var group in _data.Groups)
             {
-                var bar = Instantiate(_prefab, _groupParent);
+                var bar = Instantiate(
+                    _prefab,
+                    _groupParent
+                );
+
                 bar.InitializeBars(group);
                 _groupBars.Add(bar);
             }
@@ -34,17 +39,24 @@ namespace Game.Scripts.UI.InApp
                 _openButton.transform.position,
                 _scaleEase,
                 _positionEase,
-                _duration
+                _duration,
+                FinishTransition
             );
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive)
+            if (!_transition)
+            {
+                FinishTransition();
                 return;
+            }
 
-            if (_transition)
-                _transition.Close(_canvasGroup, _rectTransform);
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }

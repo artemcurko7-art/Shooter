@@ -7,7 +7,6 @@ namespace Game.Scripts.UI.Animation
     {
         [SerializeField] private float _scale = 1.05f;
         [SerializeField] private float _duration = 0.8f;
-        [SerializeField] private float _rotation = 2f;
 
         private Vector3 _initialScale;
         private Quaternion _initialRotation;

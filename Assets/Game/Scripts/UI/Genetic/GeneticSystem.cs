@@ -24,7 +24,6 @@ namespace Game.Scripts.UI.Genetic
         [SerializeField] private StatBar _statBarPrefab;
         [SerializeField] private RectTransform _gridContainer;
         [SerializeField] private RawImage _background;
-        [SerializeField] private float _rectScroll = 0.5f;
 
         public float IncreaseNumber => _statIncreaseNumber;
 

@@ -1715,6 +1715,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1127172225}
   _canvasGroup: {fileID: 1127172226}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 53290208}
   _exitButton: {fileID: 595361970}
   _content: {fileID: 1250196439}
@@ -2284,7 +2285,6 @@ GameObject:
   - component: {fileID: 84504115}
   - component: {fileID: 84504114}
   - component: {fileID: 84504113}
-  - component: {fileID: 84504112}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -2315,19 +2315,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: -70, y: -450}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &84504112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 84504110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1112d8301f5f81f478683241003e3f5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _timeTracker: {fileID: 571640084}
 --- !u!225 &84504113
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3649,6 +3636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 148035906}
+  - component: {fileID: 148035907}
   m_Layer: 5
   m_Name: Gifts
   m_TagString: Untagged
@@ -3679,6 +3667,23 @@ RectTransform:
   m_AnchoredPosition: {x: 8.97499, y: 6.999878}
   m_SizeDelta: {x: 86.585, y: 18.38}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &148035907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148035905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _getOnlyChildren: 1
+  _animateOnEnable: 1
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.2
 --- !u!1 &149395751
 GameObject:
   m_ObjectHideFlags: 0
@@ -4276,7 +4281,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 148035906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5749,6 +5754,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 2126434494}
   _canvasGroup: {fileID: 2126434495}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 0}
   _exitButton: {fileID: 1466194972}
   _geneticSystem: {fileID: 965630655}
@@ -12760,6 +12766,7 @@ GameObject:
   - component: {fileID: 571640085}
   - component: {fileID: 571640084}
   - component: {fileID: 571640086}
+  - component: {fileID: 571640087}
   m_Layer: 5
   m_Name: DailyGift
   m_TagString: Untagged
@@ -12818,6 +12825,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 84504111}
   _canvasGroup: {fileID: 84504113}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 2056834190}
   _exitButton: {fileID: 275180360}
   _title: {fileID: 772074553}
@@ -12844,7 +12852,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6618b636537977546812e573e16322ec, type: 3}
   - {fileID: 21300000, guid: 5d177b05f4c066041a82e5d75c9bc72b, type: 3}
   _buyEffect: {fileID: 1363352555}
-  _displayer: {fileID: 1328640438}
+  _contentDisplayer: {fileID: 1334390061}
 --- !u!114 &571640086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12860,6 +12868,19 @@ MonoBehaviour:
   _dailyGiftSystem: {fileID: 571640085}
   _collectButton: {fileID: 774223115}
   _doubleCollectButton: {fileID: 596927891}
+--- !u!114 &571640087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571640082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1112d8301f5f81f478683241003e3f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeTracker: {fileID: 571640084}
 --- !u!1 &575793405
 GameObject:
   m_ObjectHideFlags: 0
@@ -18793,6 +18814,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1286836387}
   _canvasGroup: {fileID: 1286836388}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 1333352859}
   _openButton: {fileID: 0}
   _exitButton: {fileID: 909722960}
   _icon: {fileID: 4955088477489407138}
@@ -21077,7 +21099,6 @@ MonoBehaviour:
   _statBarPrefab: {fileID: 2825673813757307040, guid: d13530bb4f7e3064d8553f5a959f886c, type: 3}
   _gridContainer: {fileID: 1990476057}
   _background: {fileID: 199688233}
-  _rectScroll: 0.5
 --- !u!114 &965630656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22232,6 +22253,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 612001856}
   _canvasGroup: {fileID: 612001857}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 1551499544}
   _exitButton: {fileID: 1525844977}
   _barPrefab: {fileID: 2786876872750652668, guid: fd1867316999e314880ae02cd7168612, type: 3}
@@ -24565,7 +24587,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.85
+  m_fontSize: 29.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -27097,7 +27119,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1328640436}
   - component: {fileID: 1328640437}
-  - component: {fileID: 1328640438}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -27148,22 +27169,6 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 3
---- !u!114 &1328640438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328640435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _readOnlyChildren: 0
-  _ease: 27
-  _duration: 0.5
-  _delay: 0.1
 --- !u!1 &1329610269
 GameObject:
   m_ObjectHideFlags: 0
@@ -27344,6 +27349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d64050df6b8c1340830eed896385d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tabView: {fileID: 1333352859}
   _buttons:
   - {fileID: 1635626085}
   - {fileID: 1382118807}
@@ -27379,6 +27385,7 @@ GameObject:
   - component: {fileID: 1334390058}
   - component: {fileID: 1334390060}
   - component: {fileID: 1334390059}
+  - component: {fileID: 1334390061}
   m_Layer: 5
   m_Name: DailyGiftPanel
   m_TagString: Untagged
@@ -27446,6 +27453,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1334390057}
   m_CullTransparentMesh: 1
+--- !u!114 &1334390061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334390057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _getOnlyChildren: 0
+  _animateOnEnable: 1
+  _ease: 27
+  _duration: 0.5
+  _delay: 0.1
 --- !u!1 &1334464240
 GameObject:
   m_ObjectHideFlags: 0
@@ -27969,7 +27993,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1354266741}
   - {fileID: 130107007}
@@ -30469,7 +30493,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scale: 0.95
   _duration: 0.8
-  _rotation: 2
 --- !u!114 &1456122451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31367,7 +31390,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1457319403}
   - {fileID: 1088106735}
@@ -34404,7 +34427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7a1cc6bfb9cc148b4120108c128a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _readOnlyChildren: 0
+  _getOnlyChildren: 0
+  _animateOnEnable: 1
   _ease: 27
   _duration: 0.5
   _delay: 0.05
@@ -36870,7 +36894,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1083682003}
   - {fileID: 1857658446}
@@ -38044,6 +38068,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1638590398}
   _canvasGroup: {fileID: 1638590399}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 346781640}
   _exitButton: {fileID: 1744660630}
   _prefab: {fileID: 678317370431005646, guid: b90a227ad8e647740abaac7630f9e608, type: 3}
@@ -38512,6 +38537,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 104345456}
   _canvasGroup: {fileID: 104345457}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 1842224250}
   _exitButton: {fileID: 1759665918}
   _leaderboard: {fileID: 272134660}
@@ -40633,6 +40659,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1046474187}
   _canvasGroup: {fileID: 1046474188}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 27065613}
   _exitButton: {fileID: 1879545203}
   _data: {fileID: 11400000, guid: b84687459080524459d935a1a1ba1cce, type: 2}
@@ -40641,8 +40668,6 @@ MonoBehaviour:
   _scrollRect: {fileID: 1942019278}
   _content: {fileID: 1836478487}
   _smoothScroll: {fileID: 1942019277}
-  _scrollDuration: 0.5
-  _closeScrollDuration: 0.3
 --- !u!1 &1929025584
 GameObject:
   m_ObjectHideFlags: 0
@@ -41580,7 +41605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 559647911}
-  _displayer: {fileID: 1942532731}
+  _sliderAnimotor: {fileID: 1942532731}
   _unlockedColor: {r: 0.9607844, g: 0.8705883, b: 0, a: 100}
   _defaultColor: {r: 0.08235294, g: 0.18431373, b: 0.36862746, a: 1}
   _maxDaysCount: 21
@@ -41612,6 +41637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2e9b65ebfb75b44b9dbf2df377452b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animateOnEnable: 1
   _slider: {fileID: 559647911}
   _duration: 3
   _ease: 27

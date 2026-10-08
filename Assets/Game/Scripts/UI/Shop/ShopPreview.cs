@@ -1,5 +1,6 @@
 using System;
 using Game.Scripts.UI.Animation;
+using Game.Scripts.UI.TabContext;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,8 +41,6 @@ namespace Game.Scripts.UI.Shop
         public void Open(BuyItemData.BuyItem buyItem, Vector3 startPosition)
         {
             if (_effect.IsAnimating) return;
-
-            Debug.Log("ShopPreview.Open()", this);
 
             if (buyItem == null)
             {

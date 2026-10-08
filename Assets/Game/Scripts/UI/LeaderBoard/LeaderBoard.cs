@@ -1,7 +1,5 @@
-using DG.Tweening;
 using Game.Scripts.UI.Animation;
 using UnityEngine;
-using UnityEngine.UI;
 using YG;
 
 namespace Game.Scripts.UI.LeaderBoard
@@ -13,18 +11,30 @@ namespace Game.Scripts.UI.LeaderBoard
 
         protected override void Show()
         {
-            _transition.Open(_canvasGroup, _rectTransform, _openButton.transform.position, _scaleEase, _positionEase,
-                _duration);
+            _transition.Open(
+                _canvasGroup,
+                _rectTransform,
+                _openButton.transform.position,
+                _scaleEase,
+                _positionEase,
+                _duration,
+                FinishTransition
+            );
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive) return;
-
-            if (_transition)
+            if (!_transition)
             {
-                _transition.Close(_canvasGroup, _rectTransform);
+                FinishTransition();
+                return;
             }
+
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }

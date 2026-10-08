@@ -1,3 +1,4 @@
+using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 
@@ -21,25 +22,35 @@ namespace Game.Scripts.UI.Missions
             _titleTaskCount.text = _data.Tasks.Count.ToString();
 
             foreach (var task in _data.Tasks)
-            {
                 Instantiate(_barPrefab, _content).Init(task);
-            }
         }
 
         protected override void Show()
         {
-            _transition.Open(_canvasGroup, _rectTransform, _openButton.transform.position, _scaleEase, _positionEase,
-                _duration);
+            _transition.Open(
+                _canvasGroup,
+                _rectTransform,
+                _openButton.transform.position,
+                _scaleEase,
+                _positionEase,
+                _duration,
+                FinishTransition
+            );
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive) return;
-
-            if (_transition)
+            if (!_transition)
             {
-                _transition.Close(_canvasGroup, _rectTransform);
+                FinishTransition();
+                return;
             }
+
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }

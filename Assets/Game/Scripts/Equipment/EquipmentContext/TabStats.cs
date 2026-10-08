@@ -24,12 +24,12 @@ namespace Game.Scripts.Equipment.EquipmentContext
 
         private void OpenClick()
         {
-            _tabView.gameObject.SetActive(true);
+            _tabView.Open();
         }
-        
+
         private void CloseClick()
         {
-            _tabView.gameObject.SetActive(false);
+            _tabView.Clear();
         }
     }
 }

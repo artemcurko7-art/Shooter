@@ -26,9 +26,10 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private SliderGifts _sliderGifts;
         [SerializeField] private List<Sprite> _frames;
         [SerializeField] private BuyEffect _buyEffect;
-        [SerializeField] private ContentDisplayer _displayer;
+        [SerializeField] private ContentDisplayer _contentDisplayer;
 
         private int _dayOfWeekNumber;
+
         public DailyGiftData.DailyGift CurrentGift { get; private set; }
 
         private void Start()
@@ -50,10 +51,13 @@ namespace Game.Scripts.UI.DailyGift
             YG2.saves.TotalCollectedGifts++;
             YG2.SaveProgress();
 
+            _buyEffect.Animate(
+                CurrentGift.icon,
+                CurrentGift.count,
+                _bars[_dayOfWeekNumber - 1].transform.position
+            );
 
-            _buyEffect.Animate(CurrentGift.icon, CurrentGift.count, _bars[_dayOfWeekNumber - 1].transform.position);
             Refresh();
-
             _sliderGifts.UpdateVisual();
         }
 
@@ -95,15 +99,31 @@ namespace Game.Scripts.UI.DailyGift
             {
                 var dayIndex = i + 1;
                 var bar = Instantiate(_giftBarPrefab, _content);
-                bar.Init(_data.Gifts[i], GetRandomFrame(), dayIndex);
+
+                bar.Init(
+                    _data.Gifts[i],
+                    GetRandomFrame(),
+                    dayIndex
+                );
+
                 _bars.Add(bar);
             }
 
-            var superBar = Instantiate(_superGiftBarPrefab, _content);
-            superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
+            var superBar = Instantiate(
+                _superGiftBarPrefab,
+                _content
+            );
+
+            superBar.Init(
+                _data.Gifts[DAYS_IN_WEEK - 1],
+                DAYS_IN_WEEK
+            );
+
             _bars.Add(superBar);
 
-            _displayer.InitTargets(_bars.Select(bar => bar.transform).ToList());
+            _contentDisplayer.InitTargets(
+                _bars.Select(bar => bar.transform).ToList()
+            );
         }
 
         private Sprite GetRandomFrame()
@@ -114,18 +134,27 @@ namespace Game.Scripts.UI.DailyGift
             if (_usedFrames.Count >= _frames.Count)
                 _usedFrames.Clear();
 
-            var availableFrames = _frames.Where(frame => frame && !_usedFrames.Contains(frame)).ToList();
+            var availableFrames = _frames
+                .Where(frame => frame && !_usedFrames.Contains(frame))
+                .ToList();
 
             if (availableFrames.Count == 0)
             {
                 _usedFrames.Clear();
-                availableFrames = _frames.Where(frame => frame).ToList();
+
+                availableFrames = _frames
+                    .Where(frame => frame)
+                    .ToList();
             }
 
             if (availableFrames.Count == 0)
                 return null;
 
-            var randomIndex = Random.Range(0, availableFrames.Count);
+            var randomIndex = Random.Range(
+                0,
+                availableFrames.Count
+            );
+
             var selectedFrame = availableFrames[randomIndex];
 
             _usedFrames.Add(selectedFrame);
@@ -136,30 +165,44 @@ namespace Game.Scripts.UI.DailyGift
         private void Refresh()
         {
             foreach (var bar in _bars)
-            {
                 bar.UpdateVisual();
-            }
         }
 
         protected override void Show()
         {
+            if (!_transition)
+            {
+                FinishTransition();
+                return;
+            }
+
             _transition.Open(
                 _canvasGroup,
                 _rectTransform,
                 _openButton.transform.position,
                 _scaleEase,
                 _positionEase,
-                _duration
+                _duration,
+                FinishTransition
             );
+
+            _contentDisplayer.Play();
+            _sliderGifts.Play();
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive)
+            if (!_transition)
+            {
+                FinishTransition();
                 return;
+            }
 
-            if (_transition)
-                _transition.Close(_canvasGroup, _rectTransform);
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }

@@ -443,28 +443,36 @@ namespace Game.Scripts.UI.WheelFortune
 
         protected override void Show()
         {
+            if (!_transition)
+            {
+                FinishTransition();
+                return;
+            }
+
             _transition.Open(
                 _canvasGroup,
                 _rectTransform,
                 _openButton.transform.position,
                 _scaleEase,
                 _positionEase,
-                _duration
+                _duration,
+                FinishTransition
             );
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive)
-                return;
-
-            if (_transition)
+            if (!_transition)
             {
-                _transition.Close(
-                    _canvasGroup,
-                    _rectTransform
-                );
+                FinishTransition();
+                return;
             }
+
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }

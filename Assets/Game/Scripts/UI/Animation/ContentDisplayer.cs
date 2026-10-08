@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -8,31 +7,33 @@ namespace Game.Scripts.UI.Animation
     public class ContentDisplayer : MonoBehaviour
     {
         private readonly List<Transform> _targets = new();
+        private readonly Dictionary<Transform, Vector3> _initialScales = new();
 
-        [SerializeField] private bool _readOnlyChildren;
-        [SerializeField] private Ease _ease;
-        [SerializeField] private float _duration;
-        [SerializeField] private float _delay;
+        [SerializeField] private bool _getOnlyChildren;
+        [SerializeField] private bool _animateOnEnable = true;
+        [SerializeField] private Ease _ease = Ease.OutBack;
+        [SerializeField] private float _duration = 0.5f;
+        [SerializeField] private float _delay = 0.1f;
 
-        private Vector3 _initialScale;
-        private bool _initialized;
-        private bool _hasBeenEnabled;
+        private void Awake()
+        {
+            if (_getOnlyChildren)
+                CollectChildren();
+        }
 
         private void OnEnable()
         {
-            _hasBeenEnabled = true;
-
-            if (!_initialized)
+            if (!_animateOnEnable)
                 return;
+
+            if (_getOnlyChildren)
+                CollectChildren();
 
             PlayAnimation();
         }
 
         private void OnDisable()
         {
-            if (!_initialized)
-                return;
-
             ResetTargets();
         }
 
@@ -40,40 +41,63 @@ namespace Game.Scripts.UI.Animation
         {
             _targets.Clear();
 
-            if (_readOnlyChildren || items == null || items.Count == 0)
+            if (_getOnlyChildren)
             {
                 CollectChildren();
             }
             else
             {
-                foreach (var item in items.Where(item => item != null))
+                foreach (var item in items)
                 {
-                    _targets.Add(item);
+                    if (!item)
+                        continue;
+
+                    AddTarget(item);
                 }
             }
+        }
 
-            if (_targets.Count == 0)
-                return;
+        public void Play()
+        {
+            if (_getOnlyChildren)
+                CollectChildren();
 
-            _initialScale = _targets[0].localScale;
-            _initialized = true;
-
-            if (_hasBeenEnabled && gameObject.activeInHierarchy)
-                PlayAnimation();
+            PlayAnimation();
         }
 
         private void CollectChildren()
         {
+            _targets.Clear();
+
             for (var i = 0; i < transform.childCount; i++)
             {
-                _targets.Add(transform.GetChild(i));
+                var child = transform.GetChild(i);
+
+                if (!child)
+                    continue;
+
+                AddTarget(child);
             }
+        }
+
+        private void AddTarget(Transform target)
+        {
+            if (!target)
+                return;
+
+            _targets.Add(target);
+
+            if (!_initialScales.ContainsKey(target))
+                _initialScales.Add(target, target.localScale);
         }
 
         private void ResetTargets()
         {
-            foreach (var target in _targets.Where(target => target != null))
+            foreach (var target in _targets)
             {
+                if (!target)
+                    continue;
+
                 target.DOKill();
                 target.localScale = Vector3.zero;
             }
@@ -86,13 +110,19 @@ namespace Game.Scripts.UI.Animation
 
             var delay = 0f;
 
-            foreach (var target in _targets.Where(target => target != null))
+            foreach (var target in _targets)
             {
+                if (!target)
+                    continue;
+
+                if (!_initialScales.TryGetValue(target, out var initialScale))
+                    continue;
+
                 target.DOKill();
                 target.localScale = Vector3.zero;
 
                 target
-                    .DOScale(_initialScale, _duration)
+                    .DOScale(initialScale, _duration)
                     .SetEase(_ease)
                     .SetDelay(delay);
 

@@ -18,10 +18,6 @@ namespace Game.Scripts.UI.Challenges
         [SerializeField] private LayoutGroup _content;
         [SerializeField] private SmoothScroll _smoothScroll;
 
-        [Header("Скролл")]
-        [SerializeField] private float _scrollDuration = 0.5f;
-        [SerializeField] private float _closeScrollDuration = 0.3f;
-
         private Vector2 _savedContentPosition;
         private bool _contentPositionSaved;
         private float _topOffset;
@@ -50,8 +46,19 @@ namespace Game.Scripts.UI.Challenges
 
             foreach (var achieve in _data.Achieves)
             {
-                var bar = Instantiate(_barPrefab, _content.transform as RectTransform);
-                bar.Init(achieve, _scrollRect, ScrollToBar, () => OnExpandComplete(bar), OnCloseComplete);
+                var bar = Instantiate(
+                    _barPrefab,
+                    _content.transform as RectTransform
+                );
+
+                bar.Init(
+                    achieve,
+                    _scrollRect,
+                    ScrollToBar,
+                    () => OnExpandComplete(bar),
+                    OnCloseComplete
+                );
+
                 _bars.Add(bar);
             }
 
@@ -64,7 +71,9 @@ namespace Game.Scripts.UI.Challenges
 
             if (_content)
             {
-                LayoutRebuilder.ForceRebuildLayoutImmediate(_content.transform as RectTransform);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(
+                    _content.transform as RectTransform
+                );
             }
 
             Canvas.ForceUpdateCanvases();
@@ -133,11 +142,14 @@ namespace Game.Scripts.UI.Challenges
 
             if (_smoothScroll)
             {
-                _smoothScroll.ScrollToY(targetContentY); 
+                _smoothScroll.ScrollToY(targetContentY);
             }
             else
             {
-                content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetContentY);
+                content.anchoredPosition = new Vector2(
+                    content.anchoredPosition.x,
+                    targetContentY
+                );
             }
         }
 
@@ -153,7 +165,10 @@ namespace Game.Scripts.UI.Challenges
             {
                 if (_smoothScroll)
                 {
-                    _smoothScroll.ScrollToPosition(_savedContentPosition, FinishCloseScroll);
+                    _smoothScroll.ScrollToPosition(
+                        _savedContentPosition,
+                        FinishCloseScroll
+                    );
                 }
                 else
                 {
@@ -200,30 +215,38 @@ namespace Game.Scripts.UI.Challenges
 
         protected override void Show()
         {
+            if (!_transition || !_canvasGroup || !_rectTransform || !_openButton)
+            {
+                FinishTransition();
+                return;
+            }
+
             _transition.Open(
                 _canvasGroup,
                 _rectTransform,
                 _openButton.transform.position,
                 _scaleEase,
                 _positionEase,
-                _duration
+                _duration,
+                FinishTransition
             );
         }
 
         protected override void Hide()
         {
-            if (IsTransitionActive)
-                return;
-
             ResetBarsImmediate();
 
-            if (_transition)
+            if (!_transition || !_canvasGroup || !_rectTransform)
             {
-                _transition.Close(
-                    _canvasGroup,
-                    _rectTransform
-                );
+                FinishTransition();
+                return;
             }
+
+            _transition.Close(
+                _canvasGroup,
+                _rectTransform,
+                FinishTransition
+            );
         }
     }
 }
