@@ -1715,6 +1715,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1127172225}
   _canvasGroup: {fileID: 1127172226}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 53290208}
   _exitButton: {fileID: 595361970}
   _content: {fileID: 1250196439}
@@ -5735,6 +5736,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 2126434494}
   _canvasGroup: {fileID: 2126434495}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 0}
   _exitButton: {fileID: 1466194972}
   _geneticSystem: {fileID: 965630655}
@@ -12805,6 +12807,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 84504111}
   _canvasGroup: {fileID: 84504113}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 219546661}
   _openButton: {fileID: 2056834190}
   _exitButton: {fileID: 275180360}
   _title: {fileID: 772074553}
@@ -18778,6 +18781,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1286836387}
   _canvasGroup: {fileID: 1286836388}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 1333352859}
   _openButton: {fileID: 0}
   _exitButton: {fileID: 909722960}
   _icon: {fileID: 4955088477489407138}
@@ -22216,6 +22220,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 612001856}
   _canvasGroup: {fileID: 612001857}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 1551499544}
   _exitButton: {fileID: 1525844977}
   _barPrefab: {fileID: 2786876872750652668, guid: fd1867316999e314880ae02cd7168612, type: 3}
@@ -38019,6 +38024,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1638590398}
   _canvasGroup: {fileID: 1638590399}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 346781640}
   _exitButton: {fileID: 1744660630}
   _prefab: {fileID: 678317370431005646, guid: b90a227ad8e647740abaac7630f9e608, type: 3}
@@ -38487,6 +38493,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 104345456}
   _canvasGroup: {fileID: 104345457}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 1842224250}
   _exitButton: {fileID: 1759665918}
   _leaderboard: {fileID: 272134660}
@@ -40608,6 +40615,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 1046474187}
   _canvasGroup: {fileID: 1046474188}
   _transition: {fileID: 1563917329}
+  _tabView: {fileID: 0}
   _openButton: {fileID: 27065613}
   _exitButton: {fileID: 1879545203}
   _data: {fileID: 11400000, guid: b84687459080524459d935a1a1ba1cce, type: 2}

@@ -35,7 +35,6 @@ namespace Game.Scripts.UI.Animation
             target.position = startPosition;
             target.localScale = _startScale;
             canvasGroup.alpha = 0f;
-            //canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
 
             _originPosition = target.anchoredPosition;
@@ -97,6 +96,29 @@ namespace Game.Scripts.UI.Animation
                     _originPosition = Vector2.zero;
                     target.gameObject.SetActive(false);
                 });
+        }
+
+        public void QuickClose(CanvasGroup canvasGroup, RectTransform target)
+        {
+            if (!canvasGroup)
+                throw new ArgumentException("_canvasGroup не может быть null.", nameof(canvasGroup));
+
+            if (!target)
+                throw new ArgumentException("_target не может быть null.", nameof(target));
+
+            canvasGroup.DOKill();
+            target.DOKill();
+
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+
+            target.localScale = _startScale;
+            target.anchoredPosition = _originPosition;
+
+            _originPosition = Vector2.zero;
+
+            target.gameObject.SetActive(false);
         }
     }
 }
