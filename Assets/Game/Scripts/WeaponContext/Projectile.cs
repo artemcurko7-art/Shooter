@@ -2,22 +2,25 @@ using System;
 using System.Collections;
 using Game.Scripts.PhysicalBody;
 using Game.Scripts.Damagable;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.HitImpacted;
 using Game.Scripts.PhysicalBody.UnitContext;
+using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
 {
     public class Projectile : PhysicalBody<Projectile>, IImpactReceiver
     {
+        private IAttacker _attacker;
         private LayerMask _layerMask;
         private Vector3 _direction;
         private float _radius;
         private int _damage;
         private float _speed;
         
+        public event Action<HitContext> HitImpacted;
         public event Action<Projectile> Released;
-        public event Action<RaycastHit> HitImpacted;
 
         private void Start()
         {
@@ -34,7 +37,7 @@ namespace Game.Scripts.WeaponContext
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage(_damage);
-                    HitImpacted?.Invoke(hit);
+                    HitImpacted?.Invoke(new HitContext(_attacker, hit));
                     Released?.Invoke(this);
                 }
             }
@@ -42,8 +45,9 @@ namespace Game.Scripts.WeaponContext
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(Vector3 position, Vector3 direction, float radius, int damage, float speed)
+        public void Initialize(IAttacker attacker, Vector3 position, Vector3 direction, float radius, int damage, float speed)
         {
+            _attacker = attacker;
             transform.position = position;
             _direction = direction;
             _damage = damage;

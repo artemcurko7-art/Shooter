@@ -13,7 +13,7 @@ namespace Game.Scripts.MV.StatContext.Repository
         private const float Percent = 100f;
         private readonly ICharacterService _characterService;
         private readonly IEquipmentProvider _equipmentProvider;
-        private readonly Dictionary<StatType, Stat> _stats = new();
+        //private readonly Dictionary<StatType, Stat> _stats = new();
         private readonly Dictionary<StatType, int> _defaultStats = new();
         
         public StatRepository(ICharacterService characterService, IEquipmentProvider equipmentProvider)
@@ -26,18 +26,18 @@ namespace Game.Scripts.MV.StatContext.Repository
             
             Fill();
 
-            _stats.Add(StatType.Health, new Health(0, false));
-            _stats.Add(StatType.Damage, new Damage(0, false));
-            _stats.Add(StatType.Defence, new Defence(0, false));
-            _stats.Add(StatType.CriticalChance, new CriticalChance(0, true));
-            _stats.Add(StatType.CriticalDamage, new CriticalDamage(0, true));
-
-            foreach (var character in characterService.Characters)
-                foreach (var stat in character.Stats)
-                    _stats[stat.Type].Increase(stat.Value);
+            // _stats.Add(StatType.Health, new Health(0, false));
+            // _stats.Add(StatType.Damage, new Damage(0, false));
+            // _stats.Add(StatType.Defence, new Defence(0, false));
+            // _stats.Add(StatType.CriticalChance, new CriticalChance(0, true));
+            // _stats.Add(StatType.CriticalDamage, new CriticalDamage(0, true));
+            //
+            // foreach (var character in characterService.Characters)
+            //     foreach (var stat in character.Stats)
+            //         _stats[stat.Type].Increase(stat.Value);
         }
 
-        public IReadOnlyDictionary<StatType, Stat> Stats => _stats;
+        //IReadOnlyDictionary<StatType, Stat> Stats => _stats;
 
         private void Fill()
         {

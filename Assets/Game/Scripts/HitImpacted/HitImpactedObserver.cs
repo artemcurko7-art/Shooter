@@ -25,7 +25,7 @@ namespace Game.Scripts.HitImpacted
             _projectilePool.Removed -= OnRemoved;
         }
 
-        protected abstract void OnHitImpacted(RaycastHit hit);
+        protected abstract void OnHitImpacted(HitContext hitContext);
         
         private void OnAdded(IImpactReceiver receiver)
         {

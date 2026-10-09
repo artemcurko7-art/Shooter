@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
@@ -9,7 +10,7 @@ using Zenject;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour, IAttacker
     {
         [field: SerializeField] public Transform Weapon { get; private set; }
         [field: SerializeField] public Transform ShootPosition { get; private set; }
@@ -18,9 +19,11 @@ namespace Game.Scripts.Equipment.CharacterContext
         private TrackerUnits _trackerUnits;
         private IInput _input;
         private Vector3 _direction;
-        
+
+        public CharacterType CharacterType { get; private set; }
         public WeaponType WeaponType { get; private set; }
         public Stat[] Stats { get; private set; }
+        public Transform Transform => ShootPosition;
         
         [Inject]
         public void Construct(Rotation rotation, TrackerUnits trackerUnits, IInput input)
@@ -30,8 +33,9 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(WeaponType weaponType, Stat[] stats)
+        public void Initialize(CharacterType type, WeaponType weaponType, Stat[] stats)
         {
+            CharacterType = type;
             WeaponType = weaponType;
             Stats = stats;
             StartCoroutine(StartTrackerUnits());

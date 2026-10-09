@@ -5,6 +5,6 @@ namespace Game.Scripts.HitImpacted
 {
     public interface IImpactReceiver
     {
-        public event Action<RaycastHit> HitImpacted;
+        public event Action<HitContext> HitImpacted;
     }
 }

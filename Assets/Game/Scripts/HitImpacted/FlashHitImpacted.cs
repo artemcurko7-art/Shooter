@@ -19,9 +19,9 @@ namespace Game.Scripts.HitImpacted
             _cooldownFlash = cooldownFlash;
         }
 
-        protected override void OnHitImpacted(RaycastHit hit)
+        protected override void OnHitImpacted(HitContext hitContext)
         {
-            var renderer = hit.transform.GetComponentInChildren<Renderer>();
+            var renderer = hitContext.RaycastHit.transform.GetComponentInChildren<Renderer>();
 
             _cancellationTokenSource = new CancellationTokenSource();
             
