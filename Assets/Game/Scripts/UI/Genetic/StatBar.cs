@@ -1,8 +1,8 @@
-﻿using Game.Scripts.UI.Genetic;
+﻿using Game.Scripts.Genetic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Scripts.Genetic
+namespace Game.Scripts.UI.Genetic
 {
     [RequireComponent(typeof(RectTransform))]
     public class StatBar : MonoBehaviour
@@ -12,11 +12,13 @@ namespace Game.Scripts.Genetic
         [SerializeField] private GameObject _lockOverlay;
         [SerializeField] private Image _icon;
         [SerializeField] private Image _frame;
+        [SerializeField] private Image _darkFrame;
 
         private GeneticSystem _geneticSystem;
         private StatsData.Stat _stat;
         private RectTransform _rectTransform;
-        private int _index;
+
+        public int Index { get; private set; }
 
         private void Awake()
         {
@@ -26,59 +28,58 @@ namespace Game.Scripts.Genetic
         public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int index)
         {
             _geneticSystem = geneticSystem;
-            _stat = stat;
-            _index = index;
+            Bind(stat, index);
+        }
 
-            _icon.sprite = stat.icon;
+        private void Bind(StatsData.Stat stat, int index)
+        {
+            _stat = stat;
+            Index = index;
+
+            if (_icon)
+                _icon.sprite = stat.icon;
 
             UpdateDisplay();
         }
 
         public void UpdateDisplay()
         {
-            var isNextAvailable = GeneticSystem.IsNextAvailableStat(_index);
-            var isAlreadyUnlocked = GeneticSystem.IsAlreadyUnlocked(_index);
+            var isAvailable = GeneticSystem.IsAvailableStat(Index);
+            var isAlreadyUnlocked = GeneticSystem.IsAlreadyUnlocked(Index);
+            var isNext = GeneticSystem.IsNextStat(Index);
 
-            if (isNextAvailable)
+            if (isAvailable)
             {
-                _button.enabled = true;
-                _button.interactable = true;
-                _frame.color = Color.green;
-
-                if (_lockOverlay)
-                    _lockOverlay.SetActive(false);
-
-                if (_checkMark)
-                    _checkMark.SetActive(false);
+                if (_button) _button.enabled = true;
+                if (_frame) _frame.color = Color.green;
+                if (_darkFrame) _darkFrame.enabled = false;
+                if (_lockOverlay) _lockOverlay.SetActive(false);
+                if (_checkMark) _checkMark.SetActive(false);
             }
             else if (isAlreadyUnlocked)
             {
-                _button.interactable = true;
-                _button.enabled = false;
-                _frame.color = Color.white;
-
-                if (_lockOverlay)
-                    _lockOverlay.SetActive(false);
-
-                if (_checkMark)
-                    _checkMark.SetActive(true);
+                if (_button) _button.enabled = false;
+                if (_frame) _frame.color = Color.white;
+                if (_darkFrame) _darkFrame.enabled = false;
+                if (_lockOverlay) _lockOverlay.SetActive(false);
+                if (_checkMark) _checkMark.SetActive(true);
             }
-            else
+            else if (isNext)
             {
-                _button.interactable = true;
-                _button.enabled = false;
-
-                if (_lockOverlay)
-                    _lockOverlay.SetActive(true);
-
-                if (_checkMark)
-                    _checkMark.SetActive(false);
+                if (_button) _button.enabled = false;
+                if (_frame) _frame.color = Color.gray;
+                if (_darkFrame) _darkFrame.enabled = true;
+                if (_lockOverlay) _lockOverlay.SetActive(true);
+                if (_checkMark) _checkMark.SetActive(false);
             }
         }
 
         public void OnClick()
         {
-            _geneticSystem.OpenPreview(_stat, _rectTransform.transform.position);
+            if (_geneticSystem == null || _stat == null)
+                return;
+
+            _geneticSystem.OpenPreview(_stat, _rectTransform.position);
         }
     }
 }
