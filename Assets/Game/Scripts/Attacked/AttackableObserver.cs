@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Service.Subscriber;
+﻿using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.Service.Subscriber;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
@@ -25,6 +26,6 @@ namespace Game.Scripts.Attacked
                 shooting.Attacked -= OnAttacked;
         }
 
-        protected abstract void OnAttacked();
+        protected abstract void OnAttacked(IAttacker attacker);
     }
 }

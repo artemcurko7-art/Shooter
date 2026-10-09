@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Configs;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;
@@ -18,12 +19,12 @@ namespace Game.Scripts.Factory
             _container = container;
         }
 
-        public WeaponView Create(WeaponConfig config, Transform container, Transform shootPosition)
+        public WeaponView Create(WeaponConfig config, IAttacker attacker, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<WeaponView>(config.View, Vector3.zero, Quaternion.identity, container);
             var type = _shootingData.Shootings[config.ShootingType];
             var template = (IWeaponShooting)_container.Instantiate(type, new object[] { config });
-            var weapon = new Weapon(template, shootPosition);
+            var weapon = new Weapon(template, attacker);
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
             view.transform.localScale = config.Scale;

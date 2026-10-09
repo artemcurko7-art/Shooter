@@ -12,13 +12,13 @@ namespace Game.Scripts.HitImpacted
         
         public KnockbackHitImpacted(ProjectilePool projectilePool) : base(projectilePool) { }
 
-        protected override void OnHitImpacted(RaycastHit hit)
+        protected override void OnHitImpacted(HitContext hitContext)
         {
-            // if (hit.transform.TryGetComponent<CharacterController>(out var characterController))
+            // if (hitContext.RaycastHit.transform.TryGetComponent<CharacterController>(out var characterController))
             // {
             //     DOVirtual.Float(From, To, Duration, currentForce =>
             //     {
-            //         characterController.Move(-hit.transform.forward * (currentForce * Time.deltaTime));
+            //         characterController.Move(-hitContext.RaycastHit.transform.forward * (currentForce * Time.deltaTime));
             //     }).SetEase(Ease.OutQuad);
             // }
         }

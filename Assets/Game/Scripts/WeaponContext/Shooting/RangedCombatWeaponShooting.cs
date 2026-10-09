@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using Game.Scripts.Configs;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PoolMono;
 using Game.Scripts.WeaponContext.Attribute;
@@ -25,7 +26,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             ProjectilePool projectilePool) 
             : base(config, trackerUnits, projectilePool) { }
         
-        public event Action Attacked;
+        public event Action<IAttacker> Attacked;
 
         public void Subscribe()
         {
@@ -37,10 +38,10 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void StartShooting(Transform transform)
+        public void StartShooting(IAttacker attacker)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(transform, _cancellationTokenSource.Token).Forget();
+            StartCooldown(attacker, _cancellationTokenSource.Token).Forget();
             
             Debug.Log("Ranged combat");
         }
@@ -50,7 +51,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             return ShootingType.RangedCombat;
         }
         
-        private async UniTaskVoid StartCooldown(Transform transform, CancellationToken token)
+        private async UniTaskVoid StartCooldown(IAttacker attacker, CancellationToken token)
         {
             ProjectilePool.SetPrefab(Config.Projectile);
             
@@ -71,9 +72,9 @@ namespace Game.Scripts.WeaponContext.Shooting
 
                 if (_canShoot)
                 {
-                    Attacked?.Invoke();
+                    Attacked?.Invoke(attacker);
                     var obj = ProjectilePool.Get();
-                    obj.Initialize(transform.position, TrackerUnits.GetNearestPosition(transform.position), Config.Radius, Config.Damage, Config.Speed);
+                    obj.Initialize(attacker, attacker.Transform.position, TrackerUnits.GetNearestPosition(attacker.Transform.position), Config.Radius, Config.Damage, Config.Speed);
                     _countShoot++;
                 }
 

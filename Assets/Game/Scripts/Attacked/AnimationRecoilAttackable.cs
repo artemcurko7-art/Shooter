@@ -1,14 +1,17 @@
-﻿using Game.Scripts.WeaponContext.Shooting;
+﻿using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
 namespace Game.Scripts.Attacked
 {
     public class AnimationRecoilAttackable : AttackableObserver
     {
-        public AnimationRecoilAttackable(Transform[] handGrips, IWeaponShooting[] shootings) : base(shootings) { }
+        public AnimationRecoilAttackable(IWeaponShooting[] shootings) : base(shootings) { }
 
-        protected override void OnAttacked()
+        protected override void OnAttacked(IAttacker attacker)
         {
+            //Debug.Log($"Shoot: {attacker.CharacterType}");
+            
             // foreach (var hand in _handGrips)
             // {
             //     hand.DOKill(complete: true);

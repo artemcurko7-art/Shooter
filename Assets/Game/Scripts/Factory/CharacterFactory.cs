@@ -23,7 +23,7 @@ namespace Game.Scripts.Factory
         {
             var view = _container.InstantiatePrefabForComponent<Character>(config.View, container.position, Quaternion.identity, container);
             Fill(config.Stats);
-            view.Initialize(config.WeaponType, _stats.ToArray());
+            view.Initialize(config.Type, config.WeaponType, _stats.ToArray());
             
             return view;
         }

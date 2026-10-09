@@ -17,11 +17,11 @@ namespace Game.Scripts.HitImpacted
             _pool.SetPrefab(effect);
         }
         
-        protected override void OnHitImpacted(RaycastHit hit)
+        protected override void OnHitImpacted(HitContext hitContext)
         {
             var obj = _pool.Get();
-            obj.Initialize(hit.point);
-            obj.transform.rotation = Quaternion.LookRotation(hit.normal);
+            obj.Initialize(hitContext.RaycastHit.point);
+            obj.transform.rotation = Quaternion.LookRotation(hitContext.RaycastHit.normal);
         }
     }
 }
