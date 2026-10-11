@@ -13,6 +13,7 @@ namespace Game.Scripts.UI.Genetic
         private readonly List<StatBar> _statBars = new();
 
         [SerializeField] private float _statIncreaseNumber = 0.5f;
+        [SerializeField] private int _poolSize = 20; // Сколько всего баров держим в пуле (последние 20 штук)
         [SerializeField] private int _additionallyStatVisibleCount = 5;
         [SerializeField] private float _uvSpeed = 2000f;
 
@@ -27,18 +28,41 @@ namespace Game.Scripts.UI.Genetic
 
         public float IncreaseNumber => _statIncreaseNumber;
 
-        private void OnEnable()
-        {
-            StartCoroutine(CheckScrollOnEnable());
-        }
+        private bool _isInitialized;
 
         private void Start()
         {
-            InitializeStats();
-            ScrollToNextAvailable(false);
+            TryInitializeOnce();
         }
 
-        public static bool IsNextAvailableStat(int statId)
+        private void OnEnable()
+        {
+            if (!_isInitialized)
+            {
+                TryInitializeOnce();
+            }
+            else
+            {
+                RefreshUI();
+                StartCoroutine(CheckScrollOnEnable());
+            }
+        }
+
+        private void TryInitializeOnce()
+        {
+            if (_isInitialized) return;
+            InitializePool();
+            _isInitialized = true;
+            StartCoroutine(CheckScrollOnEnable());
+        }
+
+        public static bool IsNextStat(int statId)
+        {
+            var nextIndex = YG2.saves.IdSavedStatCount;
+            return statId > nextIndex;
+        }
+
+        public static bool IsAvailableStat(int statId)
         {
             var nextIndex = YG2.saves.IdSavedStatCount;
             return statId == nextIndex;
@@ -109,7 +133,7 @@ namespace Game.Scripts.UI.Genetic
             yield return new WaitForEndOfFrame();
 
             EnsureLayout();
-            ScrollToNextAvailable(true);
+            ScrollToNextAvailable(false);
         }
 
         private void LateUpdate()
@@ -122,7 +146,7 @@ namespace Game.Scripts.UI.Genetic
             _background.uvRect = rect;
         }
 
-        private void InitializeStats()
+        private void InitializePool()
         {
             if (!_statsData || _statsData.Stats.Count == 0)
             {
@@ -132,21 +156,23 @@ namespace Game.Scripts.UI.Genetic
 
             _statBars.Clear();
 
-            var unlockedCount = YG2.saves.IdSavedStatCount;
-            var totalBars = unlockedCount + _additionallyStatVisibleCount;
+            var currentUnlocked = YG2.saves.IdSavedStatCount;
+            var startIndex = Mathf.Max(0, currentUnlocked - _poolSize + _additionallyStatVisibleCount);
+            var totalToCreate = Mathf.Max(_poolSize, currentUnlocked + _additionallyStatVisibleCount);
 
-            for (var i = 0; i < totalBars; i++)
+            for (var i = startIndex; i < totalToCreate; i++)
             {
-                var statIndexInList = i % _statsData.Stats.Count;
-                var stat = _statsData.Stats[statIndexInList];
+                var statIndex = i % _statsData.Stats.Count;
                 var statBar = Instantiate(_statBarPrefab, _gridContainer);
 
-                statBar.Init(this, stat, i);
+                statBar.Init(this, _statsData.Stats[statIndex], i);
                 _statBars.Add(statBar);
             }
 
-            EnsureLayout();
             RefreshUI();
+
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_gridContainer);
         }
 
         private void EnsureVisibleRange()
@@ -154,22 +180,29 @@ namespace Game.Scripts.UI.Genetic
             if (!_statsData || _statsData.Stats.Count == 0)
                 return;
 
-            var unlockedCount = YG2.saves.IdSavedStatCount;
-            var totalNeeded = unlockedCount + _additionallyStatVisibleCount;
+            var currentUnlocked = YG2.saves.IdSavedStatCount;
+            var maxIndexInPool = _statBars.Count > 0 ? _statBars[_statBars.Count - 1].Index : 0;
+            var layoutChanged = false;
 
-            while (_statBars.Count < totalNeeded)
+            while (currentUnlocked + _additionallyStatVisibleCount > maxIndexInPool)
             {
-                var i = _statBars.Count;
-                var statIndexInList = i % _statsData.Stats.Count;
-                var stat = _statsData.Stats[statIndexInList];
+                var newIndex = maxIndexInPool + 1;
+                var statIndex = newIndex % _statsData.Stats.Count;
 
                 var statBar = Instantiate(_statBarPrefab, _gridContainer);
-
-                statBar.Init(this, stat, i);
+                statBar.Init(this, _statsData.Stats[statIndex], newIndex);
                 _statBars.Add(statBar);
+
+                maxIndexInPool = newIndex;
+                layoutChanged = true;
             }
 
-            EnsureLayout();
+            if (layoutChanged)
+            {
+                Canvas.ForceUpdateCanvases();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_gridContainer);
+            }
+
             RefreshUI();
         }
 
@@ -193,15 +226,11 @@ namespace Game.Scripts.UI.Genetic
 
             var nextStatIndex = YG2.saves.IdSavedStatCount;
 
-            if (nextStatIndex >= _statBars.Count)
-                return;
+            var targetBar = _statBars.Find(b => b.Index == nextStatIndex);
+            if (!targetBar) return;
 
-            var statTransform = _statBars[nextStatIndex].transform as RectTransform;
-
-            if (!statTransform)
-                return;
-
-            EnsureLayout();
+            var statTransform = targetBar.transform as RectTransform;
+            if (!statTransform) return;
 
             var contentRect = _scrollRect.content;
             var viewportRect = _scrollRect.viewport;
@@ -211,40 +240,38 @@ namespace Game.Scripts.UI.Genetic
 
             var elementCenter = (corners[0] + corners[2]) * 0.5f;
 
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewportRect,
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    viewportRect,
                     RectTransformUtility.WorldToScreenPoint(null, elementCenter),
-                    null, out var viewportPoint))
+                    null,
+                    out var viewportPoint))
             {
                 return;
             }
 
             var deltaY = viewportPoint.y - viewportRect.rect.center.y;
 
-            if (Mathf.Abs(deltaY) < 1f) return;
+            if (Mathf.Abs(deltaY) < 1f)
+                return;
 
             var targetY = contentRect.anchoredPosition.y - deltaY;
+
             targetY = GetClampedScrollY(contentRect, targetY);
 
-            if (!animated)
+            if (animated)
             {
-                _smoothScroll?.SetPositionY(targetY);
-
-                if (!_smoothScroll)
-                {
+                if (_smoothScroll)
+                    _smoothScroll.ScrollToY(targetY);
+                else
                     contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
-                }
 
                 return;
             }
 
             if (_smoothScroll)
-            {
-                _smoothScroll.ScrollToY(targetY);
-            }
+                _smoothScroll.SetPositionY(targetY);
             else
-            {
                 contentRect.anchoredPosition = new Vector2(contentRect.anchoredPosition.x, targetY);
-            }
         }
 
         private float GetClampedScrollY(RectTransform content, float targetY)

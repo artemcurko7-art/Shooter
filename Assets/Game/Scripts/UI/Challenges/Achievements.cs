@@ -22,7 +22,7 @@ namespace Game.Scripts.UI.Challenges
         private bool _contentPositionSaved;
         private float _topOffset;
 
-        private void Awake()
+        protected override void Awake()
         {
             _topOffset = _content.padding.top;
         }
