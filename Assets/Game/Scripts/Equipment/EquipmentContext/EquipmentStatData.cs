@@ -3,24 +3,27 @@ using Game.Scripts.MV.StatContext.Type;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Game.Scripts.MV.StatContext.Data
+namespace Game.Scripts.Equipment.EquipmentContext
 {
     [Serializable]
-    public class StatInfoData
+    public class EquipmentStatData
     {
         [field: SerializeField] public StatType Type { get; private set; }
         [field: SerializeField] public float MinValue { get; private set; }
         [field: SerializeField] public float MaxValue { get; private set; }
         
         [field: AllowNesting]
-        [field: DisableIf(EConditionOperator.Or, nameof(_isActive))]
+        [field: DisableIf(EConditionOperator.Or, nameof(IsActive))]
         [field: SerializeField] public bool IsPercentageValue { get; private set; }
 
-        private bool _isActive => Type == StatType.CriticalChance || Type == StatType.CriticalDamage;
+        private bool IsActive()
+        {
+            return Type == StatType.CriticalChance || Type == StatType.CriticalDamage;
+        }
 
         public void OnValidate()
         {
-            if (_isActive)
+            if (IsActive())
                 IsPercentageValue = true;
         }
     }

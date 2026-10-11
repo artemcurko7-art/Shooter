@@ -11,6 +11,10 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
                 .Bind<IStatTypeRegistry>()
                 .To<StatTypeRegistry>()
                 .AsSingle();
+
+            Container
+                .Bind<StatFactory>()
+                .AsSingle();
         }
     }
 }

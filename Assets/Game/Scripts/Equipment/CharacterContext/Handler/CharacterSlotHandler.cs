@@ -12,7 +12,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
 
         public CharacterSlotHandler(
             ISlotRewardService<CharacterSlot> service,
-            SlotRepository<CharacterSlot> repository,
+            SlotsRepository<CharacterSlot> repository,
             CharacterDropSlot[] dropSlots,
             FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry)

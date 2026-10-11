@@ -22,7 +22,7 @@ namespace Game.Scripts.Factory
         public WeaponView Create(WeaponConfig config, IAttacker attacker, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<WeaponView>(config.View, Vector3.zero, Quaternion.identity, container);
-            var type = _shootingData.Shootings[config.ShootingType];
+            var type = _shootingData.Types[config.ShootingType];
             var template = (IWeaponShooting)_container.Instantiate(type, new object[] { config });
             var weapon = new Weapon(template, attacker);
             view.transform.localPosition = Vector3.zero;

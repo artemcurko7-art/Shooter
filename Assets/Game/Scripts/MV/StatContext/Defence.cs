@@ -1,7 +1,9 @@
-﻿using Game.Scripts.MV.StatContext.Type;
+﻿using Game.Scripts.MV.StatContext.AttributeContext;
+using Game.Scripts.MV.StatContext.Type;
 
 namespace Game.Scripts.MV.StatContext
 {
+    [StatType(StatType.Defence)]
     public class Defence : Stat
     {
         public Defence(int value, bool isPercentageValue) : base(value, isPercentageValue) { }

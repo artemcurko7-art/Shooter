@@ -16,7 +16,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Replacement
         
         public CharacterReplacementController(
             ISlotRewardService<CharacterSlot> service,
-            SlotRepository<CharacterSlot> repository,
+            SlotsRepository<CharacterSlot> repository,
             CharacterDropSlot[] dropSlots,
             FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
             CharacterProvider provider,

@@ -64,7 +64,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindRepository()
         {
             Container
-                .Bind<SlotRepository<CharacterSlot>>()
+                .Bind<SlotsRepository<CharacterSlot>>()
                 .AsSingle();
             
             Container

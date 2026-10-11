@@ -16,7 +16,7 @@ namespace Game.Scripts.Equipment
         
         public SlotHandler(
             ISlotRewardService<TSlot> service,
-            SlotRepository<TSlot> repository,
+            SlotsRepository<TSlot> repository,
             DropSlot<TSlot>[] dropSlots,
             FreeSlotRegistry<TType, TSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry) { }

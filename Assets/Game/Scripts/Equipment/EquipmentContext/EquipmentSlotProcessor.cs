@@ -13,7 +13,7 @@ namespace Game.Scripts.Equipment.EquipmentContext
         
         protected EquipmentSlotProcessor(
             ISlotRewardService<EquipmentSlot> service,
-            SlotRepository<EquipmentSlot> repository,
+            SlotsRepository<EquipmentSlot> repository,
             EquipmentProvider provider,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,

@@ -4,7 +4,7 @@ using Game.Scripts.Configs;
 using Game.Scripts.MV.StatContext.Type;
 using UnityEngine;
 
-namespace Game.Scripts.Equipment.EquipmentContext.Data
+namespace Game.Scripts.Equipment.EquipmentContext
 {
     public class DisplayStatData
     {

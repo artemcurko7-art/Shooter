@@ -13,7 +13,7 @@ namespace Game.Scripts.Equipment.Observer
         
         protected SlotProcessorObserver(
             ISlotRewardService<TSlot> service,
-            SlotRepository<TSlot> repository,
+            SlotsRepository<TSlot> repository,
             DropSlot<TSlot>[] dropSlots)
         {
             _service = service;
@@ -21,7 +21,7 @@ namespace Game.Scripts.Equipment.Observer
             DropSlots = dropSlots;
         }
 
-        protected SlotRepository<TSlot> Repository { get; }
+        protected SlotsRepository<TSlot> Repository { get; }
         protected DropSlot<TSlot>[] DropSlots { get; }
 
         public virtual void Subscribe()

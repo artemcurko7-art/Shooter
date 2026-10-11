@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Handler
     {
         public EquipmentSlotHandler(
             ISlotRewardService<EquipmentSlot> service,
-            SlotRepository<EquipmentSlot> repository,
+            SlotsRepository<EquipmentSlot> repository,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry) { }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
 using Game.Scripts.WeaponContext.Type;
@@ -22,7 +24,7 @@ namespace Game.Scripts.Equipment.CharacterContext
 
         public CharacterType CharacterType { get; private set; }
         public WeaponType WeaponType { get; private set; }
-        public Stat[] Stats { get; private set; }
+        public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Transform => ShootPosition;
         
         [Inject]
@@ -33,7 +35,7 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(CharacterType type, WeaponType weaponType, Stat[] stats)
+        public void Initialize(CharacterType type, WeaponType weaponType, IReadOnlyDictionary<StatType, Stat> stats)
         {
             CharacterType = type;
             WeaponType = weaponType;

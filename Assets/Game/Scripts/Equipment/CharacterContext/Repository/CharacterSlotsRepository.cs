@@ -2,5 +2,5 @@
 
 namespace Game.Scripts.Equipment.CharacterContext.Repository
 {
-    public class CharacterSlotRepository : SlotRepository<CharacterSlot> { }
+    public class CharacterSlotsRepository : SlotsRepository<CharacterSlot> { }
 }

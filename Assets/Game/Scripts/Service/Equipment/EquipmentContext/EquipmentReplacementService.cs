@@ -31,7 +31,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
 
         public EquipmentReplacementService(
             ISlotRewardService<EquipmentSlot> service,
-            SlotRepository<EquipmentSlot> repository,
+            SlotsRepository<EquipmentSlot> repository,
             EquipmentProvider provider,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
@@ -118,8 +118,8 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
                 
             foreach (var stat in slot.EquipmentItem.AdditionalStats)
             {
-                displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Type], additionalContainer,
-                    stat.Value, stat.IsPercentageValue));
+                displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Key], additionalContainer,
+                    stat.Value.Value, stat.Value.IsPercentageValue));
             }
         }
     }

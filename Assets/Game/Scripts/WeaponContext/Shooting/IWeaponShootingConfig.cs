@@ -1,4 +1,6 @@
-﻿namespace Game.Scripts.WeaponContext.Shooting
+﻿using Game.Scripts.PhysicalBody.ProjectileContext;
+
+namespace Game.Scripts.WeaponContext.Shooting
 {
     public interface IWeaponShootingConfig
     {

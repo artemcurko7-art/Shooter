@@ -44,8 +44,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesAndSelfTo<EquipmentSlotRewardService>()
                 .AsSingle()
-                .WithArguments(_equipmentContainer)
-                .NonLazy();
+                .WithArguments(_equipmentContainer);
 
             Container
                 .BindInterfacesAndSelfTo<GeneralStatsHandler>()
@@ -126,7 +125,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindRepository()
         {
             Container
-                .Bind<SlotRepository<EquipmentSlot>>()
+                .Bind<SlotsRepository<EquipmentSlot>>()
                 .AsSingle();
             
             Container

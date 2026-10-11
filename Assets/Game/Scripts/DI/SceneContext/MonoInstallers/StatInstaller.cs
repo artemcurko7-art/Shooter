@@ -8,9 +8,9 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
     {
         public override void InstallBindings()
         {
-            Container
-                .Bind<StatRepository>()
-                .AsSingle();
+            // Container
+            //     .Bind<CharacterStatsRepository>()
+            //     .AsSingle();
         }
     }
 }

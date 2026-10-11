@@ -4,7 +4,6 @@ using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.WeaponContext.Type;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Game.Scripts.Configs
@@ -17,7 +16,7 @@ namespace Game.Scripts.Configs
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Character View { get; private set; }
-        [field: SerializeField] public CharacterStat[] Stats { get; private set; }
+        [field: SerializeField] public CharacterStatData[] Stats { get; private set; }
 
         private void Reset()
         {
@@ -30,28 +29,31 @@ namespace Game.Scripts.Configs
 
             if (Stats == null || Stats.Length != requiredTypes.Length)
                 RebuildStatsArray();
+
+            foreach (var stat in Stats)
+                stat.OnValidate();
         }
 
         private void RebuildStatsArray()
         {
-            var statTypes = GetFilteredStatTypes();
-            var newStats = new CharacterStat[statTypes.Length];
-
-            for (int i = 0; i < statTypes.Length; i++)
-            {
-                var currentType = statTypes[i];
-                int existingValue = 0;
-                
-                if (Stats != null)
-                {
-                    var existingStat = Stats.FirstOrDefault(characterStat => characterStat != null && characterStat.Type == currentType);
-                    existingValue = existingStat.Value;
-                }
-
-                newStats[i] = new CharacterStat(currentType, existingValue);
-            }
-
-            Stats = newStats;
+            // var statTypes = GetFilteredStatTypes();
+            // var newStats = new CharacterStatData[statTypes.Length];
+            //
+            // for (int i = 0; i < statTypes.Length; i++)
+            // {
+            //     var currentType = statTypes[i];
+            //     int existingValue = 0;
+            //     
+            //     if (Stats != null)
+            //     {
+            //         var existingStat = Stats.FirstOrDefault(characterStat => characterStat != null && characterStat.Type == currentType);
+            //         existingValue = existingStat.Value;
+            //     }
+            //
+            //     newStats[i] = new CharacterStatData(currentType, existingValue);
+            // }
+            //
+            // Stats = newStats;
         }
 
         private StatType[] GetFilteredStatTypes()

@@ -2,7 +2,7 @@
 
 namespace Game.Scripts.Equipment.Repository
 {
-    public class SlotRepository<T> where T : Slot
+    public class SlotsRepository<T> where T : Slot
     {
         private readonly List<T> _slots = new();
         

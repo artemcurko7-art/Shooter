@@ -1,12 +1,14 @@
-﻿using Game.Scripts.Equipment.EquipmentContext.Type;
+﻿using System.Collections.Generic;
+using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.WeaponContext.Type;
 
 namespace Game.Scripts.Equipment.EquipmentContext
 {
     public class EquipmentItem
     {
-        public EquipmentItem(Stat mainStat, Stat[] additionalStats, EquipmentType type, WeaponType weaponType)
+        public EquipmentItem(Stat mainStat, IReadOnlyDictionary<StatType, Stat> additionalStats, EquipmentType type, WeaponType weaponType)
         {
             MainStat = mainStat;
             AdditionalStats = additionalStats;
@@ -17,6 +19,6 @@ namespace Game.Scripts.Equipment.EquipmentContext
         public EquipmentType Type { get; }
         public WeaponType WeaponType { get; }
         public Stat MainStat { get; }
-        public Stat[] AdditionalStats { get; }
+        public IReadOnlyDictionary<StatType, Stat> AdditionalStats { get; }
     }
 }

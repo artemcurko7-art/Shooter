@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Factory;
+﻿using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.SquadContext;
 using UnityEngine;
@@ -20,6 +21,12 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<CharacterFactory>()
                 .AsSingle();
+
+            Container
+                .Bind<ICharacterStatResolver>()
+                .To<CharacterStatResolver>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

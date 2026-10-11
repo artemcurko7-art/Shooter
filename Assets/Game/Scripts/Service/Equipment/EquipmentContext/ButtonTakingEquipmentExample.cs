@@ -20,7 +20,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         {
             _button.onClick.AddListener(_equipmentService.Execute);
         }
-
+        
         private void OnDisable()
         {
             _button.onClick.RemoveListener(_equipmentService.Execute);

@@ -18,7 +18,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
 
         public EquipmentReplacementController(
             ISlotRewardService<EquipmentSlot> service,
-            SlotRepository<EquipmentSlot> repository,
+            SlotsRepository<EquipmentSlot> repository,
             EquipmentProvider provider,
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,

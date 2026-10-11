@@ -4,6 +4,7 @@ using Game.Scripts.Equipment.CharacterContext.Data;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.EquipmentContext.DragInDrop;
+using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.Service.Subscriber;
 
@@ -13,7 +14,9 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
     {
         private readonly ICharacterData _characterData;
         private readonly EquipmentDropSlot[] _dropSlots;
-        private readonly Dictionary<StatType, int> _stats = new();
+        private readonly Stat _mainStat;
+        //private readonly Stat 
+        //private readonly Dictionary<StatType, int> _stats = new();
         
         public GeneralStatsHandler(ICharacterData characterData, EquipmentDropSlot[] dropSlots)
         {
@@ -23,7 +26,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
             Fill();
         }
         
-        public IReadOnlyDictionary<StatType, int> Stats => _stats;
+        //public IReadOnlyDictionary<StatType, int> Stats => _stats;
         
         public void Subscribe()
         {
@@ -45,18 +48,18 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
 
         private void OnDropped(EquipmentSlot slot)
         {
-            _stats[slot.EquipmentItem.MainStat.Type] += slot.EquipmentItem.MainStat.Value;
-            
-            foreach (var stat in slot.EquipmentItem.AdditionalStats)
-                _stats[stat.Type] += stat.Value;
+            // _stats[slot.EquipmentItem.MainStat.Type] += slot.EquipmentItem.MainStat.Value;
+            //
+            // foreach (var stat in slot.EquipmentItem.AdditionalStats)
+            //     _stats[stat.Type] += stat.Value;
         }
 
         private void OnRemoved(EquipmentSlot slot)
         {
-            _stats[slot.EquipmentItem.MainStat.Type] -= slot.EquipmentItem.MainStat.Value;
-            
-            foreach (var stat in slot.EquipmentItem.AdditionalStats)
-                _stats[stat.Type] -= stat.Value;
+            // _stats[slot.EquipmentItem.MainStat.Type] -= slot.EquipmentItem.MainStat.Value;
+            //
+            // foreach (var stat in slot.EquipmentItem.AdditionalStats)
+            //     _stats[stat.Type] -= stat.Value;
         }
         
         private void Fill()
@@ -66,7 +69,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
                 if ((StatType)type == StatType.None)
                     continue;
                 
-                _stats.Add((StatType)type, 0);
+                //_stats.Add((StatType)type, 0);
             }
 
             foreach (var character in _characterData.Characters) // test
@@ -74,8 +77,8 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
                 if (character.Key == CharacterType.Healer)
                     continue;
                 
-                foreach (var stat in character.Value.Stats)
-                    _stats[stat.Type] += stat.Value;
+                // foreach (var stat in character.Value.Stats)
+                //     _stats[stat.Type] += stat.Value;
             }
         }
     }

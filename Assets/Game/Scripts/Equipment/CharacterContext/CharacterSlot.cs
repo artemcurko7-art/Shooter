@@ -13,28 +13,15 @@ namespace Game.Scripts.Equipment.CharacterContext
 {
     public class CharacterSlot : Slot
     {
-        private readonly Dictionary<StatType, Stat> _stats = new();
-        
         [field: SerializeField] public CharacterDragSlot CharacterDrag { get; private set; }
-        
-        private IStatTypeRegistry _registry;
 
         public CharacterType Type { get; private set; }
-        public IReadOnlyDictionary<StatType, Stat> Stats => _stats;
+        public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
 
-        [Inject]
-        public void Construct(IStatTypeRegistry registry)
-        {
-            _registry = registry;
-        }
-
-        public void Initialize(CharacterType type, CharacterStat[] stats)
+        public void Initialize(CharacterType type, IReadOnlyDictionary<StatType, Stat> stats)
         {
             Type = type;
-            
-            foreach (var stat in stats)
-                if (_registry.Types.TryGetValue(stat.Type, out var statType))
-                    _stats.Add(stat.Type, (Stat)Activator.CreateInstance(statType, stat.Value, false));
+            Stats = stats;
         }
 
         protected override DragSlot GetDrag()

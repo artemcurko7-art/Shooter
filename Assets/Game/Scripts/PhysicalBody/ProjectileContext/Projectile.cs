@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
-using Game.Scripts.PhysicalBody;
 using Game.Scripts.Damagable;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.HitImpacted;
 using Game.Scripts.PhysicalBody.UnitContext;
-using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
-namespace Game.Scripts.WeaponContext
+namespace Game.Scripts.PhysicalBody.ProjectileContext
 {
     public class Projectile : PhysicalBody<Projectile>, IImpactReceiver
     {

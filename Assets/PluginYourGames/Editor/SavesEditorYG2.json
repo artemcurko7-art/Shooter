@@ -1,5 +1,5 @@
 {
-    "IdSavedStatCount": 815,
+    "IdSavedStatCount": 818,
     "AttackStrength": 34.5,
     "CriticalDamage": 35.0,
     "Armor": 35.0,
@@ -9,12 +9,15 @@
         1,
         2,
         3,
-        4
+        4,
+        6,
+        7
     ],
     "TakenDailyGiftBoxes": [
-        1
+        1,
+        2
     ],
-    "TotalCollectedGifts": 13,
+    "TotalCollectedGifts": 15,
     "DailyGiftWeek": 41,
     "GiftEndTime": 0,
     "intExample": 5,

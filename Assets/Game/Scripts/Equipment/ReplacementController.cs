@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment
         where TSlot : Slot
     {
         public ReplacementController(ISlotRewardService<TSlot> service,
-            SlotRepository<TSlot> repository,
+            SlotsRepository<TSlot> repository,
             DropSlot<TSlot>[] dropSlots,
             FreeSlotRegistry<TType, TSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry) { }

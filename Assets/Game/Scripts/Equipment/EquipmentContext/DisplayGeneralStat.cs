@@ -21,8 +21,8 @@ namespace Game.Scripts.Equipment.EquipmentContext
 
         private void OnEnable()
         {
-            foreach (var stat in _stats)
-                 stat.SetValue(_handler.Stats[stat.Type]);
+            // foreach (var stat in _stats)
+            //      stat.SetValue(_handler.Stats[stat.Type]);
         }
     }
 }
