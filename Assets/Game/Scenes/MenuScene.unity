@@ -2055,7 +2055,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 356130039}
-  _duration: 0.3
+  _duration: 1
+  _ease: 18
 --- !u!1 &71778839
 GameObject:
   m_ObjectHideFlags: 0
@@ -12215,6 +12216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 486689955}
   _duration: 0.15
+  _ease: 4
 --- !u!114 &486689955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31429,7 +31431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 1315058390}
-  _duration: 0.25
+  _duration: 0.5
+  _ease: 27
 --- !u!222 &1315058392
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34112,6 +34115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 1397689051}
   _duration: 0.25
+  _ease: 4
 --- !u!114 &1397689051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38516,6 +38520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 2109753090}
   _duration: 0.5
+  _ease: 4
 --- !u!114 &1600913626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48125,6 +48130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 1942019278}
   _duration: 0.2
+  _ease: 4
 --- !u!114 &1942019278
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,10 +1,10 @@
 {
-    "IdSavedStatCount": 859,
-    "AttackStrength": 37.5,
-    "CriticalDamage": 37.5,
-    "Armor": 43.0,
-    "MovementSpeed": 38.5,
-    "ViewRange": 37.0,
+    "IdSavedStatCount": 865,
+    "AttackStrength": 38.0,
+    "CriticalDamage": 38.0,
+    "Armor": 43.5,
+    "MovementSpeed": 39.0,
+    "ViewRange": 38.0,
     "TakenDailyGiftDays": [
         1
     ],

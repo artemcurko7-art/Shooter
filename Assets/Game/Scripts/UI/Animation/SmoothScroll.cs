@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +8,10 @@ namespace Game.Scripts.UI.Animation
     public class SmoothScroll : MonoBehaviour
     {
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] private float _duration = 0.5f;
+        [SerializeField] private float _duration = 1f;
+        [SerializeField] private Ease _ease = Ease.OutExpo;
 
-        private Coroutine _scrollCoroutine;
+        private Tween _scrollTween;
 
         public ScrollRect GetScrollRect => _scrollRect;
 
@@ -27,35 +28,35 @@ namespace Game.Scripts.UI.Animation
 
         public void ScrollToY(float targetY, Action onComplete = null)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
             {
                 onComplete?.Invoke();
                 return;
             }
 
-            Stop();
+            var targetPosition = content.anchoredPosition;
+            targetPosition.y = targetY;
 
-            _scrollCoroutine = StartCoroutine(
-                ScrollRoutine(new Vector2(_scrollRect.content.anchoredPosition.x, targetY), _duration, onComplete));
+            ScrollToPosition(targetPosition, onComplete);
         }
 
         public void ScrollToX(float targetX, Action onComplete = null)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
             {
                 onComplete?.Invoke();
                 return;
             }
 
-            Stop();
+            var targetPosition = content.anchoredPosition;
+            targetPosition.x = targetX;
 
-            _scrollCoroutine = StartCoroutine(
-                ScrollRoutine(new Vector2(targetX, _scrollRect.content.anchoredPosition.y), _duration, onComplete));
+            ScrollToPosition(targetPosition, onComplete);
         }
 
         public void ScrollToPosition(Vector2 targetPosition, Action onComplete = null)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
             {
                 onComplete?.Invoke();
                 return;
@@ -63,85 +64,67 @@ namespace Game.Scripts.UI.Animation
 
             Stop();
 
-            _scrollCoroutine = StartCoroutine(ScrollRoutine(targetPosition, _duration, onComplete));
+            if (_duration <= 0f)
+            {
+                content.anchoredPosition = targetPosition;
+                onComplete?.Invoke();
+                return;
+            }
+
+            _scrollTween = content.DOAnchorPos(targetPosition, _duration)
+                .SetEase(_ease)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    _scrollTween = null;
+                    onComplete?.Invoke();
+                });
         }
 
         public void SetPosition(Vector2 position)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
                 return;
 
             Stop();
-
-            _scrollRect.content.anchoredPosition = position;
+            content.anchoredPosition = position;
         }
 
         public void SetPositionY(float y)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
                 return;
 
-            Stop();
-
-            var position = _scrollRect.content.anchoredPosition;
+            var position = content.anchoredPosition;
             position.y = y;
 
-            _scrollRect.content.anchoredPosition = position;
+            SetPosition(position);
         }
 
         public void SetPositionX(float x)
         {
-            if (!_scrollRect || !_scrollRect.content)
+            if (!TryGetContent(out var content))
                 return;
 
-            Stop();
-
-            var position = _scrollRect.content.anchoredPosition;
+            var position = content.anchoredPosition;
             position.x = x;
 
-            _scrollRect.content.anchoredPosition = position;
+            SetPosition(position);
         }
 
         public void Stop()
         {
-            if (_scrollCoroutine == null)
+            if (_scrollTween == null)
                 return;
 
-            StopCoroutine(_scrollCoroutine);
-            _scrollCoroutine = null;
+            _scrollTween.Kill();
+            _scrollTween = null;
         }
 
-        private IEnumerator ScrollRoutine(Vector2 targetPosition, float duration, Action onComplete)
+        private bool TryGetContent(out RectTransform content)
         {
-            var content = _scrollRect.content;
-            var startPosition = content.anchoredPosition;
-
-            if (duration <= 0f)
-            {
-                content.anchoredPosition = targetPosition;
-
-                _scrollCoroutine = null;
-                onComplete?.Invoke();
-
-                yield break;
-            }
-
-            var elapsed = 0f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-                var t = Mathf.Clamp01(elapsed / duration);
-                t = Mathf.SmoothStep(0f, 1f, t);
-
-                content.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
-                yield return null;
-            }
-
-            content.anchoredPosition = targetPosition;
-
-            _scrollCoroutine = null;
-            onComplete?.Invoke();
+            content = _scrollRect ? _scrollRect.content : null;
+            return content;
         }
     }
 }
