@@ -1,41 +1,33 @@
-using System.Collections.Generic;
-using System.Linq;
+
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.WheelFortune
 {
     public class Wheel : Window
     {
-        private readonly List<RewardBar> _bars = new();
-        private readonly List<RewardData.Reward> _strip = new();
-        private readonly List<RewardData.Reward> _shuffledRewards = new();
-
         [Header("Ссылки")]
         [SerializeField] private RectTransform _content;
         [SerializeField] private RewardBar _barPrefab;
         [SerializeField] private RewardData _data;
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
-        [SerializeField] private TMP_Text _rewardPreviewText;
-        [SerializeField] private AppearAnimation _rewardAnimation;
+        [SerializeField] private ImageMover _imageMover;
+
+        [Header("Компоненты")]
+        [SerializeField] private WheelStrip _strip;
+        [SerializeField] private WheelSpinAnimation _spinAnimation;
+        [SerializeField] private WheelRewardDisplay _rewardDisplay;
+        [SerializeField] private WheelButton _wheelButton;
 
         [Header("Анимация спина")]
         [SerializeField] private float _spinDuration = 4f;
         [SerializeField] private int _minSpins = 5;
         [SerializeField] private int _maxSpins = 8;
-        [SerializeField] private Sprite _greenButton;
-        [SerializeField] private Sprite _redButton;
-        [SerializeField] private TMP_Text _spinButtonText;
         [SerializeField] private Ease _spinEase = Ease.InQuart;
         [SerializeField] private string _emptySymbol;
-
-        [Header("Анимация стрелки")]
-        [SerializeField] private ImageMover _imageMover;
 
         [Header("Анимация награды")]
         [SerializeField] private float _rewardAnimDuration = 0.1f;
@@ -44,17 +36,9 @@ namespace Game.Scripts.UI.WheelFortune
         [Header("Лента")]
         [SerializeField] private int _bufferSize = 5;
 
-        private float _itemWidth;
-        private float _circleLength;
-        private float _centerContentX;
-        private float _absoluteScroll;
-
-        private Image _rewardPreviewImage;
-        private int _currentRewardIndex;
-        private int _lastDisplayedRewardIndex = -1;
-
         private bool _isSpinning;
         private bool _initialized;
+        private int _lastDisplayedRewardIndex = -1;
 
         protected override void OnEnable()
         {
@@ -74,35 +58,13 @@ namespace Game.Scripts.UI.WheelFortune
             if (_spinButton)
                 _spinButton.onClick.RemoveListener(Spin);
 
-            if (_content)
-                _content.DOKill();
+            if (_spinAnimation)
+                _spinAnimation.Kill();
 
-            if (_rewardAnimation)
-                _rewardAnimation.KillAnimation();
+            if (_rewardDisplay)
+                _rewardDisplay.KillAnimation();
 
             _isSpinning = false;
-        }
-
-        private static Vector3 GetWorldCenter(RectTransform rect)
-        {
-            var corners = new Vector3[4];
-
-            rect.GetWorldCorners(corners);
-
-            return (corners[0] + corners[2]) * 0.5f;
-        }
-
-        private static int Mod(int value, int modulo)
-        {
-            if (modulo <= 0)
-                return 0;
-
-            var result = value % modulo;
-
-            if (result < 0)
-                result += modulo;
-
-            return result;
         }
 
         private void Initialize()
@@ -110,165 +72,31 @@ namespace Game.Scripts.UI.WheelFortune
             if (_initialized)
                 return;
 
-            ShuffleRewards();
-            BuildStrip();
-            SpawnBars();
-
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
-            Canvas.ForceUpdateCanvases();
-
-            if (!UpdateItemWidth())
+            if (!_strip || !_spinAnimation || !_rewardDisplay || !_wheelButton)
                 return;
 
-            CalculateCircleLength();
-            SetInitialPosition();
+            if (!_strip.Initialize(
+                    _content,
+                    _barPrefab,
+                    _data,
+                    _viewport,
+                    _bufferSize))
+            {
+                return;
+            }
 
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = _emptySymbol;
+            _rewardDisplay.Clear(_emptySymbol);
+            _wheelButton.SetAvailable(true);
 
             _initialized = true;
+
             SwitchVisible(true);
         }
 
         private void SwitchVisible(bool isActive)
         {
-            if (isActive)
-            {
-                _spinButton.enabled = true;
-                _spinButton.image.sprite = _greenButton;
-                _spinButtonText.text = Localization.GetSpinButtonText();
-            }
-            else
-            {
-                _spinButton.enabled = false;
-                _spinButton.image.sprite = _redButton;
-                _spinButtonText.text = Localization.GetNotAvailableButtonText();
-            }
-        }
-
-        private void ShuffleRewards()
-        {
-            _shuffledRewards.Clear();
-
-            foreach (var reward in _data.Rewards.Where(reward => reward != null))
-                _shuffledRewards.Add(reward);
-
-            for (var i = _shuffledRewards.Count - 1; i > 0; i--)
-            {
-                var randomIndex = Random.Range(0, i + 1);
-
-                (
-                    _shuffledRewards[i],
-                    _shuffledRewards[randomIndex]
-                ) = (
-                    _shuffledRewards[randomIndex],
-                    _shuffledRewards[i]
-                );
-            }
-        }
-
-        private void BuildStrip()
-        {
-            _strip.Clear();
-
-            var count = _shuffledRewards.Count;
-
-            if (count == 0)
-                return;
-
-            var buffer = Mathf.Min(_bufferSize, count);
-
-            for (var i = count - buffer; i < count; i++)
-                _strip.Add(_shuffledRewards[Mod(i, count)]);
-
-            for (var i = 0; i < count; i++)
-                _strip.Add(_shuffledRewards[i]);
-
-            for (var i = 0; i < buffer; i++)
-                _strip.Add(_shuffledRewards[i % count]);
-        }
-
-        private void SpawnBars()
-        {
-            foreach (Transform child in _content)
-            {
-                if (child)
-                    Destroy(child.gameObject);
-            }
-
-            _bars.Clear();
-
-            foreach (var reward in _strip)
-            {
-                if (reward == null)
-                    continue;
-
-                var bar = Instantiate(_barPrefab, _content);
-                bar.Init(reward);
-                _bars.Add(bar);
-            }
-        }
-
-        private bool UpdateItemWidth()
-        {
-            if (_bars.Count == 0)
-                return false;
-
-            var rect = _bars[0].transform as RectTransform;
-
-            if (!rect)
-                return false;
-
-            _itemWidth = rect.rect.width;
-
-            return _itemWidth > 0f;
-        }
-
-        private void CalculateCircleLength()
-        {
-            _circleLength = _shuffledRewards.Count * _itemWidth;
-        }
-
-        private void SetInitialPosition()
-        {
-            if (_bars.Count == 0)
-                return;
-
-            var buffer = Mathf.Min(_bufferSize, _shuffledRewards.Count);
-            var centerIndex = Mathf.Min(buffer, _bars.Count - 1);
-
-            var bar = _bars[centerIndex].transform as RectTransform;
-
-            if (!bar)
-                return;
-
-            var viewportCenter = GetWorldCenter(_viewport);
-            var barCenter = GetWorldCenter(bar);
-            var difference = viewportCenter.x - barCenter.x;
-
-            var contentPosition = _content.position;
-            contentPosition.x += difference;
-            _content.position = contentPosition;
-
-            _centerContentX = _content.anchoredPosition.x;
-            _absoluteScroll = 0f;
-            _currentRewardIndex = 0;
-
-            ApplyScroll();
-        }
-
-        private void ApplyScroll()
-        {
-            if (_circleLength <= 0f)
-                return;
-
-            var visualScroll = Mathf.Repeat(_absoluteScroll, _circleLength);
-
-            _content.anchoredPosition = new Vector2(
-                _centerContentX - visualScroll,
-                _content.anchoredPosition.y
-            );
+            if (_wheelButton)
+                _wheelButton.SetAvailable(isActive);
         }
 
         private void Spin()
@@ -276,22 +104,17 @@ namespace Game.Scripts.UI.WheelFortune
             if (!_initialized || _isSpinning)
                 return;
 
-            var count = _shuffledRewards.Count;
+            var count = _strip.Rewards.Count;
 
-            if (count == 0 || _itemWidth <= 0f || _circleLength <= 0f)
+            if (count == 0 || _strip.ItemWidth <= 0f || _strip.CircleLength <= 0f)
                 return;
 
             _isSpinning = true;
 
-            _content.DOKill();
-
-            if (_rewardAnimation)
-                _rewardAnimation.KillAnimation();
-
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = _emptySymbol;
-
-            SwitchVisible(false);
+            _spinAnimation.Kill();
+            _rewardDisplay.KillAnimation();
+            _rewardDisplay.Clear(_emptySymbol);
+            _wheelButton.SetAvailable(false);
 
             if (_imageMover)
                 _imageMover.Disable();
@@ -302,143 +125,68 @@ namespace Game.Scripts.UI.WheelFortune
             var additionalSteps = Random.Range(1, count + 1);
             var totalSteps = fullSpins * count + additionalSteps;
 
-            var startScroll = _absoluteScroll;
-            var targetScroll = startScroll + totalSteps * _itemWidth;
+            var startScroll = _strip.AbsoluteScroll;
+            var targetScroll = startScroll + totalSteps * _strip.ItemWidth;
 
-            DOTween.To(
-                    () => startScroll,
-                    value =>
-                    {
-                        _absoluteScroll = value;
-                        ApplyScroll();
-                        UpdateRewardDuringSpin();
-                    },
-                    targetScroll,
-                    _spinDuration
-                )
-                .SetEase(_spinEase)
-                .OnComplete(FinishSpin);
-        }
-
-        private void FinishSpin()
-        {
-            _absoluteScroll = Mathf.Round(_absoluteScroll / _itemWidth) * _itemWidth;
-            ApplyScroll();
-
-            _currentRewardIndex = GetRewardIndexFromScroll();
-
-            var reward = GetCurrentReward();
-
-            if (reward != null)
-                ShowReward(reward);
-
-            AnimateWinningBar();
-
-            _isSpinning = false;
-            SwitchVisible(true);
-
-            if (_imageMover)
-                _imageMover.Enable();
-        }
-
-        private int GetRewardIndexFromScroll()
-        {
-            var passedSteps = Mathf.RoundToInt(
-                _absoluteScroll / _itemWidth
-            );
-
-            return Mod(
-                passedSteps,
-                _shuffledRewards.Count
+            _spinAnimation.Play(
+                startScroll,
+                targetScroll,
+                _spinDuration,
+                _spinEase,
+                OnSpinUpdate,
+                FinishSpin
             );
         }
 
-        private RewardData.Reward GetCurrentReward()
+        private void OnSpinUpdate(float scroll)
         {
-            if (_currentRewardIndex < 0 ||
-                _currentRewardIndex >= _shuffledRewards.Count)
-            {
-                return null;
-            }
+            _strip.SetScroll(scroll);
 
-            return _shuffledRewards[_currentRewardIndex];
-        }
-
-        private void AnimateWinningBar()
-        {
-            if (_bars.Count == 0 || _shuffledRewards.Count == 0)
-                return;
-
-            var buffer = Mathf.Min(
-                _bufferSize,
-                _shuffledRewards.Count
-            );
-
-            var barIndex = buffer + _currentRewardIndex;
-
-            if (barIndex < 0 || barIndex >= _bars.Count)
-                return;
-
-            _bars[barIndex].AnimateIcon(
-                _rewardScale,
-                _rewardAnimDuration
-            );
-        }
-
-        private void UpdateRewardDuringSpin()
-        {
-            if (_shuffledRewards.Count == 0)
-                return;
-
-            var passedSteps = Mathf.FloorToInt(
-                _absoluteScroll / _itemWidth
-            );
-
-            var rewardIndex = Mod(
-                passedSteps,
-                _shuffledRewards.Count
-            );
+            var rewardIndex = _strip.GetRewardIndex();
 
             if (rewardIndex == _lastDisplayedRewardIndex)
                 return;
 
             _lastDisplayedRewardIndex = rewardIndex;
 
-            var reward = _shuffledRewards[rewardIndex];
+            var reward = _strip.GetReward(rewardIndex);
 
-            if (reward == null)
-                return;
-
-            UpdateRewardPreview(reward);
+            if (reward != null)
+                _rewardDisplay.UpdatePreview(reward);
         }
 
-        private void ShowReward(RewardData.Reward reward)
+        private void FinishSpin()
         {
-            if (reward == null)
-                return;
+            var itemWidth = _strip.ItemWidth;
 
-            if (!_rewardAnimation || !_rewardPreviewImage)
+            if (itemWidth <= 0f)
             {
-                UpdateRewardPreview(reward);
+                _isSpinning = false;
+                SwitchVisible(true);
                 return;
             }
 
-            _rewardAnimation.Play(
-                _rewardPreviewImage,
-                () => UpdateRewardPreview(reward)
+            var finalScroll = Mathf.Round(_strip.AbsoluteScroll / itemWidth) * itemWidth;
+
+            _strip.SetScroll(finalScroll);
+
+            var rewardIndex = _strip.GetRewardIndex(true);
+            var reward = _strip.GetReward(rewardIndex);
+
+            if (reward != null)
+                _rewardDisplay.Show(reward);
+
+            _strip.AnimateWinningBar(
+                rewardIndex,
+                _rewardScale,
+                _rewardAnimDuration
             );
-        }
 
-        private void UpdateRewardPreview(RewardData.Reward reward)
-        {
-            if (reward == null)
-                return;
+            _isSpinning = false;
+            SwitchVisible(true);
 
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = reward.GetLocalizedName(YG2.lang);
-
-            if (_rewardPreviewImage)
-                _rewardPreviewImage.sprite = reward.icon;
+            if (_imageMover)
+                _imageMover.Enable();
         }
 
         protected override void Show()
