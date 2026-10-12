@@ -5,6 +5,9 @@ namespace Game.Scripts.UI.WheelFortune
 {
     public class WheelSpinAnimation : MonoBehaviour
     {
+        [SerializeField] private float _duration;
+        [SerializeField] private Ease _ease;
+
         private Tween _tween;
 
         public bool IsPlaying => _tween != null && _tween.IsActive() && _tween.IsPlaying();
@@ -12,8 +15,6 @@ namespace Game.Scripts.UI.WheelFortune
         public void Play(
             float startScroll,
             float targetScroll,
-            float duration,
-            Ease ease,
             System.Action<float> onUpdate,
             System.Action onComplete)
         {
@@ -27,9 +28,9 @@ namespace Game.Scripts.UI.WheelFortune
                         onUpdate?.Invoke(value);
                     },
                     targetScroll,
-                    duration
+                    _duration
                 )
-                .SetEase(ease)
+                .SetEase(_ease)
                 .OnComplete(() =>
                 {
                     _tween = null;

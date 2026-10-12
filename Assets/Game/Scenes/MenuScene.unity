@@ -1913,6 +1913,10 @@ GameObject:
   - component: {fileID: 68237654}
   - component: {fileID: 68237656}
   - component: {fileID: 68237655}
+  - component: {fileID: 68237659}
+  - component: {fileID: 68237658}
+  - component: {fileID: 68237657}
+  - component: {fileID: 68237660}
   m_Layer: 5
   m_Name: WheelFortune
   m_TagString: Untagged
@@ -1982,18 +1986,76 @@ MonoBehaviour:
   _viewport: {fileID: 748067608}
   _spinButton: {fileID: 700936920}
   _imageMover: {fileID: 0}
-  _strip: {fileID: 0}
-  _spinAnimation: {fileID: 0}
-  _rewardDisplay: {fileID: 0}
-  _wheelButton: {fileID: 0}
-  _spinDuration: 12
+  _pages:
+  - {fileID: 681776537}
+  - {fileID: 1352722689}
+  _strip: {fileID: 68237659}
+  _spinAnimation: {fileID: 68237658}
+  _rewardDisplay: {fileID: 68237657}
+  _wheelButton: {fileID: 700936923}
+  _scroll: {fileID: 68237660}
+  _layoutGroup: {fileID: 1439741655}
   _minSpins: 5
   _maxSpins: 8
-  _spinEase: 13
   _emptySymbol: '?'
-  _rewardAnimDuration: 0.15
-  _rewardScale: 1.4
   _bufferSize: 5
+--- !u!114 &68237657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68237653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9fda66cd05489f47aec29d9a5afc6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _previewText: {fileID: 1607027160}
+  _previewImage: {fileID: 0}
+  _rewardAnimation: {fileID: 68237655}
+--- !u!114 &68237658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68237653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d043355ab7d21a640811c46e03f663f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duration: 4
+  _ease: 12
+--- !u!114 &68237659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68237653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda57ec5abf88fc4ca323efa60f04abd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _duration: 0.5
+  _scale: 1.4
+--- !u!114 &68237660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68237653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa4971398bcde6479a6c22c90f79a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scrollRect: {fileID: 356130039}
+  _duration: 0.3
 --- !u!1 &71778839
 GameObject:
   m_ObjectHideFlags: 0
@@ -8783,8 +8845,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 1439741654}
-  m_Horizontal: 1
-  m_Vertical: 1
+  m_Horizontal: 0
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -8807,7 +8869,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356130037}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -17964,9 +18026,9 @@ RectTransform:
   - {fileID: 1056439827}
   m_Father: {fileID: 1439741654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -887.915}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 1800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &681776538
@@ -18294,6 +18356,7 @@ GameObject:
   - component: {fileID: 700936921}
   - component: {fileID: 700936920}
   - component: {fileID: 700936919}
+  - component: {fileID: 700936923}
   m_Layer: 5
   m_Name: SpinButton
   m_TagString: Untagged
@@ -18416,6 +18479,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700936917}
   m_CullTransparentMesh: 1
+--- !u!114 &700936923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700936917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6867fdb63b4c5454eb03c66fcca1b00b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 0}
+  _buttonImage: {fileID: 0}
+  _buttonText: {fileID: 0}
+  _greenButton: {fileID: 0}
+  _redButton: {fileID: 0}
 --- !u!1 &702266251
 GameObject:
   m_ObjectHideFlags: 0
@@ -25490,7 +25570,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1040481151}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68237656}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.WheelFortune.Wheel, Assembly-CSharp
+        m_MethodName: OpenSecondPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1040481151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26134,9 +26226,9 @@ RectTransform:
   - {fileID: 598090413}
   m_Father: {fileID: 681776537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -1548.75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 861.6, y: 416.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1061205167
@@ -32243,9 +32335,9 @@ RectTransform:
   - {fileID: 1931453559}
   m_Father: {fileID: 1439741654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1420, y: -887.915}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 1800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1352722690
@@ -33197,7 +33289,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1380360961}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68237656}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.WheelFortune.Wheel, Assembly-CSharp
+        m_MethodName: OpenSecondPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1380360961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34844,14 +34948,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1352722689}
   - {fileID: 681776537}
+  - {fileID: 1352722689}
   m_Father: {fileID: 1696257611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00017166954, y: 0.0007324219}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -466.01648, y: 888.00024}
+  m_SizeDelta: {x: 1867.7, y: 1776}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1439741655
 MonoBehaviour:
@@ -34866,19 +34970,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 15
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 70
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
-  m_ReverseArrangement: 1
+  m_ReverseArrangement: 0
 --- !u!1 &1441090972
 GameObject:
   m_ObjectHideFlags: 0
@@ -39577,7 +39681,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1654465782}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68237656}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.WheelFortune.Wheel, Assembly-CSharp
+        m_MethodName: OpenSecondPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1654465782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40589,7 +40705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
+  m_ShowMaskGraphic: 1
 --- !u!114 &1696257613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40597,7 +40713,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696257610}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -42685,7 +42801,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1997372407}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68237656}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.WheelFortune.Wheel, Assembly-CSharp
+        m_MethodName: OpenFirstPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1784205246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45835,9 +45963,9 @@ RectTransform:
   - {fileID: 1763613406}
   m_Father: {fileID: 681776537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -251.25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 861.6, y: 416.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1870003734
@@ -46728,9 +46856,9 @@ RectTransform:
   - {fileID: 593328654}
   m_Father: {fileID: 681776537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -683.75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 861.6, y: 416.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1909664056
@@ -48367,9 +48495,9 @@ RectTransform:
   - {fileID: 240503493}
   m_Father: {fileID: 681776537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -1116.25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 861.6, y: 416.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1982729759
@@ -48701,7 +48829,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1995306991}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68237656}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.WheelFortune.Wheel, Assembly-CSharp
+        m_MethodName: OpenSecondPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1995306991
 MonoBehaviour:
   m_ObjectHideFlags: 0

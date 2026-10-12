@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +7,9 @@ namespace Game.Scripts.UI.WheelFortune
 {
     public class WheelStrip : MonoBehaviour
     {
+        [SerializeField] private float _duration = 0.5f;
+        [SerializeField] private float _scale = 1.4f;
+
         private readonly List<RewardBar> _bars = new();
         private readonly List<RewardData.Reward> _rewards = new();
         private readonly List<RewardData.Reward> _strip = new();
@@ -186,7 +188,7 @@ namespace Game.Scripts.UI.WheelFortune
             return _rewards[index];
         }
 
-        public void AnimateWinningBar(int rewardIndex, float scale, float duration)
+        public void AnimateWinningBar(int rewardIndex)
         {
             if (_bars.Count == 0 || _rewards.Count == 0)
                 return;
@@ -197,7 +199,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (barIndex < 0 || barIndex >= _bars.Count)
                 return;
 
-            _bars[barIndex].AnimateIcon(scale, duration);
+            _bars[barIndex].AnimateIcon(_scale, _duration);
         }
 
         private void ApplyScroll()

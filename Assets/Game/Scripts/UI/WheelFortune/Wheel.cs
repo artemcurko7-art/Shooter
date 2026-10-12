@@ -1,4 +1,3 @@
-
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
 using UnityEngine;
@@ -15,26 +14,25 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
         [SerializeField] private ImageMover _imageMover;
+        [SerializeField] private RectTransform[] _pages;
 
         [Header("Компоненты")]
         [SerializeField] private WheelStrip _strip;
         [SerializeField] private WheelSpinAnimation _spinAnimation;
         [SerializeField] private WheelRewardDisplay _rewardDisplay;
         [SerializeField] private WheelButton _wheelButton;
+        [SerializeField] private SmoothScroll _scroll;
+        [SerializeField] private HorizontalLayoutGroup _layoutGroup;
 
         [Header("Анимация спина")]
-        [SerializeField] private float _spinDuration = 4f;
         [SerializeField] private int _minSpins = 5;
         [SerializeField] private int _maxSpins = 8;
-        [SerializeField] private Ease _spinEase = Ease.InQuart;
         [SerializeField] private string _emptySymbol;
-
-        [Header("Анимация награды")]
-        [SerializeField] private float _rewardAnimDuration = 0.1f;
-        [SerializeField] private float _rewardScale = 1.15f;
 
         [Header("Лента")]
         [SerializeField] private int _bufferSize = 5;
+
+        private int _currentPageIndex = -1;
 
         private bool _isSpinning;
         private bool _initialized;
@@ -65,6 +63,85 @@ namespace Game.Scripts.UI.WheelFortune
                 _rewardDisplay.KillAnimation();
 
             _isSpinning = false;
+        }
+
+
+        public void OpenFirstPage()
+        {
+            _currentPageIndex = 0;
+            ScrollToPage(0);
+        }
+
+        public void OpenSecondPage()
+        {
+            _currentPageIndex = 1;
+            ScrollToPage(1);
+        }
+
+        private void SetFirstPageImmediately()
+        {
+            _currentPageIndex = 0;
+            SetPageImmediately(0);
+        }
+
+        private void SetPageImmediately(int pageIndex)
+        {
+            if (!_scroll || !_scroll.GetScrollRect || _pages == null ||
+                pageIndex < 0 || pageIndex >= _pages.Length)
+                return;
+
+            var scrollRect = _scroll.GetScrollRect;
+            var content = scrollRect.content;
+            var viewport = scrollRect.viewport;
+
+            if (!content || !viewport || !_pages[pageIndex])
+                return;
+
+            var target = _pages[pageIndex];
+            var targetCenter = content.InverseTransformPoint(
+                target.TransformPoint(target.rect.center));
+            var viewportCenter = content.InverseTransformPoint(
+                viewport.TransformPoint(viewport.rect.center));
+
+            var targetX = content.anchoredPosition.x
+                          + viewportCenter.x
+                          - targetCenter.x;
+
+            _scroll.Stop();
+            _scroll.SetPositionX(targetX);
+        }
+
+        private void ScrollToPage(int pageIndex)
+        {
+            if (!_scroll || !_scroll.GetScrollRect || _pages == null ||
+                pageIndex < 0 || pageIndex >= _pages.Length)
+                return;
+
+            var scrollRect = _scroll.GetScrollRect;
+            var content = scrollRect.content;
+            var viewport = scrollRect.viewport;
+
+            if (!content || !viewport || !_pages[pageIndex])
+                return;
+
+            var target = _pages[pageIndex];
+
+            var targetCenter = content.InverseTransformPoint(
+                target.TransformPoint(target.rect.center));
+
+            var viewportCenter = content.InverseTransformPoint(
+                viewport.TransformPoint(viewport.rect.center));
+
+            var targetX = content.anchoredPosition.x
+                          + viewportCenter.x
+                          - targetCenter.x;
+
+            _scroll.ScrollToX(targetX);
+        }
+
+        private void OnOpen()
+        {
+            SetFirstPageImmediately();
         }
 
         private void Initialize()
@@ -131,8 +208,6 @@ namespace Game.Scripts.UI.WheelFortune
             _spinAnimation.Play(
                 startScroll,
                 targetScroll,
-                _spinDuration,
-                _spinEase,
                 OnSpinUpdate,
                 FinishSpin
             );
@@ -176,11 +251,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (reward != null)
                 _rewardDisplay.Show(reward);
 
-            _strip.AnimateWinningBar(
-                rewardIndex,
-                _rewardScale,
-                _rewardAnimDuration
-            );
+            _strip.AnimateWinningBar(rewardIndex);
 
             _isSpinning = false;
             SwitchVisible(true);
@@ -191,6 +262,8 @@ namespace Game.Scripts.UI.WheelFortune
 
         protected override void Show()
         {
+            SetFirstPageImmediately();
+
             if (!_transition)
             {
                 FinishTransition();
