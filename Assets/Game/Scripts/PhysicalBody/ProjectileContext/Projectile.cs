@@ -4,13 +4,14 @@ using Game.Scripts.Damagable;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.HitImpacted;
 using Game.Scripts.PhysicalBody.UnitContext;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.ProjectileContext
 {
     public class Projectile : PhysicalBody<Projectile>, IImpactReceiver
     {
-        private IAttacker _attacker;
+        private ShotContext _shotContext;
         private LayerMask _layerMask;
         private Vector3 _direction;
         private float _radius;
@@ -35,7 +36,7 @@ namespace Game.Scripts.PhysicalBody.ProjectileContext
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage(_damage);
-                    HitImpacted?.Invoke(new HitContext(_attacker, hit));
+                    HitImpacted?.Invoke(new HitContext(_shotContext, hit));
                     Released?.Invoke(this);
                 }
             }
@@ -43,21 +44,14 @@ namespace Game.Scripts.PhysicalBody.ProjectileContext
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(IAttacker attacker, Vector3 position, Vector3 direction, float radius, int damage, float speed)
+        public void Initialize(ShotContext shotContext, Vector3 position, Vector3 direction, float radius, float speed)
         {
-            _attacker = attacker;
+            _shotContext = shotContext;
             transform.position = position;
             _direction = direction;
-            _damage = damage;
             _radius = radius;
             _speed = speed;
         }
-        
-        // private void OnDrawGizmos()
-        // {
-        //     Gizmos.color = Color.red;
-        //     Gizmos.DrawWireSphere(transform.position, transform.localScale.x * _radius);
-        // }
 
         private IEnumerator StartReleased()
         {

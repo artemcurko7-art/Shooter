@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Configs;
+﻿using System;
+using Game.Scripts.Configs;
 using Game.Scripts.Factory;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Weapon;
@@ -46,7 +47,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<WeaponViewFactory>()
                 .AsSingle();
-
+            
             // foreach (var weaponView in _characterService.WeaponViews)
             // {
             //     Container

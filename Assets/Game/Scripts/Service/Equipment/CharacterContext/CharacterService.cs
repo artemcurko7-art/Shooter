@@ -63,7 +63,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
                 var squadPosition = _squadPositions.FirstOrDefault(squadPosition => squadPosition.Type == squadNumberType);
                 
                 var view = _factory.Create(_data.Characters[type], squadPosition.transform);
-                var weaponView = _weaponViewFactory.Create(_weaponData.Weapons[view.WeaponType], view, view.Weapon);
+                var weaponView = _weaponViewFactory.Create(_weaponData.Weapons[_data.Characters[type].WeaponType], view, view.Weapon);
                 _characters.Add(view);
                 _weaponViews.Add(weaponView);
             }

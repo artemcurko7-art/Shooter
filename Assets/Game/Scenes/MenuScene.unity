@@ -21090,6 +21090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _statIncreaseNumber: 0.5
+  _poolSize: 20
   _additionallyStatVisibleCount: 4
   _uvSpeed: 2000
   _scrollRect: {fileID: 1315058390}
@@ -24587,7 +24588,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.1
+  m_fontSize: 28.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -1,17 +1,18 @@
 ﻿using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
 {
     public class HitContext
     {
-        public HitContext(IAttacker attacker, RaycastHit raycastHit)
+        public HitContext(ShotContext shotContext, RaycastHit raycastHit)
         {
-            Attacker = attacker;
+            ShotContext = shotContext;
             RaycastHit = raycastHit;
         }
         
-        public IAttacker Attacker { get; }
+        public ShotContext ShotContext { get; }
         public RaycastHit RaycastHit { get; }
     }
 }

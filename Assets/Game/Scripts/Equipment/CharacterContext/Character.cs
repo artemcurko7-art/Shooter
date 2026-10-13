@@ -6,6 +6,8 @@ using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
+using Game.Scripts.SquadContext.Type;
+using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 using Zenject;
@@ -16,14 +18,13 @@ namespace Game.Scripts.Equipment.CharacterContext
     {
         [field: SerializeField] public Transform Weapon { get; private set; }
         [field: SerializeField] public Transform ShootPosition { get; private set; }
-        
+
+        private WeaponView _weaponView;
         private Rotation _rotation;
         private TrackerUnits _trackerUnits;
         private IInput _input;
         private Vector3 _direction;
-
-        public CharacterType CharacterType { get; private set; }
-        public WeaponType WeaponType { get; private set; }
+        
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Transform => ShootPosition;
         
@@ -35,10 +36,8 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(CharacterType type, WeaponType weaponType, IReadOnlyDictionary<StatType, Stat> stats)
+        public void Initialize(IReadOnlyDictionary<StatType, Stat> stats)
         {
-            CharacterType = type;
-            WeaponType = weaponType;
             Stats = stats;
             StartCoroutine(StartTrackerUnits());
         }

@@ -40,7 +40,7 @@ namespace Game.Scripts.Equipment.CharacterContext
             // }
         }
         
-        public IReadOnlyDictionary<Character, IReadOnlyDictionary<StatType, Stat>> Stats => _stats;
+        public IReadOnlyDictionary<Character, IReadOnlyDictionary<StatType, Stat>> Characters => _stats;
 
         private void Resolve()
         {

@@ -8,13 +8,13 @@ namespace Game.Scripts.WeaponContext
         private float _currentChance;
         private int _missStreak;
 
-        public CriticalDamageResolver(float criticalChance)
+        public CriticalDamageResolver(int criticalChance)
         {
-            _baseChance = Mathf.Clamp01(criticalChance / 100);
+            _baseChance = Mathf.Clamp01(criticalChance / 100f);
             _currentChance = _baseChance;
         }
 
-        public bool Resolve()
+        public bool IsCritical()
         {
             if (_currentChance >= 1f)
             {
