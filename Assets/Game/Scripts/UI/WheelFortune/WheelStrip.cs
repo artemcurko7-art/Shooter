@@ -1,5 +1,7 @@
+
 using System.Collections.Generic;
 using System.Linq;
+using Game.Scripts.UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +13,8 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private float _scale = 1.4f;
 
         private readonly List<RewardBar> _bars = new();
-        private readonly List<RewardData.Reward> _rewards = new();
-        private readonly List<RewardData.Reward> _strip = new();
+        private readonly List<RewardData.WheelReward> _rewards = new();
+        private readonly List<RewardData.WheelReward> _strip = new();
 
         private RectTransform _content;
         private RewardBar _barPrefab;
@@ -21,7 +23,7 @@ namespace Game.Scripts.UI.WheelFortune
         private int _bufferSize;
 
         public IReadOnlyList<RewardBar> Bars => _bars;
-        public IReadOnlyList<RewardData.Reward> Rewards => _rewards;
+        public IReadOnlyList<RewardData.WheelReward> Rewards => _rewards;
 
         public float ItemWidth { get; private set; }
         public float CircleLength { get; private set; }
@@ -180,7 +182,7 @@ namespace Game.Scripts.UI.WheelFortune
             return Mod(steps, _rewards.Count);
         }
 
-        public RewardData.Reward GetReward(int index)
+        public RewardData.WheelReward GetReward(int index)
         {
             if (index < 0 || index >= _rewards.Count)
                 return null;

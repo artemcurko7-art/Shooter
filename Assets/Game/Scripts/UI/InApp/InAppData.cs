@@ -1,34 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.UI.Items;
 using UnityEngine;
 
 namespace Game.Scripts.UI.InApp
 {
-    [CreateAssetMenu(fileName = "InAppGroupData", menuName = "Data/InAppGroupData")]
+    [CreateAssetMenu(fileName = "InAppData", menuName = "Game/In App/Data")]
     public class InAppData : ScriptableObject
     {
-        public List<InAppGroup> Groups = new();
+        [SerializeField] private List<InAppGroup> _groups = new();
+
+        public List<InAppGroup> Groups => _groups;
 
         [Serializable]
         public class InAppGroup
         {
             public List<InApp> InApps = new();
+        }
 
-            [Serializable]
-            public class InApp
-            {
-                public Sprite icon;
-                public Sprite frame;
-                public int count;
-
-                [Serializable]
-                public class LocalizedText
-                {
-                    public string Ru;
-                    public string En;
-                    public string Tr;
-                }
-            }
+        [Serializable]
+        public class InApp
+        {
+            public Sprite Frame;
+            public List<Reward> Rewards = new();
         }
     }
 }

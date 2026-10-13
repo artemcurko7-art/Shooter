@@ -1,4 +1,6 @@
+
 using System;
+using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,15 +23,14 @@ namespace Game.Scripts.UI.DailyGift
         private int _dayIndex;
         private DailyGiftData.DailyGift _dailyGift;
 
+        public Reward Reward => _dailyGift?.Reward;
+
         public void Init(DailyGiftData.DailyGift dailyGift, int dayIndex)
         {
             _dailyGift = dailyGift;
             _dayIndex = dayIndex;
 
-            _day.text = $"{GetLocalizedDay(YG2.lang)} {dayIndex}";
-            _icon.sprite = dailyGift.icon;
-
-            _count.enabled = dailyGift.count > 0;
+            UpdateRewardVisual();
         }
 
         public void Init(DailyGiftData.DailyGift dailyGift, Sprite frame, int dayIndex)
@@ -37,10 +38,34 @@ namespace Game.Scripts.UI.DailyGift
             _dailyGift = dailyGift;
             _dayIndex = dayIndex;
 
-            _day.text = $"{GetLocalizedDay(YG2.lang)} {dayIndex}";
-            _icon.sprite = dailyGift.icon;
-            _count.text = dailyGift.count.ToString();
-            _frame.sprite = frame;
+            if (_frame)
+                _frame.sprite = frame;
+
+            UpdateRewardVisual();
+        }
+
+        private void UpdateRewardVisual()
+        {
+            if (_dailyGift?.Reward == null)
+            {
+                Debug.LogWarning("DailyGiftBar: Daily gift or reward is missing.", this);
+                return;
+            }
+
+            var reward = _dailyGift.Reward;
+            var count = reward.Count;
+
+            if (_day)
+                _day.text = $"{GetLocalizedDay(YG2.lang)} {_dayIndex}";
+
+            if (_icon)
+                _icon.sprite = reward.Icon;
+
+            if (_count)
+            {
+                _count.text = count.ToString();
+                _count.enabled = count > 0;
+            }
         }
 
         private static string GetLocalizedDay(string languageCode)
@@ -49,8 +74,8 @@ namespace Game.Scripts.UI.DailyGift
             {
                 "ru" => "День",
                 "en" => "Day",
-                "tr" => "gün",
-                _ => "Day",
+                "tr" => "Gün",
+                _ => "Day"
             };
         }
 
@@ -62,12 +87,20 @@ namespace Game.Scripts.UI.DailyGift
             var isPast = _dayIndex < currentDay;
             var isFuture = _dayIndex > currentDay;
 
-            _rays.SetActive(isToday && !isTaken);
-            _checkMark.SetActive(isTaken);
-            _crossMark.SetActive(isPast && !isTaken);
+            if (_rays)
+                _rays.SetActive(isToday && !isTaken);
 
-            _darkFrame.SetActive(isFuture || (isPast && !isTaken));
-            _lock.SetActive(isFuture);
+            if (_checkMark)
+                _checkMark.SetActive(isTaken);
+
+            if (_crossMark)
+                _crossMark.SetActive(isPast && !isTaken);
+
+            if (_darkFrame)
+                _darkFrame.SetActive(isFuture || (isPast && !isTaken));
+
+            if (_lock)
+                _lock.SetActive(isFuture);
         }
     }
 }

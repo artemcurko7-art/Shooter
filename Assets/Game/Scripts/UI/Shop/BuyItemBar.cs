@@ -17,7 +17,7 @@ namespace Game.Scripts.UI.Shop
         private Button _button;
         private BuyItemData.BuyItem _buyItem;
 
-        private void Start()
+        private void Awake()
         {
             _button = GetComponent<Button>();
         }
@@ -39,10 +39,7 @@ namespace Game.Scripts.UI.Shop
 
         public void Init(Shop shop, BuyItemData.BuyItem buyItem, bool isTaken)
         {
-            if (shop == null)
-                return;
-
-            if (buyItem == null)
+            if (shop == null || buyItem == null)
                 return;
 
             _shop = shop;
@@ -57,14 +54,20 @@ namespace Game.Scripts.UI.Shop
             if (_buyItem == null)
                 return;
 
-            if (_icon != null && _buyItem.icon != null)
-                _icon.sprite = _buyItem.icon;
+            var reward = _buyItem.Reward;
+
+            if (_icon != null)
+                _icon.sprite = reward?.Icon;
 
             if (_count != null)
-                _count.text = _buyItem.count > 0 ? _buyItem.count.ToString() : string.Empty;
+            {
+                _count.text = reward != null && reward.Count > 0
+                    ? reward.Count.ToString()
+                    : string.Empty;
+            }
 
             if (_price != null)
-                _price.text = _buyItem.price > 0 ? $"${_buyItem.price}" : string.Empty;
+                _price.text = _buyItem.Price > 0 ? $"${_buyItem.Price}" : string.Empty;
 
             if (_checkMark != null)
                 _checkMark.SetActive(_isTaken);
@@ -72,10 +75,7 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            if (_shop == null)
-                return;
-
-            if (_buyItem == null)
+            if (_shop == null || _buyItem == null)
                 return;
 
             if (_shop.IsPreviewAnimating)

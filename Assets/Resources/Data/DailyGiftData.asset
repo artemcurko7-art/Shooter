@@ -12,18 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166f33a0b63bc714c8d44c63f0fea41b, type: 3}
   m_Name: DailyGiftData
   m_EditorClassIdentifier: 
-  Gifts:
-  - icon: {fileID: 21300000, guid: abb96bbc164304c69af8d0a9cf8cf261, type: 3}
-    count: 100
-  - icon: {fileID: 21300000, guid: 4ca0708151b60449d97a6e6a1455f979, type: 3}
-    count: 1
-  - icon: {fileID: 21300000, guid: dd50370016aa3427cbffd86ff9d349ea, type: 3}
-    count: 2
-  - icon: {fileID: 21300000, guid: 9f8ec0d58522f429d938ada2e1aa5296, type: 3}
-    count: 1
-  - icon: {fileID: 21300000, guid: 8222ee04859dd4fe5b07c16b5439f249, type: 3}
-    count: 500
-  - icon: {fileID: 21300000, guid: a64ef0df0b327478497db1e7a451fb16, type: 3}
-    count: 3
-  - icon: {fileID: 21300000, guid: c3c72287193214996af4f29c39ba21ef, type: 3}
-    count: 0
+  _gifts:
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
+      _skin: {fileID: 0}
+      _count: 100
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
+      _skin: {fileID: 0}
+      _count: 3
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: b3913517b38d51643b2d631ffa219da4, type: 2}
+      _skin: {fileID: 0}
+      _count: 5
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: f538c297cf3f7fc428dddbdf4eaffbe2, type: 2}
+      _skin: {fileID: 0}
+      _count: 1
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
+      _skin: {fileID: 0}
+      _count: 100
+  - Reward:
+      _type: 0
+      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
+      _skin: {fileID: 0}
+      _count: 5
+  - Reward:
+      _type: 1
+      _item: {fileID: 0}
+      _skin: {fileID: 11400000, guid: 9baebcbb99e100543ba23497c19523c6, type: 2}
+      _count: 1

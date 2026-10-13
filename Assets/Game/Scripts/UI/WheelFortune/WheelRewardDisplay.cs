@@ -18,19 +18,19 @@ namespace Game.Scripts.UI.WheelFortune
                 _previewText.text = emptySymbol;
         }
 
-        public void UpdatePreview(RewardData.Reward reward)
+        public void UpdatePreview(RewardData.WheelReward wheelReward)
         {
-            if (reward == null)
+            if (wheelReward == null)
                 return;
 
             if (_previewText)
-                _previewText.text = reward.GetLocalizedName(YG2.lang);
+                _previewText.text = wheelReward.Reward.Skin.GetLocalizedName(wheelReward.Reward.Skin.name);
 
             if (_previewImage)
-                _previewImage.sprite = reward.icon;
+                _previewImage.sprite = wheelReward.Reward.Icon;
         }
 
-        public void Show(RewardData.Reward reward)
+        public void Show(RewardData.WheelReward reward)
         {
             if (reward == null)
                 return;

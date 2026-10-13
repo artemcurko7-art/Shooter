@@ -51,11 +51,10 @@ namespace Game.Scripts.UI.DailyGift
             YG2.saves.TotalCollectedGifts++;
             YG2.SaveProgress();
 
-            _buyEffect.Animate(
-                CurrentGift.icon,
-                CurrentGift.count,
-                _bars[_dayOfWeekNumber - 1].transform.position
-            );
+            var count = CurrentGift.Reward.Count;
+
+            _buyEffect.Animate(CurrentGift.Reward.Item.GetIcon(count),
+                count, _bars[_dayOfWeekNumber - 1].transform.position);
 
             Refresh();
             _sliderGifts.UpdateVisual();
@@ -81,7 +80,14 @@ namespace Game.Scripts.UI.DailyGift
 
         private void InitializeTodayReward()
         {
+            if (_data == null || _data.Gifts == null)
+                return;
+
             _dayOfWeekNumber = ((int)DateTime.Today.DayOfWeek + 6) % 7 + 1;
+
+            if (_data.Gifts.Count < _dayOfWeekNumber)
+                return;
+
             CurrentGift = _data.Gifts[_dayOfWeekNumber - 1];
         }
 
@@ -92,6 +98,8 @@ namespace Game.Scripts.UI.DailyGift
 
         private void InitializeDailyRewards()
         {
+            if (_data.Gifts.Count < DAYS_IN_WEEK) return;
+
             _usedFrames.Clear();
             _bars.Clear();
 
@@ -100,12 +108,7 @@ namespace Game.Scripts.UI.DailyGift
                 var dayIndex = i + 1;
                 var bar = Instantiate(_giftBarPrefab, _content);
 
-                bar.Init(
-                    _data.Gifts[i],
-                    GetRandomFrame(),
-                    dayIndex
-                );
-
+                bar.Init(_data.Gifts[i], GetRandomFrame(), dayIndex);
                 _bars.Add(bar);
             }
 

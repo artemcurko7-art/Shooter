@@ -26,15 +26,15 @@ namespace Game.Scripts.UI.Shop
 
             if (!_data) return;
 
-            if (_data.items == null || _data.items.Count == 0) return;
+            if (_data.Items == null || _data.Items.Count == 0) return;
 
             if (_bars.Count > 0) return;
 
-            var itemsCount = Mathf.Min(MAX_ITEMS_COUNT, _data.items.Count);
+            var itemsCount = Mathf.Max(MAX_ITEMS_COUNT, _data.Items.Count);
 
             for (var i = 0; i < itemsCount; i++)
             {
-                var buyItem = _data.items[i];
+                var buyItem = _data.Items[i];
 
                 if (buyItem == null)
                     continue;
