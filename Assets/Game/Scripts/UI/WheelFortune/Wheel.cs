@@ -1,60 +1,42 @@
-using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.WheelFortune
 {
     public class Wheel : Window
     {
-        private readonly List<RewardBar> _bars = new();
-        private readonly List<RewardData.Reward> _strip = new();
-        private readonly List<RewardData.Reward> _shuffledRewards = new();
-
         [Header("Ссылки")]
         [SerializeField] private RectTransform _content;
         [SerializeField] private RewardBar _barPrefab;
         [SerializeField] private RewardData _data;
         [SerializeField] private RectTransform _viewport;
         [SerializeField] private Button _spinButton;
-        [SerializeField] private TMP_Text _rewardPreviewText;
-        [SerializeField] private AppearAnimation _rewardAnimation;
+        [SerializeField] private ImageMover _imageMover;
+        [SerializeField] private RectTransform[] _pages;
+
+        [Header("Компоненты")]
+        [SerializeField] private WheelStrip _strip;
+        [SerializeField] private WheelSpinAnimation _spinAnimation;
+        [SerializeField] private WheelRewardDisplay _rewardDisplay;
+        [SerializeField] private WheelButton _wheelButton;
+        [SerializeField] private SmoothScroll _scroll;
+        [SerializeField] private HorizontalLayoutGroup _layoutGroup;
 
         [Header("Анимация спина")]
-        [SerializeField] private float _spinDuration = 4f;
         [SerializeField] private int _minSpins = 5;
         [SerializeField] private int _maxSpins = 8;
-        [SerializeField] private Sprite _greenButton;
-        [SerializeField] private Sprite _redButton;
-        [SerializeField] private TMP_Text _spinButtonText;
-        [SerializeField] private Ease _spinEase = Ease.InQuart;
         [SerializeField] private string _emptySymbol;
-
-        [Header("Анимация стрелки")]
-        [SerializeField] private ImageMover _imageMover;
-
-        [Header("Анимация награды")]
-        [SerializeField] private float _rewardAnimDuration = 0.1f;
-        [SerializeField] private float _rewardScale = 1.15f;
 
         [Header("Лента")]
         [SerializeField] private int _bufferSize = 5;
 
-        private float _itemWidth;
-        private float _circleLength;
-        private float _centerContentX;
-        private float _absoluteScroll;
-
-        private Image _rewardPreviewImage;
-        private int _currentRewardIndex;
-        private int _lastDisplayedRewardIndex = -1;
+        private int _currentPageIndex = -1;
 
         private bool _isSpinning;
         private bool _initialized;
+        private int _lastDisplayedRewardIndex = -1;
 
         protected override void OnEnable()
         {
@@ -74,35 +56,92 @@ namespace Game.Scripts.UI.WheelFortune
             if (_spinButton)
                 _spinButton.onClick.RemoveListener(Spin);
 
-            if (_content)
-                _content.DOKill();
+            if (_spinAnimation)
+                _spinAnimation.Kill();
 
-            if (_rewardAnimation)
-                _rewardAnimation.KillAnimation();
+            if (_rewardDisplay)
+                _rewardDisplay.KillAnimation();
 
             _isSpinning = false;
         }
 
-        private static Vector3 GetWorldCenter(RectTransform rect)
+
+        public void OpenFirstPage()
         {
-            var corners = new Vector3[4];
-
-            rect.GetWorldCorners(corners);
-
-            return (corners[0] + corners[2]) * 0.5f;
+            _currentPageIndex = 0;
+            ScrollToPage(0);
         }
 
-        private static int Mod(int value, int modulo)
+        public void OpenSecondPage()
         {
-            if (modulo <= 0)
-                return 0;
+            _currentPageIndex = 1;
+            ScrollToPage(1);
+        }
 
-            var result = value % modulo;
+        private void SetFirstPageImmediately()
+        {
+            _currentPageIndex = 0;
+            SetPageImmediately(0);
+        }
 
-            if (result < 0)
-                result += modulo;
+        private void SetPageImmediately(int pageIndex)
+        {
+            if (!_scroll || !_scroll.GetScrollRect || _pages == null ||
+                pageIndex < 0 || pageIndex >= _pages.Length)
+                return;
 
-            return result;
+            var scrollRect = _scroll.GetScrollRect;
+            var content = scrollRect.content;
+            var viewport = scrollRect.viewport;
+
+            if (!content || !viewport || !_pages[pageIndex])
+                return;
+
+            var target = _pages[pageIndex];
+            var targetCenter = content.InverseTransformPoint(
+                target.TransformPoint(target.rect.center));
+            var viewportCenter = content.InverseTransformPoint(
+                viewport.TransformPoint(viewport.rect.center));
+
+            var targetX = content.anchoredPosition.x
+                          + viewportCenter.x
+                          - targetCenter.x;
+
+            _scroll.Stop();
+            _scroll.SetPositionX(targetX);
+        }
+
+        private void ScrollToPage(int pageIndex)
+        {
+            if (!_scroll || !_scroll.GetScrollRect || _pages == null ||
+                pageIndex < 0 || pageIndex >= _pages.Length)
+                return;
+
+            var scrollRect = _scroll.GetScrollRect;
+            var content = scrollRect.content;
+            var viewport = scrollRect.viewport;
+
+            if (!content || !viewport || !_pages[pageIndex])
+                return;
+
+            var target = _pages[pageIndex];
+
+            var targetCenter = content.InverseTransformPoint(
+                target.TransformPoint(target.rect.center));
+
+            var viewportCenter = content.InverseTransformPoint(
+                viewport.TransformPoint(viewport.rect.center));
+
+            var targetX = content.anchoredPosition.x
+                          + viewportCenter.x
+                          - targetCenter.x;
+
+            _scroll.ScrollToX(targetX);
+        }
+
+        private void OnOpen()
+        {
+            SetFirstPageImmediately();
         }
 
         private void Initialize()
@@ -110,165 +149,31 @@ namespace Game.Scripts.UI.WheelFortune
             if (_initialized)
                 return;
 
-            ShuffleRewards();
-            BuildStrip();
-            SpawnBars();
-
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
-            Canvas.ForceUpdateCanvases();
-
-            if (!UpdateItemWidth())
+            if (!_strip || !_spinAnimation || !_rewardDisplay || !_wheelButton)
                 return;
 
-            CalculateCircleLength();
-            SetInitialPosition();
+            if (!_strip.Initialize(
+                    _content,
+                    _barPrefab,
+                    _data,
+                    _viewport,
+                    _bufferSize))
+            {
+                return;
+            }
 
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = _emptySymbol;
+            _rewardDisplay.Clear(_emptySymbol);
+            _wheelButton.SetAvailable(true);
 
             _initialized = true;
+
             SwitchVisible(true);
         }
 
         private void SwitchVisible(bool isActive)
         {
-            if (isActive)
-            {
-                _spinButton.enabled = true;
-                _spinButton.image.sprite = _greenButton;
-                _spinButtonText.text = Localization.GetSpinButtonText();
-            }
-            else
-            {
-                _spinButton.enabled = false;
-                _spinButton.image.sprite = _redButton;
-                _spinButtonText.text = Localization.GetNotAvailableButtonText();
-            }
-        }
-
-        private void ShuffleRewards()
-        {
-            _shuffledRewards.Clear();
-
-            foreach (var reward in _data.Rewards.Where(reward => reward != null))
-                _shuffledRewards.Add(reward);
-
-            for (var i = _shuffledRewards.Count - 1; i > 0; i--)
-            {
-                var randomIndex = Random.Range(0, i + 1);
-
-                (
-                    _shuffledRewards[i],
-                    _shuffledRewards[randomIndex]
-                ) = (
-                    _shuffledRewards[randomIndex],
-                    _shuffledRewards[i]
-                );
-            }
-        }
-
-        private void BuildStrip()
-        {
-            _strip.Clear();
-
-            var count = _shuffledRewards.Count;
-
-            if (count == 0)
-                return;
-
-            var buffer = Mathf.Min(_bufferSize, count);
-
-            for (var i = count - buffer; i < count; i++)
-                _strip.Add(_shuffledRewards[Mod(i, count)]);
-
-            for (var i = 0; i < count; i++)
-                _strip.Add(_shuffledRewards[i]);
-
-            for (var i = 0; i < buffer; i++)
-                _strip.Add(_shuffledRewards[i % count]);
-        }
-
-        private void SpawnBars()
-        {
-            foreach (Transform child in _content)
-            {
-                if (child)
-                    Destroy(child.gameObject);
-            }
-
-            _bars.Clear();
-
-            foreach (var reward in _strip)
-            {
-                if (reward == null)
-                    continue;
-
-                var bar = Instantiate(_barPrefab, _content);
-                bar.Init(reward);
-                _bars.Add(bar);
-            }
-        }
-
-        private bool UpdateItemWidth()
-        {
-            if (_bars.Count == 0)
-                return false;
-
-            var rect = _bars[0].transform as RectTransform;
-
-            if (!rect)
-                return false;
-
-            _itemWidth = rect.rect.width;
-
-            return _itemWidth > 0f;
-        }
-
-        private void CalculateCircleLength()
-        {
-            _circleLength = _shuffledRewards.Count * _itemWidth;
-        }
-
-        private void SetInitialPosition()
-        {
-            if (_bars.Count == 0)
-                return;
-
-            var buffer = Mathf.Min(_bufferSize, _shuffledRewards.Count);
-            var centerIndex = Mathf.Min(buffer, _bars.Count - 1);
-
-            var bar = _bars[centerIndex].transform as RectTransform;
-
-            if (!bar)
-                return;
-
-            var viewportCenter = GetWorldCenter(_viewport);
-            var barCenter = GetWorldCenter(bar);
-            var difference = viewportCenter.x - barCenter.x;
-
-            var contentPosition = _content.position;
-            contentPosition.x += difference;
-            _content.position = contentPosition;
-
-            _centerContentX = _content.anchoredPosition.x;
-            _absoluteScroll = 0f;
-            _currentRewardIndex = 0;
-
-            ApplyScroll();
-        }
-
-        private void ApplyScroll()
-        {
-            if (_circleLength <= 0f)
-                return;
-
-            var visualScroll = Mathf.Repeat(_absoluteScroll, _circleLength);
-
-            _content.anchoredPosition = new Vector2(
-                _centerContentX - visualScroll,
-                _content.anchoredPosition.y
-            );
+            if (_wheelButton)
+                _wheelButton.SetAvailable(isActive);
         }
 
         private void Spin()
@@ -276,22 +181,17 @@ namespace Game.Scripts.UI.WheelFortune
             if (!_initialized || _isSpinning)
                 return;
 
-            var count = _shuffledRewards.Count;
+            var count = _strip.Rewards.Count;
 
-            if (count == 0 || _itemWidth <= 0f || _circleLength <= 0f)
+            if (count == 0 || _strip.ItemWidth <= 0f || _strip.CircleLength <= 0f)
                 return;
 
             _isSpinning = true;
 
-            _content.DOKill();
-
-            if (_rewardAnimation)
-                _rewardAnimation.KillAnimation();
-
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = _emptySymbol;
-
-            SwitchVisible(false);
+            _spinAnimation.Kill();
+            _rewardDisplay.KillAnimation();
+            _rewardDisplay.Clear(_emptySymbol);
+            _wheelButton.SetAvailable(false);
 
             if (_imageMover)
                 _imageMover.Disable();
@@ -302,37 +202,56 @@ namespace Game.Scripts.UI.WheelFortune
             var additionalSteps = Random.Range(1, count + 1);
             var totalSteps = fullSpins * count + additionalSteps;
 
-            var startScroll = _absoluteScroll;
-            var targetScroll = startScroll + totalSteps * _itemWidth;
+            var startScroll = _strip.AbsoluteScroll;
+            var targetScroll = startScroll + totalSteps * _strip.ItemWidth;
 
-            DOTween.To(
-                    () => startScroll,
-                    value =>
-                    {
-                        _absoluteScroll = value;
-                        ApplyScroll();
-                        UpdateRewardDuringSpin();
-                    },
-                    targetScroll,
-                    _spinDuration
-                )
-                .SetEase(_spinEase)
-                .OnComplete(FinishSpin);
+            _spinAnimation.Play(
+                startScroll,
+                targetScroll,
+                OnSpinUpdate,
+                FinishSpin
+            );
+        }
+
+        private void OnSpinUpdate(float scroll)
+        {
+            _strip.SetScroll(scroll);
+
+            var rewardIndex = _strip.GetRewardIndex();
+
+            if (rewardIndex == _lastDisplayedRewardIndex)
+                return;
+
+            _lastDisplayedRewardIndex = rewardIndex;
+
+            var reward = _strip.GetReward(rewardIndex);
+
+            if (reward != null)
+                _rewardDisplay.UpdatePreview(reward);
         }
 
         private void FinishSpin()
         {
-            _absoluteScroll = Mathf.Round(_absoluteScroll / _itemWidth) * _itemWidth;
-            ApplyScroll();
+            var itemWidth = _strip.ItemWidth;
 
-            _currentRewardIndex = GetRewardIndexFromScroll();
+            if (itemWidth <= 0f)
+            {
+                _isSpinning = false;
+                SwitchVisible(true);
+                return;
+            }
 
-            var reward = GetCurrentReward();
+            var finalScroll = Mathf.Round(_strip.AbsoluteScroll / itemWidth) * itemWidth;
+
+            _strip.SetScroll(finalScroll);
+
+            var rewardIndex = _strip.GetRewardIndex(true);
+            var reward = _strip.GetReward(rewardIndex);
 
             if (reward != null)
-                ShowReward(reward);
+                _rewardDisplay.Show(reward);
 
-            AnimateWinningBar();
+            _strip.AnimateWinningBar(rewardIndex);
 
             _isSpinning = false;
             SwitchVisible(true);
@@ -341,108 +260,10 @@ namespace Game.Scripts.UI.WheelFortune
                 _imageMover.Enable();
         }
 
-        private int GetRewardIndexFromScroll()
-        {
-            var passedSteps = Mathf.RoundToInt(
-                _absoluteScroll / _itemWidth
-            );
-
-            return Mod(
-                passedSteps,
-                _shuffledRewards.Count
-            );
-        }
-
-        private RewardData.Reward GetCurrentReward()
-        {
-            if (_currentRewardIndex < 0 ||
-                _currentRewardIndex >= _shuffledRewards.Count)
-            {
-                return null;
-            }
-
-            return _shuffledRewards[_currentRewardIndex];
-        }
-
-        private void AnimateWinningBar()
-        {
-            if (_bars.Count == 0 || _shuffledRewards.Count == 0)
-                return;
-
-            var buffer = Mathf.Min(
-                _bufferSize,
-                _shuffledRewards.Count
-            );
-
-            var barIndex = buffer + _currentRewardIndex;
-
-            if (barIndex < 0 || barIndex >= _bars.Count)
-                return;
-
-            _bars[barIndex].AnimateIcon(
-                _rewardScale,
-                _rewardAnimDuration
-            );
-        }
-
-        private void UpdateRewardDuringSpin()
-        {
-            if (_shuffledRewards.Count == 0)
-                return;
-
-            var passedSteps = Mathf.FloorToInt(
-                _absoluteScroll / _itemWidth
-            );
-
-            var rewardIndex = Mod(
-                passedSteps,
-                _shuffledRewards.Count
-            );
-
-            if (rewardIndex == _lastDisplayedRewardIndex)
-                return;
-
-            _lastDisplayedRewardIndex = rewardIndex;
-
-            var reward = _shuffledRewards[rewardIndex];
-
-            if (reward == null)
-                return;
-
-            UpdateRewardPreview(reward);
-        }
-
-        private void ShowReward(RewardData.Reward reward)
-        {
-            if (reward == null)
-                return;
-
-            if (!_rewardAnimation || !_rewardPreviewImage)
-            {
-                UpdateRewardPreview(reward);
-                return;
-            }
-
-            _rewardAnimation.Play(
-                _rewardPreviewImage,
-                () => UpdateRewardPreview(reward)
-            );
-        }
-
-        private void UpdateRewardPreview(RewardData.Reward reward)
-        {
-            if (reward == null)
-                return;
-
-            if (_rewardPreviewText)
-                _rewardPreviewText.text = reward.GetLocalizedName(YG2.lang);
-
-            if (_rewardPreviewImage)
-                _rewardPreviewImage.sprite = reward.icon;
-        }
-
         protected override void Show()
         {
+            SetFirstPageImmediately();
+
             if (!_transition)
             {
                 FinishTransition();

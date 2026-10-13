@@ -83,18 +83,18 @@ namespace Game.Scripts.UI
             };
         }
 
-        public static string GetNameTranslations(ResourceType resourceType)
+        public static string GetNameTranslations(ItemType itemType)
         {
-            return resourceType switch
+            return itemType switch
             {
-                ResourceType.Offer => Localization.GetOfferTitleText(),
-                ResourceType.Gem => Localization.GetGemTitleText(),
-                ResourceType.Gold => Localization.GetGoldTitleText(),
-                ResourceType.Energy => Localization.GetEnergyTitleText(),
-                ResourceType.LootBox => Localization.GetLootBoxTitleText(),
-                ResourceType.LootKey => Localization.GetLootKeyTitleText(),
-                ResourceType.Skin => Localization.GetSkinsTitleText(),
-                _ => "Wrong resource type: Error."
+                ItemType.Offer => Localization.GetOfferTitleText(),
+                ItemType.Gem => Localization.GetGemTitleText(),
+                ItemType.Gold => Localization.GetGoldTitleText(),
+                ItemType.Energy => Localization.GetEnergyTitleText(),
+                ItemType.LootBox => Localization.GetLootBoxTitleText(),
+                ItemType.LootKey => Localization.GetLootKeyTitleText(),
+                ItemType.Skin => Localization.GetSkinsTitleText(),
+                _ => "Wrong itemitem type: Error."
             };
         }
 

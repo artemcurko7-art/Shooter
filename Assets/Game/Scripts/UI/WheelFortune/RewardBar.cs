@@ -9,16 +9,16 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private Image _background;
         [SerializeField] private Image _icon;
 
-        private RewardData.Reward _reward;
+        private RewardData.WheelReward _wheelReward;
         private Vector3 _iconInitialScale = Vector3.one;
         private bool _iconScaleCached;
 
         public RectTransform RectTransform =>
             transform as RectTransform;
 
-        public void Init(RewardData.Reward reward)
+        public void Init(RewardData.WheelReward reward)
         {
-            _reward = reward;
+            _wheelReward = reward;
 
             if (_icon)
                 _icon.DOKill();
@@ -28,14 +28,11 @@ namespace Game.Scripts.UI.WheelFortune
 
         private void UpdateVisual()
         {
-            if (_reward == null)
+            if (_wheelReward == null)
                 return;
 
-            if (_background)
-                _background.sprite = _reward.background;
-
             if (_icon)
-                _icon.sprite = _reward.icon;
+                _icon.sprite = _wheelReward.Reward.Icon;
         }
 
         public void AnimateIcon(float scale, float duration)

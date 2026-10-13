@@ -1,9 +1,9 @@
-using System;
 using Game.Scripts.UI.Animation;
 using Game.Scripts.UI.TabContext;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Game.Scripts.UI.Shop
 {
@@ -12,6 +12,7 @@ namespace Game.Scripts.UI.Shop
         [Header("Зависимости")]
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private TMP_Text _price;
         [SerializeField] private TMP_Text _count;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyItemButton;
@@ -20,7 +21,7 @@ namespace Game.Scripts.UI.Shop
         private Vector3 _startPosition;
         private BuyItemData.BuyItem _buyItem;
 
-        public bool IsEffectAnimating => _effect.IsAnimating;
+        public bool IsEffectAnimating => _effect != null && _effect.IsAnimating;
 
         protected override void OnEnable()
         {
@@ -40,43 +41,37 @@ namespace Game.Scripts.UI.Shop
 
         public void Open(BuyItemData.BuyItem buyItem, Vector3 startPosition)
         {
-            if (_effect.IsAnimating) return;
+            if (IsEffectAnimating)
+                return;
 
-            if (buyItem == null)
+            if (buyItem == null || buyItem.Reward == null)
             {
-                Debug.LogWarning("ShopPreview: BuyItem is NULL.", this);
+                Debug.LogWarning("ShopPreview: BuyItem or Reward is NULL.", this);
                 return;
             }
 
-            if (_transition == null)
+            if (_transition == null || _canvasGroup == null || _rectTransform == null)
             {
-                Debug.LogWarning("ShopPreview: Transition is NULL.", this);
+                Debug.LogWarning("ShopPreview: Transition dependencies are NULL.", this);
                 return;
             }
-
-            if (_canvasGroup == null)
-            {
-                Debug.LogWarning("ShopPreview: CanvasGroup is NULL.", this);
-                return;
-            }
-
-            if (_rectTransform == null)
-            {
-                Debug.LogWarning("ShopPreview: RectTransform is NULL.", this);
-                return;
-            }
-
-            Debug.Log("ShopPreview: starting transition.", this);
 
             _buyItem = buyItem;
-            _count.text = _buyItem.count.ToString();
             _startPosition = startPosition;
 
+            var reward = _buyItem.Reward;
+
+            if (_count != null)
+                _count.text = reward.Count.ToString();
+
+            if (_price != null)
+                _price.text = '$' + _buyItem.Price.ToString();
+
             if (_icon != null)
-                _icon.sprite = buyItem.icon;
+                _icon.sprite = reward.Icon;
 
             if (_title != null)
-                _title.text = Localization.GetNameTranslations(buyItem.resource);
+                _title.text = Localization.GetNameTranslations(_buyItem.Reward.Item.Type);
 
             if (_buyButtonText != null)
                 _buyButtonText.text = Localization.GetBuyText();
@@ -92,9 +87,14 @@ namespace Game.Scripts.UI.Shop
 
         private void OnBuyButtonClick()
         {
-            if (_buyItem == null) return;
+            if (_buyItem == null || _buyItem.Reward == null || _effect == null)
+                return;
 
-            _effect.Animate(_buyItem.icon, _buyItem.count, _startPosition);
+            _effect.Animate(
+                _buyItem.Reward.Icon,
+                _buyItem.Reward.Count,
+                _startPosition);
+
             Close();
         }
 
@@ -110,7 +110,10 @@ namespace Game.Scripts.UI.Shop
 
         protected override void Show()
         {
-            throw new NotImplementedException();
+            if (_buyItem == null)
+                return;
+
+            Open(_buyItem, _startPosition);
         }
 
         protected override void Hide()
