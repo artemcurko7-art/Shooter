@@ -1,4 +1,5 @@
 using Game.Scripts.UI.Animation;
+using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,21 +21,21 @@ namespace Game.Scripts.UI.WheelFortune
                 _previewImage.sprite = null;
         }
 
-        public void UpdatePreview(RewardData.WheelReward wheelReward)
+        public void UpdatePreview(Reward reward)
         {
-            if (wheelReward?.Reward == null)
+            if (reward == null)
                 return;
 
             if (_previewText)
-                _previewText.text = wheelReward.Reward.GetLocalizedName();
+                _previewText.text = reward.GetLocalizedName();
 
             if (_previewImage)
-                _previewImage.sprite = wheelReward.Reward.Icon;
+                _previewImage.sprite = reward.Icon;
         }
 
-        public void Show(RewardData.WheelReward reward)
+        public void Show(Reward reward)
         {
-            if (reward?.Reward == null)
+            if (reward == null)
                 return;
 
             if (!_rewardAnimation || !_previewImage)
@@ -43,10 +44,7 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
             }
 
-            _rewardAnimation.Play(
-                _previewImage,
-                () => UpdatePreview(reward)
-            );
+            _rewardAnimation.Play(_previewImage, () => UpdatePreview(reward));
         }
 
         public void KillAnimation()

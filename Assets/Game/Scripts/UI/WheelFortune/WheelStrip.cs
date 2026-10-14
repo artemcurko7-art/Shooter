@@ -13,38 +13,46 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private float _scale = 1.4f;
 
         private readonly List<RewardBar> _bars = new();
-        private readonly List<RewardData.WheelReward> _rewards = new();
-        private readonly List<RewardData.WheelReward> _strip = new();
+        private readonly List<Reward> _rewards = new();
+        private readonly List<Reward> _strip = new();
 
         private RectTransform _content;
         private RewardBar _barPrefab;
-        private RewardData _data;
         private RectTransform _viewport;
         private int _bufferSize;
+        private float _centerContentX;
 
         public IReadOnlyList<RewardBar> Bars => _bars;
-        public IReadOnlyList<RewardData.WheelReward> Rewards => _rewards;
+        public IReadOnlyList<Reward> Rewards => _rewards;
 
         public float ItemWidth { get; private set; }
         public float CircleLength { get; private set; }
         public float AbsoluteScroll { get; private set; }
 
-        private float _centerContentX;
-
         public bool Initialize(
             RectTransform content,
             RewardBar barPrefab,
-            RewardData data,
+            BoxesData.Box box,
             RectTransform viewport,
             int bufferSize)
         {
             _content = content;
             _barPrefab = barPrefab;
-            _data = data;
             _viewport = viewport;
-            _bufferSize = bufferSize;
+            _bufferSize = Mathf.Max(0, bufferSize);
 
-            if (!_content || !_barPrefab || !_data || !_viewport)
+            if (!_content || !_barPrefab || box == null || !_viewport || box.loots == null)
+                return false;
+
+            _rewards.Clear();
+
+            foreach (var loot in box.loots)
+            {
+                if (loot != null && loot.reward != null)
+                    _rewards.Add(loot.reward);
+            }
+
+            if (_rewards.Count == 0)
                 return false;
 
             ShuffleRewards();
@@ -69,17 +77,10 @@ namespace Game.Scripts.UI.WheelFortune
 
         private void ShuffleRewards()
         {
-            _rewards.Clear();
-
-            foreach (var reward in _data.Rewards.Where(reward => reward != null))
-                _rewards.Add(reward);
-
             for (var i = _rewards.Count - 1; i > 0; i--)
             {
                 var randomIndex = Random.Range(0, i + 1);
-
-                (_rewards[i], _rewards[randomIndex]) =
-                    (_rewards[randomIndex], _rewards[i]);
+                (_rewards[i], _rewards[randomIndex]) = (_rewards[randomIndex], _rewards[i]);
             }
         }
 
@@ -88,10 +89,6 @@ namespace Game.Scripts.UI.WheelFortune
             _strip.Clear();
 
             var count = _rewards.Count;
-
-            if (count == 0)
-                return;
-
             var buffer = Mathf.Min(_bufferSize, count);
 
             for (var i = count - buffer; i < count; i++)
@@ -130,7 +127,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (_bars.Count == 0)
                 return false;
 
-            var rect = _bars[0].transform as RectTransform;
+            var rect = _bars[0].RectTransform;
 
             if (!rect)
                 return false;
@@ -143,12 +140,13 @@ namespace Game.Scripts.UI.WheelFortune
         {
             var buffer = Mathf.Min(_bufferSize, _rewards.Count);
             var centerIndex = Mathf.Min(buffer, _bars.Count - 1);
-            var bar = _bars[centerIndex].transform as RectTransform;
+            var bar = _bars[centerIndex].RectTransform;
 
             if (!bar)
                 return;
 
             var corners = new Vector3[4];
+
             _viewport.GetWorldCorners(corners);
             var viewportCenter = (corners[0] + corners[2]) * 0.5f;
 
@@ -182,7 +180,7 @@ namespace Game.Scripts.UI.WheelFortune
             return Mod(steps, _rewards.Count);
         }
 
-        public RewardData.WheelReward GetReward(int index)
+        public Reward GetReward(int index)
         {
             if (index < 0 || index >= _rewards.Count)
                 return null;
@@ -206,15 +204,14 @@ namespace Game.Scripts.UI.WheelFortune
 
         private void ApplyScroll()
         {
-            if (CircleLength <= 0f)
+            if (CircleLength <= 0f || !_content)
                 return;
 
             var visualScroll = Mathf.Repeat(AbsoluteScroll, CircleLength);
 
             _content.anchoredPosition = new Vector2(
                 _centerContentX - visualScroll,
-                _content.anchoredPosition.y
-            );
+                _content.anchoredPosition.y);
         }
 
         private static int Mod(int value, int modulo)

@@ -49,6 +49,17 @@ namespace Game.Scripts.UI
             };
         }
 
+        public static string GetAvailableButtonText()
+        {
+            return YG2.lang switch
+            {
+                "ru" => "Доступно",
+                "en" => "Available",
+                "tr" => "Mevcut",
+                _ => "Available"
+            };
+        }
+
         public static string GetNotAvailableButtonText()
         {
             return YG2.lang switch

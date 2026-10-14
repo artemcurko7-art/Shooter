@@ -1,5 +1,7 @@
+
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
+using Game.Scripts.UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +9,15 @@ namespace Game.Scripts.UI.WheelFortune
 {
     public class Wheel : Window
     {
-        [Header("Ссылки")]
+        [Header("Выбор лутбокса")]
+        [SerializeField] private RectTransform _boxContent;
+        [SerializeField] private LootBoxBar _boxBarPrefab;
+        [SerializeField] private BoxesData _data;
+
+        [Header("Лента наград")]
         [SerializeField] private RectTransform _content;
         [SerializeField] private RewardBar _barPrefab;
-        [SerializeField] private RewardData _data;
         [SerializeField] private RectTransform _viewport;
-        [SerializeField] private Button _spinButton;
         [SerializeField] private ImageMover _imageMover;
         [SerializeField] private RectTransform[] _pages;
 
@@ -33,28 +38,26 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private int _bufferSize = 5;
 
         private int _currentPageIndex = -1;
+        private int _lastDisplayedRewardIndex = -1;
 
         private bool _isSpinning;
         private bool _initialized;
-        private int _lastDisplayedRewardIndex = -1;
+
+        public bool IsSpinning => _isSpinning;
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            if (_spinButton)
-                _spinButton.onClick.AddListener(Spin);
+            if (_initialized)
+                return;
 
-            if (!_initialized)
-                Initialize();
+            Initialize();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-
-            if (_spinButton)
-                _spinButton.onClick.RemoveListener(Spin);
 
             if (_spinAnimation)
                 _spinAnimation.Kill();
@@ -64,7 +67,6 @@ namespace Game.Scripts.UI.WheelFortune
 
             _isSpinning = false;
         }
-
 
         public void OpenFirstPage()
         {
@@ -76,6 +78,67 @@ namespace Game.Scripts.UI.WheelFortune
         {
             _currentPageIndex = 1;
             ScrollToPage(1);
+        }
+
+        private void Initialize()
+        {
+            if (_initialized)
+                return;
+
+            if (!_boxContent || !_boxBarPrefab || !_data ||
+                !_content || !_barPrefab || !_viewport ||
+                !_strip || !_spinAnimation || !_rewardDisplay || !_wheelButton)
+            {
+                Debug.LogWarning("[Wheel] Не все ссылки назначены в Inspector.", this);
+                return;
+            }
+
+            foreach (Transform child in _boxContent)
+            {
+                if (child)
+                    Destroy(child.gameObject);
+            }
+
+            foreach (var box in _data.Boxes)
+            {
+                if (box == null)
+                    continue;
+
+                var bar = Instantiate(_boxBarPrefab, _boxContent);
+                bar.Init(box, OpenBox);
+            }
+
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_boxContent);
+            Canvas.ForceUpdateCanvases();
+
+            _rewardDisplay.Clear(_emptySymbol);
+            _wheelButton.SetAvailable(false);
+
+            _initialized = true;
+            SetFirstPageImmediately();
+        }
+
+        private void OpenBox(BoxesData.Box box)
+        {
+            if (!_initialized || _isSpinning || box == null)
+                return;
+
+            if (box.boxCount <= 0 || box.keyCount <= 0)
+                return;
+
+            if (!_strip.Initialize(_content, _barPrefab, box, _viewport, _bufferSize))
+            {
+                Debug.LogWarning("[Wheel] Не удалось создать ленту наград для лутбокса.", this);
+                return;
+            }
+
+            _rewardDisplay.KillAnimation();
+            _rewardDisplay.Clear(_emptySymbol);
+            _lastDisplayedRewardIndex = -1;
+
+            _wheelButton.SetAvailable(true);
+            OpenSecondPage();
         }
 
         private void SetFirstPageImmediately()
@@ -98,14 +161,14 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
 
             var target = _pages[pageIndex];
+
             var targetCenter = content.InverseTransformPoint(
                 target.TransformPoint(target.rect.center));
+
             var viewportCenter = content.InverseTransformPoint(
                 viewport.TransformPoint(viewport.rect.center));
 
-            var targetX = content.anchoredPosition.x
-                          + viewportCenter.x
-                          - targetCenter.x;
+            var targetX = content.anchoredPosition.x + viewportCenter.x - targetCenter.x;
 
             _scroll.Stop();
             _scroll.SetPositionX(targetX);
@@ -132,53 +195,14 @@ namespace Game.Scripts.UI.WheelFortune
             var viewportCenter = content.InverseTransformPoint(
                 viewport.TransformPoint(viewport.rect.center));
 
-            var targetX = content.anchoredPosition.x
-                          + viewportCenter.x
-                          - targetCenter.x;
+            var targetX = content.anchoredPosition.x + viewportCenter.x - targetCenter.x;
 
             _scroll.ScrollToX(targetX);
         }
 
-        private void OnOpen()
-        {
-            SetFirstPageImmediately();
-        }
-
-        private void Initialize()
-        {
-            if (_initialized)
-                return;
-
-            if (!_strip || !_spinAnimation || !_rewardDisplay || !_wheelButton)
-                return;
-
-            if (!_strip.Initialize(
-                    _content,
-                    _barPrefab,
-                    _data,
-                    _viewport,
-                    _bufferSize))
-            {
-                return;
-            }
-
-            _rewardDisplay.Clear(_emptySymbol);
-            _wheelButton.SetAvailable(true);
-
-            _initialized = true;
-
-            SwitchVisible(true);
-        }
-
-        private void SwitchVisible(bool isActive)
-        {
-            if (_wheelButton)
-                _wheelButton.SetAvailable(isActive);
-        }
-
         private void Spin()
         {
-            if (!_initialized || _isSpinning)
+            if (!_initialized || _isSpinning || !_strip)
                 return;
 
             var count = _strip.Rewards.Count;
@@ -198,7 +222,10 @@ namespace Game.Scripts.UI.WheelFortune
 
             _lastDisplayedRewardIndex = -1;
 
-            var fullSpins = Random.Range(_minSpins, _maxSpins + 1);
+            var minSpins = Mathf.Max(1, _minSpins);
+            var maxSpins = Mathf.Max(minSpins, _maxSpins);
+
+            var fullSpins = Random.Range(minSpins, maxSpins + 1);
             var additionalSteps = Random.Range(1, count + 1);
             var totalSteps = fullSpins * count + additionalSteps;
 
@@ -209,8 +236,7 @@ namespace Game.Scripts.UI.WheelFortune
                 startScroll,
                 targetScroll,
                 OnSpinUpdate,
-                FinishSpin
-            );
+                FinishSpin);
         }
 
         private void OnSpinUpdate(float scroll)
@@ -232,12 +258,18 @@ namespace Game.Scripts.UI.WheelFortune
 
         private void FinishSpin()
         {
+            if (!_strip)
+            {
+                _isSpinning = false;
+                return;
+            }
+
             var itemWidth = _strip.ItemWidth;
 
             if (itemWidth <= 0f)
             {
                 _isSpinning = false;
-                SwitchVisible(true);
+                _wheelButton.SetAvailable(true);
                 return;
             }
 
@@ -254,7 +286,7 @@ namespace Game.Scripts.UI.WheelFortune
             _strip.AnimateWinningBar(rewardIndex);
 
             _isSpinning = false;
-            SwitchVisible(true);
+            _wheelButton.SetAvailable(true);
 
             if (_imageMover)
                 _imageMover.Enable();
@@ -277,8 +309,7 @@ namespace Game.Scripts.UI.WheelFortune
                 _scaleEase,
                 _positionEase,
                 _duration,
-                FinishTransition
-            );
+                FinishTransition);
         }
 
         protected override void Hide()
@@ -292,8 +323,7 @@ namespace Game.Scripts.UI.WheelFortune
             _transition.Close(
                 _canvasGroup,
                 _rectTransform,
-                FinishTransition
-            );
+                FinishTransition);
         }
     }
 }

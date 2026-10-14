@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Game.Scripts.UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,30 +10,21 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private Image _background;
         [SerializeField] private Image _icon;
 
-        private RewardData.WheelReward _wheelReward;
+        private Reward _reward;
         private Vector3 _iconInitialScale = Vector3.one;
         private bool _iconScaleCached;
 
-        public RectTransform RectTransform =>
-            transform as RectTransform;
+        public RectTransform RectTransform => transform as RectTransform;
 
-        public void Init(RewardData.WheelReward reward)
+        public void Init(Reward reward)
         {
-            _wheelReward = reward;
+            _reward = reward;
 
-            if (_icon)
-                _icon.DOKill();
-
-            UpdateVisual();
-        }
-
-        private void UpdateVisual()
-        {
-            if (_wheelReward == null)
+            if (!_icon)
                 return;
 
-            if (_icon)
-                _icon.sprite = _wheelReward.Reward.Icon;
+            _icon.DOKill();
+            _icon.sprite = _reward?.Icon;
         }
 
         public void AnimateIcon(float scale, float duration)
@@ -41,7 +33,6 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
 
             var iconTransform = _icon.transform;
-
             iconTransform.DOKill();
 
             if (!_iconScaleCached)
@@ -56,21 +47,13 @@ namespace Game.Scripts.UI.WheelFortune
 
             iconTransform.localScale = _iconInitialScale;
 
-            var targetScale = _iconInitialScale * scale;
-
             var sequence = DOTween.Sequence();
 
             sequence.Append(
-                iconTransform
-                    .DOScale(targetScale, duration)
-                    .SetEase(Ease.OutBack)
-            );
+                iconTransform.DOScale(_iconInitialScale * scale, duration).SetEase(Ease.OutBack));
 
             sequence.Append(
-                iconTransform
-                    .DOScale(_iconInitialScale, duration)
-                    .SetEase(Ease.InOutSine)
-            );
+                iconTransform.DOScale(_iconInitialScale, duration).SetEase(Ease.InOutSine));
         }
 
         public void KillAnimation()
