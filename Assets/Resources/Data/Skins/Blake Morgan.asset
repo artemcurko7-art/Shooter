@@ -17,5 +17,5 @@ MonoBehaviour:
     Ru: "\u0411\u043B\u0435\u0439\u043A \u041C\u043E\u0440\u0433\u0430\u043D"
     En: Blake Morgan
     Tr: Blake Morgan
-  _icon: {fileID: 21300000, guid: 448bf45e6aab54d5fbdf1facc9f0ad70, type: 3}
+  _icon: {fileID: 21300000, guid: 2a19c04b8c8d04b14a6f7a59974b1493, type: 3}
   _prefab: {fileID: 0}

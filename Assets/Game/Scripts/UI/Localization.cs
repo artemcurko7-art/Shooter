@@ -7,79 +7,67 @@ namespace Game.Scripts.UI
     {
         public static string GetUpgradeText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Улучшить",
-                "en" => "Improve",
-                "tr" => "İyileştirmek",
-                _ => "Improve!",
+                "en" => "Upgrade",
+                "tr" => "Yükselt",
+                _ => "Upgrade"
             };
         }
 
         public static string GetBuyText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Купить",
                 "en" => "Buy",
-                "tr" => "satın al",
-                _ => "Buy",
+                "tr" => "Satın al",
+                _ => "Buy"
             };
         }
 
         public static string GetGeneticTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Генетика",
                 "en" => "Genetics",
                 "tr" => "Genetik",
-                _ => "Improve!",
+                _ => "Genetics"
             };
         }
 
         public static string GetSpinButtonText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Крутить!",
                 "en" => "Spin!",
-                "tr" => "Döndürmek!",
-                _ => "Spin!",
+                "tr" => "Çevir!",
+                _ => "Spin!"
             };
         }
 
         public static string GetNotAvailableButtonText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Недоступно",
                 "en" => "Unavailable",
                 "tr" => "Mevcut değil",
-                _ => "Unavailable",
+                _ => "Unavailable"
             };
         }
 
         public static string GetDailyGiftsTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "След. подарок через:",
-                "en" => "The next gift:",
-                "tr" => "Bir sonraki hediye",
-                _ => "The next gift:",
+                "en" => "Next gift in:",
+                "tr" => "Sonraki hediyeye:",
+                _ => "Next gift in:"
             };
         }
 
@@ -87,105 +75,91 @@ namespace Game.Scripts.UI
         {
             return itemType switch
             {
-                ItemType.Offer => Localization.GetOfferTitleText(),
-                ItemType.Gem => Localization.GetGemTitleText(),
-                ItemType.Gold => Localization.GetGoldTitleText(),
-                ItemType.Energy => Localization.GetEnergyTitleText(),
-                ItemType.LootBox => Localization.GetLootBoxTitleText(),
-                ItemType.LootKey => Localization.GetLootKeyTitleText(),
-                ItemType.Skin => Localization.GetSkinsTitleText(),
-                _ => "Wrong itemitem type: Error."
+                ItemType.Offer => GetOfferTitleText(),
+                ItemType.Gem => GetGemTitleText(),
+                ItemType.Gold => GetGoldTitleText(),
+                ItemType.Energy => GetEnergyTitleText(),
+                ItemType.LootBox => GetLootBoxTitleText(),
+                ItemType.LootKey => GetLootKeyTitleText(),
+                ItemType.Skin => GetSkinsTitleText(),
+                _ => string.Empty
             };
         }
 
         private static string GetOfferTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Предложение",
                 "en" => "Offer",
                 "tr" => "Teklif",
-                _ => "Offer",
+                _ => "Offer"
             };
         }
 
         private static string GetGoldTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Золото",
                 "en" => "Gold",
-                "tr" => "altın",
-                _ => "gold",
+                "tr" => "Altın",
+                _ => "Gold"
             };
         }
 
         private static string GetGemTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Гемы",
                 "en" => "Gems",
-                "tr" => "Bir sonraki hediye",
-                _ => "TTaşlar",
+                "tr" => "Mücevherler",
+                _ => "Gems"
             };
         }
 
         private static string GetEnergyTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
-                "ru" => "Заряд",
+                "ru" => "Энергия",
                 "en" => "Energy",
-                "tr" => "Yük",
-                _ => "Energy",
+                "tr" => "Enerji",
+                _ => "Energy"
             };
         }
 
         private static string GetLootBoxTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Коробка",
                 "en" => "Loot box",
-                "tr" => "yağma kutusu",
-                _ => "Loot box",
+                "tr" => "Ganimet kutusu",
+                _ => "Loot box"
             };
         }
 
         private static string GetLootKeyTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Ключ",
-                "en" => "Loor key",
-                "tr" => "yağma anahtarı",
-                _ => "Loot key",
+                "en" => "Loot key",
+                "tr" => "Ganimet anahtarı",
+                _ => "Loot key"
             };
         }
 
         private static string GetSkinsTitleText()
         {
-            var languageCode = YG2.lang;
-
-            return languageCode switch
+            return YG2.lang switch
             {
                 "ru" => "Скин",
                 "en" => "Skin",
-                "tr" => "Cilt",
-                _ => "Skin",
+                "tr" => "Kostüm",
+                _ => "Skin"
             };
         }
     }

@@ -12,46 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10f4bd6f12fef4bbc28dd254613c24, type: 3}
   m_Name: GoldData
   m_EditorClassIdentifier: 
+  _useSharedDefinition: 1
+  _sharedDefinition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
   _items:
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 25
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
+    Count: 50
     Price: 0.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 100
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
+    Count: 150
     Price: 2.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 150
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 250
     Price: 3.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 250
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 350
     Price: 4.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 350
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 450
     Price: 5.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-      _skin: {fileID: 0}
-      _count: 500
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 600
+    Price: 7.99
+  - Definition: {fileID: 0}
+    Count: 800
+    Price: 7.99
+  - Definition: {fileID: 0}
+    Count: 1000
+    Price: 7.99
+  - Definition: {fileID: 0}
+    Count: 1200
     Price: 7.99

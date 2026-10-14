@@ -2,7 +2,6 @@ using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.WheelFortune
 {
@@ -16,15 +15,18 @@ namespace Game.Scripts.UI.WheelFortune
         {
             if (_previewText)
                 _previewText.text = emptySymbol;
+
+            if (_previewImage)
+                _previewImage.sprite = null;
         }
 
         public void UpdatePreview(RewardData.WheelReward wheelReward)
         {
-            if (wheelReward == null)
+            if (wheelReward?.Reward == null)
                 return;
 
             if (_previewText)
-                _previewText.text = wheelReward.Reward.Skin.GetLocalizedName(wheelReward.Reward.Skin.name);
+                _previewText.text = wheelReward.Reward.GetLocalizedName();
 
             if (_previewImage)
                 _previewImage.sprite = wheelReward.Reward.Icon;
@@ -32,7 +34,7 @@ namespace Game.Scripts.UI.WheelFortune
 
         public void Show(RewardData.WheelReward reward)
         {
-            if (reward == null)
+            if (reward?.Reward == null)
                 return;
 
             if (!_rewardAnimation || !_previewImage)

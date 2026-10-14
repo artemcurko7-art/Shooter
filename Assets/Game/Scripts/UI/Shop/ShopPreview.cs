@@ -1,9 +1,8 @@
 using Game.Scripts.UI.Animation;
-using Game.Scripts.UI.TabContext;
+using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.Shop
 {
@@ -19,6 +18,7 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private BuyEffect _effect;
 
         private Vector3 _startPosition;
+        private BuyItemData _data;
         private BuyItemData.BuyItem _buyItem;
 
         public bool IsEffectAnimating => _effect != null && _effect.IsAnimating;
@@ -39,14 +39,22 @@ namespace Game.Scripts.UI.Shop
                 _buyItemButton.onClick.RemoveListener(OnBuyButtonClick);
         }
 
-        public void Open(BuyItemData.BuyItem buyItem, Vector3 startPosition)
+        public void Open(BuyItemData data, BuyItemData.BuyItem buyItem, Vector3 startPosition)
         {
             if (IsEffectAnimating)
                 return;
 
-            if (buyItem == null || buyItem.Reward == null)
+            if (data == null || buyItem == null)
             {
-                Debug.LogWarning("ShopPreview: BuyItem or Reward is NULL.", this);
+                Debug.LogWarning("ShopPreview: BuyItemData or BuyItem is NULL.", this);
+                return;
+            }
+
+            var definition = data.GetDefinition(buyItem);
+
+            if (!buyItem.IsValid(definition))
+            {
+                Debug.LogWarning("ShopPreview: Definition is NULL.", this);
                 return;
             }
 
@@ -56,22 +64,11 @@ namespace Game.Scripts.UI.Shop
                 return;
             }
 
+            _data = data;
             _buyItem = buyItem;
             _startPosition = startPosition;
 
-            var reward = _buyItem.Reward;
-
-            if (_count != null)
-                _count.text = reward.Count.ToString();
-
-            if (_price != null)
-                _price.text = '$' + _buyItem.Price.ToString();
-
-            if (_icon != null)
-                _icon.sprite = reward.Icon;
-
-            if (_title != null)
-                _title.text = Localization.GetNameTranslations(_buyItem.Reward.Item.Type);
+            UpdateDisplay(definition);
 
             if (_buyButtonText != null)
                 _buyButtonText.text = Localization.GetBuyText();
@@ -85,22 +82,47 @@ namespace Game.Scripts.UI.Shop
                 _duration);
         }
 
+        private void UpdateDisplay(RewardDefinition definition)
+        {
+            var count = _buyItem.GetCount(definition);
+            var price = _buyItem.Price;
+            var icon = _buyItem.GetIcon(definition);
+            var title = _buyItem.GetLocalizedName(definition);
+
+            if (_count != null)
+                _count.text = count.ToString();
+
+            if (_price != null)
+                _price.text = price > 0 ? $"${price}" : string.Empty;
+
+            if (_icon != null)
+                _icon.sprite = icon;
+
+            if (_title != null)
+                _title.text = title;
+        }
+
         private void OnBuyButtonClick()
         {
-            if (_buyItem == null || _buyItem.Reward == null || _effect == null)
+            if (_data == null || _buyItem == null || _effect == null)
                 return;
 
-            _effect.Animate(
-                _buyItem.Reward.Icon,
-                _buyItem.Reward.Count,
-                _startPosition);
+            var definition = _data.GetDefinition(_buyItem);
 
+            if (!definition || !_buyItem.IsValid(definition))
+                return;
+
+            var icon = _buyItem.GetIcon(definition);
+            var count = _buyItem.GetCount(definition);
+
+            _effect.Animate(icon, count, _startPosition);
             Close();
         }
 
         private void Close()
         {
             _buyItem = null;
+            _data = null;
 
             if (_transition == null || _canvasGroup == null || _rectTransform == null)
                 return;
@@ -110,10 +132,10 @@ namespace Game.Scripts.UI.Shop
 
         protected override void Show()
         {
-            if (_buyItem == null)
+            if (_data == null || _buyItem == null)
                 return;
 
-            Open(_buyItem, _startPosition);
+            Open(_data, _buyItem, _startPosition);
         }
 
         protected override void Hide()

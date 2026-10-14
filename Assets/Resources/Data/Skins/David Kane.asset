@@ -17,5 +17,5 @@ MonoBehaviour:
     Ru: "\u0414\u044D\u0432\u0438\u0434 \u041A\u0435\u0439\u043D"
     En: David Kane
     Tr: David Kane
-  _icon: {fileID: 21300000, guid: 448bf45e6aab54d5fbdf1facc9f0ad70, type: 3}
+  _icon: {fileID: 21300000, guid: 63c9285ef587b4f67af3b9871ad4cbd3, type: 3}
   _prefab: {fileID: 0}

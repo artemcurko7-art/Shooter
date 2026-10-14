@@ -12,60 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10f4bd6f12fef4bbc28dd254613c24, type: 3}
   m_Name: LootData
   m_EditorClassIdentifier: 
+  _useSharedDefinition: 0
+  _sharedDefinition: {fileID: 0}
   _items:
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 0f281d7763a646041bdf81fc95dfccfc, type: 2}
-      _skin: {fileID: 0}
-      _count: 1
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 0f281d7763a646041bdf81fc95dfccfc, type: 2}
+    Count: 1
     Price: 0.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 43304a6451dd2cb4396d5a9396fa39f9, type: 2}
-      _skin: {fileID: 0}
-      _count: 10
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 43304a6451dd2cb4396d5a9396fa39f9, type: 2}
+    Count: 1
     Price: 2.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 8845d6a0ae5571d49bfb22616684efa7, type: 2}
-      _skin: {fileID: 0}
-      _count: 25
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 8845d6a0ae5571d49bfb22616684efa7, type: 2}
+    Count: 1
     Price: 3.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 553049445a4dddd46b161ce80cac6f15, type: 2}
-      _skin: {fileID: 0}
-      _count: 1
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 553049445a4dddd46b161ce80cac6f15, type: 2}
+    Count: 1
     Price: 4.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 3373f6a447a358e4f95b86115c9a3d63, type: 2}
-      _skin: {fileID: 0}
-      _count: 2
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 3373f6a447a358e4f95b86115c9a3d63, type: 2}
+    Count: 1
     Price: 1.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: f538c297cf3f7fc428dddbdf4eaffbe2, type: 2}
-      _skin: {fileID: 0}
-      _count: 2
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: f538c297cf3f7fc428dddbdf4eaffbe2, type: 2}
+    Count: 1
     Price: 2.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: d2c58dac1a98c9a49ba6d36fbefd434d, type: 2}
-      _skin: {fileID: 0}
-      _count: 2
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: d2c58dac1a98c9a49ba6d36fbefd434d, type: 2}
+    Count: 1
     Price: 3.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 713586977b2db7a41a080f942bbd652a, type: 2}
-      _skin: {fileID: 0}
-      _count: 2
-    Offer: {fileID: 0}
+  - Definition: {fileID: 11400000, guid: 713586977b2db7a41a080f942bbd652a, type: 2}
+    Count: 1
     Price: 4.99

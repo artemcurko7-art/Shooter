@@ -1,103 +1,92 @@
 using System;
 using System.Collections.Generic;
-using Game.Scripts.UI;
 using Game.Scripts.UI.Items;
 using UnityEngine;
-using YG;
 
 namespace Game.Scripts.UI.Shop
 {
     [CreateAssetMenu(fileName = "BuyItemData", menuName = "Game/Shop/Buy Item Data")]
     public class BuyItemData : ScriptableObject
     {
+        [Header("Общее определение")]
+        [SerializeField] private bool _useSharedDefinition;
+        [SerializeField] private RewardDefinition _sharedDefinition;
+
+        [Header("Предметы магазина")]
         [SerializeField] private List<BuyItem> _items = new();
 
         public List<BuyItem> Items => _items;
 
+        public RewardDefinition GetDefinition(BuyItem buyItem)
+        {
+            if (buyItem == null)
+                return null;
+
+            return _useSharedDefinition ? _sharedDefinition : buyItem.Definition;
+        }
+
         [Serializable]
         public class BuyItem
         {
-            public Reward Reward;
-            public OfferDefinition Offer;
+            public RewardDefinition Definition;
+            [Min(1)] public int Count = 1;
             public float Price;
 
-            public bool IsOffer => Offer != null;
+            public bool IsOffer => Definition is OfferDefinition;
 
-            public float GetPrice()
+            public bool IsOfferFor(RewardDefinition definition)
             {
-                return IsOffer ? Offer.Price : Price;
+                return definition is OfferDefinition;
             }
 
             public Sprite GetIcon()
             {
-                if (!IsOffer) return Reward?.Icon;
-                
-                if (Offer.Rewards == null || Offer.Rewards.Count == 0)
-                    return null;
+                return GetIcon(Definition);
+            }
 
-                return Offer.Rewards[0]?.Icon;
-
+            public Sprite GetIcon(RewardDefinition definition)
+            {
+                return definition ? definition.GetIcon(GetCount(definition)) : null;
             }
 
             public int GetCount()
             {
-                return IsOffer ? 1 : Reward?.Count ?? 0;
+                return GetCount(Definition);
+            }
+
+            public int GetCount(RewardDefinition definition)
+            {
+                return IsOfferFor(definition) ? 1 : Mathf.Max(1, Count);
             }
 
             public string GetLocalizedName()
             {
-                if (IsOffer)
-                    return Localization.GetNameTranslations(ItemType.Offer);
+                return GetLocalizedName(Definition);
+            }
 
-                if (Reward == null)
-                    return string.Empty;
-
-                return Reward.Type switch
-                {
-                    RewardType.Item when Reward.Item != null =>
-                        Localization.GetNameTranslations(Reward.Item.Type),
-
-                    RewardType.Skin when Reward.Skin != null =>
-                        Reward.Skin.GetLocalizedName(YG2.lang),
-
-                    _ => string.Empty
-                };
+            public string GetLocalizedName(RewardDefinition definition)
+            {
+                return definition ? definition.GetLocalizedName() : string.Empty;
             }
 
             public string GetLocalizedTypeName()
             {
-                if (IsOffer)
-                    return Localization.GetNameTranslations(ItemType.Offer);
+                return GetLocalizedTypeName(Definition);
+            }
 
-                if (Reward == null)
-                    return string.Empty;
-
-                return Reward.Type switch
-                {
-                    RewardType.Item when Reward.Item != null =>
-                        Localization.GetNameTranslations(Reward.Item.Type),
-
-                    RewardType.Skin =>
-                        Localization.GetNameTranslations(ItemType.Skin),
-
-                    _ => string.Empty
-                };
+            public string GetLocalizedTypeName(RewardDefinition definition)
+            {
+                return definition ? definition.GetLocalizedTypeName() : string.Empty;
             }
 
             public bool IsValid()
             {
-                if (IsOffer)
-                    return true;
+                return Definition != null;
+            }
 
-                if (Reward == null)
-                    return false;
-
-                return Reward.Type switch
-                {
-                    RewardType.Item => Reward.Item != null,
-                    RewardType.Skin => Reward.Skin != null,
-                    _ => false
-                };
+            public bool IsValid(RewardDefinition definition)
+            {
+                return definition != null;
             }
         }
     }

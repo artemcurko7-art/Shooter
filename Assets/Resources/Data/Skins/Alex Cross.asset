@@ -17,5 +17,5 @@ MonoBehaviour:
     Ru: "\u0410\u043B\u0435\u043A\u0441 \u041A\u0440\u043E\u0441\u0441"
     En: Alex Cross
     Tr: "Alex \xC7apraz"
-  _icon: {fileID: 21300000, guid: 448bf45e6aab54d5fbdf1facc9f0ad70, type: 3}
+  _icon: {fileID: 21300000, guid: ca7554f417f7441a4b85abd2b6141df0, type: 3}
   _prefab: {fileID: 0}

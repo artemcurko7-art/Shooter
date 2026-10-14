@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rewards:
   - Reward:
-      _type: 1
-      _item: {fileID: 0}
-      _skin: {fileID: 11400000, guid: 579777983c2a43040b8dca258fc6c3b3, type: 2}
+      _definition: {fileID: 11400000, guid: 8d6af5f251e28a84cb1c3e819051cad4, type: 2}
+      _count: 1
+  - Reward:
+      _definition: {fileID: 11400000, guid: 047ba4ddb12416543af1f3b925a86c5f, type: 2}
+      _count: 1
+  - Reward:
+      _definition: {fileID: 11400000, guid: a0d295fb59b07ce4aaec5664f4db160e, type: 2}
+      _count: 1
+  - Reward:
+      _definition: {fileID: 11400000, guid: 9baebcbb99e100543ba23497c19523c6, type: 2}
       _count: 1

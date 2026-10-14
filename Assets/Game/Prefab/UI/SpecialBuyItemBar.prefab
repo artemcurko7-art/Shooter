@@ -245,7 +245,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -55.1249, y: -13.5205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5005471276035524959
 CanvasRenderer:
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82
+  m_fontSize: 70.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 8302240428342000202}
   - component: {fileID: 292451124656519634}
   - component: {fileID: 6913670419846586179}
+  - component: {fileID: 9001852088520836264}
   m_Layer: 5
   m_Name: PriceFrame
   m_TagString: Untagged
@@ -380,7 +381,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 389.1, y: -128.80002}
-  m_SizeDelta: {x: 163.99, y: 100}
+  m_SizeDelta: {x: 195.1115, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &292451124656519634
 CanvasRenderer:
@@ -420,6 +421,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.15
+--- !u!114 &9001852088520836264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530953064611232358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &5650019643663887296
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,7 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7041b0c929ad514ea4e1daa807bcbe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _icon: {fileID: 6499084864172036473}
+  _icon: {fileID: 0}
   _checkMark: {fileID: 0}
   _count: {fileID: 0}
   _price: {fileID: 5770390688705153977}
