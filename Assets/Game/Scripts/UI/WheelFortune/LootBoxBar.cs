@@ -14,8 +14,11 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private TMP_Text _boxName;
         [SerializeField] private TMP_Text _boxCount;
         [SerializeField] private TMP_Text _keyCount;
+        [SerializeField] private TMP_Text _rarityName;
         [SerializeField] private Image _boxIcon;
         [SerializeField] private Image _keyIcon;
+        [SerializeField] private Image _sliderFill;
+        [SerializeField] private Slider _slider;
         [SerializeField] private TMP_Text _buttonName;
         [SerializeField] private Button _openButton;
         [SerializeField] private Image _buttonBackground;
@@ -43,6 +46,8 @@ namespace Game.Scripts.UI.WheelFortune
             _box = box;
             _onOpen = onOpen;
 
+            var rarity = _box._rarityType;
+
             if (_box == null)
                 return;
 
@@ -53,6 +58,23 @@ namespace Game.Scripts.UI.WheelFortune
             {
                 _boxCount.text = _box.boxCount.ToString();
                 _boxCount.color = _box.boxCount > 0 ? _enableColor : _disableColor;
+            }
+
+            if (_rarityName)
+            {
+                _rarityName.text = RarityUtils.GetLocalizedName(rarity);
+                _rarityName.color = RarityUtils.GetColor(rarity);
+            }
+
+            if (_sliderFill)
+                _sliderFill.color = RarityUtils.GetColor(rarity);
+
+            if (_slider)
+            {
+                _slider.minValue = 0;
+                _slider.maxValue = 1;
+
+                _slider.value = RarityUtils.GetSliderValue(rarity);
             }
 
             if (_keyCount)

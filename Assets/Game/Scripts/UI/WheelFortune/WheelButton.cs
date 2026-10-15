@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +13,22 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private Sprite _greenButton;
         [SerializeField] private Sprite _redButton;
 
+        public event Action Clicked;
+
+        private void OnEnable()
+        {
+            _button.onClick.AddListener(OnButtonClick);
+        }
+
+        private void OnDisable()
+        {
+            _button.onClick.RemoveListener(OnButtonClick);
+        }
+
         public void SetAvailable(bool isAvailable)
         {
             if (_button)
-                _button.interactable = isAvailable;
+                _button.enabled = isAvailable;
 
             if (_buttonImage)
                 _buttonImage.sprite = isAvailable ? _greenButton : _redButton;
@@ -26,6 +39,11 @@ namespace Game.Scripts.UI.WheelFortune
                     ? Localization.GetSpinButtonText()
                     : Localization.GetNotAvailableButtonText();
             }
+        }
+
+        private void OnButtonClick()
+        {
+            Clicked?.Invoke();
         }
     }
 }

@@ -1,4 +1,3 @@
-
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
 using Game.Scripts.UI.Items;
@@ -25,7 +24,8 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private WheelStrip _strip;
         [SerializeField] private WheelSpinAnimation _spinAnimation;
         [SerializeField] private WheelRewardDisplay _rewardDisplay;
-        [SerializeField] private WheelButton _wheelButton;
+        [SerializeField] private WheelButton _spinButton;
+        [SerializeField] private Button _homeButton;
         [SerializeField] private SmoothScroll _scroll;
         [SerializeField] private HorizontalLayoutGroup _layoutGroup;
 
@@ -40,14 +40,19 @@ namespace Game.Scripts.UI.WheelFortune
         private int _currentPageIndex = -1;
         private int _lastDisplayedRewardIndex = -1;
 
-        private bool _isSpinning;
         private bool _initialized;
 
-        public bool IsSpinning => _isSpinning;
+        private bool _isSpinning;
 
         protected override void OnEnable()
         {
             base.OnEnable();
+
+            if (_homeButton)
+                _homeButton.onClick.AddListener(OnHomeButtonClick);
+
+            if (_spinButton)
+                _spinButton.Clicked += OnSpinButtonClick;
 
             if (_initialized)
                 return;
@@ -58,6 +63,12 @@ namespace Game.Scripts.UI.WheelFortune
         protected override void OnDisable()
         {
             base.OnDisable();
+
+            if (_homeButton)
+                _homeButton.onClick.RemoveListener(OnHomeButtonClick);
+
+            if (_spinButton)
+                _spinButton.Clicked -= OnSpinButtonClick;
 
             if (_spinAnimation)
                 _spinAnimation.Kill();
@@ -80,6 +91,13 @@ namespace Game.Scripts.UI.WheelFortune
             ScrollToPage(1);
         }
 
+        private void OnHomeButtonClick()
+        {
+            if (_isSpinning) return;
+
+            OpenFirstPage();
+        }
+
         private void Initialize()
         {
             if (_initialized)
@@ -87,7 +105,7 @@ namespace Game.Scripts.UI.WheelFortune
 
             if (!_boxContent || !_boxBarPrefab || !_data ||
                 !_content || !_barPrefab || !_viewport ||
-                !_strip || !_spinAnimation || !_rewardDisplay || !_wheelButton)
+                !_strip || !_spinAnimation || !_rewardDisplay || !_spinButton)
             {
                 Debug.LogWarning("[Wheel] Не все ссылки назначены в Inspector.", this);
                 return;
@@ -113,10 +131,15 @@ namespace Game.Scripts.UI.WheelFortune
             Canvas.ForceUpdateCanvases();
 
             _rewardDisplay.Clear(_emptySymbol);
-            _wheelButton.SetAvailable(false);
+            _spinButton.SetAvailable(false);
 
             _initialized = true;
             SetFirstPageImmediately();
+        }
+
+        private void OnSpinButtonClick()
+        {
+            Spin();
         }
 
         private void OpenBox(BoxesData.Box box)
@@ -137,7 +160,7 @@ namespace Game.Scripts.UI.WheelFortune
             _rewardDisplay.Clear(_emptySymbol);
             _lastDisplayedRewardIndex = -1;
 
-            _wheelButton.SetAvailable(true);
+            _spinButton.SetAvailable(true);
             OpenSecondPage();
         }
 
@@ -215,7 +238,7 @@ namespace Game.Scripts.UI.WheelFortune
             _spinAnimation.Kill();
             _rewardDisplay.KillAnimation();
             _rewardDisplay.Clear(_emptySymbol);
-            _wheelButton.SetAvailable(false);
+            _spinButton.SetAvailable(false);
 
             if (_imageMover)
                 _imageMover.Disable();
@@ -232,11 +255,7 @@ namespace Game.Scripts.UI.WheelFortune
             var startScroll = _strip.AbsoluteScroll;
             var targetScroll = startScroll + totalSteps * _strip.ItemWidth;
 
-            _spinAnimation.Play(
-                startScroll,
-                targetScroll,
-                OnSpinUpdate,
-                FinishSpin);
+            _spinAnimation.Play(startScroll, targetScroll, OnSpinUpdate, FinishSpin);
         }
 
         private void OnSpinUpdate(float scroll)
@@ -269,7 +288,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (itemWidth <= 0f)
             {
                 _isSpinning = false;
-                _wheelButton.SetAvailable(true);
+                _spinButton.SetAvailable(true);
                 return;
             }
 
@@ -286,7 +305,7 @@ namespace Game.Scripts.UI.WheelFortune
             _strip.AnimateWinningBar(rewardIndex);
 
             _isSpinning = false;
-            _wheelButton.SetAvailable(true);
+            _spinButton.SetAvailable(true);
 
             if (_imageMover)
                 _imageMover.Enable();

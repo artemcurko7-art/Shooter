@@ -502,8 +502,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -188.79, y: 53.92}
-  m_SizeDelta: {x: 377.88, y: 135.11}
+  m_AnchoredPosition: {x: -188.79, y: 58.365616}
+  m_SizeDelta: {x: 377.88, y: 126.2276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4319363321545503877
 CanvasRenderer:
@@ -819,8 +819,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 14.200001}
-  m_SizeDelta: {x: -32.57, y: -28.4}
+  m_AnchoredPosition: {x: 0, y: 9.9555}
+  m_SizeDelta: {x: -22.8438, y: -19.911}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4189657981237686544
 CanvasRenderer:
@@ -877,7 +877,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60.5
+  m_fontSize: 69.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -887,7 +887,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: -2
+  m_characterSpacing: -12.01
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1578,9 +1578,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000061035156, y: 208.44995}
   m_SizeDelta: {x: 861.6, y: 416.9}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.9999999}
 --- !u!114 &6950791461330104338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1596,13 +1596,16 @@ MonoBehaviour:
   _boxName: {fileID: 1446153300587568645}
   _boxCount: {fileID: 1915962102793011935}
   _keyCount: {fileID: 5717807121280094182}
+  _rarityName: {fileID: 1461640520371473134}
   _boxIcon: {fileID: 8049055713990108220}
   _keyIcon: {fileID: 3266671402465233536}
+  _sliderFill: {fileID: 5772209852719481037}
+  _slider: {fileID: 1935012861160758342}
   _buttonName: {fileID: 8573942794924505488}
   _openButton: {fileID: 3828618615021813861}
   _buttonBackground: {fileID: 4181614519221533674}
-  _enableColor: {r: 0.048089266, g: 1, b: 0, a: 1}
-  _disableColor: {r: 1, g: 0.1462264, b: 0.1462264, a: 1}
+  _enableColor: {r: 0, g: 0.69803923, b: 0.4431373, a: 1}
+  _disableColor: {r: 0.82745105, g: 0.18431373, b: 0.21176472, a: 1}
 --- !u!1 &8750891602651608602
 GameObject:
   m_ObjectHideFlags: 0

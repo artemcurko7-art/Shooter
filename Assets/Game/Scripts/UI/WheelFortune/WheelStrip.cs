@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.UI.Items;
@@ -22,7 +21,6 @@ namespace Game.Scripts.UI.WheelFortune
         private int _bufferSize;
         private float _centerContentX;
 
-        public IReadOnlyList<RewardBar> Bars => _bars;
         public IReadOnlyList<Reward> Rewards => _rewards;
 
         public float ItemWidth { get; private set; }
@@ -44,8 +42,9 @@ namespace Game.Scripts.UI.WheelFortune
             if (!_content || !_barPrefab || box == null || !_viewport || box.loots == null)
                 return false;
 
-            _rewards.Clear();
+            _content.anchoredPosition = Vector2.zero;
 
+            _rewards.Clear();
             foreach (var loot in box.loots.Where(loot => loot is { reward: not null }))
             {
                 _rewards.Add(loot.reward);
@@ -56,19 +55,24 @@ namespace Game.Scripts.UI.WheelFortune
 
             ShuffleRewards();
             BuildStrip();
+
+            var prefabRect = _barPrefab.GetComponent<RectTransform>();
+            if (prefabRect == null)
+                return false;
+
+            ItemWidth = prefabRect.rect.width;
+            if (ItemWidth <= 0f)
+                return false;
+
+            CircleLength = _rewards.Count * ItemWidth;
+            if (CircleLength <= 0f)
+                return false;
+
             SpawnBars();
 
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
             Canvas.ForceUpdateCanvases();
-
-            if (!UpdateItemWidth())
-                return false;
-
-            CircleLength = _rewards.Count * ItemWidth;
-
-            if (CircleLength <= 0f)
-                return false;
 
             SetInitialPosition();
             return true;
@@ -127,7 +131,6 @@ namespace Game.Scripts.UI.WheelFortune
                 return false;
 
             var rect = _bars[0].RectTransform;
-
             if (!rect)
                 return false;
 
@@ -152,11 +155,10 @@ namespace Game.Scripts.UI.WheelFortune
             bar.GetWorldCorners(corners);
             var barCenter = (corners[0] + corners[2]) * 0.5f;
 
-            var position = _content.position;
-            position.x += viewportCenter.x - barCenter.x;
-            _content.position = position;
+            var offsetX = viewportCenter.x - barCenter.x;
 
-            _centerContentX = _content.anchoredPosition.x;
+            _centerContentX = offsetX;
+
             AbsoluteScroll = 0f;
             ApplyScroll();
         }
@@ -207,10 +209,9 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
 
             var visualScroll = Mathf.Repeat(AbsoluteScroll, CircleLength);
+            var currentY = _content.anchoredPosition.y;
 
-            _content.anchoredPosition = new Vector2(
-                _centerContentX - visualScroll,
-                _content.anchoredPosition.y);
+            _content.anchoredPosition = new Vector2(_centerContentX - visualScroll, currentY);
         }
 
         private static int Mod(int value, int modulo)

@@ -17,6 +17,7 @@ namespace Game.Scripts.UI.WheelFortune
         public class Box
         {
             public LocalizedName _nameTranslations;
+            public RarityType _rarityType;
             public int boxCount;
             public int keyCount;
             public ItemDefinition box;
