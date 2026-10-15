@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.Scripts.UI.Items;
 using UnityEngine;
+using YG;
 
 namespace Game.Scripts.UI.WheelFortune
 {
@@ -15,7 +16,7 @@ namespace Game.Scripts.UI.WheelFortune
         [Serializable]
         public class Box
         {
-            public 
+            public LocalizedName _nameTranslations;
             public int boxCount;
             public int keyCount;
             public ItemDefinition box;

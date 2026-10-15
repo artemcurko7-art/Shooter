@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: BoxesData
   m_EditorClassIdentifier: 
   _boxes:
-  - boxCount: 1
+  - _nameTranslations:
+      Ru: "\u0434\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u0430\u044F"
+      En: wooden
+      Tr: "ah\u015Fap"
+    boxCount: 1
     keyCount: 1
     box: {fileID: 11400000, guid: 0f281d7763a646041bdf81fc95dfccfc, type: 2}
     key: {fileID: 11400000, guid: 3373f6a447a358e4f95b86115c9a3d63, type: 2}
@@ -30,7 +34,11 @@ MonoBehaviour:
         _definition: {fileID: 11400000, guid: a0d295fb59b07ce4aaec5664f4db160e, type: 2}
         _count: 1
       chance: 1
-  - boxCount: 0
+  - _nameTranslations:
+      Ru: "\u0436\u0435\u043B\u0435\u0437\u043D\u0430\u044F"
+      En: iron
+      Tr: demir
+    boxCount: 0
     keyCount: 1
     box: {fileID: 11400000, guid: 43304a6451dd2cb4396d5a9396fa39f9, type: 2}
     key: {fileID: 11400000, guid: f538c297cf3f7fc428dddbdf4eaffbe2, type: 2}
@@ -47,7 +55,11 @@ MonoBehaviour:
         _definition: {fileID: 11400000, guid: a0d295fb59b07ce4aaec5664f4db160e, type: 2}
         _count: 1
       chance: 1
-  - boxCount: 1
+  - _nameTranslations:
+      Ru: "\u0437\u043E\u043B\u043E\u0442\u0430\u044F"
+      En: golden
+      Tr: "alt\u0131n"
+    boxCount: 1
     keyCount: 0
     box: {fileID: 11400000, guid: 8845d6a0ae5571d49bfb22616684efa7, type: 2}
     key: {fileID: 11400000, guid: 8845d6a0ae5571d49bfb22616684efa7, type: 2}
@@ -64,7 +76,11 @@ MonoBehaviour:
         _definition: {fileID: 11400000, guid: a0d295fb59b07ce4aaec5664f4db160e, type: 2}
         _count: 1
       chance: 1
-  - boxCount: 0
+  - _nameTranslations:
+      Ru: "\u0441\u0438\u043B\u044B"
+      En: forces
+      Tr: "g\xFC\xE7ler"
+    boxCount: 0
     keyCount: 0
     box: {fileID: 11400000, guid: 553049445a4dddd46b161ce80cac6f15, type: 2}
     key: {fileID: 11400000, guid: 713586977b2db7a41a080f942bbd652a, type: 2}

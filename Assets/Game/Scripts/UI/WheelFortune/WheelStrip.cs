@@ -46,10 +46,9 @@ namespace Game.Scripts.UI.WheelFortune
 
             _rewards.Clear();
 
-            foreach (var loot in box.loots)
+            foreach (var loot in box.loots.Where(loot => loot is { reward: not null }))
             {
-                if (loot != null && loot.reward != null)
-                    _rewards.Add(loot.reward);
+                _rewards.Add(loot.reward);
             }
 
             if (_rewards.Count == 0)

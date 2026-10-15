@@ -3,11 +3,14 @@ using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 namespace Game.Scripts.UI.WheelFortune
 {
     public class LootBoxBar : MonoBehaviour
     {
+        private readonly string _boxTitle = Localization.GetNameTranslations(ItemType.LootBox);
+
         [SerializeField] private TMP_Text _boxName;
         [SerializeField] private TMP_Text _boxCount;
         [SerializeField] private TMP_Text _keyCount;
@@ -44,7 +47,7 @@ namespace Game.Scripts.UI.WheelFortune
                 return;
 
             if (_boxName)
-                _boxName.text = _box.box ? Localization.GetNameTranslations(_box.box.Type) : string.Empty;
+                _boxName.text = _boxTitle + ' ' + box._nameTranslations.Get(YG2.lang);
 
             if (_boxCount)
             {
