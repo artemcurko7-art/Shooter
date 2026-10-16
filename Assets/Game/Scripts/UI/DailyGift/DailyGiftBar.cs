@@ -1,6 +1,5 @@
 
 using System;
-using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +21,6 @@ namespace Game.Scripts.UI.DailyGift
 
         private int _dayIndex;
         private DailyGiftData.DailyGift _dailyGift;
-
-        public Reward Reward => _dailyGift?.Reward;
 
         public void Init(DailyGiftData.DailyGift dailyGift, int dayIndex)
         {

@@ -63,10 +63,9 @@ namespace Game.Scripts.UI.Shop
 
                 block.InitializeBars(out var items);
 
-                foreach (var item in items)
+                foreach (var item in items.Where(item => item))
                 {
-                    if (item != null)
-                        _items.Add(item);
+                    _items.Add(item);
                 }
             }
 
