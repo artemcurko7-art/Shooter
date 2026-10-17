@@ -17,5 +17,5 @@ MonoBehaviour:
     Ru: "\u0418\u0442\u0430\u043D \u041A\u043E\u0443\u043B"
     En: Ethan Cole
     Tr: Ethan Cole
-  _icon: {fileID: 21300000, guid: 448bf45e6aab54d5fbdf1facc9f0ad70, type: 3}
+  _icon: {fileID: 21300000, guid: d03ca883c8141411587c84b047a32dc6, type: 3}
   _prefab: {fileID: 0}

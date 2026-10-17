@@ -28,14 +28,12 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private BuyEffect _buyEffect;
         [SerializeField] private ContentDisplayer _contentDisplayer;
 
+        private DailyGiftData.DailyGift _currentGift;
         private int _dayOfWeekNumber;
-
-        public DailyGiftData.DailyGift CurrentGift { get; private set; }
 
         private void Start()
         {
             CheckNewWeek();
-
             InitializeTitleText();
             InitializeTodayReward();
             InitializeDailyRewards();
@@ -44,6 +42,9 @@ namespace Game.Scripts.UI.DailyGift
 
         public void Collect()
         {
+            if (_currentGift?.Reward == null)
+                return;
+
             if (YG2.saves.TakenDailyGiftDays.Contains(_dayOfWeekNumber))
                 return;
 
@@ -51,16 +52,19 @@ namespace Game.Scripts.UI.DailyGift
             YG2.saves.TotalCollectedGifts++;
             YG2.SaveProgress();
 
-            var count = CurrentGift.Reward.Count;
+            var reward = _currentGift.Reward;
+            var count = reward.Count;
 
-            _buyEffect.Animate(CurrentGift.Reward.Item.GetIcon(count),
-                count, _bars[_dayOfWeekNumber - 1].transform.position);
+            if (_buyEffect) 
+                _buyEffect.Animate(reward.Icon, count, _bars[_dayOfWeekNumber - 1].transform.position);
 
             Refresh();
-            _sliderGifts.UpdateVisual();
+
+            if (_sliderGifts)
+                _sliderGifts.UpdateVisual();
         }
 
-        private void CheckNewWeek()
+        private static void CheckNewWeek()
         {
             var currentWeek = GetCurrentWeek();
 
@@ -69,18 +73,18 @@ namespace Game.Scripts.UI.DailyGift
 
             YG2.saves.DailyGiftWeek = currentWeek;
             YG2.saves.TakenDailyGiftDays.Clear();
-
             YG2.SaveProgress();
         }
 
         private static int GetCurrentWeek()
         {
-            return ISOWeek.GetWeekOfYear(DateTime.Today);
+            var today = DateTime.Today;
+            return today.Year * 100 + ISOWeek.GetWeekOfYear(today);
         }
 
         private void InitializeTodayReward()
         {
-            if (_data == null || _data.Gifts == null)
+            if (!_data || _data.Gifts == null)
                 return;
 
             _dayOfWeekNumber = ((int)DateTime.Today.DayOfWeek + 6) % 7 + 1;
@@ -88,17 +92,20 @@ namespace Game.Scripts.UI.DailyGift
             if (_data.Gifts.Count < _dayOfWeekNumber)
                 return;
 
-            CurrentGift = _data.Gifts[_dayOfWeekNumber - 1];
+            _currentGift = _data.Gifts[_dayOfWeekNumber - 1];
         }
 
         private void InitializeTitleText()
         {
-            _title.text = Localization.GetDailyGiftsTitleText();
+            if (_title)
+                _title.text = Localization.GetDailyGiftsTitleText();
         }
 
         private void InitializeDailyRewards()
         {
-            if (_data.Gifts.Count < DAYS_IN_WEEK) return;
+            if (_data == null || _data.Gifts == null ||
+                _data.Gifts.Count < DAYS_IN_WEEK || !_content)
+                return;
 
             _usedFrames.Clear();
             _bars.Clear();
@@ -112,21 +119,17 @@ namespace Game.Scripts.UI.DailyGift
                 _bars.Add(bar);
             }
 
-            var superBar = Instantiate(
-                _superGiftBarPrefab,
-                _content
-            );
+            var superBar = Instantiate(_superGiftBarPrefab, _content);
 
-            superBar.Init(
-                _data.Gifts[DAYS_IN_WEEK - 1],
-                DAYS_IN_WEEK
-            );
-
+            superBar.Init(_data.Gifts[DAYS_IN_WEEK - 1], DAYS_IN_WEEK);
             _bars.Add(superBar);
 
-            _contentDisplayer.InitTargets(
-                _bars.Select(bar => bar.transform).ToList()
-            );
+            if (_contentDisplayer)
+            {
+                _contentDisplayer.InitTargets(
+                    _bars.Select(bar => bar.transform).ToList()
+                );
+            }
         }
 
         private Sprite GetRandomFrame()
@@ -144,21 +147,13 @@ namespace Game.Scripts.UI.DailyGift
             if (availableFrames.Count == 0)
             {
                 _usedFrames.Clear();
-
-                availableFrames = _frames
-                    .Where(frame => frame)
-                    .ToList();
+                availableFrames = _frames.Where(frame => frame).ToList();
             }
 
             if (availableFrames.Count == 0)
                 return null;
 
-            var randomIndex = Random.Range(
-                0,
-                availableFrames.Count
-            );
-
-            var selectedFrame = availableFrames[randomIndex];
+            var selectedFrame = availableFrames[Random.Range(0, availableFrames.Count)];
 
             _usedFrames.Add(selectedFrame);
 
@@ -167,8 +162,10 @@ namespace Game.Scripts.UI.DailyGift
 
         private void Refresh()
         {
-            foreach (var bar in _bars)
+            foreach (var bar in _bars.Where(bar => bar))
+            {
                 bar.UpdateVisual();
+            }
         }
 
         protected override void Show()
@@ -189,8 +186,11 @@ namespace Game.Scripts.UI.DailyGift
                 FinishTransition
             );
 
-            _contentDisplayer.Play();
-            _sliderGifts.Play();
+            if (_contentDisplayer)
+                _contentDisplayer.Play();
+
+            if (_sliderGifts)
+                _sliderGifts.Play();
         }
 
         protected override void Hide()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -44,16 +45,16 @@ namespace Game.Scripts.UI.Animation
             if (_getOnlyChildren)
             {
                 CollectChildren();
+                return;
             }
-            else
-            {
-                foreach (var item in items)
-                {
-                    if (!item)
-                        continue;
 
+            if (items == null)
+                return;
+
+            foreach (var item in items)
+            {
+                if (item)
                     AddTarget(item);
-                }
             }
         }
 
@@ -73,10 +74,8 @@ namespace Game.Scripts.UI.Animation
             {
                 var child = transform.GetChild(i);
 
-                if (!child)
-                    continue;
-
-                AddTarget(child);
+                if (child)
+                    AddTarget(child);
             }
         }
 
@@ -85,7 +84,8 @@ namespace Game.Scripts.UI.Animation
             if (!target)
                 return;
 
-            _targets.Add(target);
+            if (!_targets.Contains(target))
+                _targets.Add(target);
 
             if (!_initialScales.ContainsKey(target))
                 _initialScales.Add(target, target.localScale);
@@ -93,13 +93,12 @@ namespace Game.Scripts.UI.Animation
 
         private void ResetTargets()
         {
-            foreach (var target in _targets)
+            foreach (var target in _targets.Where(target => target))
             {
-                if (!target)
-                    continue;
-
                 target.DOKill();
-                target.localScale = Vector3.zero;
+
+                if (_initialScales.TryGetValue(target, out var initialScale))
+                    target.localScale = initialScale;
             }
         }
 
@@ -112,17 +111,13 @@ namespace Game.Scripts.UI.Animation
 
             foreach (var target in _targets)
             {
-                if (!target)
-                    continue;
-
-                if (!_initialScales.TryGetValue(target, out var initialScale))
+                if (!target || !_initialScales.TryGetValue(target, out var initialScale))
                     continue;
 
                 target.DOKill();
                 target.localScale = Vector3.zero;
 
-                target
-                    .DOScale(initialScale, _duration)
+                target.DOScale(initialScale, _duration)
                     .SetEase(_ease)
                     .SetDelay(delay);
 

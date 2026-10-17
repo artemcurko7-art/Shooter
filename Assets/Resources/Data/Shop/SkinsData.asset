@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d10f4bd6f12fef4bbc28dd254613c24, type: 3}
+  m_Name: SkinsData
+  m_EditorClassIdentifier: 
+  _useSharedDefinition: 0
+  _sharedDefinition: {fileID: 0}
+  _items:
+  - Definition: {fileID: 11400000, guid: 8d6af5f251e28a84cb1c3e819051cad4, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 047ba4ddb12416543af1f3b925a86c5f, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: a0d295fb59b07ce4aaec5664f4db160e, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 9baebcbb99e100543ba23497c19523c6, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: d18741506e3c0994099f3fb82abcd6e4, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 7ec14e7a4ddd0e04187918ca6bdc1ed1, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 097acd3598537e3498d67764396c72f2, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 2debdcb49ba26e04294107a6eab87753, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 4ef3db8c70b699a4491cb266f2779172, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 1010c8f8f0e84584b813d684a8edf859, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: e1bda17b60763fb43baee977a03c8190, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: aedde14256c92604a9124367dffc8ba9, type: 2}
+    Count: 1
+    Price: 4.99
+  - Definition: {fileID: 11400000, guid: 87da16bc8e60cd94cb4ab83bb03eddd2, type: 2}
+    Count: 1
+    Price: 4.99

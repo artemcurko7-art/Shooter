@@ -1,13 +1,12 @@
 using Game.Scripts.UI.Animation;
-using Game.Scripts.UI.TabContext;
+using Game.Scripts.UI.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 namespace Game.Scripts.UI.Shop
 {
-    public class ShopPreview : Window
+    public class ShopPreview : Preview
     {
         [Header("Зависимости")]
         [SerializeField] private Image _icon;
@@ -19,9 +18,10 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private BuyEffect _effect;
 
         private Vector3 _startPosition;
+        private BuyItemData _data;
         private BuyItemData.BuyItem _buyItem;
 
-        public bool IsEffectAnimating => _effect != null && _effect.IsAnimating;
+        public bool IsEffectAnimating => _effect && _effect.IsAnimating;
 
         protected override void OnEnable()
         {
@@ -39,86 +39,120 @@ namespace Game.Scripts.UI.Shop
                 _buyItemButton.onClick.RemoveListener(OnBuyButtonClick);
         }
 
-        public void Open(BuyItemData.BuyItem buyItem, Vector3 startPosition)
+        public void Open(BuyItemData data, BuyItemData.BuyItem buyItem, Vector3 startPosition)
         {
             if (IsEffectAnimating)
                 return;
 
-            if (buyItem == null || buyItem.Reward == null)
+            if (data == null || buyItem == null)
             {
-                Debug.LogWarning("ShopPreview: BuyItem or Reward is NULL.", this);
+                Debug.LogWarning("[ShopPreview] BuyItemData или BuyItem — null.", this);
+                return;
+            }
+
+            var definition = data.GetDefinition(buyItem);
+            if (!buyItem.IsValid(definition))
+            {
+                Debug.LogWarning("[ShopPreview] Определение предмета невалидно.", this);
                 return;
             }
 
             if (_transition == null || _canvasGroup == null || _rectTransform == null)
             {
-                Debug.LogWarning("ShopPreview: Transition dependencies are NULL.", this);
+                Debug.LogWarning("[ShopPreview] Не хватает зависимостей для анимации.", this);
                 return;
             }
 
+            _data = data;
             _buyItem = buyItem;
             _startPosition = startPosition;
 
-            var reward = _buyItem.Reward;
+            UpdateDisplay(definition);
 
-            if (_count != null)
-                _count.text = reward.Count.ToString();
-
-            if (_price != null)
-                _price.text = '$' + _buyItem.Price.ToString();
-
-            if (_icon != null)
-                _icon.sprite = reward.Icon;
-
-            if (_title != null)
-                _title.text = Localization.GetNameTranslations(_buyItem.Reward.Item.Type);
-
-            if (_buyButtonText != null)
+            if (_buyButtonText)
                 _buyButtonText.text = Localization.GetBuyText();
 
-            _transition.Open(
-                _canvasGroup,
-                _rectTransform,
-                startPosition,
-                _scaleEase,
-                _positionEase,
-                _duration);
+            OpenPreview(_startPosition);
         }
 
-        private void OnBuyButtonClick()
+        protected override void Show(Vector3 startPosition)
         {
-            if (_buyItem == null || _buyItem.Reward == null || _effect == null)
+            if (!_transition || !_canvasGroup || !_rectTransform)
+            {
+                FinishTransition();
                 return;
+            }
 
-            _effect.Animate(
-                _buyItem.Reward.Icon,
-                _buyItem.Reward.Count,
-                _startPosition);
-
-            Close();
-        }
-
-        private void Close()
-        {
-            _buyItem = null;
-
-            if (_transition == null || _canvasGroup == null || _rectTransform == null)
-                return;
-
-            _transition.Close(_canvasGroup, _rectTransform);
-        }
-
-        protected override void Show()
-        {
-            if (_buyItem == null)
-                return;
-
-            Open(_buyItem, _startPosition);
+            _transition.Open(_canvasGroup, _rectTransform, startPosition, 
+                _scaleEase, _positionEase, _duration, FinishTransition);
         }
 
         protected override void Hide()
         {
-            Close();
+            CloseInternal();
+        }
+
+        private void CloseInternal()
+        {
+            var icon = _buyItem?.GetIcon(_data?.GetDefinition(_buyItem));
+            var count = _buyItem?.GetCount(_data?.GetDefinition(_buyItem));
+
+            _buyItem = null;
+            _data = null;
+
+            if (_effect && icon)
+            {
+                Debug.Log("[ShopPreview] Запускаем эффект покупки перед закрытием.");
+                _effect.Animate(icon, count ?? 0, _startPosition);
+            }
+
+            if (_transition == null || _canvasGroup == null || _rectTransform == null)
+            {
+                FinishTransition();
+                return;
+            }
+
+            _transition.Close(_canvasGroup, _rectTransform, FinishTransition);
+        }
+
+        private void UpdateDisplay(RewardDefinition definition)
+        {
+            var count = _buyItem.GetCount(definition);
+            var price = _buyItem.Price;
+            var icon = _buyItem.GetIcon(definition);
+            var title = _buyItem.GetLocalizedName(definition);
+
+            if (_count != null)
+                _count.text = count.ToString();
+
+            if (_price != null)
+                _price.text = price > 0 ? $"${price}" : string.Empty;
+
+            if (_icon != null)
+                _icon.sprite = icon;
+
+            if (_title != null)
+                _title.text = title;
+        }
+
+        private void OnBuyButtonClick()
+        {
+            Debug.Log("[ShopPreview] Нажата кнопка «Купить».");
+
+            if (_data == null || _buyItem == null || _effect == null)
+            {
+                Debug.LogWarning("[ShopPreview] Нет данных или эффекта для анимации.", this);
+                ClosePreview();
+                return;
+            }
+
+            var definition = _data.GetDefinition(_buyItem);
+            if (!definition || !_buyItem.IsValid(definition))
+            {
+                Debug.LogWarning("[ShopPreview] Предмет невалиден при покупке.", this);
+            }
+
+            ClosePreview();
         }
     }
 }

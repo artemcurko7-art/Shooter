@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -8,13 +9,14 @@ namespace Game.Scripts.UI.Animation
 {
     public class ImageMover : MonoBehaviour
     {
+        private readonly Vector3 _zeroScale = new(1, 0, 1);
+        
         [SerializeField] private List<Image> _images = new();
         [SerializeField] private float _amplitude = 15f;
         [SerializeField] private float _moveDuration = 0.5f;
         [SerializeField] private float _scaleDuration = 0.5f;
         [SerializeField] private float _stagger = 0.05f;
 
-        private Vector3 _zeroScale = new(1, 0, 1);
         private bool _isRunning;
 
         private void OnDisable()

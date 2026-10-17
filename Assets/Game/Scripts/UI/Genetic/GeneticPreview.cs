@@ -7,7 +7,7 @@ using YG;
 
 namespace Game.Scripts.UI.Genetic
 {
-    public class GeneticPreview : Window
+    public class GeneticPreview : Preview
     {
         [Header("Зависимости")]
         [SerializeField] private GeneticSystem _geneticSystem;
@@ -29,7 +29,7 @@ namespace Game.Scripts.UI.Genetic
         {
             base.OnEnable();
 
-            if (_buyStatButton)
+            if (_buyStatButton != null)
                 _buyStatButton.onClick.AddListener(OnBuyButtonClick);
         }
 
@@ -37,20 +37,15 @@ namespace Game.Scripts.UI.Genetic
         {
             base.OnDisable();
 
-            if (_buyStatButton)
+            if (_buyStatButton != null)
                 _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
-
-            CloseImmediate();
         }
 
         public void Open(StatsData.Stat stat, Vector3 startPosition)
         {
-            if (!TryBeginOpen())
-                return;
-
             if (stat == null)
             {
-                FinishTransition();
+                Debug.LogError("[GeneticPreview] Передан null вместо стата.", this);
                 return;
             }
 
@@ -62,7 +57,8 @@ namespace Game.Scripts.UI.Genetic
             _buyButtonText.text = Localization.GetUpgradeText();
 
             _background.color = Color.grey;
-            _scrollRect.enabled = false;
+            if (_scrollRect != null)
+                _scrollRect.enabled = false;
 
             var originValue = GeneticSystem.GetStatValue(_stat.name);
             var targetValue = originValue + _geneticSystem.IncreaseNumber;
@@ -70,7 +66,27 @@ namespace Game.Scripts.UI.Genetic
             _originStatValue.text = $"{originValue}+";
             _targetStatValue.text = $"{targetValue}+";
 
-            var canBuy = _buyStatButton.interactable;
+            bool canBuy = _buyStatButton.interactable;
+
+            if (_imageBlinker != null)
+            {
+                _imageBlinker.ResetToBaseColor();
+                if (canBuy)
+                    _imageBlinker.Enable();
+                else
+                    _imageBlinker.Disable();
+            }
+
+            OpenPreview(startPosition);
+        }
+
+        protected override void Show(Vector3 startPosition)
+        {
+            if (_transition == null || _canvasGroup == null || _rectTransform == null)
+            {
+                FinishTransition();
+                return;
+            }
 
             _transition.Open(
                 _canvasGroup,
@@ -79,81 +95,42 @@ namespace Game.Scripts.UI.Genetic
                 _scaleEase,
                 _positionEase,
                 _duration,
-                FinishTransition
-            );
-
-            if (!_imageBlinker)
-                return;
-
-            _imageBlinker.ResetToBaseColor();
-
-            if (canBuy)
-                _imageBlinker.Enable();
-            else
-                _imageBlinker.Disable();
-        }
-
-        private void OnBuyButtonClick()
-        {
-            if (_stat == null)
-            {
-                Debug.LogError("[Preview] _stat не передается в Open!");
-                return;
-            }
-
-            _geneticSystem.IncreaseStat(_stat.name);
-            Close();
-        }
-
-        private void Close()
-        {
-            if (!TryBeginClose())
-                return;
-
-            if (_imageBlinker)
-                _imageBlinker.Disable();
-
-            _background.color = Color.white;
-            _scrollRect.enabled = true;
-
-            _transition.Close(
-                _canvasGroup,
-                _rectTransform,
-                FinishTransition
-            );
-
-            _stat = null;
-        }
-
-        private void CloseImmediate()
-        {
-            _stat = null;
-
-            if (_imageBlinker)
-                _imageBlinker.Disable();
-
-            if (_background)
-                _background.color = Color.white;
-
-            if (_scrollRect)
-                _scrollRect.enabled = true;
-
-            if (_canvasGroup && _rectTransform)
-            {
-                _transition.QuickClose(
-                    _canvasGroup,
-                    _rectTransform
-                );
-            }
-        }
-
-        protected override void Show()
-        {
+                FinishTransition);
         }
 
         protected override void Hide()
         {
-            Close();
+            if (_stat == null)
+            {
+                // Даже если стат потерялся, всё равно закрываем анимацией
+                FinishTransition();
+                return;
+            }
+
+            if (_imageBlinker != null)
+                _imageBlinker.Disable();
+
+            if (_background != null)
+                _background.color = Color.white;
+
+            if (_scrollRect != null)
+                _scrollRect.enabled = true;
+
+            var statName = _stat.name;
+            _stat = null;
+
+            if (_geneticSystem != null) _geneticSystem.IncreaseStat(statName);
+
+            if (_transition && _canvasGroup && _rectTransform)
+                _transition.Close(_canvasGroup, _rectTransform, FinishTransition);
+            else
+                FinishTransition();
+        }
+
+        private void OnBuyButtonClick()
+        {
+            Debug.Log("[GeneticPreview] Нажата кнопка «Улучшить».");
+            ClosePreview();
         }
     }
 }

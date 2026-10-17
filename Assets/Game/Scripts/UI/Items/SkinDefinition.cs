@@ -1,22 +1,30 @@
 using UnityEngine;
+using YG;
 
 namespace Game.Scripts.UI.Items
 {
     [CreateAssetMenu(fileName = "Skin", menuName = "Game/Items/Skin")]
-    public class SkinDefinition : ScriptableObject
+    public class SkinDefinition : RewardDefinition
     {
-        [SerializeField] private string _id;
         [SerializeField] private LocalizedName _nameTranslations;
         [SerializeField] private Sprite _icon;
         [SerializeField] private GameObject _prefab;
 
-        public string Id => _id;
-        public Sprite Icon => _icon;
-        public GameObject Prefab => _prefab;
+        public override GameObject Prefab => _prefab;
 
-        public string GetLocalizedName(string languageCode)
+        public override Sprite GetIcon(int count)
         {
-            return _nameTranslations?.Get(languageCode) ?? string.Empty;
+            return _icon;
+        }
+
+        public override string GetLocalizedName()
+        {
+            return _nameTranslations?.Get(YG2.lang) ?? string.Empty;
+        }
+
+        public override string GetLocalizedTypeName()
+        {
+            return Localization.GetNameTranslations(ItemType.Skin);
         }
     }
 }

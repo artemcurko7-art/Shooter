@@ -12,46 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d10f4bd6f12fef4bbc28dd254613c24, type: 3}
   m_Name: GemData
   m_EditorClassIdentifier: 
+  _useSharedDefinition: 1
+  _sharedDefinition: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
   _items:
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 3
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 3
     Price: 0.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 10
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 10
     Price: 2.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 25
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 20
     Price: 3.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 50
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 50
     Price: 4.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 75
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 75
     Price: 5.99
-  - Reward:
-      _type: 0
-      _item: {fileID: 11400000, guid: 450d2e627f3b0fc49893bd434021fd18, type: 2}
-      _skin: {fileID: 0}
-      _count: 100
-    Offer: {fileID: 0}
+  - Definition: {fileID: 0}
+    Count: 100
     Price: 7.99

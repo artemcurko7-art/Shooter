@@ -13,9 +13,10 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private TMP_Text _price;
 
         private Shop _shop;
+        private BuyItemData _data;
+        private BuyItemData.BuyItem _buyItem;
         private bool _isTaken;
         private Button _button;
-        private BuyItemData.BuyItem _buyItem;
 
         private void Awake()
         {
@@ -37,37 +38,48 @@ namespace Game.Scripts.UI.Shop
                 _button.onClick.RemoveListener(OnButtonClick);
         }
 
-        public void Init(Shop shop, BuyItemData.BuyItem buyItem, bool isTaken)
+        public void Init(Shop shop, BuyItemData data, BuyItemData.BuyItem buyItem, bool isTaken)
         {
-            if (shop == null || buyItem == null)
+            if (shop == null || data == null || buyItem == null)
+                return;
+
+            var definition = data.GetDefinition(buyItem);
+
+            if (!buyItem.IsValid(definition))
                 return;
 
             _shop = shop;
+            _data = data;
             _buyItem = buyItem;
             _isTaken = isTaken;
 
             UpdateDisplay();
         }
 
-        public void UpdateDisplay()
+        private void UpdateDisplay()
         {
-            if (_buyItem == null)
+            if (_data == null || _buyItem == null)
                 return;
 
-            var reward = _buyItem.Reward;
+            var definition = _data.GetDefinition(_buyItem);
+
+            if (!_buyItem.IsValid(definition))
+                return;
 
             if (_icon != null)
-                _icon.sprite = reward?.Icon;
+                _icon.sprite = _buyItem.GetIcon(definition);
 
             if (_count != null)
             {
-                _count.text = reward != null && reward.Count > 0
-                    ? reward.Count.ToString()
-                    : string.Empty;
+                var count = _buyItem.GetCount(definition);
+                _count.text = count > 1 ? count.ToString() : string.Empty;
             }
 
             if (_price != null)
-                _price.text = _buyItem.Price > 0 ? $"${_buyItem.Price}" : string.Empty;
+            {
+                var price = _buyItem.Price;
+                _price.text = price > 0 ? $"${price}" : string.Empty;
+            }
 
             if (_checkMark != null)
                 _checkMark.SetActive(_isTaken);
@@ -75,13 +87,13 @@ namespace Game.Scripts.UI.Shop
 
         private void OnButtonClick()
         {
-            if (_shop == null || _buyItem == null)
+            if (_shop == null || _data == null || _buyItem == null)
                 return;
 
             if (_shop.IsPreviewAnimating)
                 return;
 
-            _shop.OpenPreview(_buyItem, transform.position);
+            _shop.OpenPreview(_data, _buyItem, transform.position);
         }
     }
 }

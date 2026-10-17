@@ -16,12 +16,21 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private ContentDisplayer _displayer;
         [SerializeField] private SmoothScroll _categoryScroll;
         [SerializeField] private SmoothScroll _shopScroll;
+        [SerializeField] private RectTransform _content;
         [SerializeField] private float _shopScrollTopOffset;
 
-        public bool IsPreviewAnimating => _preview.IsEffectAnimating;
+        public bool IsPreviewAnimating => _preview != null && _preview.IsEffectAnimating;
 
         private void Awake()
         {
+            if (!_content)
+            {
+                Debug.LogWarning(
+                    "[Shop] Поле _content не назначено в Инспекторе! Пересчёт размеров невозможен.",
+                    this);
+                return;
+            }
+
             Refresh();
             InitializeItemsTransform();
         }
@@ -40,7 +49,10 @@ namespace Game.Scripts.UI.Shop
 
         private void InitializeItemsTransform()
         {
-            _items.Clear();
+            if (_items == null)
+                _items = new List<Transform>();
+            else
+                _items.Clear();
 
             var blocks = GetComponentsInChildren<BuyItemBlock>(true);
 
@@ -51,16 +63,30 @@ namespace Game.Scripts.UI.Shop
 
                 block.InitializeBars(out var items);
 
-                foreach (var item in items)
+                foreach (var item in items.Where(item => item))
                 {
                     _items.Add(item);
                 }
             }
 
-            if (!_displayer)
+            RecalculateSize();
+
+            if (!_displayer || _items.Count == 0)
                 return;
 
             _displayer.InitTargets(_items);
+
+            RecalculateSize();
+        }
+
+        private void RecalculateSize()
+        {
+            if (!_content)
+                return;
+
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_content);
+            Canvas.ForceUpdateCanvases();
         }
 
         private void PlayOpenAnimation()
@@ -68,6 +94,7 @@ namespace Game.Scripts.UI.Shop
             if (!_displayer)
                 return;
 
+            RecalculateSize();
             _displayer.Play();
         }
 
@@ -85,10 +112,7 @@ namespace Game.Scripts.UI.Shop
 
         public void RefreshCategory(CategoryButton categoryButton)
         {
-            if (categoryButton == null)
-                return;
-
-            if (_buttons == null || _buttons.Count == 0)
+            if (categoryButton == null || _buttons == null || _buttons.Count == 0)
                 return;
 
             foreach (var button in _buttons)
@@ -101,9 +125,6 @@ namespace Game.Scripts.UI.Shop
                 button.UpdateVisual();
             }
 
-            if (!categoryButton.transform)
-                return;
-
             var target = categoryButton.transform as RectTransform;
 
             if (target == null)
@@ -112,49 +133,42 @@ namespace Game.Scripts.UI.Shop
             HorizontalScrollMove(target);
         }
 
-        public void OpenPreview(BuyItemData.BuyItem buyItem, Vector3 startPosition)
+        public void OpenPreview(
+            BuyItemData data,
+            BuyItemData.BuyItem buyItem,
+            Vector3 startPosition)
         {
-            if (_preview == null)
+            if (!_preview || !data || buyItem == null)
                 return;
 
-            if (buyItem == null)
+            var definition = data.GetDefinition(buyItem);
+
+            if (!buyItem.IsValid(definition))
                 return;
 
-            _preview.Open(buyItem, startPosition);
+            _preview.Open(data, buyItem, startPosition);
         }
 
         public void VerticalScrollMove(RectTransform target)
         {
-            if (target == null)
-                return;
-
-            if (_shopScroll == null)
+            if (target == null || _shopScroll == null)
                 return;
 
             var scrollRect = GetScrollRect(_shopScroll);
 
-            if (scrollRect == null)
-                return;
-
-            if (scrollRect.content == null)
-                return;
-
-            if (scrollRect.viewport == null)
+            if (scrollRect == null || scrollRect.content == null || scrollRect.viewport == null)
                 return;
 
             var content = scrollRect.content;
-
             EnsureLayout(content);
 
             var targetTopLocalY = target.anchoredPosition.y +
                                   target.rect.height * (1f - target.pivot.y);
 
-            var targetY = -targetTopLocalY;
-            targetY += _shopScrollTopOffset;
+            var targetY = -targetTopLocalY + _shopScrollTopOffset;
 
             var contentHeight = content.rect.height;
             var viewportHeight = scrollRect.viewport.rect.height;
-
             var maxScroll = Mathf.Max(0f, contentHeight - viewportHeight);
 
             targetY = Mathf.Clamp(targetY, 0f, maxScroll);
@@ -164,21 +178,12 @@ namespace Game.Scripts.UI.Shop
 
         private void HorizontalScrollMove(RectTransform target)
         {
-            if (target == null)
-                return;
-
-            if (_categoryScroll == null)
+            if (target == null || _categoryScroll == null)
                 return;
 
             var scrollRect = GetScrollRect(_categoryScroll);
 
-            if (scrollRect == null)
-                return;
-
-            if (scrollRect.content == null)
-                return;
-
-            if (scrollRect.viewport == null)
+            if (scrollRect == null || scrollRect.content == null || scrollRect.viewport == null)
                 return;
 
             var content = scrollRect.content;
@@ -190,7 +195,6 @@ namespace Game.Scripts.UI.Shop
             target.GetWorldCorners(corners);
 
             var targetCenter = (corners[0] + corners[2]) * 0.5f;
-
             var screenPoint = RectTransformUtility.WorldToScreenPoint(null, targetCenter);
 
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -208,7 +212,6 @@ namespace Game.Scripts.UI.Shop
                 return;
 
             var targetX = content.anchoredPosition.x - deltaX;
-
             var contentWidth = content.rect.width;
             var viewportWidth = viewport.rect.width;
 
@@ -216,7 +219,6 @@ namespace Game.Scripts.UI.Shop
             {
                 var minX = -(contentWidth - viewportWidth);
                 const float maxX = 0f;
-
                 targetX = Mathf.Clamp(targetX, minX, maxX);
             }
             else

@@ -17,5 +17,5 @@ MonoBehaviour:
     Ru: "\u0420\u0438\u043A \u0421\u0442\u043E\u0443\u043D"
     En: "Rick Ta\u015F"
     Tr: "Jack Avc\u0131"
-  _icon: {fileID: 21300000, guid: 448bf45e6aab54d5fbdf1facc9f0ad70, type: 3}
+  _icon: {fileID: 21300000, guid: 1c2bba071f5224ce38336312ab9e8871, type: 3}
   _prefab: {fileID: 0}

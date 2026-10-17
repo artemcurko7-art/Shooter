@@ -1,26 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.UI;
 using UnityEngine;
 
 namespace Game.Scripts.UI.Items
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Game/Items/Item")]
-    public class ItemDefinition : ScriptableObject
+    public class ItemDefinition : RewardDefinition
     {
-        [SerializeField] private string _id;
         [SerializeField] private ItemType _type;
         [SerializeField] private List<IconVariant> _iconVariants = new();
 
-        public string Id => _id;
         public ItemType Type => _type;
 
-        public string GetLocalizedName()
-        {
-            return Localization.GetNameTranslations(_type);
-        }
-
-        public Sprite GetIcon(int count)
+        public override Sprite GetIcon(int count)
         {
             if (_iconVariants == null || _iconVariants.Count == 0)
                 return null;
@@ -29,12 +23,9 @@ namespace Game.Scripts.UI.Items
             Sprite result = null;
             var bestThreshold = int.MinValue;
 
-            foreach (var variant in _iconVariants)
+            foreach (var variant in _iconVariants.Where(v => v != null && v.Icon))
             {
-                if (variant == null || variant.Icon == null)
-                    continue;
-
-                if (fallback == null)
+                if (!fallback)
                     fallback = variant.Icon;
 
                 if (count < variant.MinCount || variant.MinCount <= bestThreshold)
@@ -44,7 +35,17 @@ namespace Game.Scripts.UI.Items
                 bestThreshold = variant.MinCount;
             }
 
-            return result != null ? result : fallback;
+            return result ? result : fallback;
+        }
+
+        public override string GetLocalizedName()
+        {
+            return Localization.GetNameTranslations(_type);
+        }
+
+        public override string GetLocalizedTypeName()
+        {
+            return Localization.GetNameTranslations(_type);
         }
 
         [Serializable]
