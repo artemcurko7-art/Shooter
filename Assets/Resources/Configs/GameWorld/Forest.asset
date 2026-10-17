@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c20e00340ad4c768651d84a4af06fa3, type: 3}
+  m_Name: Forest
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 1
+  <Name>k__BackingField: "\u041B\u0435\u0441"
+  <Maps>k__BackingField:
+  - {fileID: 3608846274069096861, guid: 7d72d246b2806a744990c47ea619e081, type: 3}
+  <Waves>k__BackingField: []

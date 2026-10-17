@@ -3,5 +3,6 @@
     public enum GameWorldType
     {
         None,
+        Forest,
     }
 }

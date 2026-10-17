@@ -1,5 +1,6 @@
 using System;
 using Game.Scripts.Factory;
+using Game.Scripts.PhysicalBody.MapContext;
 using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.PhysicalBody;
@@ -17,6 +18,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             BindUnit();
+            BindMap();
             BindBullet();
             BindEffect();
             BindDamageTextPopup();
@@ -46,6 +48,18 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_transforms, _delay);
         }
 
+        private void BindMap()
+        {
+            Container
+                .Bind<MapPool>()
+                .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<MapService>()
+                .AsSingle()
+                .WithArguments(3f);
+        }
+        
         private void BindBullet()
         {
             Container

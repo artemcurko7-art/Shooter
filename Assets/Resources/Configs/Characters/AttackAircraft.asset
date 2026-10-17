@@ -19,7 +19,7 @@ MonoBehaviour:
   <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}
   <Stats>k__BackingField:
   - <Type>k__BackingField: 1
-    <Value>k__BackingField: 500
+    <Value>k__BackingField: 300
   - <Type>k__BackingField: 2
     <Value>k__BackingField: 100
   - <Type>k__BackingField: 3

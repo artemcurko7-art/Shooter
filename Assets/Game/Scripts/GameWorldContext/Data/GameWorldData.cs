@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.GameWorldContext.Data
 {
-    public class GameWorldData
+    public class GameWorldData : IGameWorldData
     {
         private readonly GameWorldConfig[] _configs;
         private readonly Dictionary<GameWorldType, GameWorldConfig> _worlds = new();

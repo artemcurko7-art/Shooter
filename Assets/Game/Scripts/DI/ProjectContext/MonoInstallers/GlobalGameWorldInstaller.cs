@@ -1,4 +1,6 @@
-﻿using Game.Scripts.GameWorldContext.Data;
+﻿using Game.Scripts.GameWorldContext;
+using Game.Scripts.GameWorldContext.Data;
+using Game.Scripts.GameWorldContext.Provider;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
@@ -8,8 +10,14 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<GameWorldData>()
-                .AsSingle();
+                .BindInterfacesAndSelfTo<GameWorldData>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<GameWorldProvider>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

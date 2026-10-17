@@ -36,24 +36,24 @@ namespace Game.Scripts.Configs
 
         private void RebuildStatsArray()
         {
-            // var statTypes = GetFilteredStatTypes();
-            // var newStats = new CharacterStatData[statTypes.Length];
-            //
-            // for (int i = 0; i < statTypes.Length; i++)
-            // {
-            //     var currentType = statTypes[i];
-            //     int existingValue = 0;
-            //     
-            //     if (Stats != null)
-            //     {
-            //         var existingStat = Stats.FirstOrDefault(characterStat => characterStat != null && characterStat.Type == currentType);
-            //         existingValue = existingStat.Value;
-            //     }
-            //
-            //     newStats[i] = new CharacterStatData(currentType, existingValue);
-            // }
-            //
-            // Stats = newStats;
+            var statTypes = GetFilteredStatTypes();
+            var newStats = new CharacterStatData[statTypes.Length];
+            
+            for (int i = 0; i < statTypes.Length; i++)
+            {
+                var currentType = statTypes[i];
+                int existingValue = 0;
+                
+                if (Stats != null)
+                {
+                    var existingStat = Stats.FirstOrDefault(characterStat => characterStat != null && characterStat.Type == currentType);
+                    existingValue = existingStat.Value;
+                }
+            
+                newStats[i] = new CharacterStatData(currentType, existingValue);
+            }
+            
+            Stats = newStats;
         }
 
         private StatType[] GetFilteredStatTypes()
