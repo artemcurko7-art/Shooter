@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Scripts.PlayerContext
 {
-    public class CalculationRotationAngle 
+    public class CalculationRotatorAngle 
     {
         public void Rotate(Transform transform, float horizontal, float vertical, float smooth)
         {

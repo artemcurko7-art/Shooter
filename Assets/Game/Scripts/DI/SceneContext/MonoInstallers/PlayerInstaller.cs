@@ -32,11 +32,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             }
         
             Container
-                .Bind<Mover>()
+                .BindInterfacesAndSelfTo<Mover>()
                 .AsSingle();
         
             Container
-                .Bind<Rotation>()
+                .Bind<Rotator>()
                 .AsSingle();
         
             Container
@@ -50,11 +50,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .WithArguments(_layerMaskUnit, _radius);
             
             Container
-                .Bind<RotationToTarget>()
+                .Bind<RotatorToTarget>()
                 .AsSingle();
         
             Container
-                .Bind<CalculationRotationAngle>()
+                .Bind<CalculationRotatorAngle>()
                 .AsSingle();
         }
     }

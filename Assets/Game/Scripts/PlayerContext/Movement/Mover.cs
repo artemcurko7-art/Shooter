@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.PlayerContext
 {
-    public class Mover
+    public class Mover : IMover
     {
         private readonly IInput _input;
         private Vector3 _currentVelocity;
@@ -22,7 +22,7 @@ namespace Game.Scripts.PlayerContext
 
             float rate = Direction.sqrMagnitude > 0.001f ? acceleration : deceleration;
             _currentVelocity = Vector3.MoveTowards(_currentVelocity, targetVelocity, rate * Time.deltaTime);
-
+            
             characterController.Move(_currentVelocity * Time.deltaTime);
         }
     }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Game.Scripts.Damagable;
 using Game.Scripts.MV.StatContext;
 using UnityEngine;

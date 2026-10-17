@@ -20,7 +20,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         [field: SerializeField] public Transform ShootPosition { get; private set; }
 
         private WeaponView _weaponView;
-        private Rotation _rotation;
+        private Rotator _rotator;
         private TrackerUnits _trackerUnits;
         private IInput _input;
         private Vector3 _direction;
@@ -29,9 +29,9 @@ namespace Game.Scripts.Equipment.CharacterContext
         public Transform Transform => ShootPosition;
         
         [Inject]
-        public void Construct(Rotation rotation, TrackerUnits trackerUnits, IInput input)
+        public void Construct(Rotator rotator, TrackerUnits trackerUnits, IInput input)
         {
-            _rotation = rotation;
+            _rotator = rotator;
             _trackerUnits = trackerUnits;
             _input = input;
         }
@@ -44,7 +44,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         
         private void Update()
         {
-            _rotation.Rotate(transform, _direction, _input.Horizontal, _input.Vertical, 240 * Time.deltaTime);
+            _rotator.Rotate(transform, _direction, _input.Horizontal, _input.Vertical, 240 * Time.deltaTime);
         }
         
         private IEnumerator StartTrackerUnits()

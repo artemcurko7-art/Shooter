@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Scripts.PlayerContext
 {
-    public class RotationToTarget 
+    public class RotatorToTarget 
     {
         public void Rotate(Transform transform, Vector3 tracker, float smooth)
         {
