@@ -1,4 +1,4 @@
-﻿using Game.Scripts.Genetic;
+﻿
 using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
@@ -18,59 +18,79 @@ namespace Game.Scripts.UI.Genetic
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _geneticTitle;
-        [SerializeField] private TMP_Text _buyButtonText;
-        [SerializeField] private Button _buyStatButton;
+        [SerializeField] private TMP_Text _openButtonText;
+        [SerializeField] private Button _openButton;
         [SerializeField] private TMP_Text _originStatValue;
         [SerializeField] private TMP_Text _targetStatValue;
 
         private StatsData.Stat _stat;
+        private int _statIndex = -1;
+        private bool _isUpgradeConfirmed;
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            if (_buyStatButton != null)
-                _buyStatButton.onClick.AddListener(OnBuyButtonClick);
+            if (!_openButton) return;
+            _openButton.onClick.AddListener(OnOpenButtonClick);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            if (_buyStatButton != null)
-                _buyStatButton.onClick.RemoveListener(OnBuyButtonClick);
+            if (_openButton)
+                _openButton.onClick.RemoveListener(OnOpenButtonClick);
         }
 
-        public void Open(StatsData.Stat stat, Vector3 startPosition)
+        public void Open(StatsData.Stat stat, int index, Vector3 startPosition)
         {
-            if (stat == null)
+            if (stat == null || !_geneticSystem)
             {
-                Debug.LogError("[GeneticPreview] Передан null вместо стата.", this);
+                Debug.LogWarning("[GeneticPreview] Не удалось открыть превью: проверьте характеристику и GeneticSystem.", this);
                 return;
             }
 
             _stat = stat;
+            _statIndex = index;
+            _isUpgradeConfirmed = false;
 
-            _icon.sprite = stat.icon;
-            _title.text = stat.GetLocalizedName(YG2.lang);
-            _geneticTitle.text = Localization.GetGeneticTitleText();
-            _buyButtonText.text = Localization.GetUpgradeText();
+            if (_icon)
+                _icon.sprite = stat.icon;
 
-            _background.color = Color.grey;
-            if (_scrollRect != null)
+            if (_title)
+                _title.text = stat.GetLocalizedName(YG2.lang);
+
+            if (_geneticTitle)
+                _geneticTitle.text = Localization.GetGeneticTitleText();
+
+            if (_openButtonText)
+                _openButtonText.text = Localization.GetUpgradeText();
+
+            if (_background)
+                _background.color = Color.grey;
+
+            if (_scrollRect)
                 _scrollRect.enabled = false;
 
-            var originValue = GeneticSystem.GetStatValue(_stat.name);
+            var originValue = GeneticSystem.GetStatValue(stat);
             var targetValue = originValue + _geneticSystem.IncreaseNumber;
 
-            _originStatValue.text = $"{originValue}+";
-            _targetStatValue.text = $"{targetValue}+";
+            if (_originStatValue)
+                _originStatValue.text = $"{originValue}+";
 
-            bool canBuy = _buyStatButton.interactable;
+            if (_targetStatValue)
+                _targetStatValue.text = $"{targetValue}+";
 
-            if (_imageBlinker != null)
+            var canBuy = GeneticSystem.IsAvailableStat(index);
+
+            if (_openButton)
+                _openButton.interactable = canBuy;
+
+            if (_imageBlinker)
             {
                 _imageBlinker.ResetToBaseColor();
+
                 if (canBuy)
                     _imageBlinker.Enable();
                 else
@@ -82,7 +102,7 @@ namespace Game.Scripts.UI.Genetic
 
         protected override void Show(Vector3 startPosition)
         {
-            if (_transition == null || _canvasGroup == null || _rectTransform == null)
+            if (!_transition || !_canvasGroup || !_rectTransform)
             {
                 FinishTransition();
                 return;
@@ -100,26 +120,18 @@ namespace Game.Scripts.UI.Genetic
 
         protected override void Hide()
         {
-            if (_stat == null)
-            {
-                // Даже если стат потерялся, всё равно закрываем анимацией
-                FinishTransition();
-                return;
-            }
-
-            if (_imageBlinker != null)
+            if (_imageBlinker)
                 _imageBlinker.Disable();
 
-            if (_background != null)
+            if (_background)
                 _background.color = Color.white;
 
-            if (_scrollRect != null)
+            if (_scrollRect)
                 _scrollRect.enabled = true;
 
-            var statName = _stat.name;
             _stat = null;
-
-            if (_geneticSystem != null) _geneticSystem.IncreaseStat(statName);
+            _statIndex = -1;
+            _isUpgradeConfirmed = false;
 
             if (_transition && _canvasGroup && _rectTransform)
                 _transition.Close(_canvasGroup, _rectTransform, FinishTransition);
@@ -127,9 +139,29 @@ namespace Game.Scripts.UI.Genetic
                 FinishTransition();
         }
 
-        private void OnBuyButtonClick()
+        private void OnOpenButtonClick()
         {
-            Debug.Log("[GeneticPreview] Нажата кнопка «Улучшить».");
+            if (_isUpgradeConfirmed || _stat == null || !_geneticSystem)
+                return;
+
+            if (!GeneticSystem.IsAvailableStat(_statIndex))
+            {
+                Debug.LogWarning(
+                    $"[GeneticPreview] Характеристика с индексом {_statIndex} больше недоступна.",
+                    this);
+
+                return;
+            }
+
+            _isUpgradeConfirmed = true;
+
+            var stat = _stat;
+            var index = _statIndex;
+
+            if (_openButton)
+                _openButton.interactable = false;
+
+            _geneticSystem.IncreaseStat(stat, index);
             ClosePreview();
         }
     }

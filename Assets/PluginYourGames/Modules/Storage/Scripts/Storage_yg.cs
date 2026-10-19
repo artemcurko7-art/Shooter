@@ -77,8 +77,7 @@ namespace YG
 #endif
                 return;
             }
-
-            saves.IdSavedStatCount++;
+            
 #if !UNITY_EDITOR
             if (infoYG.Storage.saveLocal)
                 YGInsides.SaveLocal();

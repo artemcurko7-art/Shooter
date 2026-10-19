@@ -1,5 +1,4 @@
-﻿using Game.Scripts.Genetic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Genetic
@@ -79,7 +78,7 @@ namespace Game.Scripts.UI.Genetic
             if (_geneticSystem == null || _stat == null)
                 return;
 
-            _geneticSystem.OpenPreview(_stat, _rectTransform.position);
+            _geneticSystem.OpenPreview(_stat, Index, _rectTransform.position);
         }
     }
 }
