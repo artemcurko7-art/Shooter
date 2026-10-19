@@ -12,7 +12,6 @@ namespace Game.Scripts.Service.PhysicalBody
     public class MapService : PhysicalBodyService<Map>
     {
         private readonly MapPool _pool;
-        //private readonly List<Map> _maps = new();
         private readonly ITransformable _transformable;
         private Map _forwardMap;
         private Map _backMap;
@@ -93,16 +92,10 @@ namespace Game.Scripts.Service.PhysicalBody
                 float backDot = GetVectorDot(_backMap.Road.transform);
 
                 if (forwardDot < 8f)
-                {
-                    Debug.Log($"Forward");
                     SpawnForward();
-                }
                 
                 if (backDot > 30f)
-                {
-                    Debug.Log($"Back");
                     SpawnBack();
-                }
                 
                 await UniTask.Yield();
             }
