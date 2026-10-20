@@ -1,18 +1,20 @@
 {
-    "IdSavedStatCount": 22,
-    "AttackStrength": 2.0,
-    "CriticalDamage": 2.0,
-    "Armor": 2.0,
-    "MovementSpeed": 1.5,
-    "ViewRange": 2.0,
+    "IdSavedStatCount": 60,
+    "AttackStrength": 5.5,
+    "CriticalDamage": 5.5,
+    "Armor": 6.0,
+    "MovementSpeed": 5.5,
+    "ViewRange": 6.0,
     "TakenDailyGiftDays": [
-        1
-    ],
-    "TakenDailyGiftBoxes": [
         1,
         2
     ],
-    "TotalCollectedGifts": 20,
+    "TakenDailyGiftBoxes": [
+        1,
+        2,
+        3
+    ],
+    "TotalCollectedGifts": 21,
     "DailyGiftWeek": 202643,
     "GiftEndTime": 0,
     "intExample": 5,

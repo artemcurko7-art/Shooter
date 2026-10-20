@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class ImageRotator : MonoBehaviour
+    public class ImageRotator : UIAnimation
     {
         [SerializeField] private float _duration = 2f;
         [SerializeField] private Ease _ease = Ease.Linear;

@@ -1,3 +1,4 @@
+
 using DG.Tweening;
 using Game.Scripts.UI.Animation;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Game.Scripts.UI
         [SerializeField] protected RectTransform _rectTransform;
         [SerializeField] protected CanvasGroup _canvasGroup;
         [SerializeField] protected WindowTransition _transition;
-        [SerializeField] protected Button _exitButton; // Кнопка «X» (опционально)
+        [SerializeField] protected Button _exitButton;
 
         private bool _isOpened;
         private bool _isTransitionActive;
@@ -41,16 +42,13 @@ namespace Game.Scripts.UI
         private void OnExitButtonClick()
         {
             Debug.Log("[PreviewBase] Нажата кнопка закрытия (X).");
-            ClosePreview();
+            ClosePreview(false);
         }
 
         protected void OpenPreview(Vector3 startPosition)
         {
             if (_isTransitionActive)
-            {
-                Debug.LogWarning("[PreviewBase] Открытие заблокировано: идёт анимация.");
                 return;
-            }
 
             _isOpened = true;
             _isTransitionActive = true;
@@ -58,15 +56,17 @@ namespace Game.Scripts.UI
             Show(startPosition);
         }
 
-        protected void ClosePreview()
+        protected void ClosePreview(bool playEffect = true)
         {
-            if (!_isOpened || _isTransitionActive) return;
+            if (!_isOpened || _isTransitionActive)
+                return;
 
             Debug.Log("[PreviewBase] Запуск закрытия превью.");
+
             _isOpened = false;
             _isTransitionActive = true;
 
-            Hide();
+            Hide(playEffect);
         }
 
         protected void FinishTransition()
@@ -76,6 +76,6 @@ namespace Game.Scripts.UI
         }
 
         protected abstract void Show(Vector3 startPosition);
-        protected abstract void Hide();
+        protected abstract void Hide(bool playEffect);
     }
 }

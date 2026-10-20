@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class MoveFollower : MonoBehaviour
+    public class MoveFollower : UIAnimation
     {
         [SerializeField] private IconScalerGroup _group;
 

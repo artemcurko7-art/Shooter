@@ -83,24 +83,28 @@ namespace Game.Scripts.UI.Shop
                 return;
             }
 
-            _transition.Open(_canvasGroup, _rectTransform, startPosition, 
+            _transition.Open(_canvasGroup, _rectTransform, startPosition,
                 _scaleEase, _positionEase, _duration, FinishTransition);
         }
 
-        protected override void Hide()
+        protected override void Hide(bool playEffect)
         {
-            CloseInternal();
+            CloseInternal(playEffect);
         }
 
-        private void CloseInternal()
+        private void CloseInternal(bool playEffect)
         {
-            var icon = _buyItem?.GetIcon(_data?.GetDefinition(_buyItem));
-            var count = _buyItem?.GetCount(_data?.GetDefinition(_buyItem));
+            var definition = _data != null && _buyItem != null
+                ? _data.GetDefinition(_buyItem)
+                : null;
+
+            var icon = playEffect ? _buyItem?.GetIcon(definition) : null;
+            var count = playEffect ? _buyItem?.GetCount(definition) : null;
 
             _buyItem = null;
             _data = null;
 
-            if (_effect && icon)
+            if (playEffect && _effect && icon)
             {
                 Debug.Log("[ShopPreview] Запускаем эффект покупки перед закрытием.");
                 _effect.Animate(icon, count ?? 0, _startPosition);

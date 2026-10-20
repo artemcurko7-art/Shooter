@@ -10,7 +10,7 @@ namespace Game.Scripts.UI.WheelFortune
     {
         [SerializeField] private TMP_Text _previewText;
         [SerializeField] private Image _previewImage;
-        [SerializeField] private AppearAnimation _rewardAnimation;
+        [SerializeField] private AppearAnimation _UIAnimation;
 
         public void Clear(string emptySymbol)
         {
@@ -38,19 +38,19 @@ namespace Game.Scripts.UI.WheelFortune
             if (reward == null)
                 return;
 
-            if (!_rewardAnimation || !_previewImage)
+            if (!_UIAnimation || !_previewImage)
             {
                 UpdatePreview(reward);
                 return;
             }
 
-            _rewardAnimation.Play(_previewImage, () => UpdatePreview(reward));
+            _UIAnimation.Play(_previewImage, () => UpdatePreview(reward));
         }
 
         public void KillAnimation()
         {
-            if (_rewardAnimation)
-                _rewardAnimation.KillAnimation();
+            if (_UIAnimation)
+                _UIAnimation.KillAnimation();
         }
     }
 }

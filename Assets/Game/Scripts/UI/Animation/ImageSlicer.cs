@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class ImageSlicer : MonoBehaviour
+    public class ImageSlicer : UIAnimation
     {
         [SerializeField] private Image _target;
         [SerializeField] private float _duration;

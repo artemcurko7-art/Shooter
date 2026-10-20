@@ -1,5 +1,4 @@
-﻿
-using Game.Scripts.UI.Animation;
+﻿using Game.Scripts.UI.Animation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,7 +46,8 @@ namespace Game.Scripts.UI.Genetic
         {
             if (stat == null || !_geneticSystem)
             {
-                Debug.LogWarning("[GeneticPreview] Не удалось открыть превью: проверьте характеристику и GeneticSystem.", this);
+                Debug.LogWarning(
+                    "[GeneticPreview] Не удалось открыть превью: проверьте характеристику и GeneticSystem.", this);
                 return;
             }
 
@@ -118,7 +118,8 @@ namespace Game.Scripts.UI.Genetic
                 FinishTransition);
         }
 
-        protected override void Hide()
+
+        protected override void Hide(bool playEffect)
         {
             if (_imageBlinker)
                 _imageBlinker.Disable();
@@ -138,6 +139,7 @@ namespace Game.Scripts.UI.Genetic
             else
                 FinishTransition();
         }
+
 
         private void OnOpenButtonClick()
         {

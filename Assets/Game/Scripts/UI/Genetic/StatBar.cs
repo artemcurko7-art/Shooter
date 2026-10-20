@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace Game.Scripts.UI.Genetic
 {
     [RequireComponent(typeof(RectTransform))]
-    public class StatBar : MonoBehaviour
+    public class StatBar : MonoBehaviour, IIndexedGeneticElement
     {
         [SerializeField] private Button _button;
         [SerializeField] private GameObject _checkMark;
@@ -27,22 +27,20 @@ namespace Game.Scripts.UI.Genetic
         public void Init(GeneticSystem geneticSystem, StatsData.Stat stat, int index)
         {
             _geneticSystem = geneticSystem;
-            Bind(stat, index);
-        }
-
-        private void Bind(StatsData.Stat stat, int index)
-        {
             _stat = stat;
             Index = index;
 
-            if (_icon)
+            if (_icon && stat != null)
                 _icon.sprite = stat.icon;
 
-            UpdateDisplay();
+            Refresh();
         }
 
-        public void UpdateDisplay()
+        public void Refresh()
         {
+            if (_stat == null)
+                return;
+
             var isAvailable = GeneticSystem.IsAvailableStat(Index);
             var isAlreadyUnlocked = GeneticSystem.IsAlreadyUnlocked(Index);
             var isNext = GeneticSystem.IsNextStat(Index);
@@ -73,10 +71,18 @@ namespace Game.Scripts.UI.Genetic
             }
         }
 
+        public void UpdateDisplay()
+        {
+            Refresh();
+        }
+
         public void OnClick()
         {
-            if (_geneticSystem == null || _stat == null)
+            if (!_geneticSystem || _stat == null)
                 return;
+
+            if (!_rectTransform)
+                _rectTransform = GetComponent<RectTransform>();
 
             _geneticSystem.OpenPreview(_stat, Index, _rectTransform.position);
         }

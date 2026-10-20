@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class IconScalerGroup : MonoBehaviour
+    public class IconScalerGroup : UIAnimation
     {
         [SerializeField] private IconScaler[] _icons;
         [SerializeField] private int _startSelectedIndex = 0;

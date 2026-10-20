@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class SmoothScroll : MonoBehaviour
+    public class SmoothScroll : UIAnimation
     {
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private float _duration = 1f;
