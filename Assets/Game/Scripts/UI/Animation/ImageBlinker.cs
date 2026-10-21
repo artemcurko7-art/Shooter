@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,22 +21,50 @@ namespace Game.Scripts.UI.Animation
 
         private void OnEnable()
         {
-            Enable();
+            if (_isRunning)
+                StartSequence();
         }
 
         private void OnDisable()
         {
-            Disable();
+            StopSequence();
         }
 
         public void Enable()
         {
-            if (_isRunning) return;
             _isRunning = true;
-            _coroutine = StartCoroutine(RunSequence());
+
+            if (isActiveAndEnabled)
+                StartSequence();
         }
 
         public void Disable()
+        {
+            StopSequence();
+            ResetToBaseColor();
+        }
+
+        public void ResetToBaseColor()
+        {
+            foreach (var image in _images)
+            {
+                if (!image)
+                    continue;
+
+                image.DOKill();
+                image.color = _originalColor;
+            }
+        }
+
+        private void StartSequence()
+        {
+            if (_coroutine != null || !isActiveAndEnabled || !_isRunning)
+                return;
+
+            _coroutine = StartCoroutine(RunSequence());
+        }
+
+        private void StopSequence()
         {
             _isRunning = false;
 
@@ -46,19 +74,10 @@ namespace Game.Scripts.UI.Animation
                 _coroutine = null;
             }
 
-            foreach (var image in _images.Where(i => i))
+            foreach (var image in _images)
             {
-                image.DOKill();
-            }
-
-            ResetToBaseColor();
-        }
-
-        public void ResetToBaseColor()
-        {
-            foreach (var image in _images.Where(image => image))
-            {
-                image.color = _originalColor;
+                if (image)
+                    image.DOKill();
             }
         }
 
@@ -66,17 +85,23 @@ namespace Game.Scripts.UI.Animation
         {
             var halfStep = _cycleDurationPerImage * 0.5f;
 
-            while (_isRunning && _images.Count > 0)
+            while (_isRunning)
             {
+                var hasImages = false;
+
                 for (var i = _images.Count - 1; i >= 0; i--)
                 {
-                    if (!_isRunning) yield break;
+                    if (!_isRunning)
+                        break;
 
                     var image = _images[i];
-                    if (!image) continue;
 
-                    var original = _originalColor;
-                    var target = Color.Lerp(original, _glowColor, 0.8f);
+                    if (!image)
+                        continue;
+
+                    hasImages = true;
+
+                    var target = Color.Lerp(_originalColor, _glowColor, 0.8f);
 
                     image.DOKill();
 
@@ -84,15 +109,23 @@ namespace Game.Scripts.UI.Animation
                         .SetEase(Ease.InOutQuad)
                         .OnComplete(() =>
                         {
-                            if (!_isRunning || !image) return;
-                            image.DOColor(original, halfStep).SetEase(Ease.InOutQuad);
+                            if (!_isRunning || !image)
+                                return;
+
+                            image.DOColor(_originalColor, halfStep)
+                                .SetEase(Ease.InOutQuad);
                         });
 
                     yield return new WaitForSeconds(_stepDelay);
                 }
 
+                if (!hasImages)
+                    break;
+
                 yield return new WaitForSeconds(_cycleDelay);
             }
+
+            _coroutine = null;
         }
     }
 }

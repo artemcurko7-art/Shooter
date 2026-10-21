@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿
+using Game.Scripts.UI.Items;
+using UnityEngine;
 using YG;
 
 namespace Game.Scripts.UI.Genetic
@@ -122,12 +124,28 @@ namespace Game.Scripts.UI.Genetic
         {
             if (stat == null || !_geneticPreview)
             {
-                Debug.LogWarning("[GeneticSystem] Не удалось открыть GeneticPreview.", this);
+                Debug.LogWarning(
+                    "[GeneticSystem] Не удалось открыть превью характеристики.",
+                    this);
                 return;
             }
 
             _geneticPreview.gameObject.SetActive(true);
             _geneticPreview.Open(stat, index, statPosition);
+        }
+
+        public void OpenPreview(RewardDefinition addition, int count, Vector3 additionPosition)
+        {
+            if (!addition || !_geneticPreview)
+            {
+                Debug.LogWarning(
+                    "[GeneticSystem] Не удалось открыть превью дополнения.",
+                    this);
+                return;
+            }
+
+            _geneticPreview.gameObject.SetActive(true);
+            _geneticPreview.Open(addition, count, additionPosition);
         }
 
         private void RefreshUI()

@@ -288,9 +288,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4161030894455195214}
-        m_TargetAssemblyTypeName: Game.Scripts.Character.Genetic.StatBar, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 8561810621917109767}
+        m_TargetAssemblyTypeName: Game.Scripts.UI.Genetic.AdditionBar, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -533,6 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6af4361ba8b2a24fb42f8b9d83831fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _button: {fileID: 3266563966551373142}
   _icon: {fileID: 8160560250414434569}
   _count: {fileID: 1784609211470358546}
 --- !u!1 &4205545136678276913

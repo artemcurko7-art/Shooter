@@ -56,6 +56,7 @@ namespace Game.Scripts.UI.Genetic
 
         [Header("Зависимости")]
         [SerializeField] private GeneticElementSpawner _spawner;
+        [SerializeField] private GeneticPreview _geneticPreview;
 
         [Header("Независимые системы дополнений")]
         [SerializeField] private List<AdditionCategory> _categories = new();
@@ -96,6 +97,20 @@ namespace Game.Scripts.UI.Genetic
             _isInitialized = true;
         }
 
+        public void OpenPreview(RewardDefinition definition, int count, Vector3 startPosition)
+        {
+            if (!definition || !_geneticPreview)
+            {
+                Debug.LogWarning(
+                    "[AdditionSystem] Не удалось открыть превью дополнения.",
+                    this);
+                return;
+            }
+
+            _geneticPreview.gameObject.SetActive(true);
+            _geneticPreview.Open(definition, count, startPosition);
+        }
+
         public void OnStatUpgraded()
         {
             if (!_isInitialized)
@@ -131,7 +146,7 @@ namespace Game.Scripts.UI.Genetic
             if (!bar)
                 return false;
 
-            bar.Init(definition, count);
+            bar.Init(this, definition, count);
             category.Bars.Add(bar);
 
             return true;
