@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext
 {
-    public class KamikazeUnitStateAttacker : StateMachine
+    public class KamikazeUnitStateAttacker : StateAttacker
     {
         private readonly Animator _animator;
 
@@ -16,7 +16,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
 
         public override void Enter()
         {
-            _animator.SetTrigger(UnitAnimationData.Params.Attack);
+            _animator.SetTrigger(AnimationData.Params.Attack);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Game.Scripts.PhysicalBody.UnitContext.FSM.Attacker;
+using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.FSM.Follower
 {
-    public abstract class UnitStateFollower : StateMachine
+    public class UnitStateFollower : StateFollower
     {
         private readonly CharacterController _characterController;
         private readonly Transform _current;
@@ -28,9 +29,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.FSM.Follower
             _current.rotation = Quaternion.LookRotation(direction);
         
             if ((_target.position - _current.position).sqrMagnitude < _distance)
-                TransitState();
+                State.Set<StateAttacker>();
         }
-
-        protected abstract void TransitState();
     }
 }

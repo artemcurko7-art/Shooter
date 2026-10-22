@@ -2,11 +2,12 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Animation;
+using Game.Scripts.PhysicalBody.UnitContext.FSM.Follower;
 using UnityEngine;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.FSM.Attacker
 {
-    public abstract class UnitStateAttacker : StateMachine
+    public class UnitStateAttacker : StateAttacker
     {
         private readonly Animator _animator;
         private readonly Transform _current;
@@ -34,16 +35,11 @@ namespace Game.Scripts.PhysicalBody.UnitContext.FSM.Attacker
             _cancellationTokenSource.Cancel();
         }
 
-        protected virtual void TransitState()
-        {
-            throw new InvalidOperationException($"Not state: {this}");
-        }
-
         private async UniTaskVoid EnterAsync(CancellationToken token)
         {
             while (_cancellationTokenSource.IsCancellationRequested == false)
             {
-                _animator.SetTrigger(UnitAnimationData.Params.Attack);
+                _animator.SetTrigger(AnimationData.Params.Attack);
 
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
                 
@@ -53,8 +49,8 @@ namespace Game.Scripts.PhysicalBody.UnitContext.FSM.Attacker
                 
                 if ((_target.position - _current.position).sqrMagnitude > _distance)
                 {
-                    TransitState();
-                    _animator.ResetTrigger(UnitAnimationData.Params.Attack);
+                    State.Set<StateFollower>();
+                    _animator.ResetTrigger(AnimationData.Params.Attack);
                     _animator.Play(UnitAnimationData.Params.Run, 0, 0f);
 
                     return;

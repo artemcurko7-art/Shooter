@@ -1,6 +1,7 @@
 using System;
 using Game.Scripts.Factory;
 using Game.Scripts.PhysicalBody.MapContext;
+using Game.Scripts.PhysicalBody.UnitContext.FSM;
 using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.Map;

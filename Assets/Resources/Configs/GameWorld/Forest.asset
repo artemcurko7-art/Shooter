@@ -22,16 +22,5 @@ MonoBehaviour:
   - <Waves>k__BackingField:
     - <Type>k__BackingField: 1
       <Cooldown>k__BackingField: 1
-      <MaxCount>k__BackingField: 2
-    - <Type>k__BackingField: 1
-      <Cooldown>k__BackingField: 1
       <MaxCount>k__BackingField: 1
     <Cooldown>k__BackingField: 0.5
-  - <Waves>k__BackingField:
-    - <Type>k__BackingField: 1
-      <Cooldown>k__BackingField: 1
-      <MaxCount>k__BackingField: 3
-    - <Type>k__BackingField: 1
-      <Cooldown>k__BackingField: 1
-      <MaxCount>k__BackingField: 2
-    <Cooldown>k__BackingField: 5
