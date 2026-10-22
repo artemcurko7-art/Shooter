@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class ContentDisplayer : MonoBehaviour
+    public class ContentDisplayer : UIAnimation
     {
         private readonly List<Transform> _targets = new();
         private readonly Dictionary<Transform, Vector3> _initialScales = new();

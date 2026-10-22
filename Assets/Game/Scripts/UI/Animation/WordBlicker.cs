@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class WordBlicker : MonoBehaviour
+    public class WordBlicker : UIAnimation
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private float _charDuration = 0.15f;

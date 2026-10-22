@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class BuyEffect : MonoBehaviour
+    public class BuyEffect : UIAnimation
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private TMP_Text _count;
@@ -14,7 +14,7 @@ namespace Game.Scripts.UI.Animation
         [SerializeField] private Image _image;
 
         [Header(
-            "Animation (Укажите endPosition или offset \n если конечная точка просто выше)")]
+            "UIAnimation (Укажите endPosition или offset \n если конечная точка просто выше)")]
         [SerializeField] private Vector3 _endPosition = Vector3.zero;
         [SerializeField] private float _upOffset = 750f;
         [SerializeField] private float _scaleDuration = 0.5f;

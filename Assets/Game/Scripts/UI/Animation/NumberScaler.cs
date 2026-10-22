@@ -1,12 +1,10 @@
-using System.Globalization;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class NumberScaler : MonoBehaviour
+    public class NumberScaler : UIAnimation
     {
         [SerializeField] private Ease _ease = Ease.InOutExpo;
         [SerializeField] private TMP_Text _target;

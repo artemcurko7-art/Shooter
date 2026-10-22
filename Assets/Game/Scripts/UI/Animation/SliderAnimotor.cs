@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class SliderAnimotor : MonoBehaviour
+    public class SliderAnimotor : UIAnimation
     {
         [SerializeField] private bool _animateOnEnable = true;
         [SerializeField] private Slider _slider;

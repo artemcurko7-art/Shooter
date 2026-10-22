@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace Game.Scripts.UI.Animation
 {
     [RequireComponent(typeof(Button))]
-    public class IconScaler : MonoBehaviour
+    public class IconScaler : UIAnimation
     {
         [SerializeField] private string _name;
 

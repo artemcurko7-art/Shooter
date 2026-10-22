@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class NameChangeFollower : MonoBehaviour
+    public class NameChangeFollower : UIAnimation
     {
         [SerializeField] private IconScalerGroup _group;
         [SerializeField] private TMP_Text _name;

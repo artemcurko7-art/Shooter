@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class ImageMover : MonoBehaviour
+    public class ImageMover : UIAnimation
     {
         private readonly Vector3 _zeroScale = new(1, 0, 1);
         

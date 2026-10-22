@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game.Scripts.UI.Animation
 {
     [RequireComponent(typeof(TMP_Text), typeof(RectTransform))]
-    public class TextAppear : MonoBehaviour
+    public class TextAppear : UIAnimation
     {
         [SerializeField] private float _duration = 0.35f;
         [SerializeField] private float _startScale = 0.85f;

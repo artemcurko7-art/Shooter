@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class AppearAnimation : MonoBehaviour
+    public class AppearAnimation : UIAnimation
     {
         [Header("Настройки")]
         [SerializeField] private float _duration = 0.1f;
         [SerializeField] private float _scale = 1.15f;
-        [SerializeField] private Ease _scaleEase = Ease.OutBack;
-
+        [SerializeField] private Ease _ease = Ease.OutBack;
+        
         private Sequence _sequence;
         private RectTransform _targetRect;
         private CanvasGroup _targetCanvasGroup;
@@ -75,7 +75,7 @@ namespace Game.Scripts.UI.Animation
             _sequence.Join(
                 _targetRect
                     .DOScale(_initialScale * _scale, _duration)
-                    .SetEase(_scaleEase)
+                    .SetEase(_ease)
             );
 
             _sequence.Append(

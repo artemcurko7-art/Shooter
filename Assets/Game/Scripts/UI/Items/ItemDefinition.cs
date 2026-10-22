@@ -10,9 +10,11 @@ namespace Game.Scripts.UI.Items
     {
         [SerializeField] private ItemType _type;
         [SerializeField] private List<IconVariant> _iconVariants = new();
-
+        [SerializeField] private GameObject _prefab;
+        
         public ItemType Type => _type;
-
+        public override GameObject Prefab => _prefab;
+        
         public override Sprite GetIcon(int count)
         {
             if (_iconVariants == null || _iconVariants.Count == 0)
