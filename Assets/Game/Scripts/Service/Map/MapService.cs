@@ -1,40 +1,41 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.GameWorldContext;
-using Game.Scripts.PhysicalBody.MapContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PoolMono;
+using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
-namespace Game.Scripts.Service.PhysicalBody
+namespace Game.Scripts.Service.Map
 {
-    public class MapService : PhysicalBodyService<Map>
+    public class MapService : ISubscriber
     {
         private readonly MapPool _pool;
         private readonly ITransformable _transformable;
-        private Map _forwardMap;
-        private Map _backMap;
+        private PhysicalBody.MapContext.Map _forwardMap;
+        private PhysicalBody.MapContext.Map _backMap;
         private CancellationTokenSource _cancellationTokenSource;
         private Vector3 _frontCursor;
         private Vector3 _backCursor;
          
-        public MapService(GameWorld gameWorld, MapPool pool, ITransformable transformable, float delay) : base(delay)
+        public MapService(GameWorld gameWorld, MapPool pool, ITransformable transformable)
         {
             _pool = pool;
             _transformable = transformable;
-            _pool.SetPrefab(gameWorld.Config.Maps[0]);
+
+            foreach (var map in gameWorld.Config.Maps)
+                _pool.SetPrefab(map);
             
             SpawnStarted();
         }
 
-        public override void Subscribe()
+        public void Subscribe()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             Spawn(_cancellationTokenSource.Token).Forget();
         }
 
-        public override void Unsubscribe()
+        public void Unsubscribe()
         {
             _cancellationTokenSource.Cancel();
         }

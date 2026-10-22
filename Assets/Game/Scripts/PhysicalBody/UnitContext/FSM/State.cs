@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.Scripts.PhysicalBody.UnitContext.FSM
 {
@@ -15,21 +16,13 @@ namespace Game.Scripts.PhysicalBody.UnitContext.FSM
 
         public void Set<T>() where T : StateMachine
         {
-            var type = typeof(T);
+            var requestedType = typeof(T);
+            
+            var newState = _states.Values.FirstOrDefault(stateMachine => requestedType.IsAssignableFrom(stateMachine.GetType()));
 
-            if (_currentState != null && _currentState.GetType() == type)
-            {
-                return;
-            }
-
-            if (_states.TryGetValue(type, out var newState))
-            {
-                _currentState?.Exit();
-
-                _currentState = newState;
-
-                _currentState?.Enter();
-            }
+            _currentState?.Exit();
+            _currentState = newState;
+            _currentState?.Enter();
         }
 
         public void Update()
