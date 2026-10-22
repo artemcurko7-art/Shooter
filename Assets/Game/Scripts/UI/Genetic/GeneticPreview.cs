@@ -20,10 +20,10 @@ namespace Game.Scripts.UI.Genetic
         [SerializeField] private ImageBlinker _imageBlinker;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RawImage _background;
-
-
+        [SerializeField] private BuyEffect _effect;
         [SerializeField] private RectTransform _statTextBar;
         [SerializeField] private RectTransform _additionTextBar;
+
         [Header("Иконки")]
         [SerializeField] private RectTransform _additionIconBar;
         [SerializeField] private RectTransform _statIconBar;
@@ -47,6 +47,7 @@ namespace Game.Scripts.UI.Genetic
         private StatsData.Stat _stat;
         private RewardDefinition _addition;
         private int _statIndex = -1;
+        private int _count;
         private bool _isUpgradeConfirmed;
 
         protected override void OnEnable()
@@ -102,6 +103,7 @@ namespace Game.Scripts.UI.Genetic
             _stat = stat;
             _addition = addition;
             _statIndex = index;
+            _count = count;
             _isUpgradeConfirmed = false;
 
             if (_statIcon)
@@ -122,10 +124,8 @@ namespace Game.Scripts.UI.Genetic
 
             if (_mainTitle)
             {
-                _mainTitle.gameObject.SetActive(isStat);
-
-                if (isStat)
-                    _mainTitle.text = Localization.GetGeneticTitleText();
+                _mainTitle.gameObject.SetActive(true);
+                _mainTitle.text = isStat ? Localization.GetGeneticTitleText() : Localization.GetRewardTitleText();
             }
 
             if (_openButtonText && isStat)
@@ -166,11 +166,21 @@ namespace Game.Scripts.UI.Genetic
             SetBarActive(_additionIconBar, !isStat);
 
             var canUpgrade = isStat && GeneticSystem.IsAvailableStat(index);
+            var canTake = !isStat;
 
             if (_openButton)
             {
                 _openButton.gameObject.SetActive(isStat);
-                _openButton.interactable = canUpgrade;
+                _openButton.enabled = canUpgrade;
+                _openButton.colors = StatusColors.GetColorBlock(canUpgrade);
+            }
+
+            if (_takeButton)
+            {
+                _takeButton.gameObject.SetActive(!isStat);
+                _takeButton.enabled = canTake;
+                _takeButton.colors = StatusColors.GetColorBlock(canUpgrade);
+                ;
             }
 
             if (_imageBlinker)
@@ -299,9 +309,13 @@ namespace Game.Scripts.UI.Genetic
             var index = _statIndex;
 
             if (_openButton)
-                _openButton.interactable = false;
+                _openButton.enabled = false;
 
             _geneticSystem.IncreaseStat(stat, index);
+
+            var icon = _previewType == PreviewType.Stat ? _stat.icon : _addition.GetIcon(_count);
+            _effect.Animate(icon, _count, _statIcon.transform.position);
+
             ClosePreview();
         }
     }

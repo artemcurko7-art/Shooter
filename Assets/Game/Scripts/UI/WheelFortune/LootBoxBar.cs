@@ -23,9 +23,6 @@ namespace Game.Scripts.UI.WheelFortune
         [SerializeField] private Button _openButton;
         [SerializeField] private Image _buttonBackground;
 
-        [SerializeField] private Color _enableColor = Color.green;
-        [SerializeField] private Color _disableColor = Color.red;
-
         private BoxesData.Box _box;
         private Action<BoxesData.Box> _onOpen;
 
@@ -57,7 +54,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (_boxCount)
             {
                 _boxCount.text = _box.boxCount.ToString();
-                _boxCount.color = _box.boxCount > 0 ? _enableColor : _disableColor;
+                _boxCount.color = StatusColors.GetColor(_box.boxCount > 0);
             }
 
             if (_rarityName)
@@ -80,7 +77,7 @@ namespace Game.Scripts.UI.WheelFortune
             if (_keyCount)
             {
                 _keyCount.text = _box.keyCount.ToString();
-                _keyCount.color = _box.keyCount > 0 ? _enableColor : _disableColor;
+                _keyCount.color = StatusColors.GetColor(_box.keyCount > 0);
             }
 
             if (_boxIcon)
@@ -108,7 +105,7 @@ namespace Game.Scripts.UI.WheelFortune
             var isAvailable = _box.boxCount > 0 && _box.keyCount > 0;
 
             if (_buttonBackground)
-                _buttonBackground.color = isAvailable ? _enableColor : _disableColor;
+                _buttonBackground.color = StatusColors.GetColor(isAvailable);
 
             if (_openButton)
                 _openButton.enabled = isAvailable;

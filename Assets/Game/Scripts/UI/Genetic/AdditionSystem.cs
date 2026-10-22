@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
@@ -118,16 +119,12 @@ namespace Game.Scripts.UI.Genetic
 
             var currentCount = YG2.saves.IdSavedStatCount;
 
-            foreach (var category in _categories)
+            foreach (var category in from category in _categories 
+                     where ValidateCategory(category) 
+                     where category.ShouldSpawn(currentCount) 
+                     where TryCreateAddition(category) select category)
             {
-                if (!ValidateCategory(category))
-                    continue;
-
-                if (!category.ShouldSpawn(currentCount))
-                    continue;
-
-                if (TryCreateAddition(category))
-                    RebuildLayout(category);
+                RebuildLayout(category);
             }
         }
 
