@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Game.Scripts.MV.GameProgressContext;
 using Game.Scripts.PhysicalBody.UnitContext.Type;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Game.Scripts.Service.PhysicalBody
+namespace Game.Scripts.Service.UnitContext
 {
     public class ExampleButtonUnitService : MonoBehaviour
     {
@@ -19,15 +19,21 @@ namespace Game.Scripts.Service.PhysicalBody
             _unitService = unitService;
         }
         
-        private void OnEnable()
-        {
-            _button.onClick.AddListener(OnClick);
-        }
+        // private void OnEnable()
+        // {
+        //     _button.onClick.AddListener(OnClick);
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     _button.onClick.RemoveListener(OnClick);
+        // }
 
-        private void OnDisable()
-        {
-            _button.onClick.RemoveListener(OnClick);
-        }
+        // private void Update()
+        // {
+        //     if (Input.GetKeyDown(KeyCode.B))
+        //         _gameProgress.Decrease();
+        // }
 
         private void OnClick()
         {

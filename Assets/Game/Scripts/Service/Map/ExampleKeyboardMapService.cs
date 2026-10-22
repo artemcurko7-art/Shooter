@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Service.PhysicalBody
+namespace Game.Scripts.Service.Map
 {
     public class ExampleKeyboardMapService : MonoBehaviour
     {

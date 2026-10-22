@@ -18,4 +18,20 @@ MonoBehaviour:
   - {fileID: 3608846274069096861, guid: 7d72d246b2806a744990c47ea619e081, type: 3}
   - {fileID: 6240191241283591140, guid: 73a8148c965032c419cfe27076637fe4, type: 3}
   - {fileID: 1446930153767648577, guid: 651a5930a5829ba41be6fd3a80d9a5af, type: 3}
-  <Waves>k__BackingField: []
+  <Waves>k__BackingField:
+  - <Waves>k__BackingField:
+    - <Type>k__BackingField: 1
+      <Cooldown>k__BackingField: 1
+      <MaxCount>k__BackingField: 2
+    - <Type>k__BackingField: 1
+      <Cooldown>k__BackingField: 1
+      <MaxCount>k__BackingField: 1
+    <Cooldown>k__BackingField: 0.5
+  - <Waves>k__BackingField:
+    - <Type>k__BackingField: 1
+      <Cooldown>k__BackingField: 1
+      <MaxCount>k__BackingField: 3
+    - <Type>k__BackingField: 1
+      <Cooldown>k__BackingField: 1
+      <MaxCount>k__BackingField: 2
+    <Cooldown>k__BackingField: 5

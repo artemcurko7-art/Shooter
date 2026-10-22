@@ -89,6 +89,7 @@ namespace Game.Scripts.WeaponContext.Shooting
                         new ShotContext(attacker, Mathf.CeilToInt(currentDamage), isCritical),
                         attacker.Transform.position,
                         TrackerUnits.GetNearestPosition(attacker.Transform.position),
+                        Mathf.CeilToInt(currentDamage),
                         Config.Radius,
                         Config.Speed);
                     _countShoot++;

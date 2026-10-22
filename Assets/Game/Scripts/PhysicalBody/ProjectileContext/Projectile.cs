@@ -38,17 +38,20 @@ namespace Game.Scripts.PhysicalBody.ProjectileContext
                     damageable.TakeDamage(_damage);
                     HitImpacted?.Invoke(new HitContext(_shotContext, hit));
                     Released?.Invoke(this);
+
+                    return;
                 }
             }
             
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(ShotContext shotContext, Vector3 position, Vector3 direction, float radius, float speed)
+        public void Initialize(ShotContext shotContext, Vector3 position, Vector3 direction, int damage, float radius, float speed)
         {
             _shotContext = shotContext;
             transform.position = position;
             _direction = direction;
+            _damage = damage;
             _radius = radius;
             _speed = speed;
         }

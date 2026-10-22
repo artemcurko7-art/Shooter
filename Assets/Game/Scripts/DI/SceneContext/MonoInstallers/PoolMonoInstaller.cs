@@ -3,7 +3,8 @@ using Game.Scripts.Factory;
 using Game.Scripts.PhysicalBody.MapContext;
 using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
-using Game.Scripts.Service.PhysicalBody;
+using Game.Scripts.Service.Map;
+using Game.Scripts.Service.UnitContext;
 using Game.Scripts.TextPopup;
 using UnityEngine;
 using Zenject;
@@ -12,9 +13,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 {
     public class PoolMonoInstaller : MonoInstaller
     {
-        [SerializeField] private Transform[] _transforms;
-        [SerializeField] private float _delay;
-    
         public override void InstallBindings()
         {
             BindUnit();
@@ -39,13 +37,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             
             Container
                 .Bind<UnitFactory>()
-                .AsSingle()
-                .WithArguments(_transforms);
-            
+                .AsSingle();
+
             Container
                 .BindInterfacesAndSelfTo<UnitService>() // add bind interfaces to
-                .AsSingle()
-                .WithArguments(_transforms, _delay);
+                .AsSingle();
         }
 
         private void BindMap()
@@ -53,11 +49,10 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<MapPool>()
                 .AsSingle();
-            
+
             Container
                 .BindInterfacesAndSelfTo<MapService>()
-                .AsSingle()
-                .WithArguments(3f);
+                .AsSingle();
         }
         
         private void BindBullet()

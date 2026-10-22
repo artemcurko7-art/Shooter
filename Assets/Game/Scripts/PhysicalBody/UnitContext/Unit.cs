@@ -33,8 +33,8 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             Transformable = transformable;
             CharacterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
-            //_renderer = GetComponent<Renderer>();
-            //_material = _renderer.material;
+            _renderer = GetComponentInChildren<Renderer>();
+            _material = _renderer.material;
         }
 
         public virtual void Initialize(UnitType type, IUnitAttacker attacker, int health, int damage, float speed, float distance)
