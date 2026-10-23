@@ -1604,8 +1604,8 @@ MonoBehaviour:
   _buttonName: {fileID: 8573942794924505488}
   _openButton: {fileID: 3828618615021813861}
   _buttonBackground: {fileID: 4181614519221533674}
-  _enableColor: {r: 0, g: 0.69803923, b: 0.4431373, a: 1}
-  _disableColor: {r: 0.82745105, g: 0.18431373, b: 0.21176472, a: 1}
+  _enableColor: {r: 0, g: 0.7, b: 0.45, a: 1}
+  _disableColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
 --- !u!1 &8750891602651608602
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,6 +38,17 @@ namespace Game.Scripts.UI
             };
         }
 
+        public static string GetRewardTitleText()
+        {
+            return YG2.lang switch
+            {
+                "ru" => "Награда",
+                "en" => "Reward",
+                "tr" => "Ödül",
+                _ => "Reward"
+            };
+        }
+
         public static string GetSpinButtonText()
         {
             return YG2.lang switch

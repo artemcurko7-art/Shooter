@@ -12,6 +12,7 @@ namespace Game.Scripts.UI.Animation
         [SerializeField] private TMP_Text _count;
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Image _image;
+        [SerializeField] private GameObject _upArrow;
 
         [Header(
             "UIAnimation (Укажите endPosition или offset \n если конечная точка просто выше)")]
@@ -64,6 +65,8 @@ namespace Game.Scripts.UI.Animation
             gameObject.SetActive(true);
 
             _image.sprite = icon;
+            _upArrow.gameObject.SetActive(count == 0);
+            _count.gameObject.SetActive(count > 0);
             _count.text = $"+{count}";
             _canvasGroup.alpha = 1f;
 
@@ -72,7 +75,7 @@ namespace Game.Scripts.UI.Animation
 
             IsAnimating = true;
 
-            var endPosition = Vector3.zero;
+            Vector3 endPosition;
 
             if (_endPosition != Vector3.zero)
             {
