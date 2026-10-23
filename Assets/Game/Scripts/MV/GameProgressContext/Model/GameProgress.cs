@@ -51,13 +51,13 @@ namespace Game.Scripts.MV.GameProgressContext
 
         private void OnAdded(Unit unit)
         {
-            unit.Released += OnReleased;
+            unit.Dead += OnDead;
         }
 
-        private void OnReleased(Unit unit)
+        private void OnDead(Unit unit)
         {
             Value++;
-            unit.Released -= OnReleased;
+            unit.Dead -= OnDead;
         }
     }
 }

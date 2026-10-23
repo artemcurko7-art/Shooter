@@ -6,7 +6,9 @@
         Health,
         Damage,
         Defence,
+        Speed,
         CriticalChance,
         CriticalDamage,
+        Distance,
     }
 }

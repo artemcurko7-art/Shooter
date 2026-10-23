@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Equipment.CharacterContext.Type;
@@ -17,6 +18,8 @@ namespace Game.Scripts.Configs
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Character View { get; private set; }
         [field: SerializeField] public CharacterStatData[] Stats { get; private set; }
+
+        private readonly List<StatType> _excludedStatTypes = new();
 
         private void Reset()
         {
@@ -47,7 +50,11 @@ namespace Game.Scripts.Configs
                 if (Stats != null)
                 {
                     var existingStat = Stats.FirstOrDefault(characterStat => characterStat != null && characterStat.Type == currentType);
-                    existingValue = existingStat.Value;
+
+                    if (existingStat != null)
+                    {
+                        existingValue = existingStat.Value;
+                    }
                 }
             
                 newStats[i] = new CharacterStatData(currentType, existingValue);
@@ -58,9 +65,16 @@ namespace Game.Scripts.Configs
 
         private StatType[] GetFilteredStatTypes()
         {
+            if (_excludedStatTypes.Contains(StatType.Speed) == false)
+                _excludedStatTypes.Add(StatType.Speed);
+
+            if (_excludedStatTypes.Contains(StatType.Distance) == false)
+                _excludedStatTypes.Add(StatType.Distance);
+            
             return Enum.GetValues(typeof(StatType))
                 .Cast<StatType>()
                 .Where(statType => Convert.ToInt32(statType) != 0)
+                .Except(_excludedStatTypes)
                 .ToArray();
         }
     }

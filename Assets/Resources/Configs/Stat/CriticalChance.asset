@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd36823960bd40e8a0322859cde780c1, type: 3}
   m_Name: CriticalChance
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 4
+  <Type>k__BackingField: 5
   <Icon>k__BackingField: {fileID: 21300000, guid: 4cbcc4348a15cf44abc592d92aa8faa3, type: 3}
   <Name>k__BackingField: "\u041A\u0440\u0438\u0442. \u0448"
