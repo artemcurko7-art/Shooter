@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace Game.Scripts.MV.StatContext
 {
-    public abstract class Stat
+    public abstract class Stat : IStat
     {
+        private readonly int _defaultValue;
         private int _value;
         
-        public event Action<float> ValueChanged;
+        public event Action<int> ValueChanged;
         
         public Stat(int value, bool isPercentageValue)
         {
+            _defaultValue = value;
             _value = value;
             IsPercentageValue = isPercentageValue;
         }
@@ -30,22 +32,32 @@ namespace Game.Scripts.MV.StatContext
             }
         }
 
-        public void Increase(int amount)
+        public void Update()
         {
-            if (amount < 0)
-                throw new ArgumentOutOfRangeException(nameof(amount));
-            
-            Value += amount;
-        }
-        
-        public void Decrease(int amount)
-        {
-            if (amount < 0)
-                throw new ArgumentOutOfRangeException(nameof(amount));
-            
-            Value -= amount;
+            ValueChanged?.Invoke(Value);
         }
 
+        public virtual void Increase(int value)
+        {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            
+            Value += value;
+        }
+        
+        public void Decrease(int value)
+        {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            
+            Value -= value;
+        }
+
+        public void SetDefaultValue()
+        {
+            Value = _defaultValue;
+        }
+        
         protected abstract StatType GetStatType();
     }
 }

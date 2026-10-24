@@ -1,22 +1,25 @@
+using System;
 using Game.Scripts.Damagable;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.PlayerContext.Death;
 using UnityEngine;
 using Zenject;
 
 namespace Game.Scripts.PlayerContext
 {
-    public class Player : MonoBehaviour, IDamageable, ITransformable
+    public class Player : MonoBehaviour, IDamageable, ITransformable, IDeath
     {
-        private TrackerUnits _trackerUnits;
         private Health _health;
-        private Coroutine _shoot;
-    
+
+        public event Action Dead;
+        
         public Transform Transform { get; private set; }
 
         [Inject]
-        public void Construct(TrackerUnits trackerUnits)
+        public void Construct(Health health)
         {
-            _trackerUnits = trackerUnits;
+            _health = health;
         }
         
         private void Awake()
@@ -24,24 +27,12 @@ namespace Game.Scripts.PlayerContext
             Transform = GetComponent<Transform>();
         }
 
-        // private void Start()
-        // {
-        //     StartCoroutine(StartTrackerUnits());
-        // }
-
         public void TakeDamage(int damage)
         {
-            //_health.Increase(damage);
-        }
+            _health.Decrease(damage);
 
-        // private IEnumerator StartTrackerUnits()
-        // {
-        //     while (enabled)
-        //     {
-        //         yield return new WaitForSeconds(0.1f);
-        //     
-        //         _trackerUnits.FindNearestPosition(transform.position);
-        //     }
-        // }
+            if (_health.Value <= 0)
+                Dead?.Invoke();
+        }
     }
 }

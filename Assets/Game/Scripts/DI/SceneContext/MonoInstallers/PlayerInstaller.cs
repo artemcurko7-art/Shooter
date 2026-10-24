@@ -1,3 +1,4 @@
+using Game.Scripts.MV.StatContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
         
             Container
-                .Bind<ITransformable>()
+                .BindInterfacesTo<Player>()
                 .FromInstance(_player)
                 .AsSingle();
 
@@ -56,6 +57,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .Bind<CalculationRotatorAngle>()
                 .AsSingle();
+            
+            Container
+                .BindInterfacesAndSelfTo<Health>()
+                .AsSingle()
+                .WithArguments(0, false);
         }
     }
 }

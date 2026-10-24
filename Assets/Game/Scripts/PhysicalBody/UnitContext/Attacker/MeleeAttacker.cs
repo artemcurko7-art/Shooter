@@ -6,8 +6,6 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 {
     public class MeleeAttacker : IUnitAttacker
     {
-        private const float Distance = 5;
-        
         public MeleeAttacker()
         {
             Type = UnitAttackerType.Melee;
@@ -15,17 +13,13 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 
         public UnitAttackerType Type { get; }
 
-        public void Attack(Transform current, int damage)
+        public void Attack(Transform current, int damage, float distance)
         {
             Ray ray = new Ray(current.position, current.forward);
             
-            if (Physics.Raycast(ray, out var hit, Distance))
-            {
+            if (Physics.SphereCast(ray.origin, 0.5f, ray.direction, out var hit, distance))
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
-                {
                     damageable.TakeDamage(damage);
-                }
-            }
             
             Debug.Log("Melee Attacker");
         }

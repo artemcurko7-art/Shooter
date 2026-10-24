@@ -21,6 +21,6 @@ MonoBehaviour:
   <Waves>k__BackingField:
   - <Waves>k__BackingField:
     - <Type>k__BackingField: 1
-      <Cooldown>k__BackingField: 1
+      <Cooldown>k__BackingField: 0
       <MaxCount>k__BackingField: 1
     <Cooldown>k__BackingField: 0.5

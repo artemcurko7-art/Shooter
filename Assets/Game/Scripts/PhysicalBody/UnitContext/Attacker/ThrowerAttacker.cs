@@ -17,7 +17,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
         
         public UnitAttackerType Type { get; }
         
-        public void Attack(Transform current, int damage)
+        public void Attack(Transform current, int damage, float distance)
         {
             // var obj = GameObject.Instantiate(_projectile, current.transform.position, Quaternion.identity);
             // obj.Initialize(current.transform.position, current.forward, 5, damage, 3);

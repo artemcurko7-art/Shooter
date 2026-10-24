@@ -24,9 +24,9 @@ namespace Game.Scripts.TextPopup
         [SerializeField] private float _criticalDuration;
         [SerializeField] private float _criticalFlyHeight;
         
-        public event Action<DamageTextPopup> Released;
-
         private Sequence _sequence;
+        
+        public event Action<DamageTextPopup> Released;
         
         public void Initialize(Camera camera, int value, bool isCritical)
         {

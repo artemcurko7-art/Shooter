@@ -94,7 +94,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext
         
         public virtual void Attack()
         {
-            _attacker.Attack(transform, _stats[StatType.Damage].Value);
+            _attacker.Attack(transform, _stats[StatType.Damage].Value, _stats[StatType.Distance].Value);
         }
         
         protected virtual StateAttacker BindStateAttacker()
@@ -119,6 +119,9 @@ namespace Game.Scripts.PhysicalBody.UnitContext
             yield return new WaitForSeconds(5);
             
             Released?.Invoke(this);
+
+            foreach (var stat in _stats.Values)
+                stat.SetDefaultValue();
         }
     }
 }

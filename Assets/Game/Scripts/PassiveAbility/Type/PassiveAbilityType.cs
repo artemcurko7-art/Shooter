@@ -3,5 +3,7 @@
     public enum PassiveAbilityType
     {
         None,
+        Heal,
+        BuffDamage,
     }
 }

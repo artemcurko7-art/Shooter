@@ -18,7 +18,7 @@ namespace Game.Scripts.PhysicalBody.UnitContext.Attacker
 
         public UnitAttackerType Type { get; }
 
-        public void Attack(Transform current, int damage)
+        public void Attack(Transform current, int damage, float distance)
         {
             int hitCount = Physics.OverlapSphereNonAlloc(current.position, 5, _colliders, _layerMask);
             
