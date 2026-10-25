@@ -32,7 +32,7 @@ namespace Game.Scripts.Factory
             foreach (var stat in config.Stats)
                 stats.Add(stat.Type, _statFactory.Create(stat.Type, stat.Value, stat.IsPercentageValue));
             
-            view.Initialize(stats);
+            view.Initialize(config.PassiveAbilityData, stats);
             
             return view;
         }

@@ -7,23 +7,20 @@ namespace Game.Scripts.MV.StatContext.HealthViewContext
 {
     public abstract class HealthView : MonoBehaviour
     {
-        private IStat _stat;
-        
         [Inject]
-        public void Construct(IStat stat, IHealth health)
+        public void Construct(IStat model)
         {
-            _stat = stat;
-            Model = health;
+            Model = model;
             
-            _stat.ValueChanged += OnValueChanged;
-            _stat.Update();
+            Model.ValueChanged += OnValueChanged;
+            Model.Update();
         }
         
-        protected IHealth Model { get; private set; }
+        protected IStat Model { get; private set; }
 
         private void OnDestroy()
         {
-            _stat.ValueChanged -= OnValueChanged;
+            Model.ValueChanged -= OnValueChanged;
         }
 
         protected abstract void OnValueChanged(int value);

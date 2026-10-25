@@ -23,7 +23,8 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
 
             Container
-                .Bind<CharacterStatResolver>()
+                .Bind<ICharacterStatResolver>()
+                .To<CharacterStatResolver>()
                 .AsSingle()
                 .NonLazy();
         }

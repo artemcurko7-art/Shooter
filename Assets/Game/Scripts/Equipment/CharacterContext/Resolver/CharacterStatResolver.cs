@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class CharacterStatResolver : ISubscriber
+    public class CharacterStatResolver : ICharacterStatResolver, ISubscriber
     {
         private const float Percent = 100f;
         private readonly ICharacterService _characterService;
@@ -18,6 +18,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private readonly Health _health;
         private readonly Dictionary<StatType, Stat> _currentStats = new();
         private readonly IReadOnlyDictionary<StatType, Stat> _recordedStats;
+        private readonly List<Character> _characters = new();
         
         public CharacterStatResolver(ICharacterService characterService, IEquipmentProvider equipmentProvider, Health health)
         {
@@ -32,8 +33,13 @@ namespace Game.Scripts.Equipment.CharacterContext
             Resolve();
             
             foreach (var character in characterService.Characters)
+            {
+                _characters.Add(character);
                 health.Increase(character.Stats[StatType.Health].Value);
+            }
         }
+        
+        public IReadOnlyList<Character> Characters => _characters;
         
         public void Subscribe()
         {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PlayerContext.GameInput;
-using Game.Scripts.SquadContext.Type;
 using Game.Scripts.WeaponContext;
-using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 using Zenject;
 
@@ -25,6 +22,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private IInput _input;
         private Vector3 _direction;
         
+        public PassiveAbilityData PassiveAbilityData { get; private set; }
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Transform => ShootPosition;
         
@@ -36,8 +34,9 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(IReadOnlyDictionary<StatType, Stat> stats)
+        public void Initialize(PassiveAbilityData passiveAbilityData, IReadOnlyDictionary<StatType, Stat> stats)
         {
+            PassiveAbilityData = passiveAbilityData;
             Stats = stats;
             StartCoroutine(StartTrackerUnits());
         }

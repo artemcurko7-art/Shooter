@@ -1,12 +1,16 @@
-﻿using Game.Scripts.PassiveAbility.Type;
+﻿using System;
+using System.Collections.Generic;
+using Game.Scripts.Configs;
+using Game.Scripts.PassiveAbilityContext.Type;
 using UnityEngine;
 
-namespace Game.Scripts.Configs
+namespace Game.Scripts.PassiveAbilityContext.Data
 {
-    [CreateAssetMenu(menuName = "Source/Config/PassiveAbility", fileName = "PassiveAbility", order = 9)]
-    public class PassiveAbilityConfig : ScriptableObject
+    [Serializable]
+    public class PassiveAbilityData
     {
         [field: SerializeField] public PassiveAbilityType Type { get; private set; }
+        [field: SerializeField] public PassiveAbilityTargetingType TargetingType { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public string Description { get; private set; }
         [field: SerializeField] public float Value { get; private set; }

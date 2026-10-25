@@ -20,7 +20,9 @@ namespace Game.Scripts.MV.StatContext
 
         public StatType Type => GetStatType();
         public bool IsPercentageValue { get; }
-            
+
+        public int MaxValue { get; private set; }
+
         public int Value
         {
             get => _value;
@@ -37,12 +39,13 @@ namespace Game.Scripts.MV.StatContext
             ValueChanged?.Invoke(Value);
         }
 
-        public virtual void Increase(int value)
+        public void Increase(int value)
         {
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
             
             Value += value;
+            MaxValue = Value;
         }
         
         public void Decrease(int value)

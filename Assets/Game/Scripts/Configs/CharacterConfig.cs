@@ -4,6 +4,8 @@ using System.Linq;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.PassiveAbilityContext.Data;
+using Game.Scripts.PassiveAbilityContext.Type;
 using Game.Scripts.WeaponContext.Type;
 using UnityEngine;
 
@@ -12,9 +14,15 @@ namespace Game.Scripts.Configs
     [CreateAssetMenu(menuName = "Source/Config/Character", fileName = "Character", order = 2)]
     public class CharacterConfig : ScriptableObject
     {
+        [field: Header("General")]
         [field: SerializeField] public CharacterType Type { get; private set; }
         [field: SerializeField] public WeaponType WeaponType { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
+        
+        [field: Header("Passive Ability")]
+        [field: SerializeField] public PassiveAbilityData PassiveAbilityData { get; private set; }
+        
+        [field: Header("Character")]
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public Character View { get; private set; }
         [field: SerializeField] public CharacterStatData[] Stats { get; private set; }

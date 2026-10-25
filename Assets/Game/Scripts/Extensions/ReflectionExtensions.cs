@@ -6,9 +6,9 @@ namespace Game.Scripts.Extensions
 {
     public static class ReflectionExtensions
     {
-        public static IEnumerable<Type> GetImplementations<T>()
+        public static IEnumerable<Type> GetImplementations<TType>()
         {
-            var interfaceType = typeof(T);
+            var interfaceType = typeof(TType);
 
             return AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
