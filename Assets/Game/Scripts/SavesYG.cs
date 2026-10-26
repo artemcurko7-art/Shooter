@@ -7,7 +7,7 @@ namespace YG
     public partial class SavesYG
     {
         //Генетика
-        public int IdSavedStatCount = 0; 
+        public int IdSavedStatCount = 0;
 
         public float AttackStrength = 1f;
         public float CriticalDamage = 1f;
@@ -21,5 +21,8 @@ namespace YG
         public int TotalCollectedGifts;
         public int DailyGiftWeek;
         public long GiftEndTime;
+
+        //энергия
+        public int Energy = 0;
     }
 }
