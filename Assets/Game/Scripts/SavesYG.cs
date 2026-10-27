@@ -24,5 +24,6 @@ namespace YG
 
         //энергия
         public int Energy = 0;
+        public string NextEnergyRestoreTime = string.Empty;
     }
 }

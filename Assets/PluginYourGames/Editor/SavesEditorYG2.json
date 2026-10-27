@@ -5,16 +5,19 @@
     "Armor": 14.0,
     "MovementSpeed": 13.0,
     "ViewRange": 13.5,
-    "TakenDailyGiftDays": [],
+    "TakenDailyGiftDays": [
+        2
+    ],
     "TakenDailyGiftBoxes": [
         1,
         2,
         3
     ],
-    "TotalCollectedGifts": 22,
+    "TotalCollectedGifts": 23,
     "DailyGiftWeek": 202644,
     "GiftEndTime": 0,
-    "Energy": 4,
+    "Energy": 0,
+    "NextEnergyRestoreTime": "2026-10-27T13:45:46.4271193Z",
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [

@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using YG;
@@ -13,27 +14,41 @@ namespace Game.Scripts.UI.Adventure
         [SerializeField] private PlayButtonHandler _buttonHandler;
         [SerializeField] private EnergyVisualizer _visualizer;
         [SerializeField] private SceneSwitcher _sceneSwitcher;
+        [SerializeField] private EnergyRestoreService _restoreService;
 
         public event Action IsOutOfEnergy;
         public event Action EnergyDecreased;
 
         private void OnEnable()
         {
-            _buttonHandler.Clicked += OnPlayButtonClicked;
+            if (_buttonHandler)
+                _buttonHandler.Clicked += OnPlayButtonClicked;
+
+            if (_restoreService)
+                _restoreService.EnergyChanged += OnEnergyChanged;
         }
 
         private void OnDisable()
         {
-            _buttonHandler.Clicked -= OnPlayButtonClicked;
+            if (_buttonHandler)
+                _buttonHandler.Clicked -= OnPlayButtonClicked;
+
+            if (_restoreService)
+                _restoreService.EnergyChanged -= OnEnergyChanged;
         }
 
         private void Awake()
         {
-            YG2.saves.Energy = _maxEnergyCount;
+            YG2.saves.Energy = Mathf.Clamp(YG2.saves.Energy, 0, _maxEnergyCount);
 
+            if (_visualizer)
+                _visualizer.UpdateVisual(YG2.saves.Energy);
+        }
 
-            var count = _maxEnergyCount >= YG2.saves.Energy ? YG2.saves.Energy : _maxEnergyCount;
-            _visualizer.UpdateVisual(count);
+        private void OnEnergyChanged(float energy)
+        {
+            if (_visualizer)
+                _visualizer.UpdateVisual(Mathf.RoundToInt(energy));
         }
 
         private void OnPlayButtonClicked()
@@ -48,26 +63,35 @@ namespace Game.Scripts.UI.Adventure
                 return;
 
             DecreaseEnergy();
-            _visualizer.DisplayPopEffect(_popPosition.position);
-            //_sceneSwitcher.LoadSavedScene();
+
+            if (_visualizer && _popPosition)
+                _visualizer.DisplayPopEffect(_popPosition.position);
+
+            // _sceneSwitcher.LoadSavedScene();
         }
 
         private void DecreaseEnergy()
         {
             YG2.saves.Energy--;
             YG2.SaveProgress();
-            _visualizer.UpdateVisual(YG2.saves.Energy);
+
+            if (_visualizer)
+                _visualizer.UpdateVisual(YG2.saves.Energy);
+
+            _restoreService?.OnEnergySpent();
             EnergyDecreased?.Invoke();
         }
 
         private bool IsValidToStart()
         {
-            return !HasNoEnergy() && !_visualizer.IsAnimating && !_sceneSwitcher.IsEnabled;
+            return !HasNoEnergy() &&
+                   (!_visualizer || !_visualizer.IsAnimating) &&
+                   (!_sceneSwitcher || !_sceneSwitcher.IsEnabled);
         }
 
         private bool HasNoEnergy()
         {
-            return YG2.saves.Energy == 0;
+            return YG2.saves.Energy <= 0;
         }
     }
 }
