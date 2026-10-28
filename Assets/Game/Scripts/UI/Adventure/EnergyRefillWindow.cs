@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Game.Scripts.UI.Adventure
@@ -6,30 +5,51 @@ namespace Game.Scripts.UI.Adventure
     public class EnergyRefillWindow : Window
     {
         [SerializeField] private EnergyHandler _energyHandler;
+        [SerializeField] private RectTransform _startAnimTransform;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            _energyHandler.IsOutOfEnergy += OnOutOfEnergy;
+
+            if (_energyHandler != null)
+                _energyHandler.IsOutOfEnergy += OnOutOfEnergy;
         }
 
         protected override void OnDisable()
         {
+            if (_energyHandler != null)
+                _energyHandler.IsOutOfEnergy -= OnOutOfEnergy;
+
             base.OnDisable();
-            _energyHandler.IsOutOfEnergy -= OnOutOfEnergy;
         }
 
         private void OnOutOfEnergy()
         {
+            if (_energyHandler == null || _energyHandler.CurrentEnergy > 0)
+                return;
+
+            if (!TryBeginOpen())
+                return;
+
             Show();
         }
 
         protected override void Show()
         {
+            if (!_transition || !_canvasGroup || !_rectTransform)
+            {
+                Debug.LogError(
+                    "[EnergyRefillWindow] Не назначены ссылки: WindowTransition, CanvasGroup или RectTransform.",
+                    this);
+
+                FinishTransition();
+                return;
+            }
+
             _transition.Open(
                 _canvasGroup,
                 _rectTransform,
-                _openButton.transform.position,
+                _startAnimTransform.position,
                 _scaleEase,
                 _positionEase,
                 _duration,

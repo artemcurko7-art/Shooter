@@ -18,6 +18,8 @@ namespace Game.Scripts.UI.Adventure
 
         public event Action IsOutOfEnergy;
         public event Action EnergyDecreased;
+        
+        public int CurrentEnergy => YG2.saves.Energy;
 
         private void OnEnable()
         {
@@ -53,14 +55,20 @@ namespace Game.Scripts.UI.Adventure
 
         private void OnPlayButtonClicked()
         {
+            Debug.Log($"[EnergyHandler] Play clicked. Energy: {YG2.saves.Energy}");
+
             if (HasNoEnergy())
             {
+                Debug.Log("[EnergyHandler] Energy is 0. Invoking IsOutOfEnergy.");
                 IsOutOfEnergy?.Invoke();
                 return;
             }
 
             if (!IsValidToStart())
+            {
+                Debug.Log("[EnergyHandler] Start blocked by validation.");
                 return;
+            }
 
             DecreaseEnergy();
 

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Globalization;
@@ -23,9 +22,26 @@ namespace Game.Scripts.UI.Adventure
         private Coroutine _restoreCoroutine;
         private bool _isInitialized;
 
-        private void Awake()
+
+        private void OnEnable()
         {
-            Initialize();
+            YG2.onGetSDKData += Initialize;
+
+            if (!_isInitialized || !Application.isPlaying)
+                return;
+
+            if (YG2.saves.Energy < _maxEnergy)
+                StartRestoreCoroutine();
+        }
+
+        private void OnDisable()
+        {
+            YG2.onGetSDKData -= Initialize;
+
+            if (_isInitialized)
+                SaveProgress();
+
+            StopRestoreCoroutine();
         }
 
         private void Initialize()
@@ -35,7 +51,7 @@ namespace Game.Scripts.UI.Adventure
 
             YG2.saves.Energy = Mathf.Clamp(YG2.saves.Energy, 0, _maxEnergy);
 
-            string savedTime = YG2.saves.NextEnergyRestoreTime;
+            var savedTime = YG2.saves.NextEnergyRestoreTime;
 
             if (!string.IsNullOrEmpty(savedTime) &&
                 DateTime.TryParse(
@@ -101,13 +117,13 @@ namespace Game.Scripts.UI.Adventure
             if (now < _nextRestoreTimeUtc.Value)
                 return;
 
-            double elapsed = (now - _nextRestoreTimeUtc.Value).TotalSeconds;
-            int restoreCount = 1 + (int)(elapsed / _restoreIntervalSeconds);
-            int energyToAdd = Mathf.Min(restoreCount, _maxEnergy - YG2.saves.Energy);
+            var elapsed = (now - _nextRestoreTimeUtc.Value).TotalSeconds;
+            var restoreCount = 1 + (int)(elapsed / _restoreIntervalSeconds);
+            var energyToAdd = Mathf.Min(restoreCount, _maxEnergy - YG2.saves.Energy);
 
             YG2.saves.Energy += energyToAdd;
 
-            for (int i = 0; i < energyToAdd; i++)
+            for (var i = 0; i < energyToAdd; i++)
                 EnergyRestored?.Invoke();
 
             if (YG2.saves.Energy >= _maxEnergy)
@@ -140,8 +156,7 @@ namespace Game.Scripts.UI.Adventure
             if (!_nextRestoreTimeUtc.HasValue)
                 SetNextRestoreTime();
 
-            if (_restoreCoroutine == null)
-                _restoreCoroutine = StartCoroutine(RestoreRoutine());
+            _restoreCoroutine ??= StartCoroutine(RestoreRoutine());
         }
 
         private IEnumerator RestoreRoutine()
@@ -151,13 +166,15 @@ namespace Game.Scripts.UI.Adventure
                 if (!_nextRestoreTimeUtc.HasValue)
                     SetNextRestoreTime();
 
-                double remaining = (
-                    _nextRestoreTimeUtc.Value - DateTime.UtcNow).TotalSeconds;
-
-                if (remaining > 0)
+                if (_nextRestoreTimeUtc != null)
                 {
-                    yield return new WaitForSecondsRealtime((float)remaining);
-                    continue;
+                    var remaining = (_nextRestoreTimeUtc.Value - DateTime.UtcNow).TotalSeconds;
+
+                    if (remaining > 0)
+                    {
+                        yield return new WaitForSecondsRealtime((float)remaining);
+                        continue;
+                    }
                 }
 
                 YG2.saves.Energy = Mathf.Min(YG2.saves.Energy + 1, _maxEnergy);
@@ -173,7 +190,7 @@ namespace Game.Scripts.UI.Adventure
                     yield break;
                 }
 
-                _nextRestoreTimeUtc = _nextRestoreTimeUtc.Value.AddSeconds(
+                _nextRestoreTimeUtc = _nextRestoreTimeUtc?.AddSeconds(
                     _restoreIntervalSeconds);
 
                 SaveProgress();
@@ -233,23 +250,6 @@ namespace Game.Scripts.UI.Adventure
 
             StopCoroutine(_restoreCoroutine);
             _restoreCoroutine = null;
-        }
-
-        private void OnDisable()
-        {
-            if (_isInitialized)
-                SaveProgress();
-
-            StopRestoreCoroutine();
-        }
-
-        private void OnEnable()
-        {
-            if (!_isInitialized || !Application.isPlaying)
-                return;
-
-            if (YG2.saves.Energy < _maxEnergy)
-                StartRestoreCoroutine();
         }
 
         private void OnApplicationPause(bool pauseStatus)

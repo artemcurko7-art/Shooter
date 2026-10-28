@@ -1,4 +1,3 @@
-
 using System.Collections;
 using DG.Tweening;
 using TMPro;
@@ -8,12 +7,12 @@ namespace Game.Scripts.UI.Adventure
 {
     public class CoolDownDisplayer : MonoBehaviour
     {
+        private const float OVERSHOOT = 2f;
+        private const float TIMER_UPDATE_INTERVAL = 1f;
+
         [SerializeField] private Transform _panelTransform;
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private float _duration = 0.2f;
-        [SerializeField] private float _sleepDelay = 2f;
-
-        private const float OVERSHOOT = 2f;
 
         [Header("Зависимости")]
         [SerializeField] private EnergyRestoreService _restoreService;
@@ -64,7 +63,7 @@ namespace Game.Scripts.UI.Adventure
             if (!_restoreService)
                 return;
 
-            var shouldShow = _restoreService.CurrentEnergy < _restoreService.MaxEnergy;
+            bool shouldShow = _restoreService.CurrentEnergy < _restoreService.MaxEnergy;
 
             if (shouldShow)
             {
@@ -88,8 +87,11 @@ namespace Game.Scripts.UI.Adventure
                 if (_timerText)
                     _timerText.text = _restoreService.GetTimerText();
 
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSecondsRealtime(TIMER_UPDATE_INTERVAL);
             }
+
+            if (_timerText)
+                _timerText.text = "00:00";
 
             _timerCoroutine = null;
             RefreshDisplay();
@@ -109,7 +111,7 @@ namespace Game.Scripts.UI.Adventure
 
         private void HidePanel()
         {
-            if (!_isVisible && _panelTransform.localScale == Vector3.zero)
+            if (!_isVisible)
                 return;
 
             _isVisible = false;
@@ -124,9 +126,6 @@ namespace Game.Scripts.UI.Adventure
                 StopCoroutine(_timerCoroutine);
                 _timerCoroutine = null;
             }
-
-            if (_timerText)
-                _timerText.text = string.Empty;
         }
     }
 }
