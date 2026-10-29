@@ -15,30 +15,21 @@ MonoBehaviour:
   _useSharedDefinition: 1
   _sharedDefinition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
   _items:
-  - Definition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-    Count: 50
+  - Definition: {fileID: 0}
+    Count: 25
+    Price: 0.49
+  - Definition: {fileID: 0}
+    Count: 60
     Price: 0.99
-  - Definition: {fileID: 11400000, guid: 42d9ebe75c3c1ab42bbe06cc641efc0d, type: 2}
-    Count: 150
+  - Definition: {fileID: 0}
+    Count: 120
     Price: 2.99
   - Definition: {fileID: 0}
-    Count: 250
+    Count: 200
     Price: 3.99
   - Definition: {fileID: 0}
-    Count: 350
+    Count: 325
     Price: 4.99
   - Definition: {fileID: 0}
     Count: 450
     Price: 5.99
-  - Definition: {fileID: 0}
-    Count: 600
-    Price: 7.99
-  - Definition: {fileID: 0}
-    Count: 800
-    Price: 7.99
-  - Definition: {fileID: 0}
-    Count: 1000
-    Price: 7.99
-  - Definition: {fileID: 0}
-    Count: 1200
-    Price: 7.99
