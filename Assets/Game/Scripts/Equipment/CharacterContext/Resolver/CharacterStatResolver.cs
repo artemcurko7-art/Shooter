@@ -35,7 +35,7 @@ namespace Game.Scripts.Equipment.CharacterContext
             foreach (var character in characterService.Characters)
             {
                 _characters.Add(character);
-                health.Increase(character.Stats[StatType.Health].Value);
+                _health.Increase(character.Stats[StatType.Health].Value);
             }
         }
         
@@ -55,7 +55,7 @@ namespace Game.Scripts.Equipment.CharacterContext
 
         private void OnValueChanged(int value)
         {
-            _health.Increase(value);
+            _health.Increase(value - _health.Value);
         }
         
         private void Resolve()

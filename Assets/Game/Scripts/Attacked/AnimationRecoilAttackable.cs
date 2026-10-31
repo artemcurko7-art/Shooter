@@ -8,7 +8,7 @@ namespace Game.Scripts.Attacked
     {
         public AnimationRecoilAttackable(IWeaponShooting[] shootings) : base(shootings) { }
 
-        protected override void OnAttacked(IAttacker attacker)
+        protected override void OnAttacked(ICharacter character)
         {
             //Debug.Log($"Shoot: {attacker.CharacterType}");
             

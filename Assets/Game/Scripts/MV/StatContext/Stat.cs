@@ -15,6 +15,7 @@ namespace Game.Scripts.MV.StatContext
         {
             _defaultValue = value;
             _value = value;
+            MaxValue = _value;
             IsPercentageValue = isPercentageValue;
         }
 
@@ -30,6 +31,7 @@ namespace Game.Scripts.MV.StatContext
             private set
             {
                 _value = Mathf.Clamp(value, 0, int.MaxValue);
+                MaxValue = _value;
                 ValueChanged?.Invoke(_value);
             }
         }
@@ -41,18 +43,11 @@ namespace Game.Scripts.MV.StatContext
 
         public void Increase(int value)
         {
-            if (value < 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-            
             Value += value;
-            MaxValue = Value;
         }
         
         public void Decrease(int value)
         {
-            if (value < 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-            
             Value -= value;
         }
 

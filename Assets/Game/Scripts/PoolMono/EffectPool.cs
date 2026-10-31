@@ -1,11 +1,17 @@
 ﻿using Game.Scripts.VFX;
+using Game.Scripts.VFX.Type;
 using Zenject;
 
 namespace Game.Scripts.PoolMono
 {
     public class EffectPool : PoolMono<Effect>
     {
-        public EffectPool(DiContainer container) : base(container) { }
+        public EffectPool(EffectType type, DiContainer container) : base(container)
+        {
+            Type = type;
+        }
+        
+        public EffectType Type { get; private set; }
         
         protected override void ActionOnGet(Effect effect)
         {

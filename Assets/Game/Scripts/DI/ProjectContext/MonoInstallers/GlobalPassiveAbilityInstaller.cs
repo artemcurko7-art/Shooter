@@ -1,4 +1,5 @@
-﻿using Game.Scripts.PassiveAbilityContext.Registry;
+﻿using Game.Scripts.PassiveAbilityContext.Data;
+using Game.Scripts.PassiveAbilityContext.Registry;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
@@ -15,6 +16,11 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
             Container
                 .Bind<IPassiveAbilityTargetingRegistry>()
                 .To<PassiveAbilityTargetingRegistry>()
+                .AsSingle();
+            
+            Container
+                .Bind<IPassiveAbilityViewData>()
+                .To<PassiveAbilityViewData>()
                 .AsSingle();
         }
     }

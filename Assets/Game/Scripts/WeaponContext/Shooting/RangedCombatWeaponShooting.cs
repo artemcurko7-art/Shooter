@@ -14,7 +14,6 @@ namespace Game.Scripts.WeaponContext.Shooting
     [WeaponShootingType(ShootingType.RangedCombat)]
     public class RangedCombatWeaponShooting : WeaponShooting, IWeaponShooting
     {
-        private const int SecondInMilliseconds = 1000;
         private CriticalDamageResolver _criticalDamageResolver;
         private CancellationTokenSource _cancellationTokenSource;
         private int _countShoot;
@@ -26,7 +25,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             ProjectilePool projectilePool)
             : base(config, trackerUnits, projectilePool) { }
         
-        public event Action<IAttacker> Attacked;
+        public event Action<ICharacter> Attacked;
 
         public void Subscribe()
         {
@@ -38,11 +37,11 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void StartShooting(IAttacker attacker)
+        public void StartShooting(ICharacter character)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(attacker, _cancellationTokenSource.Token).Forget();
-            _criticalDamageResolver = new CriticalDamageResolver(attacker.Stats[StatType.CriticalChance].Value);
+            StartCooldown(character, _cancellationTokenSource.Token).Forget();
+            _criticalDamageResolver = new CriticalDamageResolver(character.Stats[StatType.CriticalChance].Value);
             
             Debug.Log("Ranged combat");
         }
@@ -52,15 +51,13 @@ namespace Game.Scripts.WeaponContext.Shooting
             return ShootingType.RangedCombat;
         }
         
-        private async UniTaskVoid StartCooldown(IAttacker attacker, CancellationToken token)
+        private async UniTaskVoid StartCooldown(ICharacter character, CancellationToken token)
         {
             ProjectilePool.SetPrefab(Config.Projectile);
             
             while (token.IsCancellationRequested == false)
             {
-                float calculationCooldownShoot = Config.CooldownShoot * SecondInMilliseconds;
-                
-                await UniTask.Delay((int)calculationCooldownShoot, cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(Config.CooldownShoot), cancellationToken: token);
         
                 if (token.IsCancellationRequested)
                     return;
@@ -73,22 +70,22 @@ namespace Game.Scripts.WeaponContext.Shooting
 
                 if (_canShoot)
                 {
-                    Attacked?.Invoke(attacker);
+                    Attacked?.Invoke(character);
                     var obj = ProjectilePool.Get();
                     
-                    float currentDamage = attacker.Stats[StatType.Damage].Value * 2.5f;
+                    float currentDamage = character.Stats[StatType.Damage].Value * 2.5f;
                     bool isCritical = _criticalDamageResolver.IsCritical();
                     
                     if (isCritical)
                     {
-                        float calculation = currentDamage * (1f + attacker.Stats[StatType.CriticalDamage].Value / 100f);
+                        float calculation = currentDamage * (1f + character.Stats[StatType.CriticalDamage].Value / 100f);
                         currentDamage = calculation;
                     }
                     
                     obj.Initialize(
-                        new ShotContext(attacker, Mathf.CeilToInt(currentDamage), isCritical),
-                        attacker.Transform.position,
-                        TrackerUnits.GetNearestPosition(attacker.Transform.position),
+                        new ShotContext(character, Mathf.CeilToInt(currentDamage), isCritical),
+                        character.Shoot.position,
+                        TrackerUnits.GetNearestPosition(character.Shoot.position),
                         Mathf.CeilToInt(currentDamage),
                         Config.Radius,
                         Config.Speed);
@@ -107,9 +104,7 @@ namespace Game.Scripts.WeaponContext.Shooting
         {
             _canShoot = false;
             
-            float calculationCooldownReload = Config.CooldownReload * SecondInMilliseconds;
-            
-            await UniTask.Delay((int)calculationCooldownReload, cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(Config.CooldownReload), cancellationToken: token);
 
             _canShoot = true;
         }

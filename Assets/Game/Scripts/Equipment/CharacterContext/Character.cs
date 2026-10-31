@@ -11,7 +11,7 @@ using Zenject;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class Character : MonoBehaviour, IAttacker
+    public class Character : MonoBehaviour, ICharacter
     {
         [field: SerializeField] public Transform Weapon { get; private set; }
         [field: SerializeField] public Transform ShootPosition { get; private set; }
@@ -24,7 +24,8 @@ namespace Game.Scripts.Equipment.CharacterContext
         
         public PassiveAbilityData PassiveAbilityData { get; private set; }
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
-        public Transform Transform => ShootPosition;
+        public Transform Shoot => ShootPosition;
+        public Transform Transform => transform;
         
         [Inject]
         public void Construct(Rotator rotator, TrackerUnits trackerUnits, IInput input)

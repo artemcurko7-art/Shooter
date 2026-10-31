@@ -1,25 +1,24 @@
 ﻿using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.VFX;
+using Game.Scripts.VFX.Data;
+using Game.Scripts.VFX.Type;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
 {
     public class EffectHitImpacted : HitImpactedObserver
     {
-        private readonly EffectPool _pool;
-        private readonly Effect _effect;
+        private readonly IEffectPoolRepository _repository;
         
-        public EffectHitImpacted(EffectPool pool, Effect effect, ProjectilePool projectilePool) : base(projectilePool)
+        public EffectHitImpacted(IEffectPoolRepository repository, ProjectilePool projectilePool) : base(projectilePool)
         {
-            _pool = pool;
-            _effect = effect;
-            
-            _pool.SetPrefab(effect);
+            _repository = repository;
         }
         
         protected override void OnHitImpacted(HitContext hitContext)
         {
-            var obj = _pool.Get();
+            var obj = _repository.Pools[EffectType.BloodBurst].Get();
             obj.Initialize(hitContext.RaycastHit.point);
             obj.transform.rotation = Quaternion.LookRotation(hitContext.RaycastHit.normal);
         }

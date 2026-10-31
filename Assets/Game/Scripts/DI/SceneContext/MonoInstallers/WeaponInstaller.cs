@@ -22,7 +22,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private float _cooldownSingle;
         
         private WeaponProvider _provider;
-        private ICharacterService _characterService;
+        //private ICharacterService _characterService;
         private WeaponConfig[] _configs; // test
         
         [Inject]

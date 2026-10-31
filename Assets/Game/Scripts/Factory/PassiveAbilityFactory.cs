@@ -27,11 +27,36 @@ namespace Game.Scripts.Factory
         
         public PassiveAbility Create(PassiveAbilityData data)
         {
-            var passiveAbility = new PassiveAbility(
-                (IPassiveAbility)Activator.CreateInstance(_registry.Types[data.Type]),
-                (IPassiveAbilityTargeting)Activator.CreateInstance(_targetingRegistry.Types[data.TargetingType]));
+            PassiveAbility passiveAbility = null;
+            
+            switch (data.Type)
+            {
+                case PassiveAbilityType.Constant:
+                    
+                    passiveAbility = new PassiveAbility(
+                        (ConstantPassiveAbility)Activator.CreateInstance(_registry.Types[data.Type], data.StatType, data.Value),
+                        (IPassiveAbilityTargeting)Activator.CreateInstance(_targetingRegistry.Types[data.TargetingType]));
+                    
+                    break;
+                case PassiveAbilityType.Temporary:
+                    
+                    passiveAbility = new PassiveAbility(
+                        (TemporaryPassiveAbility)Activator.CreateInstance(_registry.Types[data.Type], data.StatType, data.Value, data.Cooldown),
+                        (IPassiveAbilityTargeting)Activator.CreateInstance(_targetingRegistry.Types[data.TargetingType]));
+                    
+                    break;
+            }
             
             return passiveAbility;
         }
+        
+        // public PassiveAbility Create(PassiveAbilityData data)
+        // {
+        //     var passiveAbility = new PassiveAbility(
+        //         (IPassiveAbility)Activator.CreateInstance(_registry.Types[data.Type]),
+        //         (IPassiveAbilityTargeting)Activator.CreateInstance(_targetingRegistry.Types[data.TargetingType]));
+        //     
+        //     return passiveAbility;
+        // }
     }
 }

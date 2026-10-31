@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c094ebd1999741aaae5153693c7202ff, type: 3}
+  m_Name: CriticalChancePassiveAbilityView
+  m_EditorClassIdentifier: 
+  <StatType>k__BackingField: 5
+  <SelectedEffect>k__BackingField:
+    <Type>k__BackingField: 10
+    <Offset>k__BackingField: {x: 0, y: 0, z: 0}
+    <Scale>k__BackingField: {x: 1.2, y: 1.5, z: 1.2}
+  <UppedEffect>k__BackingField:
+    <Type>k__BackingField: 11
+    <Offset>k__BackingField: {x: 0, y: 2, z: 0}
+    <Scale>k__BackingField: {x: 2, y: 2, z: 2}
+  <Text>k__BackingField:
+    <Color>k__BackingField: {r: 1, g: 0.63529414, b: 0, a: 1}
+    <Offset>k__BackingField: {x: 0, y: 3.5, z: 0}
+    <JumpHeight>k__BackingField: 2
+  <Duration>k__BackingField: 1.5

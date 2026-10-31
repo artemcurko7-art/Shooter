@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 1446930153767648577, guid: 651a5930a5829ba41be6fd3a80d9a5af, type: 3}
   <Waves>k__BackingField:
   - <Waves>k__BackingField:
-    - <Type>k__BackingField: 0
+    - <Type>k__BackingField: 1
       <Cooldown>k__BackingField: 0
       <MaxCount>k__BackingField: 0
     <Cooldown>k__BackingField: 0.5

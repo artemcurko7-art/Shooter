@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.PhysicalBody;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
 
 namespace Game.Scripts.PoolMono
 {
-    public abstract class PoolMono<T> where T : MonoBehaviour
+    public abstract class PoolMono<T> where T : PhysicalBody<T>
     {
         private readonly List<T> _prefabs = new();
         private readonly ObjectPool<T> _pool;

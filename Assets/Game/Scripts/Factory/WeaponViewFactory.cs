@@ -19,12 +19,12 @@ namespace Game.Scripts.Factory
             _container = container;
         }
 
-        public WeaponView Create(WeaponConfig config, IAttacker attacker, Transform container)
+        public WeaponView Create(WeaponConfig config, ICharacter character, Transform container)
         {
             var view = _container.InstantiatePrefabForComponent<WeaponView>(config.View, Vector3.zero, Quaternion.identity, container);
             var type = _shootingData.Types[config.ShootingType];
             var template = (IWeaponShooting)_container.Instantiate(type, new object[] { config });
-            var weapon = new Weapon(template, attacker);
+            var weapon = new Weapon(template, character);
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
             view.transform.localScale = config.Scale;

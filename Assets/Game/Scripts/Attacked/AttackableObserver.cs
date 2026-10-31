@@ -26,6 +26,6 @@ namespace Game.Scripts.Attacked
                 shooting.Attacked -= OnAttacked;
         }
 
-        protected abstract void OnAttacked(IAttacker attacker);
+        protected abstract void OnAttacked(ICharacter character);
     }
 }

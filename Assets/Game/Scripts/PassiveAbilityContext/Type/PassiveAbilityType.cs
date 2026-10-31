@@ -3,7 +3,7 @@
     public enum PassiveAbilityType
     {
         None,
-        Regeneration,
-        DamageBuff,
+        Constant,
+        Temporary,
     }
 }

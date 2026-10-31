@@ -5,6 +5,6 @@ namespace Game.Scripts.Attacked
 {
     public interface IAttackable
     {
-        public event Action<IAttacker> Attacked;
+        public event Action<ICharacter> Attacked;
     }
 }

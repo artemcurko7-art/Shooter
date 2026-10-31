@@ -7,19 +7,20 @@ namespace Game.Scripts.PassiveAbilityContext
 {
     public class PassiveAbility
     {
-        private readonly IPassiveAbility _passive;
         private readonly IPassiveAbilityTargeting _abilityTargeting;
         
-        public PassiveAbility(IPassiveAbility passive, IPassiveAbilityTargeting abilityTargeting)
+        public PassiveAbility(IPassiveAbility effect, IPassiveAbilityTargeting abilityTargeting)
         {
-            _passive = passive;
+            Effect = effect;
             _abilityTargeting = abilityTargeting;
         }
+        
+        public IPassiveAbility Effect { get; }
 
         public void Apply(Character owner, IReadOnlyList<Character> characters)
         {
             foreach (var character in _abilityTargeting.GetTargets(characters, owner))
-                _passive.Apply(character);
+                Effect.Apply(character);
         }
     }
 }

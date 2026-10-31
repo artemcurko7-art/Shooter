@@ -10,6 +10,6 @@ namespace Game.Scripts.WeaponContext.Shooting
     public interface IWeaponShooting : IAttackable, ISubscriber
     {
         ShootingType Type { get; }
-        void StartShooting(IAttacker attacker);
+        void StartShooting(ICharacter character);
     }
 }

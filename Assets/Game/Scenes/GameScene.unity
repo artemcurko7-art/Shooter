@@ -2206,7 +2206,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageTextPopup: {fileID: 2491164664804777193, guid: 8cb20a79328e8864288af51dd3c27065, type: 3}
-  _effect: {fileID: 8477472808995241125, guid: 9c96429adeffbf7498697f7a15749f0e, type: 3}
   _camera: {fileID: 146493674}
   _flash: {fileID: 2100000, guid: db3c172164a39034d9302a4608786202, type: 2}
   _cooldownFlash: 0.05
@@ -2627,6 +2626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b27367780e64e3c9fff2124a3b6a342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _view: {fileID: 6061511091817323331, guid: 467020f97c78bcc4a92e01ddc3b71ca9, type: 3}
 --- !u!1 &1023536358
 GameObject:
   m_ObjectHideFlags: 0

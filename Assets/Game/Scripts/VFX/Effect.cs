@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using DG.Tweening;
 using Game.Scripts.PhysicalBody;
 using UnityEngine;
 
@@ -9,26 +9,38 @@ namespace Game.Scripts.VFX
     public class Effect : PhysicalBody<Effect>
     {
         private ParticleSystem _particleSystem;
+        private Tween _tween;
+        private Vector3 _currentScale;
         
         public event Action<Effect> Released;
 
         private void Awake()
         {
             _particleSystem = GetComponent<ParticleSystem>();
+            _currentScale = transform.localScale;
         }
 
-        public override void Initialize(Vector3 position)
+        public void Initialize(float? duration = null)
         {
-            base.Initialize(position);
+            _tween?.Kill();
+
+            float baseDuration = duration ?? _particleSystem.main.duration;
+
+            _particleSystem.Play();
+
+            float fadeDuration = 0.5f;
+            float playTime = Mathf.Max(0f, baseDuration - fadeDuration);
+
+            transform.localScale = _currentScale;
             
-            StartCoroutine(StartReleased());
-        }
-        
-        private IEnumerator StartReleased()
-        {
-            yield return new WaitForSeconds(_particleSystem.main.duration);
+            var sequence = DOTween.Sequence();
+  
+            sequence.AppendInterval(playTime);
+            sequence.Append(transform.DOScale(Vector3.zero, fadeDuration).SetEase(Ease.InBack));
             
-            Released?.Invoke(this);
+            sequence.OnComplete(() => Released?.Invoke(this));
+            
+            _tween = sequence;
         }
     }
 }

@@ -4,14 +4,14 @@ namespace Game.Scripts.WeaponContext
 {
     public class ShotContext
     {
-        public ShotContext(IAttacker attacker, int damage, bool isCritical)
+        public ShotContext(ICharacter character, int damage, bool isCritical)
         {
-            Attacker = attacker;
+            Character = character;
             Damage = damage;
             IsCritical = isCritical;
         }
         
-        public IAttacker Attacker { get; }
+        public ICharacter Character { get; }
         public int Damage { get; }
         public bool IsCritical { get; }
     }
