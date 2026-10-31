@@ -25,7 +25,7 @@ namespace Game.Scripts.UI.DailyGift
         [SerializeField] private DailyGiftData _data;
         [SerializeField] private SliderGifts _sliderGifts;
         [SerializeField] private List<Sprite> _frames;
-        [SerializeField] private BuyEffect _buyEffect;
+        [SerializeField] private PopEffect _popEffect;
         [SerializeField] private ContentDisplayer _contentDisplayer;
 
         private DailyGiftData.DailyGift _currentGift;
@@ -55,8 +55,8 @@ namespace Game.Scripts.UI.DailyGift
             var reward = _currentGift.Reward;
             var count = reward.Count;
 
-            if (_buyEffect) 
-                _buyEffect.Animate(reward.Icon, count, _bars[_dayOfWeekNumber - 1].transform.position);
+            if (_popEffect)
+                _popEffect.Animate(reward.Icon, count, true, _bars[_dayOfWeekNumber - 1].transform.position);
 
             Refresh();
 

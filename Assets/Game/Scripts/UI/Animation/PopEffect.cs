@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Game.Scripts.UI.Animation
 {
-    public class BuyEffect : UIAnimation
+    public class PopEffect : UIAnimation
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private TMP_Text _count;
@@ -38,16 +38,16 @@ namespace Game.Scripts.UI.Animation
                 _target = GetComponent<RectTransform>();
 
             if (_target == null)
-                Debug.LogWarning($"{nameof(BuyEffect)}: Target is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Target is not assigned.", this);
 
             if (_count == null)
-                Debug.LogWarning($"{nameof(BuyEffect)}: Count is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Count is not assigned.", this);
 
             if (_canvasGroup == null)
-                Debug.LogWarning($"{nameof(BuyEffect)}: CanvasGroup is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: CanvasGroup is not assigned.", this);
 
             if (_image == null)
-                Debug.LogWarning($"{nameof(BuyEffect)}: Image is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Image is not assigned.", this);
         }
 
         private void OnDestroy()
@@ -55,7 +55,7 @@ namespace Game.Scripts.UI.Animation
             KillAnimation();
         }
 
-        public void Animate(Sprite icon, int count, Vector3 startPosition, Action onComplete = null)
+        public void Animate(Sprite icon, int count, bool isPositive, Vector3 startPosition, Action onComplete = null)
         {
             if (!CanAnimate(icon))
                 return;
@@ -64,11 +64,16 @@ namespace Game.Scripts.UI.Animation
 
             gameObject.SetActive(true);
 
-            _image.sprite = icon;
-            _upArrow.gameObject.SetActive(count == 0);
-            _count.gameObject.SetActive(count > 0);
-            _count.text = $"+{count}";
-            _canvasGroup.alpha = 1f;
+            if (_image) _image.sprite = icon;
+            if (_upArrow) _upArrow.gameObject.SetActive(count == 0);
+            if (_count)
+            {
+                var symbol = isPositive ? '+' : '-';
+                _count.gameObject.SetActive(count > 0);
+                _count.text = $"{symbol}{count}";
+            }
+
+            if (_canvasGroup) _canvasGroup.alpha = 1f;
 
             _target.position = startPosition;
             _target.localScale = _startScale;
@@ -124,31 +129,31 @@ namespace Game.Scripts.UI.Animation
         {
             if (_target == null)
             {
-                Debug.LogWarning($"{nameof(BuyEffect)}: Target is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Target is not assigned.", this);
                 return false;
             }
 
             if (_canvasGroup == null)
             {
-                Debug.LogWarning($"{nameof(BuyEffect)}: CanvasGroup is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: CanvasGroup is not assigned.", this);
                 return false;
             }
 
             if (_image == null)
             {
-                Debug.LogWarning($"{nameof(BuyEffect)}: Image is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Image is not assigned.", this);
                 return false;
             }
 
             if (_count == null)
             {
-                Debug.LogWarning($"{nameof(BuyEffect)}: Count is not assigned.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Count is not assigned.", this);
                 return false;
             }
 
             if (icon == null)
             {
-                Debug.LogWarning($"{nameof(BuyEffect)}: Icon is null.", this);
+                Debug.LogWarning($"{nameof(PopEffect)}: Icon is null.", this);
                 return false;
             }
 

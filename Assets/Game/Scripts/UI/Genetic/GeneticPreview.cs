@@ -20,7 +20,7 @@ namespace Game.Scripts.UI.Genetic
         [SerializeField] private ImageBlinker _imageBlinker;
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private RawImage _background;
-        [SerializeField] private BuyEffect _effect;
+        [SerializeField] private PopEffect _effect;
         [SerializeField] private RectTransform _statTextBar;
         [SerializeField] private RectTransform _additionTextBar;
 
@@ -314,7 +314,7 @@ namespace Game.Scripts.UI.Genetic
             _geneticSystem.IncreaseStat(stat, index);
 
             var icon = _previewType == PreviewType.Stat ? _stat.icon : _addition.GetIcon(_count);
-            _effect.Animate(icon, _count, _statIcon.transform.position);
+            _effect.Animate(icon, _count, true, _statIcon.transform.position);
 
             ClosePreview();
         }

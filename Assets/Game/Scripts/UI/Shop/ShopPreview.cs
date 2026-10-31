@@ -15,7 +15,7 @@ namespace Game.Scripts.UI.Shop
         [SerializeField] private TMP_Text _count;
         [SerializeField] private TMP_Text _buyButtonText;
         [SerializeField] private Button _buyItemButton;
-        [SerializeField] private BuyEffect _effect;
+        [SerializeField] private PopEffect _effect;
 
         private Vector3 _startPosition;
         private BuyItemData _data;
@@ -107,7 +107,7 @@ namespace Game.Scripts.UI.Shop
             if (playEffect && _effect && icon)
             {
                 Debug.Log("[ShopPreview] Запускаем эффект покупки перед закрытием.");
-                _effect.Animate(icon, count ?? 0, _startPosition);
+                _effect.Animate(icon, count ?? 0, true, _startPosition);
             }
 
             if (_transition == null || _canvasGroup == null || _rectTransform == null)

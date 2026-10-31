@@ -1,23 +1,25 @@
 {
-    "IdSavedStatCount": 122,
-    "AttackStrength": 12.0,
-    "CriticalDamage": 12.0,
-    "Armor": 12.0,
-    "MovementSpeed": 11.5,
-    "ViewRange": 12.0,
+    "IdSavedStatCount": 140,
+    "AttackStrength": 13.5,
+    "CriticalDamage": 13.5,
+    "Armor": 14.0,
+    "MovementSpeed": 13.5,
+    "ViewRange": 14.0,
     "TakenDailyGiftDays": [
-        1,
         2,
-        3
+        3,
+        4
     ],
     "TakenDailyGiftBoxes": [
         1,
         2,
         3
     ],
-    "TotalCollectedGifts": 22,
-    "DailyGiftWeek": 202643,
+    "TotalCollectedGifts": 25,
+    "DailyGiftWeek": 202644,
     "GiftEndTime": 0,
+    "Energy": 5,
+    "NextEnergyRestoreTime": "",
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [
