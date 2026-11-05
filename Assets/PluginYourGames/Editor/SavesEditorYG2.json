@@ -21,6 +21,9 @@
         "2"
     ],
     "SelectedAvatarId": "2",
+    "Music": false,
+    "Sound": false,
+    "Animation": true,
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [

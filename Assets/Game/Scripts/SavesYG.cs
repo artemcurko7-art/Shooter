@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace YG
 {
@@ -24,8 +23,13 @@ namespace YG
         public int Energy = 0;
         public string NextEnergyRestoreTime = string.Empty;
 
-        // --- Аватары---
+        // --- Аватары ---
         public List<string> OpenedAvatarIds = new() { "1", "2" };
         public string SelectedAvatarId = "1";
+        
+        // --- Настройки ---
+        public bool Music = true;
+        public bool Sound = true;
+        public bool Animation = true;
     }
 }

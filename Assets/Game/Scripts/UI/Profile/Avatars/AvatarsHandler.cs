@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Scripts.UI.Avatars;
 using NaughtyAttributes;
 using UnityEngine;
 using YG;
 
-namespace Game.Scripts.UI.Avatars
+namespace Game.Scripts.UI.Profile.Avatars
 {
-    public class Avatars : MonoBehaviour
+    public class AvatarsHandler : MonoBehaviour
     {
         private const string FirstAvatarId = "1";
         private readonly List<AvatarBar> _bars = new();
-        
+
         [Header("Настройки лимита")]
         [SerializeField] private bool _enableLimit = true;
         [SerializeField, MaxValue(24)] private int _maxLimit = 24;
@@ -23,10 +24,29 @@ namespace Game.Scripts.UI.Avatars
 
         public event Action<Sprite> Selected;
 
-        private void Awake()
+        public void Setup()
         {
             InitializeAvatars();
             LoadCurrentAvatar();
+        }
+
+        public Sprite GetCurrentSelectedSprite()
+        {
+            var savedId = YG2.saves.SelectedAvatarId;
+
+            if (string.IsNullOrEmpty(savedId)) return GetFallbackAvatar()?.Icon;
+            
+            var selected = _data.Avatars.FirstOrDefault(a => a != null && a.Id == savedId);
+            return selected?.Icon ? selected.Icon : GetFallbackAvatar()?.Icon;
+        }
+
+        private AvatarData.Avatar GetFallbackAvatar()
+        {
+            if (!_data || _data.Avatars == null || _data.Avatars.Count == 0)
+                return null;
+
+            var defaultAvatar = _data.Avatars.FirstOrDefault(a => a != null && a.Id == FirstAvatarId);
+            return defaultAvatar ?? _data.Avatars.FirstOrDefault(a => a != null && !string.IsNullOrEmpty(a.Id));
         }
 
         private void LoadCurrentAvatar()
@@ -44,13 +64,11 @@ namespace Game.Scripts.UI.Avatars
                 return;
             }
 
-            var fallbackId = HasAvatar(FirstAvatarId)
-                ? FirstAvatarId
-                : _data.Avatars.FirstOrDefault(a => a != null && !string.IsNullOrEmpty(a.Id))?.Id;
+            var fallbackId = GetFallbackAvatar()?.Id;
 
             if (string.IsNullOrEmpty(fallbackId))
             {
-                Debug.LogWarning("[Avatars] В AvatarData нет ни одной валидной аватарки — выбрать нечего.");
+                Debug.LogWarning("[AvatarsHandler] В AvatarData нет ни одной валидной аватарки — выбрать нечего.");
                 return;
             }
 
@@ -69,7 +87,7 @@ namespace Game.Scripts.UI.Avatars
             if (!_data || !_prefab)
             {
                 Debug.LogWarning(
-                    $"[Avatars] Не назначены зависимости: Data={_data}, Prefab={_prefab}. Проверьте Inspector.");
+                    $"[AvatarsHandler] Не назначены зависимости: Data={_data}, Prefab={_prefab}. Проверьте Inspector.");
                 return;
             }
 
@@ -81,7 +99,7 @@ namespace Game.Scripts.UI.Avatars
             {
                 countToGenerate = _maxLimit;
                 Debug.Log(
-                    $"[Avatars] Лимит включен. Отображаем только первые {_maxLimit} аватаров из {_data.Avatars.Count}.");
+                    $"[AvatarsHandler] Лимит включен. Отображаем только первые {_maxLimit} аватаров из {_data.Avatars.Count}.");
             }
 
             for (var i = 0; i < countToGenerate; i++)
@@ -142,7 +160,7 @@ namespace Game.Scripts.UI.Avatars
         {
             if (!YG2.saves.OpenedAvatarIds.Contains(avatarId))
             {
-                Debug.LogWarning($"[Avatars] Попытка выбрать закрытый аватар: {avatarId}");
+                Debug.LogWarning($"[AvatarsHandler] Попытка выбрать закрытый аватар: {avatarId}");
                 return;
             }
 

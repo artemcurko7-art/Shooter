@@ -14,7 +14,7 @@ namespace Game.Scripts.UI.Avatars
         [SerializeField] private GameObject _lockedFrame;
 
         private AvatarData.Avatar _avatar;
-        private Avatars _avatars;
+        private Profile.Avatars.AvatarsHandler _avatarsHandler;
 
         private Button _button;
 
@@ -35,10 +35,10 @@ namespace Game.Scripts.UI.Avatars
             _button.onClick.RemoveListener(OnButtonClick);
         }
 
-        public void Init(AvatarData.Avatar avatar, Avatars avatars)
+        public void Init(AvatarData.Avatar avatar, Profile.Avatars.AvatarsHandler _avatarsHandler)
         {
             _avatar = avatar;
-            _avatars = avatars;
+            this._avatarsHandler = _avatarsHandler;
 
             if (!_icon)
             {
@@ -74,7 +74,7 @@ namespace Game.Scripts.UI.Avatars
 
         private void OnButtonClick()
         {
-            _avatars?.SelectAvatar(_avatar.Id);
+            _avatarsHandler?.SelectAvatar(_avatar.Id);
         }
     }
 }
