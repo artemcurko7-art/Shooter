@@ -16,6 +16,11 @@
     "GiftEndTime": 0,
     "Energy": 5,
     "NextEnergyRestoreTime": "",
+    "OpenedAvatarIds": [
+        "1",
+        "2"
+    ],
+    "SelectedAvatarId": "2",
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [

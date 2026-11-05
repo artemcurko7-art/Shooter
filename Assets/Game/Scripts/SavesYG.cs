@@ -25,7 +25,7 @@ namespace YG
         public string NextEnergyRestoreTime = string.Empty;
 
         // --- Аватары---
-        public List<string> OpenedAvatarIds = new();
-        public string SelectedAvatarId = string.Empty;
+        public List<string> OpenedAvatarIds = new() { "1", "2" };
+        public string SelectedAvatarId = "1";
     }
 }

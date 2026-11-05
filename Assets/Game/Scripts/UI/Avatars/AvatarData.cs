@@ -17,12 +17,8 @@ namespace Game.Scripts.UI.Avatars
             [Tooltip("Уникальный ID аватара. Должен совпадать с тем, что хранится в YG2.saves.OpenedAvatars")]
             public string Id;
 
-            [Tooltip("Название для отладки и UI")]
-            public string Name;
-
             [Tooltip("Иконка, которая отобразится в списке")]
             public Sprite Icon;
-
         }
     }
 }
