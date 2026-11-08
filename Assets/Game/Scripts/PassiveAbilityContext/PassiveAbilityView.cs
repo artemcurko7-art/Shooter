@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DG.Tweening;
+using Game.Scripts.Extensions;
 using Game.Scripts.PhysicalBody;
 using TMPro;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Game.Scripts.PassiveAbilityContext
         private float _duration;
 
         public event Action<PassiveAbilityView> Released;
-        
+
         public void Initialize(Color color, int value, float jumpHeight, float duration)
         {
             _valueText.color = color;
@@ -28,6 +29,14 @@ namespace Game.Scripts.PassiveAbilityContext
             _startPosition = transform.position;
 
             PlayAnimation();
+        }
+
+        public override void ResetSettings()
+        {
+            base.ResetSettings();
+            
+            transform.position = _startPosition;
+            _valueText.color = _valueText.color.GetAlpha(1);
         }
 
         private void PlayAnimation()

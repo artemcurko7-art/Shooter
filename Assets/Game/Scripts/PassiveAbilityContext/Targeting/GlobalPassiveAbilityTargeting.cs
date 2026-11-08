@@ -13,7 +13,7 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
         
         public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
-            Debug.Log("Global");
+            //Debug.Log("Global");
             
             return characters;
         }

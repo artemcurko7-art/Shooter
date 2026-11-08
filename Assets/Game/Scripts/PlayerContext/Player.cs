@@ -2,6 +2,7 @@ using System;
 using Game.Scripts.Damagable;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PlayerContext.Death;
 using UnityEngine;
 using Zenject;
@@ -10,16 +11,16 @@ namespace Game.Scripts.PlayerContext
 {
     public class Player : MonoBehaviour, IDamageable, ITransformable, IDeath
     {
-        private Health _health;
+        private ICharacterHealthResolver _healthResolver;
 
         public event Action Dead;
         
         public Transform Transform { get; private set; }
 
         [Inject]
-        public void Construct(Health health)
+        public void Construct(ICharacterHealthResolver healthResolver)
         {
-            _health = health;
+            _healthResolver = healthResolver;
         }
         
         private void Awake()
@@ -29,9 +30,9 @@ namespace Game.Scripts.PlayerContext
 
         public void TakeDamage(int damage)
         {
-            _health.Decrease(damage);
-
-            if (_health.Value <= 0)
+            _healthResolver.Health.Decrease(damage);
+            
+            if (_healthResolver.Health.Value <= 0)
                 Dead?.Invoke();
         }
     }

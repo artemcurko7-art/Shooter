@@ -15,11 +15,19 @@ MonoBehaviour:
   <Type>k__BackingField: 2
   <WeaponType>k__BackingField: 2
   <Name>k__BackingField: "\u0426\u0435\u043B\u0438\u0442\u0435\u043B\u044C"
+  <PassiveAbilityData>k__BackingField:
+    <Type>k__BackingField: 2
+    <TargetingType>k__BackingField: 1
+    <StatType>k__BackingField: 3
+    <Name>k__BackingField: 
+    <Description>k__BackingField: 
+    <Cooldown>k__BackingField: 50
+    <Value>k__BackingField: 15
   <Icon>k__BackingField: {fileID: 21300000, guid: 7a113aa97e40b02409a415131bb41ecb, type: 3}
   <View>k__BackingField: {fileID: 2786738743887247907, guid: 51ddeb5b65398454392b8bd922649308, type: 3}
   <Stats>k__BackingField:
   - <Type>k__BackingField: 1
-    <Value>k__BackingField: 500
+    <Value>k__BackingField: 40
   - <Type>k__BackingField: 2
     <Value>k__BackingField: 50
   - <Type>k__BackingField: 3

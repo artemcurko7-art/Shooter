@@ -20,9 +20,8 @@ namespace Game.Scripts.MV.StatContext
         }
 
         public StatType Type => GetStatType();
+        public int MaxValue { get; }
         public bool IsPercentageValue { get; }
-
-        public int MaxValue { get; private set; }
 
         public int Value
         {
@@ -31,7 +30,6 @@ namespace Game.Scripts.MV.StatContext
             private set
             {
                 _value = Mathf.Clamp(value, 0, int.MaxValue);
-                MaxValue = _value;
                 ValueChanged?.Invoke(_value);
             }
         }

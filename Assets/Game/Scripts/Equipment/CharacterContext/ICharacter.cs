@@ -8,7 +8,6 @@ namespace Game.Scripts.Equipment.CharacterContext
 {
     public interface ICharacter
     {
-        public PassiveAbilityData PassiveAbilityData { get; }
         public IReadOnlyDictionary<StatType, Stat> Stats { get; }
         public Transform Shoot { get; }
         public Transform Transform { get; }

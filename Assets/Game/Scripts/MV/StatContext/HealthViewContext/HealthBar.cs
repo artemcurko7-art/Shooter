@@ -10,7 +10,7 @@ namespace Game.Scripts.MV.StatContext.HealthViewContext
         
         protected override void OnValueChanged(int value)
         {
-            _filling.DOFillAmount((float)value / Model.MaxValue, 0.3f);
+            _filling.DOFillAmount((float)value / Model.Health.MaxValue, 0.3f);
         }
     }
 }

@@ -8,19 +8,19 @@ namespace Game.Scripts.MV.StatContext.HealthViewContext
     public abstract class HealthView : MonoBehaviour
     {
         [Inject]
-        public void Construct(IStat model)
+        public void Construct(ICharacterHealthResolver model)
         {
             Model = model;
             
-            Model.ValueChanged += OnValueChanged;
-            Model.Update();
+            Model.Health.ValueChanged += OnValueChanged;
+            Model.Health.Update();
         }
         
-        protected IStat Model { get; private set; }
+        protected ICharacterHealthResolver Model { get; private set; }
 
         private void OnDestroy()
         {
-            Model.ValueChanged -= OnValueChanged;
+            Model.Health.ValueChanged -= OnValueChanged;
         }
 
         protected abstract void OnValueChanged(int value);

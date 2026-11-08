@@ -15,7 +15,7 @@ namespace Game.Scripts.PassiveAbilityContext.Data
         [field: SerializeField] public StatType StatType { get; private set; }
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public string Description { get; private set; }
-        [field: SerializeField] public int Value { get; private set; }
         [field: SerializeField] public float Cooldown { get; private set; }
+        [field: SerializeField] public int Value { get; private set; }
     }
 }

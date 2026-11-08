@@ -32,14 +32,12 @@ namespace Game.Scripts.Factory
             var config = _data.Views[data.StatType];
 
             var view = _container.InstantiatePrefabForComponent<PassiveAbilityView>(_view, container.position, Quaternion.identity, container);
-            view.Initialize(container.position + config.Text.Offset);
-            view.Initialize(config.Text.Color, data.Value, config.Text.JumpHeight, config.Duration);
             
-            var selectedEffect = _effectPoolRepository.Pools[config.SelectedEffect.Type].Get();
-            InitializeEffect(selectedEffect, container, config.SelectedEffect.Offset, config.SelectedEffect.Scale, config.Duration);
-            
-            var uppedEffect = _effectPoolRepository.Pools[config.UppedEffect.Type].Get();
-            InitializeEffect(uppedEffect, container, config.UppedEffect.Offset, config.UppedEffect.Scale, config.Duration);
+            // var selectedEffect = _effectPoolRepository.Pools[config.SelectedEffect.Type].Get();
+            // InitializeEffect(selectedEffect, container, config.SelectedEffect.Offset, config.SelectedEffect.Scale, config.Duration);
+            //
+            // var uppedEffect = _effectPoolRepository.Pools[config.UppedEffect.Type].Get();
+            // InitializeEffect(uppedEffect, container, config.UppedEffect.Offset, config.UppedEffect.Scale, config.Duration);
             
             return view;
         }

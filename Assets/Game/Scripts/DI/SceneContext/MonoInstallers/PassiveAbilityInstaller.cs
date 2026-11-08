@@ -1,5 +1,7 @@
 ﻿using Game.Scripts.Factory;
 using Game.Scripts.PassiveAbilityContext;
+using Game.Scripts.PassiveAbilityContext.Applied;
+using Game.Scripts.PassiveAbilityContext.Repository;
 using Game.Scripts.Service.PassiveAbilityContext;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
@@ -14,8 +16,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<ISubscriber>()
-                .To<PassiveAbilityService>()
+                .BindInterfacesTo<PassiveAbilityService>()
                 .AsSingle();
             
             Container
@@ -26,6 +27,16 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<PassiveAbilityViewFactory>()
                 .AsSingle()
                 .WithArguments(_view);
+            
+            Container
+                .Bind<ISubscriber>()
+                .To<PassiveAbilityViewApplied>()
+                .AsSingle();
+            
+            Container
+                .Bind<ISubscriber>()
+                .To<EffectsApplied>()
+                .AsSingle();
         }
     }
 }

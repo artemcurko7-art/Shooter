@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Repository;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.SquadContext.Type;
-using Game.Scripts.WeaponContext;
 using Zenject;
 using UnityEngine;
 
@@ -32,7 +29,7 @@ namespace Game.Scripts.Factory
             foreach (var stat in config.Stats)
                 stats.Add(stat.Type, _statFactory.Create(stat.Type, stat.Value, stat.IsPercentageValue));
             
-            view.Initialize(config.PassiveAbilityData, stats);
+            view.Initialize(config.Type, stats);
             
             return view;
         }

@@ -1,26 +1,16 @@
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 using YG;
+using Zenject;
 
 namespace Game.Scripts
 {
     public class GameReady : MonoBehaviour
     {
-        [SerializeField] private SubscriberService _subscriberService;
-        
         private bool _isGameReadySent;
 
-        private void OnEnable()
-        {
-            _subscriberService.Subscribed += SendGameReady;
-        }
-
-        private void OnDisable()
-        {
-            _subscriberService.Subscribed -= SendGameReady;
-        }
-
-        private void SendGameReady()
+        [Inject]
+        public void Construct()
         {
             if (_isGameReadySent)
                 return;

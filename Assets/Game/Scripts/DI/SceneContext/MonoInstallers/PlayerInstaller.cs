@@ -58,10 +58,10 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<CalculationRotatorAngle>()
                 .AsSingle();
             
-            Container
-                .BindInterfacesAndSelfTo<Health>()
-                .AsSingle()
-                .WithArguments(0, false);
+            // Container
+            //     .BindInterfacesAndSelfTo<Health>() // создавать в character stat resolver
+            //     .AsSingle()
+            //     .WithArguments(80, false);
         }
     }
 }

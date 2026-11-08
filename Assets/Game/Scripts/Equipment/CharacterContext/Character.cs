@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.Data;
@@ -22,7 +23,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private IInput _input;
         private Vector3 _direction;
         
-        public PassiveAbilityData PassiveAbilityData { get; private set; }
+        public CharacterType Type { get; private set; }
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Shoot => ShootPosition;
         public Transform Transform => transform;
@@ -35,9 +36,9 @@ namespace Game.Scripts.Equipment.CharacterContext
             _input = input;
         }
         
-        public void Initialize(PassiveAbilityData passiveAbilityData, IReadOnlyDictionary<StatType, Stat> stats)
+        public void Initialize(CharacterType type, IReadOnlyDictionary<StatType, Stat> stats)
         {
-            PassiveAbilityData = passiveAbilityData;
+            Type = type;
             Stats = stats;
             StartCoroutine(StartTrackerUnits());
         }

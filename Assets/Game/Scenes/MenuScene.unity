@@ -31579,16 +31579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8266c04563cbb3499ebe9322e0764e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAnimate: 0
-  _icons:
-  - {fileID: 722693895}
-  - {fileID: 2100094510}
-  - {fileID: 2100094510}
-  - {fileID: 1632372825}
-  - {fileID: 377570789}
-  - {fileID: 714952295}
-  _startSelectedIndex: 0
-  _selectedIcon: {fileID: 0}
 --- !u!114 &831840720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43453,7 +43443,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.1
+  m_fontSize: 28.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -49192,15 +49182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8266c04563cbb3499ebe9322e0764e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsAnimate: 0
-  _icons:
-  - {fileID: 1661430269}
-  - {fileID: 1982729765}
-  - {fileID: 67816389}
-  - {fileID: 652024080}
-  - {fileID: 160663022}
-  _startSelectedIndex: 2
-  _selectedIcon: {fileID: 0}
 --- !u!1 &1367088749
 GameObject:
   m_ObjectHideFlags: 0
@@ -56349,7 +56330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657abc499b45b084ea57f6a81061cdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _subscriberService: {fileID: 1856959172}
 --- !u!1 &1564359569
 GameObject:
   m_ObjectHideFlags: 0

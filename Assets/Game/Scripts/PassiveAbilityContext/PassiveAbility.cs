@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PassiveAbilityContext.Passive;
 using Game.Scripts.PassiveAbilityContext.Targeting;
 
@@ -17,10 +18,10 @@ namespace Game.Scripts.PassiveAbilityContext
         
         public IPassiveAbility Effect { get; }
 
-        public void Apply(Character owner, IReadOnlyList<Character> characters)
+        public void Apply(Character owner, IReadOnlyList<Character> characters, PassiveAbilityData passiveAbilityData)
         {
             foreach (var character in _abilityTargeting.GetTargets(characters, owner))
-                Effect.Apply(character);
+                Effect.Apply(character, passiveAbilityData);
         }
     }
 }

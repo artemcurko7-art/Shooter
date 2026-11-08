@@ -5,18 +5,14 @@
     "Armor": 14.0,
     "MovementSpeed": 13.5,
     "ViewRange": 14.0,
-    "TakenDailyGiftDays": [
-        2,
-        3,
-        4
-    ],
+    "TakenDailyGiftDays": [],
     "TakenDailyGiftBoxes": [
         1,
         2,
         3
     ],
     "TotalCollectedGifts": 25,
-    "DailyGiftWeek": 202644,
+    "DailyGiftWeek": 202645,
     "GiftEndTime": 0,
     "Energy": 5,
     "NextEnergyRestoreTime": "",

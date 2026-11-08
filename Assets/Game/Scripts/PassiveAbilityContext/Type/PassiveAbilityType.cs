@@ -5,5 +5,6 @@
         None,
         Constant,
         Temporary,
+        RegenerationHealth,
     }
 }

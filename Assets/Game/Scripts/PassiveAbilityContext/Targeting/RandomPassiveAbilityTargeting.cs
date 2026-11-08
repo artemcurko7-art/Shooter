@@ -14,7 +14,7 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
         
         public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
-            Debug.Log("Random");
+            //Debug.Log("Random");
             
             return characters.OrderBy(character => UnityEngine.Random.value).Take(2);
         }

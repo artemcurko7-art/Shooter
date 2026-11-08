@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.Equipment.EquipmentContext.Provider;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.Service.Equipment.CharacterContext;
-using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class CharacterStatResolver : ICharacterStatResolver, ISubscriber
+    public class CharacterStatResolver : ICharacterStatResolver, ICharacterHealthResolver
     {
         private const float Percent = 100f;
         private readonly ICharacterService _characterService;
         private readonly IEquipmentProvider _equipmentProvider;
-        private readonly Health _health;
         private readonly Dictionary<StatType, Stat> _currentStats = new();
         private readonly IReadOnlyDictionary<StatType, Stat> _recordedStats;
         private readonly List<Character> _characters = new();
+        private readonly int _healthValue;
         
-        public CharacterStatResolver(ICharacterService characterService, IEquipmentProvider equipmentProvider, Health health)
+        public CharacterStatResolver(ICharacterService characterService, IEquipmentProvider equipmentProvider)
         {
             _characterService = characterService;
             _equipmentProvider = equipmentProvider;
-            _health = health;
             _recordedStats = characterService.Characters[0].Stats;
 
             foreach (var stat in _recordedStats)
@@ -35,28 +32,14 @@ namespace Game.Scripts.Equipment.CharacterContext
             foreach (var character in characterService.Characters)
             {
                 _characters.Add(character);
-                _health.Increase(character.Stats[StatType.Health].Value);
+                _healthValue += character.Stats[StatType.Health].Value;
             }
+            
+            Health = new Health(_healthValue, false);
         }
         
         public IReadOnlyList<Character> Characters => _characters;
-        
-        public void Subscribe()
-        {
-            foreach (var character in _characterService.Characters)
-                character.Stats[StatType.Health].ValueChanged += OnValueChanged;
-        }
-
-        public void Unsubscribe()
-        {
-            foreach (var character in _characterService.Characters)
-                character.Stats[StatType.Health].ValueChanged -= OnValueChanged;
-        }
-
-        private void OnValueChanged(int value)
-        {
-            _health.Increase(value - _health.Value);
-        }
+        public Health Health { get; }
         
         private void Resolve()
         {

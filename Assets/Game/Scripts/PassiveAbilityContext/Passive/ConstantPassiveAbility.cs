@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.AttributeContext;
+using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PassiveAbilityContext.Type;
 using UnityEngine;
 
@@ -13,7 +15,7 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
         private readonly StatType _type;
         private readonly int _value;
         
-        public event Action<ICharacter> Applied;
+        public event Action<ICharacter, PassiveAbilityData> Applied;
 
         public ConstantPassiveAbility(StatType type, int value)
         {
@@ -21,13 +23,13 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
             _value = value;
         }
 
-        public void Apply(ICharacter character)
+        public void Apply(ICharacter character, PassiveAbilityData passiveAbilityData)
         {
             character.Stats[_type].Increase(_value);
             
-            Applied?.Invoke(character);
+            Applied?.Invoke(character, passiveAbilityData);
             
-            Debug.Log($"Constant");
+            //Debug.Log($"Constant");
         }
     }
 }
