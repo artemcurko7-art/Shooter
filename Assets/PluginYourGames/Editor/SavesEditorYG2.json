@@ -5,17 +5,27 @@
     "Armor": 14.0,
     "MovementSpeed": 13.5,
     "ViewRange": 14.0,
-    "TakenDailyGiftDays": [],
+    "TakenDailyGiftDays": [
+        5
+    ],
     "TakenDailyGiftBoxes": [
         1,
         2,
         3
     ],
-    "TotalCollectedGifts": 25,
+    "TotalCollectedGifts": 26,
     "DailyGiftWeek": 202645,
     "GiftEndTime": 0,
     "Energy": 5,
     "NextEnergyRestoreTime": "",
+    "OpenedAvatarIds": [
+        "1",
+        "2"
+    ],
+    "SelectedAvatarId": "2",
+    "Music": false,
+    "Sound": false,
+    "Animation": false,
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [
