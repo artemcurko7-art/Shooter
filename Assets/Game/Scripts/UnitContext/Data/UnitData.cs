@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UnitContext.Data
 {
-    public class UnitData 
+    public class UnitData : IUnitData, IUnitAttackerData
     {
         private readonly UnitConfig[] _configs;
         private readonly IUnitAttacker[] _attackers;

@@ -2,8 +2,6 @@ using Game.Scripts.Configs;
 using Game.Scripts.Factory;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.UnitContext;
-using Game.Scripts.UnitContext.Data;
-using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -15,20 +13,19 @@ namespace Game.Scripts.PoolMono
         private const float ForwardPosition = 6f;
         private const float BackPosition = 3f;
         private const float RangePosition = 5.5f;
-        
-        private readonly UnitData _data;
+
+        private readonly UnitConfig _config;
         private readonly UnitFactory _factory;
         private readonly ITransformable _transformable;
 
-        public UnitPool(UnitType type, UnitData data, UnitFactory factory, ITransformable transformable, DiContainer container) : base(container)
+        public UnitPool(UnitConfig config, UnitFactory factory, ITransformable transformable, DiContainer container) : base(container)
         {
-            Type = type;
-            _data = data;
+            _config = config;
             _factory = factory;
             _transformable = transformable;
+            
+            SetPrefab(config.Unit);
         }
-        
-        public UnitType Type { get; }
         
         protected override void ActionOnGet(Unit unit)
         {
@@ -53,14 +50,9 @@ namespace Game.Scripts.PoolMono
         {
             return new ObjectPool<Unit>(
                 createFunc: () => 
-                    _factory.Create(GetRandomConfig()),
+                    _factory.Create(_config),
                 actionOnGet: (prefab) => ActionOnGet(prefab),
                 actionOnRelease: (prefab) => ActionOnRelease(prefab));
-        }
-
-        private UnitConfig GetRandomConfig()
-        {
-            return _data.Units[Type][UserUtils.NumberGeneration.GetIntegerRandom(0, _data.Units[Type].Count - 1)];
         }
 
         private Vector3 GetRandomPosition()

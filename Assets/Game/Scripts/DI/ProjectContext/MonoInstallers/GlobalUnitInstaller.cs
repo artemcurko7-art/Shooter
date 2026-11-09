@@ -14,7 +14,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<UnitData>()
+                .BindInterfacesTo<UnitData>()
                 .AsSingle();
         
             // Container

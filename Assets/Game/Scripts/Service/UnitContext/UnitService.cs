@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Game.Scripts.Factory;
 using Game.Scripts.GameWorldContext;
 using Game.Scripts.PlayerContext;
-using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Unit;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.UnitContext;
-using Game.Scripts.UnitContext.Attacker;
-using Game.Scripts.UnitContext.Data;
-using Game.Scripts.UnitContext.Type;
 using Game.Scripts.Wave;
 using UnityEngine;
 
@@ -18,38 +13,22 @@ namespace Game.Scripts.Service.UnitContext
 {
     public class UnitService : IUnitService, ISubscriber
     {
-        private const int Milliseconds = 1000;
-        
         private readonly WaveEntry[] _waveEntries;
-        private readonly UnitPool[] _pools;
-        private readonly UnitFactory _factory;
-        private readonly IUnitAttacker[] _attackers;
+        private readonly IUnitPoolRepository _poolRepository;
         private readonly ITransformable _transformable;
-        private readonly List<Unit> _units = new();
-        private readonly Transform[] _transforms;
         private CancellationTokenSource _cancellationTokenSource;
 
         public event Action<Unit> Added;
         
         public UnitService(
             GameWorld gameWorld,
-            UnitData data,
-            UnitPool[] pools,
-            UnitFactory factory,
-            IUnitAttacker[] attackers,
+            IUnitPoolRepository poolRepository,
             ITransformable transformable,
             Transform[] transforms)
         {
             _waveEntries = gameWorld.Config.Waves;
-            _pools = pools;
-            _factory = factory;
-            _attackers = attackers;
+            _poolRepository = poolRepository;
             _transformable = transformable;
-            _transforms = transforms;
-
-            foreach (var pool in pools)
-                foreach (var config in data.Units[pool.Type])
-                    pool.SetPrefab(config.Unit);
 
             foreach (var waveEntry in _waveEntries)
                 foreach (var wave in waveEntry.Waves)
@@ -68,13 +47,6 @@ namespace Game.Scripts.Service.UnitContext
         {
             _cancellationTokenSource.Cancel();
         }
-
-        public void OnClick(UnitType type)
-        {
-            foreach (var pool in _pools)
-                if (pool.Type == type)
-                    pool.Get();
-        }
         
         private async UniTaskVoid Spawn(CancellationToken token)
         {
@@ -82,17 +54,17 @@ namespace Game.Scripts.Service.UnitContext
             {
                 if (_cancellationTokenSource.IsCancellationRequested == false)
                 {
-                    await UniTask.Delay((int)waveEntry.Cooldown * Milliseconds, cancellationToken: token);
+                    await UniTask.Delay(TimeSpan.FromSeconds(waveEntry.Cooldown), cancellationToken: token);
 
                     foreach (var wave in waveEntry.Waves)
                     {
                         for (int i = 0; i < wave.MaxCount; i++)
                         {
-                            await UniTask.Delay((int)wave.Cooldown * Milliseconds, cancellationToken: token);
-
-                            foreach (var pool in _pools)
-                                if (wave.Type == pool.Type)
-                                    Added?.Invoke(pool.Get());
+                            await UniTask.Delay(TimeSpan.FromSeconds(wave.Cooldown), cancellationToken: token);
+                            
+                            var pools = _poolRepository.Pools[wave.Type];
+                            var pool = pools[UserUtils.NumberGeneration.GetIntegerRandom(0, pools.Count - 1)];
+                            Added?.Invoke(pool.Get());
                             
                             await UniTask.Yield();
                         }

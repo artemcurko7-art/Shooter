@@ -4,6 +4,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.PoolMono;
 using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.PoolMono.Repository.PassiveAbilityView;
+using Game.Scripts.PoolMono.Repository.Unit;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Map;
 using Game.Scripts.Service.UnitContext;
@@ -29,16 +30,21 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 
         private void BindUnit()
         {
-            foreach (var type in Enum.GetValues(typeof(UnitType)))
-            {
-                if ((UnitType)type == UnitType.None)
-                    continue;
-                
-                Container
-                    .Bind<UnitPool>()
-                    .AsCached()
-                    .WithArguments((UnitType)type);
-            }
+            Container
+                .Bind<IUnitPoolRepository>()
+                .To<UnitPoolRepository>()
+                .AsSingle();
+            
+            // foreach (var type in Enum.GetValues(typeof(UnitType)))
+            // {
+            //     if ((UnitType)type == UnitType.None)
+            //         continue;
+            //     
+            //     Container
+            //         .Bind<UnitPool>()
+            //         .AsCached()
+            //         .WithArguments((UnitType)type);
+            // }
             
             Container
                 .Bind<UnitFactory>()

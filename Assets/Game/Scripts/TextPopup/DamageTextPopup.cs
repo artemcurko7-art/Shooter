@@ -1,6 +1,5 @@
 ﻿using System;
 using DG.Tweening;
-using Game.Scripts.PhysicalBody;
 using Game.Scripts.PhysicalBodyContext;
 using TMPro;
 using UnityEngine;

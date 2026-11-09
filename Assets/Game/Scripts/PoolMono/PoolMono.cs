@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Game.Scripts.PhysicalBody;
 using Game.Scripts.PhysicalBodyContext;
 using UnityEngine;
 using UnityEngine.Pool;
