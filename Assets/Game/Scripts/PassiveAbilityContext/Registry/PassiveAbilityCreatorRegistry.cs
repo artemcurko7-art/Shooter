@@ -8,7 +8,7 @@ using Game.Scripts.PassiveAbilityContext.Type;
 
 namespace Game.Scripts.PassiveAbilityContext.Registry
 {
-    public class PassiveAbilityCreatorRegistry : IPassiveAbilityRegistry
+    public class PassiveAbilityCreatorRegistry : IPassiveAbilityCreatorRegistry
     {
         private readonly Dictionary<PassiveAbilityType, System.Type> _types = new();
         

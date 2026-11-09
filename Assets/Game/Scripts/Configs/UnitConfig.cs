@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.PhysicalBody.UnitContext;
-using Game.Scripts.PhysicalBody.UnitContext.Type;
+using Game.Scripts.UnitContext;
+using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.Configs

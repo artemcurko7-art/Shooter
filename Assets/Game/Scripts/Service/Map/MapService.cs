@@ -12,8 +12,8 @@ namespace Game.Scripts.Service.Map
     {
         private readonly MapPool _pool;
         private readonly ITransformable _transformable;
-        private PhysicalBody.MapContext.Map _forwardMap;
-        private PhysicalBody.MapContext.Map _backMap;
+        private MapContext.Map _forwardMap;
+        private MapContext.Map _backMap;
         private CancellationTokenSource _cancellationTokenSource;
         private Vector3 _frontCursor;
         private Vector3 _backCursor;

@@ -10,22 +10,22 @@ namespace Game.Scripts.Factory
     public class PassiveAbilityFactory
     {
         private readonly DiContainer _container;
-        private readonly IPassiveAbilityRegistry _registry;
+        private readonly IPassiveAbilityCreatorRegistry _creatorRegistry;
         private readonly IPassiveAbilityTargetingRegistry _targetingRegistry;
 
         public PassiveAbilityFactory(
-            IPassiveAbilityRegistry registry,
+            IPassiveAbilityCreatorRegistry creatorRegistry,
             IPassiveAbilityTargetingRegistry targetingRegistry,
             DiContainer container)
         {
-            _registry = registry;
+            _creatorRegistry = creatorRegistry;
             _targetingRegistry = targetingRegistry;
             _container = container;
         }
 
         public PassiveAbility Create(PassiveAbilityData data)
         {
-            var creator = (IPassiveAbilityCreator)_container.Instantiate(_registry.Types[data.Type]);
+            var creator = (IPassiveAbilityCreator)_container.Instantiate(_creatorRegistry.Types[data.Type]);
             var effect = creator.Create(data);
             var targeting = (IPassiveAbilityTargeting)_container.Instantiate(_targetingRegistry.Types[data.TargetingType]);
             

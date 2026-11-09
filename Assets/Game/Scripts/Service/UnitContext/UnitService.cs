@@ -4,13 +4,13 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Factory;
 using Game.Scripts.GameWorldContext;
-using Game.Scripts.PhysicalBody.UnitContext;
-using Game.Scripts.PhysicalBody.UnitContext.Attacker;
-using Game.Scripts.PhysicalBody.UnitContext.Data;
-using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.Subscriber;
+using Game.Scripts.UnitContext;
+using Game.Scripts.UnitContext.Attacker;
+using Game.Scripts.UnitContext.Data;
+using Game.Scripts.UnitContext.Type;
 using Game.Scripts.Wave;
 using UnityEngine;
 

@@ -1,5 +1,5 @@
 ﻿using Game.Scripts.MV.GameProgressContext;
-using Game.Scripts.PhysicalBody.UnitContext.Type;
+using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

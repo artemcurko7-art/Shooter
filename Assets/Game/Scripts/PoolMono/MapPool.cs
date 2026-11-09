@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Scripts.PhysicalBody.MapContext;
+using Game.Scripts.MapContext;
 using UnityEngine;
 using Zenject;
 

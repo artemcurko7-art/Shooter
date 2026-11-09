@@ -1,5 +1,5 @@
 ﻿using Game.Scripts.GameWorldContext.Type;
-using Game.Scripts.PhysicalBody.MapContext;
+using Game.Scripts.MapContext;
 using Game.Scripts.Wave;
 using UnityEngine;
 

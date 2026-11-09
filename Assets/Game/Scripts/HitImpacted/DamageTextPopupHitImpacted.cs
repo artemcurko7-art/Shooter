@@ -1,7 +1,7 @@
 ﻿using Game.Scripts.MV.StatContext.Repository;
-using Game.Scripts.PhysicalBody.UnitContext;
 using Game.Scripts.PoolMono;
 using Game.Scripts.Service.Equipment.CharacterContext;
+using Game.Scripts.UnitContext;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted

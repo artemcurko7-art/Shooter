@@ -1,9 +1,6 @@
 using System;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.Factory;
-using Game.Scripts.PhysicalBody.MapContext;
-using Game.Scripts.PhysicalBody.UnitContext.FSM;
-using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PoolMono;
 using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.PoolMono.Repository.PassiveAbilityView;
@@ -11,6 +8,7 @@ using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Map;
 using Game.Scripts.Service.UnitContext;
 using Game.Scripts.TextPopup;
+using Game.Scripts.UnitContext.Type;
 using Game.Scripts.VFX.Type;
 using UnityEngine;
 using Zenject;

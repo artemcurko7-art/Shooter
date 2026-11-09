@@ -1,7 +1,7 @@
 ﻿using System;
-using Game.Scripts.PhysicalBody.UnitContext;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.Service.UnitContext;
+using Game.Scripts.UnitContext;
 
 namespace Game.Scripts.MV.GameProgressContext
 {

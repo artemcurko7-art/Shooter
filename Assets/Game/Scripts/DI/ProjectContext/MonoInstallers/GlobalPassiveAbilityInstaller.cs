@@ -10,7 +10,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<IPassiveAbilityRegistry>()
+                .Bind<IPassiveAbilityCreatorRegistry>()
                 .To<PassiveAbilityCreatorRegistry>()
                 .AsSingle();
             

@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Scripts.PhysicalBody.UnitContext;
+using Game.Scripts.UnitContext;
 
 namespace Game.Scripts.Service.UnitContext
 {

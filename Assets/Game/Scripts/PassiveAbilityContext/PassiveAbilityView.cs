@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using Game.Scripts.Extensions;
 using Game.Scripts.PhysicalBody;
+using Game.Scripts.PhysicalBodyContext;
 using TMPro;
 using UnityEngine;
 using Sequence = DG.Tweening.Sequence;

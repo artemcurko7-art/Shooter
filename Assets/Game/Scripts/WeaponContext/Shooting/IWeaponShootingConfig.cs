@@ -1,4 +1,4 @@
-﻿using Game.Scripts.PhysicalBody.ProjectileContext;
+﻿using Game.Scripts.ProjectileContext;
 
 namespace Game.Scripts.WeaponContext.Shooting
 {

@@ -3,10 +3,9 @@ using Game.Scripts.Configs;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Repository;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.PhysicalBody.UnitContext;
-using Game.Scripts.PhysicalBody.UnitContext.Data;
-using Game.Scripts.PhysicalBody.UnitContext.Type;
 using Game.Scripts.PlayerContext;
+using Game.Scripts.UnitContext;
+using Game.Scripts.UnitContext.Data;
 using UnityEngine;
 using Zenject;
 

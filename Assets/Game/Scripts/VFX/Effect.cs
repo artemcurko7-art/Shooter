@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using Game.Scripts.PhysicalBody;
+using Game.Scripts.PhysicalBodyContext;
 using UnityEngine;
 
 namespace Game.Scripts.VFX

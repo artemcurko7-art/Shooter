@@ -1,6 +1,6 @@
-using Game.Scripts.PhysicalBody.ProjectileContext;
-using Game.Scripts.PhysicalBody.UnitContext.Attacker;
-using Game.Scripts.PhysicalBody.UnitContext.Data;
+using Game.Scripts.ProjectileContext;
+using Game.Scripts.UnitContext.Attacker;
+using Game.Scripts.UnitContext.Data;
 using Game.Scripts.WeaponContext;
 using UnityEngine;
 using Zenject;
