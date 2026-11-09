@@ -10,13 +10,9 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
     [PassiveAbilityTargetingType(PassiveAbilityTargetingType.Random)]
     public class RandomPassiveAbilityTargeting : IPassiveAbilityTargeting
     {
-        public PassiveAbilityTargetingType Type => PassiveAbilityTargetingType.Random;
-        
         public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
-            //Debug.Log("Random");
-            
-            return characters.OrderBy(character => UnityEngine.Random.value).Take(2);
+            return characters.OrderBy(character => UnityEngine.Random.value).Take(characters.Count);
         }
     }
 }

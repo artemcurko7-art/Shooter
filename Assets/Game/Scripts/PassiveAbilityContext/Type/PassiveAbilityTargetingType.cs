@@ -3,8 +3,10 @@
     public enum PassiveAbilityTargetingType
     {
         None,
-        Global,
-        Random,
         Self,
+        All,
+        AllExceptSelf,
+        Random,
+        RandomExceptSelf,
     }
 }

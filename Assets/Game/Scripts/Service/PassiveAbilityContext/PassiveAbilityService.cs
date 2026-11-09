@@ -4,6 +4,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.PassiveAbilityContext;
 using Game.Scripts.PassiveAbilityContext.Repository;
 using Game.Scripts.Service.Subscriber;
+using UnityEngine;
 
 namespace Game.Scripts.Service.PassiveAbilityContext
 {

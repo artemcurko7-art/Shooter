@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.PassiveAbilityContext.AttributeContext;
 using Game.Scripts.PassiveAbilityContext.Type;
@@ -6,16 +7,15 @@ using UnityEngine;
 
 namespace Game.Scripts.PassiveAbilityContext.Targeting
 {
-    [PassiveAbilityTargetingType(PassiveAbilityTargetingType.Global)]
-    public class GlobalPassiveAbilityTargeting : IPassiveAbilityTargeting
+    [PassiveAbilityTargetingType(PassiveAbilityTargetingType.RandomExceptSelf)]
+    public class RandomExceptSelfAbilityTargeting : IPassiveAbilityTargeting
     {
-        public PassiveAbilityTargetingType Type => PassiveAbilityTargetingType.Global;
-        
         public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
-            //Debug.Log("Global");
-            
-            return characters;
+            return characters
+                .Where(character => character != owner)
+                .OrderBy(character => UnityEngine.Random.value)
+                .Take(characters.Count); 
         }
     }
 }

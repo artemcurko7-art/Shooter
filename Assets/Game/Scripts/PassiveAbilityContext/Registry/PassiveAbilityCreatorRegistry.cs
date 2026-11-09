@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using Game.Scripts.Extensions;
 using Game.Scripts.PassiveAbilityContext.AttributeContext;
-using Game.Scripts.PassiveAbilityContext.Passive;
+using Game.Scripts.PassiveAbilityContext.Creator;
 using Game.Scripts.PassiveAbilityContext.Type;
 
 namespace Game.Scripts.PassiveAbilityContext.Registry
 {
-    public class PassiveAbilityRegistry : IPassiveAbilityRegistry
+    public class PassiveAbilityCreatorRegistry : IPassiveAbilityRegistry
     {
         private readonly Dictionary<PassiveAbilityType, System.Type> _types = new();
         
-        public PassiveAbilityRegistry()
+        public PassiveAbilityCreatorRegistry()
         {
             Fill();
         }
@@ -21,7 +21,7 @@ namespace Game.Scripts.PassiveAbilityContext.Registry
         
         private void Fill()
         {
-            foreach (var type in ReflectionExtensions.GetImplementations<IPassiveAbility>())
+            foreach (var type in ReflectionExtensions.GetImplementations<IPassiveAbilityCreator>())
             {
                 var attribute = type.GetCustomAttribute<PassiveAbilityTypeAttribute>();
 

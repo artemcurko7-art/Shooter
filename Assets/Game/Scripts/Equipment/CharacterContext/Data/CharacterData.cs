@@ -21,7 +21,7 @@ namespace Game.Scripts.Equipment.CharacterContext.Data
             Fill();
             
             provider.Set(SquadNumberType.First, CharacterType.AttackAircraft);
-            provider.Set(SquadNumberType.Third, CharacterType.Healer);
+            provider.Set(SquadNumberType.Second, CharacterType.Healer);
         }
 
         public IReadOnlyDictionary<CharacterType, CharacterConfig> Characters => _characters;

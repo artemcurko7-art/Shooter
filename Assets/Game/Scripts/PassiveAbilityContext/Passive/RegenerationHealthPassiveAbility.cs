@@ -4,14 +4,11 @@ using Cysharp.Threading.Tasks;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Modifer;
-using Game.Scripts.PassiveAbilityContext.AttributeContext;
 using Game.Scripts.PassiveAbilityContext.Data;
-using Game.Scripts.PassiveAbilityContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.PassiveAbilityContext.Passive
 {
-    [PassiveAbilityType(PassiveAbilityType.RegenerationHealth)]
     public class RegenerationHealthPassiveAbility : IPassiveAbility
     {
         private readonly Health _health;
@@ -49,8 +46,6 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
                 _health.Increase(value);
                 _statModifer.Set(_health.Type, value);
                 Applied?.Invoke(character, passiveAbilityData);
-                
-                Debug.Log("Regeneration Health Passive Ability");
             }
         }
         

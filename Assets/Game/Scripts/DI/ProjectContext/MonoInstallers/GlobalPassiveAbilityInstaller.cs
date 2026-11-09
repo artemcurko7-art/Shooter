@@ -11,7 +11,7 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         {
             Container
                 .Bind<IPassiveAbilityRegistry>()
-                .To<PassiveAbilityRegistry>()
+                .To<PassiveAbilityCreatorRegistry>()
                 .AsSingle();
             
             Container

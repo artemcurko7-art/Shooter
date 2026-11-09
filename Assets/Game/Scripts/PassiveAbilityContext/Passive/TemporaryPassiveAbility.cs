@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.PassiveAbilityContext.AttributeContext;
 using Game.Scripts.PassiveAbilityContext.Data;
-using Game.Scripts.PassiveAbilityContext.Type;
-using UnityEngine;
 
 namespace Game.Scripts.PassiveAbilityContext.Passive
 {
-    [PassiveAbilityType(PassiveAbilityType.Temporary)]
     public class TemporaryPassiveAbility : IPassiveAbility
     {
         private readonly StatType _type;
