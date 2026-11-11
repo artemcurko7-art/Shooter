@@ -70,7 +70,7 @@ namespace Game.Scripts.PoolMono
         {
             return new ObjectPool<PassiveAbilityView>(
                 createFunc: () => 
-                    _factory.Create(_abilityData, _container),
+                    _factory.Create(_container),
                 actionOnGet: (prefab) => ActionOnGet(prefab),
                 actionOnRelease: (prefab) => ActionOnRelease(prefab));
         }

@@ -8,6 +8,6 @@ namespace Game.Scripts.Configs
     public class EffectConfig : ScriptableObject
     {
         [field: SerializeField] public EffectType Type { get; private set; }
-        [field: SerializeField] public Effect Effect { get; private set; }
+        [field: SerializeField] public Effect View { get; private set; }
     }
 }

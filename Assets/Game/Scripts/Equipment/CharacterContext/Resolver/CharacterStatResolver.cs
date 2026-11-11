@@ -35,11 +35,11 @@ namespace Game.Scripts.Equipment.CharacterContext
                 _healthValue += character.Stats[StatType.Health].Value;
             }
             
-            Health = new Health(_healthValue, false);
+            Health = new HealthStat(_healthValue, false);
         }
         
         public IReadOnlyList<Character> Characters => _characters;
-        public Health Health { get; }
+        public HealthStat Health { get; }
         
         private void Resolve()
         {

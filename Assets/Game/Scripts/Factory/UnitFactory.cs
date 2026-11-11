@@ -14,14 +14,12 @@ namespace Game.Scripts.Factory
     public class UnitFactory 
     {
         private readonly IUnitData _data;
-        private readonly IUnitAttackerData _attackerData;
         private readonly StatFactory _statFactory;
         private readonly DiContainer _container;
     
-        public UnitFactory(IUnitData data, IUnitAttackerData attackerData, StatFactory statFactory, DiContainer container)
+        public UnitFactory(IUnitData data, StatFactory statFactory, DiContainer container)
         {
-            _data = data;
-            _attackerData = attackerData;
+            _data = data;                   
             _statFactory = statFactory;
             _container = container;
         }
@@ -34,8 +32,8 @@ namespace Game.Scripts.Factory
 
             foreach (var stat in config.Stats)
                 stats.Add(stat.Type, _statFactory.Create(stat.Type, stat.Value, false));
-            
-            unit.Initialize(config.Type, _attackerData.UnitAttackers[config.AttackerType], stats);
+
+            unit.Initialize(config.Type, stats);
 
             return unit;
         }

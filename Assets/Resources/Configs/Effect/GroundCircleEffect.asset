@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GroundCircleEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 6
-  <Effect>k__BackingField: {fileID: 3567009000655415905, guid: ac5d1d117e0611e40939238637450361, type: 3}
+  <View>k__BackingField: {fileID: 3567009000655415905, guid: ac5d1d117e0611e40939238637450361, type: 3}

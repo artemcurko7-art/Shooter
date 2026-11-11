@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FireCircleEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 4
-  <Effect>k__BackingField: {fileID: 2204826780458774728, guid: 66065f94cd45fad4a83f1d70da40472f, type: 3}
+  <View>k__BackingField: {fileID: 2204826780458774728, guid: 66065f94cd45fad4a83f1d70da40472f, type: 3}

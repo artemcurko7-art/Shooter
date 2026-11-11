@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ElectricCircleEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 8
-  <Effect>k__BackingField: {fileID: 8299755894927135782, guid: 2317bcf42ec3da3488d22149df3f06fc, type: 3}
+  <View>k__BackingField: {fileID: 8299755894927135782, guid: 2317bcf42ec3da3488d22149df3f06fc, type: 3}

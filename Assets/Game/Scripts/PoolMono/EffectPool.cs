@@ -6,12 +6,10 @@ namespace Game.Scripts.PoolMono
 {
     public class EffectPool : PoolMono<Effect>
     {
-        public EffectPool(EffectType type, DiContainer container) : base(container)
+        public EffectPool(Effect effect, DiContainer container) : base(container)
         {
-            Type = type;
+            SetPrefab(effect);
         }
-        
-        public EffectType Type { get; private set; }
         
         protected override void ActionOnGet(Effect effect)
         {

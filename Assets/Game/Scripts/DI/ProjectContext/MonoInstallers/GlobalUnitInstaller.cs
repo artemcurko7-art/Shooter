@@ -1,41 +1,22 @@
-using Game.Scripts.ProjectileContext;
-using Game.Scripts.UnitContext.Attacker;
 using Game.Scripts.UnitContext.Data;
-using Game.Scripts.WeaponContext;
-using UnityEngine;
+using Game.Scripts.UnitContext.Registry;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 {
     public class GlobalUnitInstaller : MonoInstaller
     {
-        [SerializeField] private Projectile _projectile;
-        
         public override void InstallBindings()
         {
             Container
-                .BindInterfacesTo<UnitData>()
+                .Bind<IUnitData>()
+                .To<UnitData>()
                 .AsSingle();
-        
-            // Container
-            //     .Bind<UnitFactory>()
-            //     .AsSingle();
-        
-            Container
-                .Bind<IUnitAttacker>()
-                .To<MeleeAttacker>()
-                .AsCached();
-        
-            Container
-                .Bind<IUnitAttacker>()
-                .To<AreaDamageAttacker>()
-                .AsCached();
             
             Container
-                .Bind<IUnitAttacker>()
-                .To<ThrowerAttacker>()
-                .AsCached()
-                .WithArguments(_projectile);
+                .Bind<IUnitAttackerCreatorRegistry>()
+                .To<UnitAttackerCreatorRegistry>()
+                .AsSingle();
         }
     }
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RunicCircleEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 10
-  <Effect>k__BackingField: {fileID: 8027882239157757204, guid: b8fd8495300710c43b585263b2c69763, type: 3}
+  <View>k__BackingField: {fileID: 8027882239157757204, guid: b8fd8495300710c43b585263b2c69763, type: 3}

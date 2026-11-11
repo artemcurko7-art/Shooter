@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HealingCircleEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 2
-  <Effect>k__BackingField: {fileID: 4038439164178509298, guid: 1e34ed00c7475224fbf914a333c40c8d, type: 3}
+  <View>k__BackingField: {fileID: 4038439164178509298, guid: 1e34ed00c7475224fbf914a333c40c8d, type: 3}

@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
@@ -10,7 +11,8 @@ namespace Game.Scripts.HitImpacted
         private const float To = 0;
         private const float Duration = 0.5f;
         
-        public KnockbackHitImpacted(ProjectilePool projectilePool) : base(projectilePool) { }
+        public KnockbackHitImpacted(IProjectilePoolRepository projectilePoolRepository)
+            : base(projectilePoolRepository) { }
 
         protected override void OnHitImpacted(HitContext hitContext)
         {

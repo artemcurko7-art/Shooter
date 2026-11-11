@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DamageAuraEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 13
-  <Effect>k__BackingField: {fileID: 3619792369337947131, guid: 5ac04ad2e575eb1419004bb04d27701e, type: 3}
+  <View>k__BackingField: {fileID: 3619792369337947131, guid: 5ac04ad2e575eb1419004bb04d27701e, type: 3}

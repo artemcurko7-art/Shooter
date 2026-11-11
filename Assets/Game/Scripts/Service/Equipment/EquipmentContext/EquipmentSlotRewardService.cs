@@ -112,11 +112,11 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         
         private Stat CreateStatInstance(StatType type, int value, bool isPercentageValue) => type switch
         {
-            StatType.Health => new Health(value, isPercentageValue),
-            StatType.Damage => new Damage(value, isPercentageValue),
-            StatType.Defence => new Defence(value, isPercentageValue),
-            StatType.CriticalChance => new CriticalChance(value, isPercentageValue),
-            StatType.CriticalDamage => new CriticalDamage(value, isPercentageValue),
+            StatType.Health => new HealthStat(value, isPercentageValue),
+            StatType.Damage => new DamageStat(value, isPercentageValue),
+            StatType.Defence => new DefenceStat(value, isPercentageValue),
+            StatType.CriticalChance => new CriticalChanceStat(value, isPercentageValue),
+            StatType.CriticalDamage => new CriticalDamageStat(value, isPercentageValue),
             _ => null
         };
     }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ElectronsEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 11
-  <Effect>k__BackingField: {fileID: 6626587686849958151, guid: 87c6443699db25f4c868cf98412b6cb3, type: 3}
+  <View>k__BackingField: {fileID: 6626587686849958151, guid: 87c6443699db25f4c868cf98412b6cb3, type: 3}

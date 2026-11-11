@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.ProjectileContext.Type;
 using Game.Scripts.UnitContext;
+using Game.Scripts.UnitContext.Data;
 using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 
@@ -12,7 +14,8 @@ namespace Game.Scripts.Configs
     public class UnitConfig : ScriptableObject
     {
         [field: SerializeField] public UnitType Type { get; private set; }
-        [field: SerializeField] public UnitAttackerType AttackerType { get; private set; }
+        [field: SerializeField] public ProjectileType ProjectileType { get; private set; }
+        [field: SerializeField] public UnitAttackerData[] AttackerDates { get; private set; }
         [field: SerializeField] public Unit Unit { get; private set; }
         [field: SerializeField] public UnitStatData[] Stats { get; private set; }
         
@@ -21,14 +24,18 @@ namespace Game.Scripts.Configs
         private void Reset()
         {
             RebuildStatsArray();
+            RebuildAttackerArray();
         }
 
         private void OnValidate()
         {
-            var requiredTypes = GetFilteredStatTypes();
-
-            if (Stats == null || Stats.Length != requiredTypes.Length)
+            var requiredStatTypes = GetFilteredStatTypes();
+            if (Stats == null || Stats.Length != requiredStatTypes.Length)
                 RebuildStatsArray();
+            
+            var requiredStates = GetFilteredStateTypes();
+            if (AttackerDates == null || AttackerDates.Length != requiredStates.Length)
+                RebuildAttackerArray();
         }
 
         private void RebuildStatsArray()
@@ -69,6 +76,42 @@ namespace Game.Scripts.Configs
                 .Cast<StatType>()
                 .Where(statType => Convert.ToInt32(statType) != 0)
                 .Except(_excludedStatTypes)
+                .ToArray();
+        }
+
+        private void RebuildAttackerArray()
+        {
+            var stateTypes = GetFilteredStateTypes();
+            var newAttackers = new UnitAttackerData[stateTypes.Length];
+
+            for (int i = 0; i < stateTypes.Length; i++)
+            {
+                var currentState = stateTypes[i];
+                
+                UnitAttackerData existingData = null;
+                if (AttackerDates != null)
+                {
+                    existingData = AttackerDates.FirstOrDefault(a => a != null && a.StateType == currentState);
+                }
+
+                if (existingData != null)
+                {
+                    newAttackers[i] = existingData;
+                }
+                else
+                {
+                    newAttackers[i] = new UnitAttackerData(currentState);
+                }
+            }
+
+            AttackerDates = newAttackers;
+        }
+
+        private StateType[] GetFilteredStateTypes()
+        {
+            return Enum.GetValues(typeof(StateType))
+                .Cast<StateType>()
+                .Where(stateType => stateType != StateType.None)
                 .ToArray();
         }
     }

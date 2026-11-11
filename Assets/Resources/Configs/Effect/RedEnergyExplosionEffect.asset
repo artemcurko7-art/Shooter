@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RedEnergyExplosionEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 12
-  <Effect>k__BackingField: {fileID: 6041622995149594608, guid: 26c7c90fa858ebf4985d6d2a3552f8b3, type: 3}
+  <View>k__BackingField: {fileID: 6041622995149594608, guid: 26c7c90fa858ebf4985d6d2a3552f8b3, type: 3}

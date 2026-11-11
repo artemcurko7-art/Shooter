@@ -5,7 +5,6 @@ namespace Game.Scripts.UnitContext.Attacker
 {
     public interface IUnitAttacker
     {
-        UnitAttackerType Type { get; }
-        void Attack(Transform current, int damage, float distance);
+        void Attack(Transform current);
     }
 }

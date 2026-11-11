@@ -10,5 +10,6 @@
         CriticalChance,
         CriticalDamage,
         Distance,
+        Radius,
     }
 }

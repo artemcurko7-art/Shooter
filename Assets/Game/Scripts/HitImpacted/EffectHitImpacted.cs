@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.PoolMono;
 using Game.Scripts.PoolMono.Repository.Effect;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using Game.Scripts.VFX;
 using Game.Scripts.VFX.Data;
 using Game.Scripts.VFX.Type;
@@ -11,7 +12,8 @@ namespace Game.Scripts.HitImpacted
     {
         private readonly IEffectPoolRepository _repository;
         
-        public EffectHitImpacted(IEffectPoolRepository repository, ProjectilePool projectilePool) : base(projectilePool)
+        public EffectHitImpacted(IEffectPoolRepository repository, IProjectilePoolRepository projectilePoolRepository)
+            : base(projectilePoolRepository)
         {
             _repository = repository;
         }

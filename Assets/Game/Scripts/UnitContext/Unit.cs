@@ -11,6 +11,7 @@ using Game.Scripts.UnitContext.FSM;
 using Game.Scripts.UnitContext.FSM.Attacker;
 using Game.Scripts.UnitContext.FSM.Death;
 using Game.Scripts.UnitContext.FSM.Follower;
+using Game.Scripts.UnitContext.Repository;
 using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 using Zenject;
@@ -20,8 +21,7 @@ namespace Game.Scripts.UnitContext
     [RequireComponent(typeof(CharacterController), typeof(Animator))]
     public class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
     {
-        private IReadOnlyDictionary<StatType, Stat> _stats;
-        private IUnitAttacker _attacker;
+        private IUnitAttackerService _attackerService; 
         private ITransformable _transformable;
         private CharacterController _characterController;
         private Renderer _renderer;
@@ -34,11 +34,13 @@ namespace Game.Scripts.UnitContext
         public event Action<Unit> Released;
         public event Action<Unit> Dead;
 
+        public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Transform { get; }
 
         [Inject]
-        public void Construct(ITransformable transformable)
+        public void Construct(IUnitAttackerService attackerService, ITransformable transformable)
         {
+            _attackerService = attackerService;
             _transformable = transformable;
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
@@ -51,11 +53,10 @@ namespace Game.Scripts.UnitContext
             State.Update();
         }
 
-        public void Initialize(UnitType type, IUnitAttacker attacker, IReadOnlyDictionary<StatType, Stat> stats)
+        public void Initialize(UnitType type, IReadOnlyDictionary<StatType, Stat> stats)
         {
             Type = type;
-            _attacker = attacker;
-            _stats = stats;
+            Stats = stats;
             
             State = new State();
             
@@ -63,8 +64,8 @@ namespace Game.Scripts.UnitContext
                 State, _characterController,
                 transform,
                 _transformable.Transform,
-                _stats[StatType.Speed].Value,
-                _stats[StatType.Distance].Value));
+                Stats[StatType.Speed].Value,
+                Stats[StatType.Distance].Value));
             
             State.Add(BindStateAttacker());
             State.Add(BindStateDeath());
@@ -82,9 +83,9 @@ namespace Game.Scripts.UnitContext
 
         public void TakeDamage(int damage)
         {
-            _stats[StatType.Health].Decrease(damage);
+            Stats[StatType.Health].Decrease(damage);
             
-            if (_stats[StatType.Health].Value <= 0)
+            if (Stats[StatType.Health].Value <= 0)
             {
                 State.Set<StateDeath>();
                 _characterController.enabled = false;
@@ -95,7 +96,8 @@ namespace Game.Scripts.UnitContext
         
         public virtual void Attack()
         {
-            _attacker.Attack(transform, _stats[StatType.Damage].Value, _stats[StatType.Distance].Value);
+            var attacker = _attackerService.Get(this, StateType.Attacker);
+            attacker.Attack(transform);
         }
         
         protected virtual StateAttacker BindStateAttacker()
@@ -105,7 +107,7 @@ namespace Game.Scripts.UnitContext
                 Animator,
                 transform,
                 _transformable.Transform,
-                _stats[StatType.Distance].Value);
+                Stats[StatType.Distance].Value);
         }
 
         protected virtual StateDeath BindStateDeath()
@@ -121,7 +123,7 @@ namespace Game.Scripts.UnitContext
             
             Released?.Invoke(this);
 
-            foreach (var stat in _stats.Values)
+            foreach (var stat in Stats.Values)
                 stat.SetDefaultValue();
         }
     }

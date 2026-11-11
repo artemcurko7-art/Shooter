@@ -4,11 +4,13 @@ using Game.Scripts.Factory;
 using Game.Scripts.PoolMono;
 using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.PoolMono.Repository.PassiveAbilityView;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using Game.Scripts.PoolMono.Repository.Unit;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.Service.Map;
 using Game.Scripts.Service.UnitContext;
 using Game.Scripts.TextPopup;
+using Game.Scripts.UnitContext.Repository;
 using Game.Scripts.UnitContext.Type;
 using Game.Scripts.VFX.Type;
 using UnityEngine;
@@ -22,7 +24,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         {
             BindUnit();
             BindMap();
-            BindBullet();
+            BindProjectile();
             BindPassiveAbilityView();
             BindEffect();
             BindDamageTextPopup();
@@ -35,23 +37,16 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .To<UnitPoolRepository>()
                 .AsSingle();
             
-            // foreach (var type in Enum.GetValues(typeof(UnitType)))
-            // {
-            //     if ((UnitType)type == UnitType.None)
-            //         continue;
-            //     
-            //     Container
-            //         .Bind<UnitPool>()
-            //         .AsCached()
-            //         .WithArguments((UnitType)type);
-            // }
-            
             Container
                 .Bind<UnitFactory>()
                 .AsSingle();
 
             Container
                 .BindInterfacesAndSelfTo<UnitService>() // add bind interfaces to
+                .AsSingle();
+            
+            Container
+                .BindInterfacesTo<UnitAttackerService>()
                 .AsSingle();
         }
 
@@ -66,10 +61,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
         }
         
-        private void BindBullet()
+        private void BindProjectile()
         {
             Container
-                .Bind<ProjectilePool>()
+                .Bind<IProjectilePoolRepository>()
+                .To<ProjectilePoolRepository>()
                 .AsSingle();
         }
 
@@ -83,17 +79,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         
         private void BindEffect()
         {
-            foreach (var type in Enum.GetValues(typeof(EffectType)))
-            {
-                if ((EffectType)type == EffectType.None)
-                    continue;
-                
-                Container
-                    .Bind<EffectPool>()
-                    .AsCached()
-                    .WithArguments((EffectType)type);;
-            }
-
             Container
                 .Bind<IEffectPoolRepository>()
                 .To<EffectPoolRepository>()

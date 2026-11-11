@@ -9,7 +9,7 @@ namespace Game.Scripts.VFX.Data
     public class EffectData : IEffectData
     {
         private readonly EffectConfig[] _configs;
-        private readonly Dictionary<EffectType, Effect> _effects = new();
+        private readonly Dictionary<EffectType, EffectConfig> _effects = new();
         
         public EffectData()
         {
@@ -18,7 +18,7 @@ namespace Game.Scripts.VFX.Data
             Fill();
         }
 
-        public IReadOnlyDictionary<EffectType, Effect> Effects => _effects;
+        public IReadOnlyDictionary<EffectType, EffectConfig> Effects => _effects;
 
         private void Fill()
         {
@@ -30,7 +30,7 @@ namespace Game.Scripts.VFX.Data
                 if (_effects.ContainsKey(config.Type))
                     throw new InvalidOperationException($"Duplicate type: {config.Type}");
 
-                _effects.Add(config.Type, config.Effect);
+                _effects.Add(config.Type, config);
             }
         }
     }

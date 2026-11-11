@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BloodBurstEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
-  <Effect>k__BackingField: {fileID: 8477472808995241125, guid: 9c96429adeffbf7498697f7a15749f0e, type: 3}
+  <View>k__BackingField: {fileID: 8477472808995241125, guid: 9c96429adeffbf7498697f7a15749f0e, type: 3}

@@ -4,9 +4,9 @@ using Game.Scripts.MV.StatContext.Type;
 namespace Game.Scripts.MV.StatContext
 {
     [StatType(StatType.Damage)]
-    public class Damage : Stat
+    public class DamageStat : Stat
     {
-        public Damage(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
+        public DamageStat(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
         
         protected override StatType GetStatType()
         {

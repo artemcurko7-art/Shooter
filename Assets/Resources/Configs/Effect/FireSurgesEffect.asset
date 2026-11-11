@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FireSurgesEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 5
-  <Effect>k__BackingField: {fileID: 5369214967135703603, guid: c69059ede6cd6f24b8051e2f0ad68984, type: 3}
+  <View>k__BackingField: {fileID: 5369214967135703603, guid: c69059ede6cd6f24b8051e2f0ad68984, type: 3}

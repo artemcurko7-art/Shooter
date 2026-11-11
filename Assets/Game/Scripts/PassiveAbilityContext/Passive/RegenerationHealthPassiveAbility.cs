@@ -11,14 +11,14 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
 {
     public class RegenerationHealthPassiveAbility : IPassiveAbility
     {
-        private readonly Health _health;
+        private readonly HealthStat _health;
         private readonly StatModifer _statModifer;
         private readonly int _value;
         private readonly float _cooldown;
         
         public event Action<ICharacter, PassiveAbilityData> Applied;
     
-        public RegenerationHealthPassiveAbility(Health health, StatModifer statModifer, int value, float cooldown)
+        public RegenerationHealthPassiveAbility(HealthStat health, StatModifer statModifer, int value, float cooldown)
         {
             _health = health;
             _statModifer = statModifer;

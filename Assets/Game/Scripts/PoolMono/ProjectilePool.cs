@@ -12,8 +12,11 @@ namespace Game.Scripts.PoolMono
     {
         public event Action<IImpactReceiver> Added;
         public event Action<IImpactReceiver> Removed;
-        
-        public ProjectilePool(DiContainer container) : base(container) { }
+
+        public ProjectilePool(Projectile projectile, DiContainer container) : base(container)
+        {
+            SetPrefab(projectile);
+        }
         
         protected override void ActionOnGet(Projectile projectile)
         {

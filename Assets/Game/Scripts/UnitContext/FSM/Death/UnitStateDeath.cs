@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Animation;
+using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.UnitContext.FSM.Death
@@ -11,7 +12,7 @@ namespace Game.Scripts.UnitContext.FSM.Death
         {
             _animator = animator;
         }
-
+        
         public override void Enter()
         {
             _animator.SetTrigger(AnimationData.Params.Death);

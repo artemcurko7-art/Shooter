@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Game.Scripts.Extensions;
 using Game.Scripts.VFX.Data;
 using Game.Scripts.VFX.Type;
+using Zenject;
 
 namespace Game.Scripts.PoolMono.Repository.Effect
 {
@@ -8,12 +10,12 @@ namespace Game.Scripts.PoolMono.Repository.Effect
     {
         private readonly Dictionary<EffectType, EffectPool> _pools = new();
         
-        public EffectPoolRepository(IEffectData data, EffectPool[] pools)
+        public EffectPoolRepository(IEffectData data, DiContainer container)
         {
-            foreach (var pool in pools)
+            foreach (var effect in data.Effects)
             {
-                pool.SetPrefab(data.Effects[pool.Type]);
-                _pools.Add(pool.Type, pool);
+                var pool = container.InstantiateEffectPool(effect.Value.View);
+                _pools.Add(effect.Key, pool);
             }
         }
 

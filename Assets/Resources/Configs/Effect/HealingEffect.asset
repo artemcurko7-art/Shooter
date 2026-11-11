@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HealingEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 3
-  <Effect>k__BackingField: {fileID: 1296736477412249613, guid: 9c21364e13e3bff4e9d0515a65f3bea4, type: 3}
+  <View>k__BackingField: {fileID: 1296736477412249613, guid: 9c21364e13e3bff4e9d0515a65f3bea4, type: 3}

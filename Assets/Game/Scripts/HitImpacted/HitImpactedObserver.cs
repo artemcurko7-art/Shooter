@@ -1,4 +1,6 @@
 ﻿using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Projectile;
+using Game.Scripts.ProjectileContext.Type;
 using Game.Scripts.Service.Subscriber;
 using UnityEngine;
 
@@ -6,23 +8,23 @@ namespace Game.Scripts.HitImpacted
 {
     public abstract class HitImpactedObserver : ISubscriber
     {
-        private readonly ProjectilePool _projectilePool;
+        private readonly IProjectilePoolRepository _projectilePoolRepository;
         
-        public HitImpactedObserver(ProjectilePool projectilePool)
+        public HitImpactedObserver(IProjectilePoolRepository projectilePoolRepository)
         {
-            _projectilePool = projectilePool;
+            _projectilePoolRepository = projectilePoolRepository;
         }
         
         public void Subscribe()
         {
-            _projectilePool.Added += OnAdded;
-            _projectilePool.Removed += OnRemoved;
+            _projectilePoolRepository.Pools[ProjectileType.Default].Added += OnAdded;
+            _projectilePoolRepository.Pools[ProjectileType.Default].Removed += OnRemoved;
         }
 
         public void Unsubscribe()
         {
-            _projectilePool.Added -= OnAdded;
-            _projectilePool.Removed -= OnRemoved;
+            _projectilePoolRepository.Pools[ProjectileType.Default].Added -= OnAdded;
+            _projectilePoolRepository.Pools[ProjectileType.Default].Removed -= OnRemoved;
         }
 
         protected abstract void OnHitImpacted(HitContext hitContext);

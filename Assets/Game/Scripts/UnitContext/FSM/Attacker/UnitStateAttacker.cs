@@ -2,7 +2,9 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Scripts.Animation;
+using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.UnitContext.FSM.Follower;
+using Game.Scripts.UnitContext.Type;
 using UnityEngine;
 
 namespace Game.Scripts.UnitContext.FSM.Attacker

@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
@@ -13,7 +14,8 @@ namespace Game.Scripts.HitImpacted
         private readonly float _cooldownFlash;
         private CancellationTokenSource _cancellationTokenSource;
         
-        public FlashHitImpacted(Material flash, float cooldownFlash, ProjectilePool projectilePool) : base(projectilePool)
+        public FlashHitImpacted(Material flash, float cooldownFlash, IProjectilePoolRepository projectilePoolRepository)
+            : base(projectilePoolRepository)
         {
             _flash = flash;
             _cooldownFlash = cooldownFlash;

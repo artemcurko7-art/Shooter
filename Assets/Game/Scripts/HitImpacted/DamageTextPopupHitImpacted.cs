@@ -1,5 +1,6 @@
 ﻿using Game.Scripts.MV.StatContext.Repository;
 using Game.Scripts.PoolMono;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using Game.Scripts.Service.Equipment.CharacterContext;
 using Game.Scripts.UnitContext;
 using UnityEngine;
@@ -17,8 +18,8 @@ namespace Game.Scripts.HitImpacted
             ICharacterService characterService,
             DamageTextPopupPool pool,
             Camera mainCamera,
-            ProjectilePool projectilePool)
-            : base(projectilePool)
+            IProjectilePoolRepository projectilePoolRepository)
+            : base(projectilePoolRepository)
         { 
             _characterService = characterService;
             _pool = pool; 

@@ -34,6 +34,7 @@ namespace Game.Scripts.WeaponContext
 
             _missStreak++;
             _currentChance = _baseChance * (_missStreak + 1);
+            
             return false;
         }
 

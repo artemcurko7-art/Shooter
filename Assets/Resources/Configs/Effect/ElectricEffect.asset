@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ElectricEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 9
-  <Effect>k__BackingField: {fileID: 3066254365020077105, guid: e92f50b8734f016448286359579ea616, type: 3}
+  <View>k__BackingField: {fileID: 3066254365020077105, guid: e92f50b8734f016448286359579ea616, type: 3}

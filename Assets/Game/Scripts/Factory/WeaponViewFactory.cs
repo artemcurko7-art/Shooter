@@ -1,5 +1,7 @@
 ﻿using Game.Scripts.Configs;
 using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.Extensions;
+using Game.Scripts.PoolMono.Repository.Projectile;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;
@@ -11,11 +13,13 @@ namespace Game.Scripts.Factory
     public class WeaponViewFactory
     {
         private readonly WeaponShootingData _shootingData;
+        private readonly IProjectilePoolRepository _projectilePoolRepository;
         private readonly DiContainer _container;
 
-        public WeaponViewFactory(WeaponShootingData shootingData, DiContainer container)
+        public WeaponViewFactory(WeaponShootingData shootingData, IProjectilePoolRepository projectilePoolRepository, DiContainer container)
         {
             _shootingData = shootingData;
+            _projectilePoolRepository = projectilePoolRepository;
             _container = container;
         }
 
@@ -23,8 +27,8 @@ namespace Game.Scripts.Factory
         {
             var view = _container.InstantiatePrefabForComponent<WeaponView>(config.View, Vector3.zero, Quaternion.identity, container);
             var type = _shootingData.Types[config.ShootingType];
-            var template = (IWeaponShooting)_container.Instantiate(type, new object[] { config });
-            var weapon = new Weapon(template, character);
+            var weaponShooting = _container.InstantiateWeaponShooting(type, config, _projectilePoolRepository.Pools[config.ProjectileType]);
+            var weapon = new Weapon(weaponShooting, character);
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
             view.transform.localScale = config.Scale;

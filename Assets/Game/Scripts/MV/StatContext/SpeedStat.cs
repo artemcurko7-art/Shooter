@@ -3,14 +3,14 @@ using Game.Scripts.MV.StatContext.Type;
 
 namespace Game.Scripts.MV.StatContext
 {
-    [StatType(StatType.CriticalChance)]
-    public class CriticalChance : Stat
+    [StatType(StatType.Speed)]
+    public class SpeedStat : Stat
     {
-        public CriticalChance(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
+        public SpeedStat(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
         
         protected override StatType GetStatType()
         {
-            return StatType.CriticalChance;
+            return StatType.Speed;
         }
     }
 }

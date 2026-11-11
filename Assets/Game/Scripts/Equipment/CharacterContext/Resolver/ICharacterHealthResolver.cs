@@ -5,6 +5,6 @@ namespace Game.Scripts.Equipment.CharacterContext
 {
     public interface ICharacterHealthResolver
     {
-        public Health Health { get; }
+        public HealthStat Health { get; }
     }
 }

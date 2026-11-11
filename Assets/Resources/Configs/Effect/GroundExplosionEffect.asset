@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GroundExplosionEffect
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 7
-  <Effect>k__BackingField: {fileID: 421986729342889094, guid: 31f4b3ba58a442146a95292eb6e54569, type: 3}
+  <View>k__BackingField: {fileID: 421986729342889094, guid: 31f4b3ba58a442146a95292eb6e54569, type: 3}

@@ -1,4 +1,5 @@
 using Game.Scripts.ProjectileContext;
+using Game.Scripts.ProjectileContext.Type;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Shooting;
 using Game.Scripts.WeaponContext.Type;
@@ -11,6 +12,7 @@ namespace Game.Scripts.Configs
     {
         [field: SerializeField] public WeaponType Type { get; private set; }
         [field: SerializeField] public ShootingType ShootingType { get; private set; }
+        [field: SerializeField] public ProjectileType ProjectileType { get; private set; }
         [field: SerializeField] public WeaponView View { get; private set; }
         [field: SerializeField] public Projectile Projectile { get; private set; }
         [field: SerializeField] public Vector3 Scale { get; private set; }

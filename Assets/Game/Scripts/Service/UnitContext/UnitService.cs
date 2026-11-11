@@ -7,7 +7,6 @@ using Game.Scripts.PoolMono.Repository.Unit;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.UnitContext;
 using Game.Scripts.Wave;
-using UnityEngine;
 
 namespace Game.Scripts.Service.UnitContext
 {
@@ -20,11 +19,7 @@ namespace Game.Scripts.Service.UnitContext
 
         public event Action<Unit> Added;
         
-        public UnitService(
-            GameWorld gameWorld,
-            IUnitPoolRepository poolRepository,
-            ITransformable transformable,
-            Transform[] transforms)
+        public UnitService(GameWorld gameWorld, IUnitPoolRepository poolRepository, ITransformable transformable)
         {
             _waveEntries = gameWorld.Config.Waves;
             _poolRepository = poolRepository;

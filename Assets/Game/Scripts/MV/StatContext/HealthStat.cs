@@ -5,9 +5,9 @@ using Game.Scripts.MV.StatContext.Type;
 namespace Game.Scripts.MV.StatContext
 {
     [StatType(StatType.Health)]
-    public class Health : Stat
+    public class HealthStat : Stat
     {
-        public Health(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
+        public HealthStat(int value, bool isPercentageValue) : base(value, isPercentageValue) { }
 
         protected override StatType GetStatType()
         {
