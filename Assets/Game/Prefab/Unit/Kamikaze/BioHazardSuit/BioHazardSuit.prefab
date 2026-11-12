@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1177eed0b0004f8c99c766195b7b8cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shootPoint: {fileID: 8040797873460942355}
   _handL: {fileID: 4362421393469968731}
   _handR: {fileID: 8137501809903250631}
 --- !u!1 &534447335168656127
@@ -891,6 +892,37 @@ Transform:
   m_Children:
   - {fileID: 3556680148849333052}
   m_Father: {fileID: 3685179734362640929}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5283228796200957447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8040797873460942355}
+  m_Layer: 6
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8040797873460942355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5283228796200957447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5490205799798822402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5300268487821598631
 GameObject:
@@ -1853,6 +1885,7 @@ Transform:
   m_Children:
   - {fileID: 4362421393469968731}
   - {fileID: 8137501809903250631}
+  - {fileID: 8040797873460942355}
   m_Father: {fileID: 4637516712584818774}
   m_LocalEulerAnglesHint: {x: 0, y: -44.95, z: 0}
 --- !u!33 &2974592017393364212

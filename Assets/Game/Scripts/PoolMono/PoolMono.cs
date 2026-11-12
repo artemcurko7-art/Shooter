@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Game.Scripts.PhysicalBodyContext;
+using Game.Scripts.Common.Classes;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;

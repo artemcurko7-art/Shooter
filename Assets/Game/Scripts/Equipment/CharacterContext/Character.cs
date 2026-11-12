@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext.Type;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
@@ -12,7 +13,7 @@ using Zenject;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class Character : MonoBehaviour, ICharacter
+    public class Attacker : MonoBehaviour, IAttacker
     {
         [field: SerializeField] public Transform Weapon { get; private set; }
         [field: SerializeField] public Transform ShootPosition { get; private set; }

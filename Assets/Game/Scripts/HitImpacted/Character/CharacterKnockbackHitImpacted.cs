@@ -1,18 +1,14 @@
-﻿using DG.Tweening;
-using Game.Scripts.PoolMono;
-using Game.Scripts.PoolMono.Repository.Projectile;
-using UnityEngine;
+﻿using Game.Scripts.HitImpacted.Registry;
 
-namespace Game.Scripts.HitImpacted
+namespace Game.Scripts.HitImpacted.Character
 {
-    public class KnockbackHitImpacted : HitImpactedObserver
+    public class CharacterKnockbackHitImpacted : CharacterHitImpactedObserver
     {
         private const float From = 5;
         private const float To = 0;
         private const float Duration = 0.5f;
         
-        public KnockbackHitImpacted(IProjectilePoolRepository projectilePoolRepository)
-            : base(projectilePoolRepository) { }
+        public CharacterKnockbackHitImpacted(IHitSourceRegistry hitSourceRegistry) : base(hitSourceRegistry) { }
 
         protected override void OnHitImpacted(HitContext hitContext)
         {

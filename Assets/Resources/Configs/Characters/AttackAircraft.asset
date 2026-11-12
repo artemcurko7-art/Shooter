@@ -21,7 +21,7 @@ MonoBehaviour:
     <StatType>k__BackingField: 1
     <Name>k__BackingField: 
     <Description>k__BackingField: 
-    <Cooldown>k__BackingField: 2
+    <Cooldown>k__BackingField: 100
     <Value>k__BackingField: 20
   <Icon>k__BackingField: {fileID: 21300000, guid: 860fe958c2ed5334a93fc75d6cd4268d, type: 3}
   <View>k__BackingField: {fileID: 8164957422511516444, guid: 59d66686ff5983947b594d5bc9403270, type: 3}

@@ -20,9 +20,9 @@ namespace Game.Scripts.Factory
             _container = container;
         }
         
-        public Character Create(CharacterConfig config, Transform container)
+        public Attacker Create(CharacterConfig config, Transform container)
         {
-            var view = _container.InstantiatePrefabForComponent<Character>(config.View, container.position, Quaternion.identity, container);
+            var view = _container.InstantiatePrefabForComponent<Attacker>(config.View, container.position, Quaternion.identity, container);
 
             Dictionary<StatType, Stat> stats = new();
             

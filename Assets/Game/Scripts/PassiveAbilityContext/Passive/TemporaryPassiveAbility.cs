@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.Data;
@@ -13,7 +14,7 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
         private readonly int _value;
         private readonly float _cooldown;
         
-        public event Action<ICharacter, PassiveAbilityData> Applied;
+        public event Action<IAttacker, PassiveAbilityData> Applied;
 
         public TemporaryPassiveAbility(StatType type, int value, float cooldown)
         {
@@ -22,25 +23,25 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
             _cooldown = cooldown;
         }
 
-        public void Apply(ICharacter character, PassiveAbilityData passiveAbilityData)
+        public void Apply(IAttacker attacker, PassiveAbilityData passiveAbilityData)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            StartAsync(character, passiveAbilityData, cancellationTokenSource.Token).Forget();
+            StartAsync(attacker, passiveAbilityData, cancellationTokenSource.Token).Forget();
         }
 
-        private async UniTaskVoid StartAsync(ICharacter character, PassiveAbilityData passiveAbilityData, CancellationToken token)
+        private async UniTaskVoid StartAsync(IAttacker attacker, PassiveAbilityData passiveAbilityData, CancellationToken token)
         {
             while (token.IsCancellationRequested == false)
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(_cooldown), cancellationToken: token);
                 
-                character.Stats[_type].Increase(_value);
+                attacker.Stats[_type].Increase(_value);
 
-                Applied?.Invoke(character, passiveAbilityData);
+                Applied?.Invoke(attacker, passiveAbilityData);
                 
                 await UniTask.Delay(TimeSpan.FromSeconds(_cooldown), cancellationToken: token);
                 
-                character.Stats[_type].Decrease(_value);
+                attacker.Stats[_type].Decrease(_value);
             }
         }
     }

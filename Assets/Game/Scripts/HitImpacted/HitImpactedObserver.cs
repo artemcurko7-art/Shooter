@@ -1,42 +1,16 @@
-﻿using Game.Scripts.PoolMono;
-using Game.Scripts.PoolMono.Repository.Projectile;
-using Game.Scripts.ProjectileContext.Type;
-using Game.Scripts.Service.Subscriber;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Game.Scripts.HitImpacted.HitSources;
+using Game.Scripts.HitImpacted.Registry;
 
 namespace Game.Scripts.HitImpacted
 {
-    public abstract class HitImpactedObserver : ISubscriber
+    public abstract class HitImpactedObserver : RemovedHitImpactedObserver
     {
-        private readonly IProjectilePoolRepository _projectilePoolRepository;
-        
-        public HitImpactedObserver(IProjectilePoolRepository projectilePoolRepository)
-        {
-            _projectilePoolRepository = projectilePoolRepository;
-        }
-        
-        public void Subscribe()
-        {
-            _projectilePoolRepository.Pools[ProjectileType.Default].Added += OnAdded;
-            _projectilePoolRepository.Pools[ProjectileType.Default].Removed += OnRemoved;
-        }
+        protected HitImpactedObserver(IHitSourceRegistry hitSourceRegistry) : base(hitSourceRegistry) { }
 
-        public void Unsubscribe()
+        protected override IEnumerable<IHitSource> GetHitSources()
         {
-            _projectilePoolRepository.Pools[ProjectileType.Default].Added -= OnAdded;
-            _projectilePoolRepository.Pools[ProjectileType.Default].Removed -= OnRemoved;
-        }
-
-        protected abstract void OnHitImpacted(HitContext hitContext);
-        
-        private void OnAdded(IImpactReceiver receiver)
-        {
-            receiver.HitImpacted += OnHitImpacted;
-        }
-        
-        private void OnRemoved(IImpactReceiver receiver)
-        {
-            receiver.HitImpacted -= OnHitImpacted;
+            return HitSourceRegistry.GetSources();
         }
     }
 }

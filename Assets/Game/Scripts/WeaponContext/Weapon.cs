@@ -1,3 +1,4 @@
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;
@@ -7,11 +8,11 @@ namespace Game.Scripts.WeaponContext
 {
     public class Weapon
     {
-        public Weapon(IWeaponShooting shooting, ICharacter character)
+        public Weapon(IWeaponShooting shooting, IAttacker attacker)
         {
             Shooting = shooting;
             
-            shooting.StartShooting(character);
+            shooting.StartShooting(attacker);
         }
         
         public IWeaponShooting Shooting { get; private set; }

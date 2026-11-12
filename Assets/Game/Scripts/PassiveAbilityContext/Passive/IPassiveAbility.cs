@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.Data;
@@ -8,8 +9,8 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
 {
     public interface IPassiveAbility
     {
-        public event Action<ICharacter, PassiveAbilityData> Applied;
+        public event Action<IAttacker, PassiveAbilityData> Applied;
         
-        public void Apply(ICharacter character, PassiveAbilityData passiveAbilityData);
+        public void Apply(IAttacker attacker, PassiveAbilityData passiveAbilityData);
     }
 }

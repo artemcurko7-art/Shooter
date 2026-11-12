@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.PassiveAbilityContext.Data;
 using UnityEngine;
 
-namespace Game.Scripts.Equipment.CharacterContext
+namespace Game.Scripts.Common.Interfaces
 {
-    public interface ICharacter
+    public interface IAttacker
     {
         public IReadOnlyDictionary<StatType, Stat> Stats { get; }
         public Transform Shoot { get; }

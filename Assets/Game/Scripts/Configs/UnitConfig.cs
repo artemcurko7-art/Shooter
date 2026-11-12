@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.PlayerContext;
 using Game.Scripts.ProjectileContext.Type;
 using Game.Scripts.UnitContext;
 using Game.Scripts.UnitContext.Data;
 using Game.Scripts.UnitContext.Type;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Game.Scripts.Configs
@@ -15,8 +17,10 @@ namespace Game.Scripts.Configs
     {
         [field: SerializeField] public UnitType Type { get; private set; }
         [field: SerializeField] public ProjectileType ProjectileType { get; private set; }
-        [field: SerializeField] public UnitAttackerData[] AttackerDates { get; private set; }
+        [field: AllowNesting]
+        [field: SerializeField, ReadOnly] public LayerMask LayerMask { get; private set; }
         [field: SerializeField] public Unit Unit { get; private set; }
+        [field: SerializeField] public UnitAttackerData[] AttackerDates { get; private set; }
         [field: SerializeField] public UnitStatData[] Stats { get; private set; }
         
         private readonly List<StatType> _excludedStatTypes = new();
@@ -30,12 +34,16 @@ namespace Game.Scripts.Configs
         private void OnValidate()
         {
             var requiredStatTypes = GetFilteredStatTypes();
+            
             if (Stats == null || Stats.Length != requiredStatTypes.Length)
                 RebuildStatsArray();
             
             var requiredStates = GetFilteredStateTypes();
+            
             if (AttackerDates == null || AttackerDates.Length != requiredStates.Length)
                 RebuildAttackerArray();
+            
+            LayerMask = LayerMask.GetMask(nameof(Player));
         }
 
         private void RebuildStatsArray()

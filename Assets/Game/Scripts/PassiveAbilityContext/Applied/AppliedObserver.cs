@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
+﻿using Game.Scripts.Common.Interfaces;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.Service.PassiveAbilityContext;
@@ -27,6 +28,6 @@ namespace Game.Scripts.PassiveAbilityContext.Applied
                 effect.Effect.Applied -= OnApplied;
         }
         
-        protected abstract void OnApplied(ICharacter character, PassiveAbilityData passiveAbilityData);
+        protected abstract void OnApplied(IAttacker attacker, PassiveAbilityData passiveAbilityData);
     }
 }

@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Fighter
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
-  <ProjectileType>k__BackingField: 0
+  <ProjectileType>k__BackingField: 1
+  <LayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
+  <Unit>k__BackingField: {fileID: 4400872546231194775, guid: 5e3b3a52e16a2254da28e32b715afa8a, type: 3}
   <AttackerDates>k__BackingField:
   - <StateType>k__BackingField: 1
-    <Types>k__BackingField: 010000000200000001000000
+    <Types>k__BackingField: 03000000
   - <StateType>k__BackingField: 2
     <Types>k__BackingField: 0200000002000000
-  <Unit>k__BackingField: {fileID: 4400872546231194775, guid: 5e3b3a52e16a2254da28e32b715afa8a, type: 3}
   <Stats>k__BackingField:
   - <Type>k__BackingField: 1
     <Value>k__BackingField: 10000
@@ -30,6 +33,6 @@ MonoBehaviour:
   - <Type>k__BackingField: 4
     <Value>k__BackingField: 3
   - <Type>k__BackingField: 7
-    <Value>k__BackingField: 5
+    <Value>k__BackingField: 7
   - <Type>k__BackingField: 8
-    <Value>k__BackingField: 0
+    <Value>k__BackingField: 5

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Scripts.PhysicalBodyContext
+namespace Game.Scripts.Common.Classes
 {
     public abstract class PhysicalBody<T> : MonoBehaviour where T : PhysicalBody<T>
     {

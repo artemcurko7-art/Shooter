@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
+using Game.Scripts.Common.Classes;
 using Game.Scripts.Damagable;
 using Game.Scripts.HitImpacted;
-using Game.Scripts.PhysicalBodyContext;
-using Game.Scripts.UnitContext;
 using Game.Scripts.WeaponContext;
 using UnityEngine;
 
 namespace Game.Scripts.ProjectileContext
 {
-    public class Projectile : PhysicalBody<Projectile>, IImpactReceiver
+    public class Projectile : PhysicalBody<Projectile>, IImpactReceiver // Решить вопрос с Hit impacted
     {
+        private const int CooldownToReleased = 10;
+        
         private ShotContext _shotContext;
         private LayerMask _layerMask;
         private Vector3 _direction;
@@ -23,7 +24,6 @@ namespace Game.Scripts.ProjectileContext
 
         private void Start()
         {
-            _layerMask = LayerMask.GetMask(nameof(Unit));
             StartCoroutine(StartReleased());
         }
 
@@ -46,8 +46,9 @@ namespace Game.Scripts.ProjectileContext
             transform.position = Vector3.MoveTowards(transform.position, transform.position + _direction, moveDistance);
         }
         
-        public void Initialize(ShotContext shotContext, Vector3 position, Vector3 direction, int damage, float radius, float speed)
+        public void Initialize(LayerMask layerMask, ShotContext shotContext, Vector3 position, Vector3 direction, int damage, float radius, float speed)
         {
+            _layerMask = layerMask;
             _shotContext = shotContext;
             transform.position = position;
             _direction = direction;
@@ -58,7 +59,7 @@ namespace Game.Scripts.ProjectileContext
 
         private IEnumerator StartReleased()
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(CooldownToReleased);
             
             Released?.Invoke(this);
         }

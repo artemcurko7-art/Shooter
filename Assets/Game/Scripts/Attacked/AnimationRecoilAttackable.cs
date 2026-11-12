@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
+﻿using Game.Scripts.Common.Interfaces;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Game.Scripts.Attacked
     {
         public AnimationRecoilAttackable(IWeaponShooting[] shootings) : base(shootings) { }
 
-        protected override void OnAttacked(ICharacter character)
+        protected override void OnAttacked(IAttacker attacker)
         {
             //Debug.Log($"Shoot: {attacker.CharacterType}");
             

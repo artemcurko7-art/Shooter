@@ -15,7 +15,7 @@ namespace Game.Scripts.Equipment.CharacterContext
         private readonly IEquipmentProvider _equipmentProvider;
         private readonly Dictionary<StatType, Stat> _currentStats = new();
         private readonly IReadOnlyDictionary<StatType, Stat> _recordedStats;
-        private readonly List<Character> _characters = new();
+        private readonly List<Attacker> _characters = new();
         private readonly int _healthValue;
         
         public CharacterStatResolver(ICharacterService characterService, IEquipmentProvider equipmentProvider)
@@ -38,7 +38,7 @@ namespace Game.Scripts.Equipment.CharacterContext
             Health = new HealthStat(_healthValue, false);
         }
         
-        public IReadOnlyList<Character> Characters => _characters;
+        public IReadOnlyList<Attacker> Characters => _characters;
         public HealthStat Health { get; }
         
         private void Resolve()

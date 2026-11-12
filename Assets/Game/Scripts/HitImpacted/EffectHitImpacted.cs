@@ -1,10 +1,6 @@
-﻿using Game.Scripts.PoolMono;
+﻿using Game.Scripts.HitImpacted.Registry;
 using Game.Scripts.PoolMono.Repository.Effect;
-using Game.Scripts.PoolMono.Repository.Projectile;
-using Game.Scripts.VFX;
-using Game.Scripts.VFX.Data;
 using Game.Scripts.VFX.Type;
-using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
 {
@@ -12,17 +8,18 @@ namespace Game.Scripts.HitImpacted
     {
         private readonly IEffectPoolRepository _repository;
         
-        public EffectHitImpacted(IEffectPoolRepository repository, IProjectilePoolRepository projectilePoolRepository)
-            : base(projectilePoolRepository)
+        public EffectHitImpacted(
+            IEffectPoolRepository repository,
+            IHitSourceRegistry hitSourceRegistry)
+            : base(hitSourceRegistry)
         {
             _repository = repository;
         }
-        
+
         protected override void OnHitImpacted(HitContext hitContext)
         {
             var obj = _repository.Pools[EffectType.BloodBurst].Get();
             obj.Initialize(hitContext.RaycastHit.point);
-            obj.transform.rotation = Quaternion.LookRotation(hitContext.RaycastHit.normal);
         }
     }
 }

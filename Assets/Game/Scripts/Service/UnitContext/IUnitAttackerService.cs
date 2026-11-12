@@ -1,10 +1,10 @@
-﻿using Game.Scripts.UnitContext.Attacker;
-using Game.Scripts.UnitContext.Type;
+﻿using Game.Scripts.HitImpacted;
+using Game.Scripts.HitImpacted.HitSources;
 
-namespace Game.Scripts.UnitContext.Repository
+namespace Game.Scripts.Service.UnitContext
 {
-    public interface IUnitAttackerService
+    public interface IUnitAttackerService : IHitSource
     {
-        public IUnitAttacker Get(Unit unit, StateType stateType);
+
     }
 }

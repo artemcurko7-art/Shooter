@@ -6,6 +6,6 @@ namespace Game.Scripts.Equipment.CharacterContext
 {
     public interface ICharacterStatResolver
     {
-        public IReadOnlyList<Character> Characters { get; }
+        public IReadOnlyList<Attacker> Characters { get; }
     }
 }

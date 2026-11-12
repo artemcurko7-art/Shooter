@@ -24,7 +24,7 @@ namespace Game.Scripts.Configs
         
         [field: Header("Character")]
         [field: SerializeField] public Sprite Icon { get; private set; }
-        [field: SerializeField] public Character View { get; private set; }
+        [field: SerializeField] public Attacker View { get; private set; }
         [field: SerializeField] public CharacterStatData[] Stats { get; private set; }
         
         private readonly List<StatType> _excludedStatTypes = new();
@@ -78,6 +78,9 @@ namespace Game.Scripts.Configs
 
             if (_excludedStatTypes.Contains(StatType.Distance) == false)
                 _excludedStatTypes.Add(StatType.Distance);
+            
+            if (_excludedStatTypes.Contains(StatType.Radius) == false)
+                _excludedStatTypes.Add(StatType.Radius);
             
             return Enum.GetValues(typeof(StatType))
                 .Cast<StatType>()

@@ -6,6 +6,6 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
 {
     public interface IPassiveAbilityTargeting
     {
-        public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner);
+        public IEnumerable<Attacker> GetTargets(IReadOnlyList<Attacker> characters, Attacker owner);
     }
 }

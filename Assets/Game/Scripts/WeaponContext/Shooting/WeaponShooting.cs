@@ -15,11 +15,8 @@ namespace Game.Scripts.WeaponContext.Shooting
             ProjectilePool = projectilePool;
         }
 
-        public ShootingType Type => GetType();
         protected IWeaponShootingConfig Config { get; }
         protected TrackerUnits TrackerUnits { get; }
         protected ProjectilePool ProjectilePool { get; }
-
-        protected abstract ShootingType GetType();
     }
 }

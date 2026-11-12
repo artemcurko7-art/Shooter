@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Configs;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
@@ -13,17 +14,25 @@ namespace Game.Scripts.UnitContext.Creator
     public class ThrowerAttackerCreator : IAttackerCreator
     {
         private readonly UnitConfig _unitConfig;
-        private readonly IProjectilePoolRepository _projectilePoolRepository;
+        private readonly IAttacker _attacker;
+        private readonly IUnitProjectilePoolRepository _projectilePoolRepository;
         
-        public ThrowerAttackerCreator(UnitConfig unitConfig, IProjectilePoolRepository projectilePoolRepository)
+        public ThrowerAttackerCreator(UnitConfig unitConfig, IAttacker attacker, IUnitProjectilePoolRepository projectilePoolRepository)
         {
             _unitConfig = unitConfig;
+            _attacker = attacker;
             _projectilePoolRepository = projectilePoolRepository;
         }
         
         public IUnitAttacker Create(IReadOnlyDictionary<StatType, Stat> stats)
         {
-            return new ThrowerAttacker(_projectilePoolRepository.Pools[_unitConfig.ProjectileType]);
+            return new ThrowerAttacker(
+                _unitConfig.LayerMask,
+                _attacker,
+                _projectilePoolRepository.GetUnitPools()[_unitConfig.ProjectileType],
+                stats[StatType.Damage],
+                stats[StatType.Speed],
+                stats[StatType.Radius]);
         }
     }
 }

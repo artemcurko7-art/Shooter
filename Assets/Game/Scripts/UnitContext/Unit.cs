@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts.Common.Classes;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Damagable;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
-using Game.Scripts.PhysicalBodyContext;
 using Game.Scripts.PlayerContext;
-using Game.Scripts.UnitContext.Attacker;
 using Game.Scripts.UnitContext.FSM;
 using Game.Scripts.UnitContext.FSM.Attacker;
 using Game.Scripts.UnitContext.FSM.Death;
@@ -19,9 +20,11 @@ using Zenject;
 namespace Game.Scripts.UnitContext
 {
     [RequireComponent(typeof(CharacterController), typeof(Animator))]
-    public class Unit : PhysicalBody<Unit>, IDamageable, ITransformable
+    public class Unit : PhysicalBody<Unit>, IAttacker, IDamageable, ITransformable
     {
-        private IUnitAttackerService _attackerService; 
+        [SerializeField] private Transform _shootPoint;
+        
+        private IUnitRandomAttackerService _attackerService; 
         private ITransformable _transformable;
         private CharacterController _characterController;
         private Renderer _renderer;
@@ -35,10 +38,11 @@ namespace Game.Scripts.UnitContext
         public event Action<Unit> Dead;
 
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
-        public Transform Transform { get; }
+        public Transform Shoot => _shootPoint;
+        public Transform Transform => transform;
 
         [Inject]
-        public void Construct(IUnitAttackerService attackerService, ITransformable transformable)
+        public void Construct(IUnitRandomAttackerService attackerService, ITransformable transformable)
         {
             _attackerService = attackerService;
             _transformable = transformable;
@@ -96,8 +100,8 @@ namespace Game.Scripts.UnitContext
         
         public virtual void Attack()
         {
-            var attacker = _attackerService.Get(this, StateType.Attacker);
-            attacker.Attack(transform);
+            var attacker = _attackerService.GetRandom(this, StateType.Attacker);
+            attacker.Attack(_shootPoint);
         }
         
         protected virtual StateAttacker BindStateAttacker()

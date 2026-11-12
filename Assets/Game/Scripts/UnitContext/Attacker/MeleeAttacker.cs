@@ -1,7 +1,10 @@
+using System;
 using Game.Scripts.Damagable;
+using Game.Scripts.HitImpacted;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.UnitContext.AttributeContext;
 using Game.Scripts.UnitContext.Type;
+using Game.Scripts.WeaponContext;
 using UnityEngine;
 
 namespace Game.Scripts.UnitContext.Attacker
@@ -11,6 +14,8 @@ namespace Game.Scripts.UnitContext.Attacker
         private readonly Stat _damage;
         private readonly Stat _distance;
         private readonly Stat _radius;
+        
+        public event Action<HitContext> HitImpacted;
         
         public MeleeAttacker(Stat damage, Stat distance, Stat radius)
         {
@@ -26,8 +31,13 @@ namespace Game.Scripts.UnitContext.Attacker
             Ray ray = new Ray(current.position, current.forward);
             
             if (Physics.SphereCast(ray.origin, _radius.Value, ray.direction, out var hit, _distance.Value))
+            {
                 if (hit.collider.TryGetComponent(out IDamageable damageable))
+                {
                     damageable.TakeDamage(_radius.Value);
+                    HitImpacted?.Invoke(new HitContext(new ShotContext(null, _damage.Value, false), hit));
+                }
+            }
             
             Debug.Log("Melee Attacker");
         }

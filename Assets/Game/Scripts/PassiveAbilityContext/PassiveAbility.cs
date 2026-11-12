@@ -18,7 +18,7 @@ namespace Game.Scripts.PassiveAbilityContext
         
         public IPassiveAbility Effect { get; }
 
-        public void Apply(Character owner, IReadOnlyList<Character> characters, PassiveAbilityData passiveAbilityData)
+        public void Apply(Attacker owner, IReadOnlyList<Attacker> characters, PassiveAbilityData passiveAbilityData)
         {
             foreach (var character in _abilityTargeting.GetTargets(characters, owner))
                 Effect.Apply(character, passiveAbilityData);

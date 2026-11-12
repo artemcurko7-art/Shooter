@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.Data;
@@ -10,7 +11,7 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
         private readonly StatType _type;
         private readonly int _value;
         
-        public event Action<ICharacter, PassiveAbilityData> Applied;
+        public event Action<IAttacker, PassiveAbilityData> Applied;
 
         public ConstantPassiveAbility(StatType type, int value)
         {
@@ -18,11 +19,11 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
             _value = value;
         }
 
-        public void Apply(ICharacter character, PassiveAbilityData passiveAbilityData)
+        public void Apply(IAttacker attacker, PassiveAbilityData passiveAbilityData)
         {
-            character.Stats[_type].Increase(_value);
+            attacker.Stats[_type].Increase(_value);
             
-            Applied?.Invoke(character, passiveAbilityData);
+            Applied?.Invoke(attacker, passiveAbilityData);
         }
     }
 }

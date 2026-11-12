@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Game.Scripts.Configs;
+using Game.Scripts.Extensions;
+using Game.Scripts.HitImpacted;
 using Game.Scripts.Service.Subscriber;
 using Game.Scripts.Service.UnitContext;
 using Game.Scripts.UnitContext.Attacker;
@@ -11,7 +15,7 @@ using Zenject;
 
 namespace Game.Scripts.UnitContext.Repository
 {
-    public class UnitAttackerService : IUnitAttackerService, ISubscriber
+    public class UnitAttackerService : IUnitAttackerService, IUnitRandomAttackerService, ISubscriber
     {
         private readonly IUnitData _data;
         private readonly IUnitService _unitService;
@@ -19,6 +23,8 @@ namespace Game.Scripts.UnitContext.Repository
         private readonly DiContainer _container;
         private readonly Dictionary<Unit, Dictionary<StateType, List<IUnitAttacker>>> _attackers = new();
 
+        public event Action<IImpactReceiver> Added;
+        
         public UnitAttackerService(
             IUnitData data,
             IUnitService unitService,
@@ -41,7 +47,7 @@ namespace Game.Scripts.UnitContext.Repository
             _unitService.Added -= OnAdded;
         }
 
-        public IUnitAttacker Get(Unit unit, StateType stateType)
+        public IUnitAttacker GetRandom(Unit unit, StateType stateType)
         {
             return _attackers[unit][stateType][UserUtils.NumberGeneration.GetIntegerRandom(0, _attackers[unit][stateType].Count - 1)];
         }
@@ -60,22 +66,36 @@ namespace Game.Scripts.UnitContext.Repository
                     foreach (var unitAttackerData in config.AttackerDates)
                     {
                         if (_attackers[unit].ContainsKey(unitAttackerData.StateType) == false)
-                        {
                             _attackers[unit].Add(unitAttackerData.StateType, new List<IUnitAttacker>());
-                        }
 
-                        foreach (var type in unitAttackerData.Types)
-                        {
-                            if (type == UnitAttackerType.Thrower)
-                                continue;
-
-                            var attacker = (IAttackerCreator)_container.Instantiate(_creatorRegistry.Types[type]);
-                            var unitAttacker = attacker.Create(unit.Stats);
-
-                            _attackers[unit][unitAttackerData.StateType].Add(unitAttacker);
-                        }
+                        foreach (var type in unitAttackerData.Types) 
+                            CreateAttacker(type, unitAttackerData.StateType, config, unit);
                     }
                 }
+            }
+        }
+
+        private void CreateAttacker(UnitAttackerType type, StateType stateType, UnitConfig config, Unit unit)
+        {
+            switch (type)
+            {
+                case UnitAttackerType.Thrower:
+                    
+                    var throwerAttacker = _container.InstantiateThrowerAttackerCreator(_creatorRegistry.Types[type], config, unit);
+                    var unitThrowerAttacker = throwerAttacker.Create(unit.Stats);
+                    _attackers[unit][stateType].Add(unitThrowerAttacker);
+                    Added?.Invoke(unitThrowerAttacker);
+                    
+                    break;
+                
+                default:
+                    
+                    var attacker = (IAttackerCreator)_container.Instantiate(_creatorRegistry.Types[type]);
+                    var unitAttacker = attacker.Create(unit.Stats);
+                    _attackers[unit][stateType].Add(unitAttacker);
+                    Added?.Invoke(unitAttacker);
+                    
+                    break;
             }
         }
     }

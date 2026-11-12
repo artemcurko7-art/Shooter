@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
+﻿using Game.Scripts.Common.Interfaces;
+using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PoolMono.Repository.Effect;
 using Game.Scripts.PoolMono.Repository.PassiveAbilityView;
@@ -24,15 +25,15 @@ namespace Game.Scripts.PassiveAbilityContext.Applied
             _repository = repository;
         }
 
-        protected override void OnApplied(ICharacter character, PassiveAbilityData passiveAbilityData)
+        protected override void OnApplied(IAttacker attacker, PassiveAbilityData passiveAbilityData)
         {
             var config = _passiveAbilityViewData.Views[passiveAbilityData.StatType];
             
             var selectedEffect = _repository.Pools[config.SelectedEffect.Type].Get();
-            InitializeEffect(selectedEffect, character.Transform, config.SelectedEffect.Offset, config.SelectedEffect.Scale, config.Duration);
+            InitializeEffect(selectedEffect, attacker.Transform, config.SelectedEffect.Offset, config.SelectedEffect.Scale, config.Duration);
             
             var uppedEffect = _repository.Pools[config.UppedEffect.Type].Get();
-            InitializeEffect(uppedEffect, character.Transform, config.UppedEffect.Offset, config.UppedEffect.Scale, config.Duration);
+            InitializeEffect(uppedEffect, attacker.Transform, config.UppedEffect.Offset, config.UppedEffect.Scale, config.Duration);
         }
 
         

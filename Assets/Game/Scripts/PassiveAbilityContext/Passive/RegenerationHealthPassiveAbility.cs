@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Modifer;
@@ -16,7 +17,7 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
         private readonly int _value;
         private readonly float _cooldown;
         
-        public event Action<ICharacter, PassiveAbilityData> Applied;
+        public event Action<IAttacker, PassiveAbilityData> Applied;
     
         public RegenerationHealthPassiveAbility(HealthStat health, StatModifer statModifer, int value, float cooldown)
         {
@@ -26,13 +27,13 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
             _cooldown = cooldown;
         }
     
-        public void Apply(ICharacter character, PassiveAbilityData passiveAbilityData)
+        public void Apply(IAttacker attacker, PassiveAbilityData passiveAbilityData)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            StartAsync(character, passiveAbilityData, cancellationTokenSource.Token).Forget();
+            StartAsync(attacker, passiveAbilityData, cancellationTokenSource.Token).Forget();
         }
     
-        private async UniTaskVoid StartAsync(ICharacter character, PassiveAbilityData passiveAbilityData, CancellationToken token)
+        private async UniTaskVoid StartAsync(IAttacker attacker, PassiveAbilityData passiveAbilityData, CancellationToken token)
         {
             while (token.IsCancellationRequested == false)
             {
@@ -45,7 +46,7 @@ namespace Game.Scripts.PassiveAbilityContext.Passive
                 
                 _health.Increase(value);
                 _statModifer.Set(_health.Type, value);
-                Applied?.Invoke(character, passiveAbilityData);
+                Applied?.Invoke(attacker, passiveAbilityData);
             }
         }
         

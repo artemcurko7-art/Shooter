@@ -1,7 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Equipment.CharacterContext;
+using Game.Scripts.HitImpacted;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PoolMono;
@@ -25,7 +27,7 @@ namespace Game.Scripts.WeaponContext.Shooting
             ProjectilePool projectilePool)
             : base(config, trackerUnits, projectilePool) { }
         
-        public event Action<ICharacter> Attacked;
+        public event Action<IAttacker> Attacked;
 
         public void Subscribe()
         {
@@ -37,21 +39,16 @@ namespace Game.Scripts.WeaponContext.Shooting
             _cancellationTokenSource.Cancel();
         }
         
-        public void StartShooting(ICharacter character)
+        public void StartShooting(IAttacker attacker)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            StartCooldown(character, _cancellationTokenSource.Token).Forget();
-            _criticalDamageResolver = new CriticalDamageResolver(character.Stats[StatType.CriticalChance].Value);
+            StartCooldown(attacker, _cancellationTokenSource.Token).Forget();
+            _criticalDamageResolver = new CriticalDamageResolver(attacker.Stats[StatType.CriticalChance].Value);
             
             Debug.Log("Ranged combat");
         }
         
-        protected override ShootingType GetType()
-        {
-            return ShootingType.RangedCombat;
-        }
-        
-        private async UniTaskVoid StartCooldown(ICharacter character, CancellationToken token)
+        private async UniTaskVoid StartCooldown(IAttacker attacker, CancellationToken token)
         {
             ProjectilePool.SetPrefab(Config.Projectile);
             
@@ -70,22 +67,23 @@ namespace Game.Scripts.WeaponContext.Shooting
 
                 if (_canShoot)
                 {
-                    Attacked?.Invoke(character);
-                    var obj = ProjectilePool.Get();
+                    Attacked?.Invoke(attacker);
+                    var projectile = ProjectilePool.Get();
                     
-                    float currentDamage = character.Stats[StatType.Damage].Value * 2.5f;
+                    float currentDamage = attacker.Stats[StatType.Damage].Value * 2.5f;
                     bool isCritical = _criticalDamageResolver.IsCritical();
                     
                     if (isCritical)
                     {
-                        float calculation = currentDamage * (1f + character.Stats[StatType.CriticalDamage].Value / 100f);
+                        float calculation = currentDamage * (1f + attacker.Stats[StatType.CriticalDamage].Value / 100f);
                         currentDamage = calculation;
                     }
                     
-                    obj.Initialize(
-                        new ShotContext(character, Mathf.CeilToInt(currentDamage), isCritical),
-                        character.Shoot.position,
-                        TrackerUnits.GetNearestPosition(character.Shoot.position),
+                    projectile.Initialize(
+                        Config.LayerMask,
+                        new ShotContext(attacker, Mathf.CeilToInt(currentDamage), isCritical),
+                        attacker.Shoot.position,
+                        TrackerUnits.GetNearestPosition(attacker.Shoot.position),
                         Mathf.CeilToInt(currentDamage),
                         Config.Radius,
                         Config.Speed);

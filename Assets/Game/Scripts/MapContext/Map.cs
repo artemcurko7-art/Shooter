@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Scripts.PhysicalBodyContext;
+using Game.Scripts.Common.Classes;
 using UnityEngine;
 
 namespace Game.Scripts.MapContext

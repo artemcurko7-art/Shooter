@@ -6,7 +6,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
 {
     public interface ICharacterService
     {
-        public IReadOnlyList<Character> Characters { get; }
+        public IReadOnlyList<Attacker> Characters { get; }
         public IReadOnlyList<WeaponView> WeaponViews { get; }
     }
 }

@@ -1,17 +1,18 @@
-﻿using Game.Scripts.Equipment.CharacterContext;
+﻿using Game.Scripts.Common.Interfaces;
+using Game.Scripts.Equipment.CharacterContext;
 
 namespace Game.Scripts.WeaponContext
 {
     public class ShotContext
     {
-        public ShotContext(ICharacter character, int damage, bool isCritical)
+        public ShotContext(IAttacker attacker, int damage, bool isCritical)
         {
-            Character = character;
+            Attacker = attacker;
             Damage = damage;
             IsCritical = isCritical;
         }
         
-        public ICharacter Character { get; }
+        public IAttacker Attacker { get; }
         public int Damage { get; }
         public bool IsCritical { get; }
     }

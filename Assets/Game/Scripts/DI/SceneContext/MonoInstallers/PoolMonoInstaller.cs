@@ -64,8 +64,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindProjectile()
         {
             Container
-                .Bind<IProjectilePoolRepository>()
-                .To<ProjectilePoolRepository>()
+                .BindInterfacesTo<ProjectilePoolRepository>()
                 .AsSingle();
         }
 

@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
-using Game.Scripts.PoolMono;
-using Game.Scripts.PoolMono.Repository.Projectile;
+using Game.Scripts.HitImpacted.Registry;
 using UnityEngine;
 
 namespace Game.Scripts.HitImpacted
@@ -14,32 +12,35 @@ namespace Game.Scripts.HitImpacted
         private readonly float _cooldownFlash;
         private CancellationTokenSource _cancellationTokenSource;
         
-        public FlashHitImpacted(Material flash, float cooldownFlash, IProjectilePoolRepository projectilePoolRepository)
-            : base(projectilePoolRepository)
+        public FlashHitImpacted(
+            Material flash,
+            float cooldownFlash,
+            IHitSourceRegistry hitSourceRegistry)
+            : base(hitSourceRegistry)
         {
             _flash = flash;
             _cooldownFlash = cooldownFlash;
         }
-
+        
         protected override void OnHitImpacted(HitContext hitContext)
         {
             var renderer = hitContext.RaycastHit.transform.GetComponentInChildren<Renderer>();
-
+        
             _cancellationTokenSource = new CancellationTokenSource();
             
             if (renderer != null)
                 StartAsync(_cancellationTokenSource.Token, renderer).Forget();
         }
-
+        
         private async UniTaskVoid StartAsync(CancellationToken token, Renderer renderer)
         {
             if (token.IsCancellationRequested == false)
             {  
                 Material current = renderer.material;
                 renderer.material = _flash;
-
+        
                 float calculationTime = Milliseconds * _cooldownFlash;
-
+        
                 await UniTask.Delay((int)calculationTime, cancellationToken: token);
                 
                 renderer.material = current;

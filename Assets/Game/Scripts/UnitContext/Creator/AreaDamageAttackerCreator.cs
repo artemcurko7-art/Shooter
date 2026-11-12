@@ -12,7 +12,7 @@ namespace Game.Scripts.UnitContext.Creator
     {
         public IUnitAttacker Create(IReadOnlyDictionary<StatType, Stat> stats)
         {
-            return new AreaDamageAttacker(stats[StatType.Damage],stats[StatType.Radius]);
+            return new AreaDamageAttacker(stats[StatType.Damage], stats[StatType.Radius]);
         }
     }
 }

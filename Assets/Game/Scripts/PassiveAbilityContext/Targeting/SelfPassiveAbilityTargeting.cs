@@ -9,7 +9,7 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
     [PassiveAbilityTargetingType(PassiveAbilityTargetingType.Self)]
     public class SelfPassiveAbilityTargeting : IPassiveAbilityTargeting
     {
-        public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
+        public IEnumerable<Attacker> GetTargets(IReadOnlyList<Attacker> characters, Attacker owner)
         {
             return new[] { owner };
         }

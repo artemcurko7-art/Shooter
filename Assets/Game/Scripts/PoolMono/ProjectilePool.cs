@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Game.Scripts.HitImpacted;
+using Game.Scripts.HitImpacted.HitSources;
 using Game.Scripts.ProjectileContext;
-using Game.Scripts.WeaponContext;
-using UnityEngine.Pool;
 using Zenject;
 
 namespace Game.Scripts.PoolMono
 {
-    public class ProjectilePool : PoolMono<Projectile>
+    public class ProjectilePool : PoolMono<Projectile>, IHitSourceRemoved
     {
         public event Action<IImpactReceiver> Added;
         public event Action<IImpactReceiver> Removed;
