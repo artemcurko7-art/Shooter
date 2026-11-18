@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Scripts.Extensions;
 using Game.Scripts.PoolMono.Repository.Projectile.Type;
 using Game.Scripts.ProjectileContext.Data;
 using Game.Scripts.ProjectileContext.Type;
+using Game.Scripts.Static.Extensions;
 using Zenject;
 
 namespace Game.Scripts.PoolMono.Repository.Projectile

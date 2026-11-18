@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Scripts.Static.UserUtils;
+using UnityEngine;
 
 namespace Game.Scripts.WeaponContext
 {
@@ -26,7 +27,7 @@ namespace Game.Scripts.WeaponContext
             if (_currentChance <= 0f) 
                 return false;
 
-            if (UserUtils.NumberGeneration.GetFloatRandom(0, 1) < _currentChance)
+            if (NumberGeneration.GetFloatRandom(0, 1) < _currentChance)
             {
                 Reset();
                 return true;

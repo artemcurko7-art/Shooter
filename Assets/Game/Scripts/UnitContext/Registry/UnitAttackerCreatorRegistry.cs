@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Game.Scripts.Extensions;
+using Game.Scripts.Static.Extensions;
 using Game.Scripts.UnitContext.AttributeContext;
 using Game.Scripts.UnitContext.Creator;
 using Game.Scripts.UnitContext.Type;

@@ -1,5 +1,5 @@
 ﻿using Game.Scripts.Equipment.DragInDrop;
-using Game.Scripts.Extensions;
+using Game.Scripts.Static.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

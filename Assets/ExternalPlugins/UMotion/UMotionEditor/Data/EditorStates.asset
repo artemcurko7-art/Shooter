@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GeneralStates:
     LoadedProjectGUID:
-      valueInternal: 2a366477bf9188a4f91b807bb21570dd
+      valueInternal: 
     RecentlyOpenedProjectPath:
       valueInternal: Assets\Game\Prefab\Player\SpecialForces\Animation
     RecentlyOpenedProjectGUIDsList:

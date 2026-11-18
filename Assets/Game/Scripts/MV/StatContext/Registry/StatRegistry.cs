@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Game.Scripts.Extensions;
 using Game.Scripts.MV.StatContext.AttributeContext;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.Static.Extensions;
 using UnityEngine;
 
 namespace Game.Scripts.MV.StatContext.Repository
 {
-    public class StatTypeRegistry : IStatTypeRegistry
+    public class StatRegistry : IStatRegistry
     {
         private readonly Dictionary<StatType, System.Type> _types = new();
         
-        public StatTypeRegistry()
+        public StatRegistry()
         {
             Fill();
         }

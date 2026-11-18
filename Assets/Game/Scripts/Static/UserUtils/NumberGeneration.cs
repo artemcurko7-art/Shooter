@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Scripts.UserUtils
+namespace Game.Scripts.Static.UserUtils
 {
     public static class NumberGeneration
     {

@@ -1,8 +1,8 @@
 ﻿using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Observer;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Extensions;
 using Game.Scripts.Service.Equipment.Reward;
+using Game.Scripts.Static.Extensions;
 using UnityEngine;
 
 namespace Game.Scripts.Equipment

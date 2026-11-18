@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Game.Scripts.Extensions
+namespace Game.Scripts.Static.Extensions
 {
     public static class ReflectionExtensions
     {

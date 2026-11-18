@@ -5,8 +5,10 @@ using Game.Scripts.GameWorldContext;
 using Game.Scripts.PlayerContext;
 using Game.Scripts.PoolMono.Repository.Unit;
 using Game.Scripts.Service.Subscriber;
+using Game.Scripts.Static.UserUtils;
 using Game.Scripts.UnitContext;
 using Game.Scripts.Wave;
+using UnityEngine;
 
 namespace Game.Scripts.Service.UnitContext
 {
@@ -58,8 +60,9 @@ namespace Game.Scripts.Service.UnitContext
                             await UniTask.Delay(TimeSpan.FromSeconds(wave.Cooldown), cancellationToken: token);
                             
                             var pools = _poolRepository.Pools[wave.Type];
-                            var pool = pools[UserUtils.NumberGeneration.GetIntegerRandom(0, pools.Count - 1)];
-                            Added?.Invoke(pool.Get());
+                            var pool = pools[NumberGeneration.GetIntegerRandom(0, pools.Count - 1)];
+                            var unit = pool.Get();
+                            Added?.Invoke(unit);
                             
                             await UniTask.Yield();
                         }

@@ -42,7 +42,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .AsSingle();
 
             Container
-                .BindInterfacesAndSelfTo<UnitService>() // add bind interfaces to
+                .BindInterfacesTo<UnitService>()
                 .AsSingle();
             
             Container

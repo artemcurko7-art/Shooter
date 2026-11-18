@@ -1,7 +1,6 @@
 ﻿using Game.Scripts.Equipment.CharacterContext.DragInDrop;
 using Game.Scripts.Equipment.CharacterContext.Provider;
 using Game.Scripts.Equipment.Repository;
-using Game.Scripts.Extensions;
 using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.SquadContext.Type;
 using UnityEngine;

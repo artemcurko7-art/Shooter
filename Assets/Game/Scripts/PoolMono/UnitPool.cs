@@ -1,6 +1,7 @@
 using Game.Scripts.Configs;
 using Game.Scripts.Factory;
 using Game.Scripts.PlayerContext;
+using Game.Scripts.Static.UserUtils;
 using Game.Scripts.UnitContext;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -58,9 +59,9 @@ namespace Game.Scripts.PoolMono
         private Vector3 GetRandomPosition()
         {
             return new Vector3(
-                UserUtils.NumberGeneration.GetFloatRandom(-RangePosition, RangePosition),
+                NumberGeneration.GetFloatRandom(-RangePosition, RangePosition),
                 _transformable.Transform.position.y,
-                UserUtils.NumberGeneration.GetFloatRandom(-BackPosition, ForwardPosition));
+                NumberGeneration.GetFloatRandom(-BackPosition, ForwardPosition));
         }
     }
 }

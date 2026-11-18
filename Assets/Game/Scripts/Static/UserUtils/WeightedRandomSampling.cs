@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Game.Scripts.Equipment.EquipmentContext.AttributeContext;
 
-namespace Game.Scripts.UserUtils
+namespace Game.Scripts.Static.UserUtils
 {
     public static class WeightedRandomSampling
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.Configs;
-using Game.Scripts.Extensions;
+using Game.Scripts.Static.Extensions;
 using Game.Scripts.UnitContext.Data;
 using Game.Scripts.UnitContext.Type;
 using Zenject;

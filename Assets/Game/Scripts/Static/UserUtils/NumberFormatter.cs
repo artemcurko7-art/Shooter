@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Game.Scripts.UserUtils
+namespace Game.Scripts.Static.UserUtils
 {
     public static class NumberFormatter
     {

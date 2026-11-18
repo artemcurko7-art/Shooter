@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Game.Scripts.Common.Classes;
+using Game.Scripts.Static.UserUtils;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -49,7 +50,7 @@ namespace Game.Scripts.PoolMono
         
         private T GetRandomPrefab()
         {
-            return _prefabs[UserUtils.NumberGeneration.GetIntegerRandom(0, _prefabs.Count - 1)];
+            return _prefabs[NumberGeneration.GetIntegerRandom(0, _prefabs.Count - 1)];
         }
     }
 }

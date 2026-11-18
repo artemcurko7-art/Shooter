@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Game.Scripts.Common.Classes;
 using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Damagable;
-using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PlayerContext;
+using Game.Scripts.Static.UserUtils;
+using Game.Scripts.UnitContext.Attacker;
 using Game.Scripts.UnitContext.FSM;
 using Game.Scripts.UnitContext.FSM.Attacker;
 using Game.Scripts.UnitContext.FSM.Death;
@@ -24,7 +25,6 @@ namespace Game.Scripts.UnitContext
     {
         [SerializeField] private Transform _shootPoint;
         
-        private IUnitRandomAttackerService _attackerService; 
         private ITransformable _transformable;
         private CharacterController _characterController;
         private Renderer _renderer;
@@ -37,14 +37,14 @@ namespace Game.Scripts.UnitContext
         public event Action<Unit> Released;
         public event Action<Unit> Dead;
 
+        public IReadOnlyDictionary<StateType, List<IUnitAttacker>> Attackers;
         public IReadOnlyDictionary<StatType, Stat> Stats { get; private set; }
         public Transform Shoot => _shootPoint;
         public Transform Transform => transform;
 
         [Inject]
-        public void Construct(IUnitRandomAttackerService attackerService, ITransformable transformable)
+        public void Construct(ITransformable transformable)
         {
-            _attackerService = attackerService;
             _transformable = transformable;
             _characterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
@@ -57,9 +57,10 @@ namespace Game.Scripts.UnitContext
             State.Update();
         }
 
-        public void Initialize(UnitType type, IReadOnlyDictionary<StatType, Stat> stats)
+        public void Initialize(UnitType type, IReadOnlyDictionary<StateType, List<IUnitAttacker>> attackers, IReadOnlyDictionary<StatType, Stat> stats)
         {
             Type = type;
+            Attackers = attackers;
             Stats = stats;
             
             State = new State();
@@ -84,7 +85,7 @@ namespace Game.Scripts.UnitContext
             _renderer.material = _material;
             _characterController.enabled = true;
         }
-
+        
         public void TakeDamage(int damage)
         {
             Stats[StatType.Health].Decrease(damage);
@@ -100,7 +101,7 @@ namespace Game.Scripts.UnitContext
         
         public virtual void Attack()
         {
-            var attacker = _attackerService.GetRandom(this, StateType.Attacker);
+            var attacker = Attackers[StateType.Attacker][NumberGeneration.GetIntegerRandom(0, Attackers[StateType.Attacker].Count - 1)];
             attacker.Attack(_shootPoint);
         }
         
@@ -118,7 +119,9 @@ namespace Game.Scripts.UnitContext
         {
             return new UnitStateDeath(
                 State,
-                Animator);
+                Attackers[StateType.Death],
+                Animator,
+                _shootPoint);
         }
         
         private IEnumerator StartLife()

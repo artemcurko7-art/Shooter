@@ -11,20 +11,24 @@ using Game.Scripts.UnitContext.Type;
 namespace Game.Scripts.UnitContext.Creator
 {
     [UnitAttackerType(UnitAttackerType.Thrower)]
-    public class ThrowerAttackerCreator : IAttackerCreator
+    public class ThrowerAttackerCreator : AttackerCreator
     {
         private readonly UnitConfig _unitConfig;
         private readonly IAttacker _attacker;
         private readonly IUnitProjectilePoolRepository _projectilePoolRepository;
         
-        public ThrowerAttackerCreator(UnitConfig unitConfig, IAttacker attacker, IUnitProjectilePoolRepository projectilePoolRepository)
+        public ThrowerAttackerCreator(
+            UnitConfig unitConfig,
+            IAttacker attacker,
+            IUnitProjectilePoolRepository projectilePoolRepository)
+            : base(unitConfig)
         {
             _unitConfig = unitConfig;
             _attacker = attacker;
             _projectilePoolRepository = projectilePoolRepository;
         }
         
-        public IUnitAttacker Create(IReadOnlyDictionary<StatType, Stat> stats)
+        public override IUnitAttacker Create(IReadOnlyDictionary<StatType, Stat> stats)
         {
             return new ThrowerAttacker(
                 _unitConfig.LayerMask,

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Game.Scripts.Extensions;
+using Game.Scripts.Static.Extensions;
 using Game.Scripts.VFX.Data;
 using Game.Scripts.VFX.Type;
 using Zenject;

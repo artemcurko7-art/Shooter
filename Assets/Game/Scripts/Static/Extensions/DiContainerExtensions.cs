@@ -1,19 +1,16 @@
 ﻿using System;
 using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Configs;
-using Game.Scripts.Equipment.CharacterContext;
 using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PoolMono;
 using Game.Scripts.ProjectileContext;
-using Game.Scripts.ProjectileContext.Type;
-using Game.Scripts.UnitContext.Attacker;
 using Game.Scripts.UnitContext.Creator;
 using Game.Scripts.VFX;
 using Game.Scripts.WeaponContext.Shooting;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Scripts.Extensions
+namespace Game.Scripts.Static.Extensions
 {
     public static class DiContainerExtensions
     {
@@ -45,6 +42,11 @@ namespace Game.Scripts.Extensions
         public static IAttackerCreator InstantiateThrowerAttackerCreator(this DiContainer container, Type type, UnitConfig config, IAttacker attacker)
         {
             return (IAttackerCreator)container.Instantiate(type,new object[] { config, attacker });
+        }
+        
+        public static IAttackerCreator InstantiateAttackerCreator(this DiContainer container, Type type, UnitConfig config)
+        {
+            return (IAttackerCreator)container.Instantiate(type,new object[] { config });
         }
     }
 }

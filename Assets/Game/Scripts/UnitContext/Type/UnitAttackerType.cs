@@ -6,5 +6,6 @@ namespace Game.Scripts.UnitContext.Type
         Melee,
         AreaDamage,
         Thrower,
+        AreaDamageOverTime,
     }
 }

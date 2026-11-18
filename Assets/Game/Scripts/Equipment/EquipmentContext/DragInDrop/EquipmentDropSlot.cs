@@ -1,7 +1,6 @@
 ﻿using System;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.EquipmentContext.Type;
-using Game.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

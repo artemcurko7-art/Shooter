@@ -9,7 +9,7 @@ using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.Service.Equipment.Reward;
-using Game.Scripts.UserUtils;
+using Game.Scripts.Static.UserUtils;
 using UnityEngine;
 
 namespace Game.Scripts.Service.Equipment.EquipmentContext

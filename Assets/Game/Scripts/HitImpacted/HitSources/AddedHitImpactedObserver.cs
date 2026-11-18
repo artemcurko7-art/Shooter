@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.HitImpacted.Registry;
 using Game.Scripts.Service.Subscriber;
+using UnityEngine;
 
 namespace Game.Scripts.HitImpacted.HitSources
 {

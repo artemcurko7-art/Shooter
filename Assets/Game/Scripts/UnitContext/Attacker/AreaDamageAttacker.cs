@@ -2,9 +2,6 @@ using System;
 using Game.Scripts.Damagable;
 using Game.Scripts.HitImpacted;
 using Game.Scripts.MV.StatContext;
-using Game.Scripts.PlayerContext;
-using Game.Scripts.UnitContext.AttributeContext;
-using Game.Scripts.UnitContext.Type;
 using Game.Scripts.WeaponContext;
 using UnityEngine;
 
@@ -19,12 +16,12 @@ namespace Game.Scripts.UnitContext.Attacker
         
         public event Action<HitContext> HitImpacted;
         
-        public AreaDamageAttacker(Stat damage, Stat radius)
+        public AreaDamageAttacker(LayerMask layerMask, Stat damage, Stat radius)
         {
             _damage = damage;
             _radius = radius;
             
-            _layerMask = LayerMask.GetMask(nameof(Player));
+            _layerMask = layerMask;
         }
 
         public void Attack(Transform current)

@@ -1,14 +1,16 @@
 ﻿using System;
+using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Repository;
 using Game.Scripts.MV.StatContext.Type;
 using UnityEngine;
 
-namespace Game.Scripts.MV.StatContext.Repository
+namespace Game.Scripts.Factory
 {
     public class StatFactory
     {
-        private readonly IStatTypeRegistry _registry;
+        private readonly IStatRegistry _registry;
         
-        public StatFactory(IStatTypeRegistry registry)
+        public StatFactory(IStatRegistry registry)
         {
             _registry = registry;
         }

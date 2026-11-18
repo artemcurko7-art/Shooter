@@ -24,7 +24,7 @@ namespace Game.Scripts.UnitContext.FSM.Follower
         {
             Vector3 direction = (_target.position - _current.position).normalized;
             direction.y = 0;
-            
+
             _characterController.Move(direction * _speed * Time.deltaTime);
             _current.rotation = Quaternion.LookRotation(direction);
         

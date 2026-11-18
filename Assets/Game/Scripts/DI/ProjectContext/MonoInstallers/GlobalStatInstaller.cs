@@ -1,4 +1,5 @@
-﻿using Game.Scripts.MV.StatContext.Repository;
+﻿using Game.Scripts.Factory;
+using Game.Scripts.MV.StatContext.Repository;
 using Zenject;
 
 namespace Game.Scripts.DI.ProjectContext.MonoInstallers
@@ -8,8 +9,8 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
         public override void InstallBindings()
         {
             Container
-                .Bind<IStatTypeRegistry>()
-                .To<StatTypeRegistry>()
+                .Bind<IStatRegistry>()
+                .To<StatRegistry>()
                 .AsSingle();
 
             Container

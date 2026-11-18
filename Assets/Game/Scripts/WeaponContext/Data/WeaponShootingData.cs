@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Game.Scripts.Extensions;
 using Game.Scripts.MV.StatContext.Type;
+using Game.Scripts.Static.Extensions;
 using Game.Scripts.WeaponContext.Attribute;
 using Game.Scripts.WeaponContext.Shooting;
 using Game.Scripts.WeaponContext.Type;

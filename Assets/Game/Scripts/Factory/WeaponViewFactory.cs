@@ -1,8 +1,8 @@
 ﻿using Game.Scripts.Common.Interfaces;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment.CharacterContext;
-using Game.Scripts.Extensions;
 using Game.Scripts.PoolMono.Repository.Projectile;
+using Game.Scripts.Static.Extensions;
 using Game.Scripts.WeaponContext;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Shooting;

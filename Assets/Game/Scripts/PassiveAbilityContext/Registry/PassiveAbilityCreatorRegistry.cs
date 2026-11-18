@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Game.Scripts.Extensions;
 using Game.Scripts.PassiveAbilityContext.AttributeContext;
 using Game.Scripts.PassiveAbilityContext.Creator;
 using Game.Scripts.PassiveAbilityContext.Type;
+using Game.Scripts.Static.Extensions;
 
 namespace Game.Scripts.PassiveAbilityContext.Registry
 {

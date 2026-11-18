@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Game.Scripts.Equipment.CharacterContext;
-using Game.Scripts.Extensions;
 using Game.Scripts.MV.StatContext.Type;
 using Game.Scripts.PassiveAbilityContext.Data;
 using Game.Scripts.PassiveAbilityContext.Repository;
+using Game.Scripts.Static.Extensions;
 using Zenject;
 
 namespace Game.Scripts.PoolMono.Repository.PassiveAbilityView
