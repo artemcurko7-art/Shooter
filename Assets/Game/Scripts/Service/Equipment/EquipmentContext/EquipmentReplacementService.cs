@@ -10,6 +10,7 @@ using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.Service.Equipment.Reward;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
     public class EquipmentReplacementService : EquipmentSlotProcessor, IReplacementService
     {
         private readonly ITabService<EquipmentSlotHandler> _tabService;
-        private readonly DisplayStatData _displayStatData;
+        private readonly IStatViewData _statViewData;
         private readonly DisplayStatFactory _displayStatFactory;
         private readonly ComparisonStat _comparisonStat;
         private readonly ReplacementStatContainer _statContainer;
@@ -36,14 +37,14 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             EquipmentDropSlot[] dropSlots,
             FreeSlotRegistry<EquipmentType, EquipmentSlot> freeRegistry,
             SortingEquipmentByParameters sorting, ITabService<EquipmentSlotHandler> tabService,
-            DisplayStatData displayStatData,
+            IStatViewData statViewData,
             DisplayStatFactory displayStatFactory,
             ComparisonStat comparisonStat,
             ReplacementStatContainer statContainer)
             : base(service, repository, provider, dropSlots, freeRegistry, sorting)
         {
             _tabService = tabService;
-            _displayStatData = displayStatData;
+            _statViewData = statViewData;
             _displayStatFactory = displayStatFactory;
             _comparisonStat = comparisonStat;
             _statContainer = statContainer;
@@ -113,12 +114,12 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             
             Stat mainDraggedStat = slot.EquipmentItem.MainStat;
 
-            displayStat = _displayStatFactory.Create(_displayStatData.Stats[mainDraggedStat.Type], mainContainer,
+            displayStat = _displayStatFactory.Create(_statViewData.Stats[mainDraggedStat.Type], mainContainer,
                 mainDraggedStat.Value, mainDraggedStat.IsPercentageValue);
                 
             foreach (var stat in slot.EquipmentItem.AdditionalStats)
             {
-                displayStats.Add(_displayStatFactory.Create(_displayStatData.Stats[stat.Key], additionalContainer,
+                displayStats.Add(_displayStatFactory.Create(_statViewData.Stats[stat.Key], additionalContainer,
                     stat.Value.Value, stat.Value.IsPercentageValue));
             }
         }

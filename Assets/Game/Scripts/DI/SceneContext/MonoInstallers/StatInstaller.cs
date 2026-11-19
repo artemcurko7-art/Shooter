@@ -1,4 +1,5 @@
 using Game.Scripts.MV.StatContext;
+using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.MV.StatContext.Modifer;
 using Game.Scripts.MV.StatContext.Repository;
 using Zenject;
@@ -12,10 +13,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
             Container
                 .BindInterfacesAndSelfTo<StatModifer>()
                 .AsSingle();
-
-            // Container
-            //     .Bind<CharacterStatsRepository>()
-            //     .AsSingle();
         }
     }
 }

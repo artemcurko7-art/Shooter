@@ -32,9 +32,9 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
         {
             //RarityEquipmentType rarityEquipmentType = WeightedRandomSampling.GetRandomWeighted<RarityEquipmentType>();
             var view = _factory.Create(RarityData.Configs[RarityType.Mythical], _data.Characters[CharacterType.AttackAircraft], Container);
-            var view2 = _factory.Create(RarityData.Configs[RarityType.Mythical], _data.Characters[CharacterType.Healer], Container);
+            //var view2 = _factory.Create(RarityData.Configs[RarityType.Mythical], _data.Characters[CharacterType.Healer], Container);
             Rewarded?.Invoke(view);
-            Rewarded?.Invoke(view2);
+            //Rewarded?.Invoke(view2);
         }
     }
 }

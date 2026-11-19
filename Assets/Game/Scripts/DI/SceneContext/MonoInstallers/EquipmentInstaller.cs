@@ -10,6 +10,7 @@ using Game.Scripts.Equipment.EquipmentContext.Repository;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Factory;
+using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Equipment.EquipmentContext;
 using Game.Scripts.Service.Equipment.Reward;
@@ -25,6 +26,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private EquipmentSlot _slot;
         [SerializeField] private EquipmentDisplayReplacement _displayReplacement;
         [SerializeField] private DisplayStat _displayStat;
+        [SerializeField] private DisplayPassiveAbility _displayPassiveAbility;
         [SerializeField] private ReplacementStatContainer _statContainer;
         [SerializeField] private EquipmentDropSlot[] _dropSlots;
         [SerializeField] private Transform _equipmentContainer;
@@ -54,6 +56,11 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
                 .Bind<EquipmentSlotFactory>()
                 .AsSingle()
                 .WithArguments(_slot);
+            
+            Container
+                .Bind<DisplayPassiveAbilityFactory>()
+                .AsSingle()
+                .WithArguments(_displayPassiveAbility);
 
             Container
                 .Bind<SortingEquipmentByParameters>()
@@ -79,10 +86,6 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
 
         private void BindReplacement()
         {
-            Container
-                .Bind<DisplayStatData>()
-                .AsSingle();
-
             Container
                 .BindInterfacesTo<EquipmentReplacementController>()
                 .AsSingle()

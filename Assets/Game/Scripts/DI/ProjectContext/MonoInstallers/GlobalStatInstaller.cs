@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.Factory;
+using Game.Scripts.MV.StatContext.Data;
 using Game.Scripts.MV.StatContext.Repository;
 using Zenject;
 
@@ -15,6 +16,11 @@ namespace Game.Scripts.DI.ProjectContext.MonoInstallers
 
             Container
                 .Bind<StatFactory>()
+                .AsSingle();
+            
+            Container
+                .Bind<IStatViewData>()
+                .To<StatViewData>()
                 .AsSingle();
         }
     }

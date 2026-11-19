@@ -4,21 +4,21 @@ using Game.Scripts.Configs;
 using Game.Scripts.MV.StatContext.Type;
 using UnityEngine;
 
-namespace Game.Scripts.Equipment.EquipmentContext
+namespace Game.Scripts.MV.StatContext.Data
 {
-    public class DisplayStatData
+    public class StatViewData : IStatViewData
     {
-        private readonly DisplayStatConfig[] _configs;
-        private readonly Dictionary<StatType, DisplayStatConfig> _stats = new();
+        private readonly StatViewConfig[] _configs;
+        private readonly Dictionary<StatType, StatViewConfig> _stats = new();
         
-        public DisplayStatData()
+        public StatViewData()
         {
-            _configs = Resources.LoadAll<DisplayStatConfig>("Configs/Stat");
+            _configs = Resources.LoadAll<StatViewConfig>("Configs/Stat");
             
             Fill();
         }
 
-        public IReadOnlyDictionary<StatType, DisplayStatConfig> Stats => _stats;
+        public IReadOnlyDictionary<StatType, StatViewConfig> Stats => _stats;
         
         private void Fill()
         {

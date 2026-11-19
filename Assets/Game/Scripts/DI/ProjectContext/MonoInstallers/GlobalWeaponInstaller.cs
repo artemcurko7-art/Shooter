@@ -1,4 +1,3 @@
-using Game.Scripts.Factory;
 using Game.Scripts.WeaponContext.Data;
 using Game.Scripts.WeaponContext.Provider;
 using Zenject;

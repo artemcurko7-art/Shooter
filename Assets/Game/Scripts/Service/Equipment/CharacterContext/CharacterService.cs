@@ -23,7 +23,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
         private readonly WeaponData _weaponData;
         private readonly WeaponViewFactory _weaponViewFactory;
         private readonly SquadPosition[] _squadPositions;
-        private readonly List<Attacker> _characters = new();
+        private readonly List<Character> _characters = new();
         private readonly List<WeaponView> _weaponViews = new();
         private readonly Dictionary<int, Vector3[]> Offsets = new()
         {
@@ -51,7 +51,7 @@ namespace Game.Scripts.Service.Equipment.CharacterContext
             Create();
         }
         
-        public IReadOnlyList<Attacker> Characters => _characters;
+        public IReadOnlyList<Character> Characters => _characters;
         public IReadOnlyList<WeaponView> WeaponViews => _weaponViews;
 
         private void Create()

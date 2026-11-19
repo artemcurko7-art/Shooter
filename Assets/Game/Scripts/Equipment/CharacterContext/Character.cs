@@ -13,7 +13,7 @@ using Zenject;
 
 namespace Game.Scripts.Equipment.CharacterContext
 {
-    public class Attacker : MonoBehaviour, IAttacker
+    public class Character : MonoBehaviour, IAttacker
     {
         [field: SerializeField] public Transform Weapon { get; private set; }
         [field: SerializeField] public Transform ShootPosition { get; private set; }

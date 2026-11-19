@@ -10,7 +10,7 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
     [PassiveAbilityTargetingType(PassiveAbilityTargetingType.RandomExceptSelf)]
     public class RandomExceptSelfAbilityTargeting : IPassiveAbilityTargeting
     {
-        public IEnumerable<Attacker> GetTargets(IReadOnlyList<Attacker> characters, Attacker owner)
+        public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
             return characters
                 .Where(character => character != owner)

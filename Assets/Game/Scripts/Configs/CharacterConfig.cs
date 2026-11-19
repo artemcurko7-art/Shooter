@@ -24,7 +24,7 @@ namespace Game.Scripts.Configs
         
         [field: Header("Character")]
         [field: SerializeField] public Sprite Icon { get; private set; }
-        [field: SerializeField] public Attacker View { get; private set; }
+        [field: SerializeField] public Character View { get; private set; }
         [field: SerializeField] public CharacterStatData[] Stats { get; private set; }
         
         private readonly List<StatType> _excludedStatTypes = new();

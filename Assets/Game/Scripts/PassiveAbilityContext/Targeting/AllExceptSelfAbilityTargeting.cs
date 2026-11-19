@@ -10,9 +10,9 @@ namespace Game.Scripts.PassiveAbilityContext.Targeting
     [PassiveAbilityTargetingType(PassiveAbilityTargetingType.AllExceptSelf)]
     public class AllExceptSelfAbilityTargeting : IPassiveAbilityTargeting
     {
-        public IEnumerable<Attacker> GetTargets(IReadOnlyList<Attacker> characters, Attacker owner)
+        public IEnumerable<Character> GetTargets(IReadOnlyList<Character> characters, Character owner)
         {
-            List<Attacker> newCharacters = new List<Attacker>(characters);
+            List<Character> newCharacters = new List<Character>(characters);
 
             foreach (var character in newCharacters.ToList())
                 if (character == owner)
