@@ -32,10 +32,6 @@ MonoBehaviour:
     <MinValue>k__BackingField: 5
     <MaxValue>k__BackingField: 15
     <IsPercentageValue>k__BackingField: 1
-  - <Type>k__BackingField: 4
-    <MinValue>k__BackingField: 5
-    <MaxValue>k__BackingField: 15
-    <IsPercentageValue>k__BackingField: 1
   - <Type>k__BackingField: 5
     <MinValue>k__BackingField: 5
     <MaxValue>k__BackingField: 15
@@ -62,10 +58,6 @@ MonoBehaviour:
     <MaxValue>k__BackingField: 15
     <IsPercentageValue>k__BackingField: 0
   - <Type>k__BackingField: 3
-    <MinValue>k__BackingField: 10
-    <MaxValue>k__BackingField: 15
-    <IsPercentageValue>k__BackingField: 1
-  - <Type>k__BackingField: 4
     <MinValue>k__BackingField: 10
     <MaxValue>k__BackingField: 15
     <IsPercentageValue>k__BackingField: 1

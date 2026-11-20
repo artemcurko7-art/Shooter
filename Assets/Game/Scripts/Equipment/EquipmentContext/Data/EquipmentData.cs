@@ -9,7 +9,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Data
     public class EquipmentData
     {
         private readonly EquipmentConfig[] _configs;
-        private readonly Dictionary<EquipmentType, List<EquipmentConfig>> _equipmentConfigs = new();
+        private readonly Dictionary<EquipmentType, List<EquipmentConfig>> _equipments = new();
 
         public EquipmentData()
         {
@@ -18,7 +18,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Data
             Fill();
         }
 
-        public IReadOnlyDictionary<EquipmentType, List<EquipmentConfig>> Configs => _equipmentConfigs;
+        public IReadOnlyDictionary<EquipmentType, List<EquipmentConfig>> Equipments => _equipments;
 
         private void Fill()
         {
@@ -27,10 +27,10 @@ namespace Game.Scripts.Equipment.EquipmentContext.Data
                 if (config.Type == EquipmentType.None)
                     throw new InvalidOperationException($"Not type: {config.Type}");
 
-                if (_equipmentConfigs.ContainsKey(config.Type) == false)
-                    _equipmentConfigs.Add(config.Type, new List<EquipmentConfig>());
+                if (_equipments.ContainsKey(config.Type) == false)
+                    _equipments.Add(config.Type, new List<EquipmentConfig>());
 
-                _equipmentConfigs[config.Type].Add(config);
+                _equipments[config.Type].Add(config);
             }
         }
     }

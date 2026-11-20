@@ -48,7 +48,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             
             foreach (var stat in additionalStatsRandom)
             {
-                stats.Add(stat.Type, stat);
+                stats.TryAdd(stat.Type, stat);
                 stats[stat.Type].Increase(stats[stat.Type].Value * RarityData.Configs[rarityType].Multiplier);
             }
             
@@ -58,26 +58,26 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         
         private Stat GetRandomStat(EquipmentType equipmentType, int index)
         {
-            List<EquipmentStatData> statDates = new List<EquipmentStatData>(_data.Configs[equipmentType][index].MainStats);
+            List<EquipmentStatData> statDates = new List<EquipmentStatData>(_data.Equipments[equipmentType][index].MainStats);
             
-            int randomIndex = NumberGeneration.GetIntegerRandom(0, _data.Configs[equipmentType][index].MainStats.Length - 1);
+            int randomIndex = NumberGeneration.GetIntegerRandom(0, _data.Equipments[equipmentType][index].MainStats.Length - 1);
             int value = NumberGeneration.GetIntegerRandom((int)statDates[randomIndex].MinValue, (int)statDates[randomIndex].MaxValue);
             var stat = CreateStatInstance(statDates[randomIndex].Type, value, statDates[randomIndex].IsPercentageValue);
-            
+
             return stat;
         }
         
         private EquipmentConfig GetRandomEquipmentConfig(EquipmentType equipmentType, out int index)
         {
-            index = NumberGeneration.GetIntegerRandom(0, _data.Configs[equipmentType].Count - 1);
-            EquipmentConfig config = _data.Configs[equipmentType][index];
+            index = NumberGeneration.GetIntegerRandom(0, _data.Equipments[equipmentType].Count - 1);
+            EquipmentConfig config = _data.Equipments[equipmentType][index];
             
             return config;
         }
         
         private Stat[] GetRandomStats(RarityType rarityType, EquipmentType equipmentType, int index)
         {
-            List<EquipmentStatData> statInfoDates = new List<EquipmentStatData>(_data.Configs[equipmentType][index].AdditionalStats);
+            List<EquipmentStatData> statInfoDates = new List<EquipmentStatData>(_data.Equipments[equipmentType][index].AdditionalStats);
             List<Stat> stats = new();
             statInfoDates.Shuffle();
             
@@ -93,7 +93,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             foreach (var statInfoData in statInfoDates)
             {
                 int value = NumberGeneration.GetIntegerRandom((int)statInfoData.MinValue, (int)statInfoData.MaxValue);
-                
+
                 stats.Add(CreateStatInstance(statInfoData.Type, value, statInfoData.IsPercentageValue));
             }
             
