@@ -4,12 +4,12 @@ using Game.Scripts.Configs;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using UnityEngine;
 
-namespace Game.Scripts.Equipment.EquipmentContext.Data
+namespace Game.Scripts.Common.Classes.Rarity
 {
-    public class RarityData
+    public class RarityData : IRarityData
     {
         private readonly RarityConfig[] _configs;
-        private readonly Dictionary<RarityType, RarityConfig> _rarityConfigs = new();
+        private readonly Dictionary<RarityType, RarityConfig> _rarities = new();
         
         public RarityData()
         {
@@ -18,7 +18,7 @@ namespace Game.Scripts.Equipment.EquipmentContext.Data
             Fill();
         }
         
-        public IReadOnlyDictionary<RarityType, RarityConfig> Configs => _rarityConfigs;
+        public IReadOnlyDictionary<RarityType, RarityConfig> Rarities => _rarities;
         
         private void Fill()
         {
@@ -27,10 +27,10 @@ namespace Game.Scripts.Equipment.EquipmentContext.Data
                 if (config.Type == RarityType.None)
                     throw new InvalidOperationException($"Not type: {config.Type}");
 
-                if (_rarityConfigs.ContainsKey(config.Type))
+                if (_rarities.ContainsKey(config.Type))
                     throw new InvalidOperationException($"Duplicate type: {config.Type}");
                 
-                _rarityConfigs.Add(config.Type, config);
+                _rarities.Add(config.Type, config);
             }
         }
     }

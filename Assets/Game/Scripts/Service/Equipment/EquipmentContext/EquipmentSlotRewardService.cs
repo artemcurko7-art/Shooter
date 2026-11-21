@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Scripts.Common.Classes.Rarity;
 using Game.Scripts.Configs;
 using Game.Scripts.Equipment.EquipmentContext;
 using Game.Scripts.Equipment.EquipmentContext.Data;
@@ -16,7 +17,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
 {
     public class EquipmentSlotRewardService : SlotRewardService, ISlotRewardService<EquipmentSlot>
     {
-        private readonly EquipmentData _data;
+        private readonly IEquipmentData _data;
         private readonly EquipmentSlotFactory _factory;
         private int _countType;
         private bool _isPercent;
@@ -24,8 +25,9 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
         public event Action<EquipmentSlot> Rewarded;
         
         public EquipmentSlotRewardService(
-            RarityData rarityData,
-            Transform container, EquipmentData data,
+            IRarityData rarityData,
+            Transform container,
+            IEquipmentData data,
             EquipmentSlotFactory factory)
             : base(rarityData, container)
         {
@@ -42,17 +44,17 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             Stat[] additionalStatsRandom = GetRandomStats(rarityType, equipmentType, index);
             additionalStatsRandom = GetSortingStats(additionalStatsRandom.ToList());
 
-            mainStat.Increase(mainStat.Value * RarityData.Configs[rarityType].Multiplier);
+            mainStat.Increase(mainStat.Value * RarityData.Rarities[rarityType].Multiplier);
             
             Dictionary<StatType, Stat> stats = new();
             
             foreach (var stat in additionalStatsRandom)
             {
                 stats.TryAdd(stat.Type, stat);
-                stats[stat.Type].Increase(stats[stat.Type].Value * RarityData.Configs[rarityType].Multiplier);
+                stats[stat.Type].Increase(stats[stat.Type].Value * RarityData.Rarities[rarityType].Multiplier);
             }
             
-            var slot = _factory.Create(RarityData.Configs[rarityType], config, mainStat, stats, Container);
+            var slot = _factory.Create(RarityData.Rarities[rarityType], config, mainStat, stats, Container);
             Rewarded?.Invoke(slot);
         }
         
@@ -81,7 +83,7 @@ namespace Game.Scripts.Service.Equipment.EquipmentContext
             List<Stat> stats = new();
             statInfoDates.Shuffle();
             
-            int count = NumberGeneration.GetIntegerRandom(RarityData.Configs[rarityType].MaxParameter - 1, RarityData.Configs[rarityType].MaxParameter + 1);
+            int count = NumberGeneration.GetIntegerRandom(RarityData.Rarities[rarityType].MaxParameter - 1, RarityData.Rarities[rarityType].MaxParameter + 1);
             int calculationCountParameter = statInfoDates.Count - count;
         
             for (int j = 0; j < calculationCountParameter; j++)

@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 5
   <Icon>k__BackingField: {fileID: 21300000, guid: 84063999b9e1741d099c1d8f7bbc0f7a, type: 3}
+  <Background>k__BackingField: {fileID: 21300000, guid: 8b6608d314b27d1478cc77d2e41a8354, type: 3}
+  <Circle>k__BackingField: {fileID: 21300000, guid: 020498f7047d3bf42a498ce3e73e7280, type: 3}
+  <Runway>k__BackingField: {fileID: 0}
   <MaxParameter>k__BackingField: 5
   <Multiplier>k__BackingField: 5

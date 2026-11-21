@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment;
+﻿using Game.Scripts.Common.Classes.Rarity;
+using Game.Scripts.Equipment;
 using Game.Scripts.Equipment.CharacterContext.Handler;
 using Game.Scripts.Equipment.CharacterContext.Replacement;
 using Game.Scripts.Equipment.EquipmentContext;
@@ -76,11 +77,13 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         private void BindData()
         {
             Container
-                .Bind<EquipmentData>()
+                .Bind<IEquipmentData>()
+                .To<EquipmentData>()
                 .AsSingle();
             
             Container
-                .Bind<RarityData>()
+                .Bind<IRarityData>()
+                .To<RarityData>()
                 .AsSingle();
         }
 

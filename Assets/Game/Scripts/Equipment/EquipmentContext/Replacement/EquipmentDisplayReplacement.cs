@@ -1,4 +1,5 @@
-﻿using Game.Scripts.Equipment.EquipmentContext.Repository;
+﻿using Game.Scripts.Common.Classes.Rarity;
+using Game.Scripts.Equipment.EquipmentContext.Repository;
 using Game.Scripts.Equipment.EquipmentContext.Type;
 using Game.Scripts.Service.Equipment;
 using Game.Scripts.Service.Equipment.EquipmentContext;
@@ -11,13 +12,15 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
 {
     public class EquipmentDisplayReplacement : MonoBehaviour
     {
+        [SerializeField] private ChildrenImagesSpriteApplier _childrenImagesSpriteApplierDropped;
+        [SerializeField] private ChildrenImagesSpriteApplier _childrenImagesSpriteApplierDragged;
         [SerializeField] private Image _rarityDropped;
         [SerializeField] private Image _rarityDragged;
         [SerializeField] private TMP_Text _nameDropped;
         [SerializeField] private TMP_Text _nameDragged;
         [SerializeField] private Image _iconDropped;
         [SerializeField] private Image _iconDragged;
-
+        
         private IFreeSlotRegistry<EquipmentType, EquipmentSlot> _freeSlotRegistry;
         private IReplacementService _service;
         
@@ -30,14 +33,23 @@ namespace Game.Scripts.Equipment.EquipmentContext.Replacement
         
         private void OnEnable()
         {
-            _rarityDropped.sprite = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].RarityConfig.Icon;
-            _rarityDragged.sprite = _service.EquipmentSlot.RarityConfig.Icon;
+            var typeDropped = _service.EquipmentSlot.EquipmentItem.Type;
+            var slotDropped = _freeSlotRegistry.EquippedSlots[typeDropped];
+            var rarityConfigDropped = _freeSlotRegistry.EquippedSlots[typeDropped].RarityConfig;
             
-            _nameDropped.text = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].Name;
-            _nameDragged.text = _service.EquipmentSlot.Name;
+            _childrenImagesSpriteApplierDropped.Set(rarityConfigDropped.Background, rarityConfigDropped.Circle);
+            _rarityDropped.sprite = slotDropped.RarityConfig.Icon;
+            _nameDropped.text = slotDropped.Name;
+            _iconDropped.sprite = slotDropped.Icon.sprite;
+
+            var slotDragged = _service.EquipmentSlot;
+            var rarityConfigDragged = _service.EquipmentSlot.RarityConfig;
+            
+            _childrenImagesSpriteApplierDragged.Set(rarityConfigDragged.Background, rarityConfigDragged.Circle);
+            _rarityDragged.sprite = slotDragged.RarityConfig.Icon;
+            _nameDragged.text = slotDragged.Name;
+            _iconDragged.sprite = slotDragged.Icon.sprite;
                 
-            _iconDropped.sprite = _freeSlotRegistry.EquippedSlots[_service.EquipmentSlot.EquipmentItem.Type].Icon.sprite;
-            _iconDragged.sprite = _service.EquipmentSlot.Icon.sprite;
         }
     }
 }

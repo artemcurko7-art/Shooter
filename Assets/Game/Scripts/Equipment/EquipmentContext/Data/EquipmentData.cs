@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Equipment.EquipmentContext.Data
 {
-    public class EquipmentData
+    public class EquipmentData : IEquipmentData
     {
         private readonly EquipmentConfig[] _configs;
         private readonly Dictionary<EquipmentType, List<EquipmentConfig>> _equipments = new();
