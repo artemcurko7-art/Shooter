@@ -15,7 +15,7 @@ MonoBehaviour:
   Authorization:
     playerPhotoSize: 1
     authorized: 1
-    playerName: Player current
+    playerName: Pro100Player
     uniqueID: 000
     playerPhoto: demo image
     payingStatus: 0
@@ -260,6 +260,14 @@ MonoBehaviour:
         extraData: 
   Localization:
     setLanguageMod: 1
+  ServerTime:
+    manualDateSetup: 0
+    year: 2025
+    month: 6
+    day: 15
+    hour: 12
+    minute: 30
+    second: 30
   Storage:
     saveLocal: 0
     saveCloud: 1
@@ -319,6 +327,9 @@ MonoBehaviour:
     pixelRatioValue: 1.3
     developerBuild: 0
   platformInfo:
+    localProdGameId: 
+    localProdPort: 8080
+    localProdUseCsp: 1
     ownHost: 0
   platformToggles:
     setLanguageMod: 0

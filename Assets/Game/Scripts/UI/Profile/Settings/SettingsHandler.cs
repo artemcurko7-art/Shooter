@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -11,7 +12,8 @@ namespace Game.Scripts.UI.Profile.Settings
         private const float ENABLED_THRESHOLD = 0.1f;
 
         private readonly Dictionary<Slider, Image> _handles = new();
-        
+
+        [SerializeField] private TMP_Text _NicknameText;
         [SerializeField] private Slider _soundSlider;
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _animotionSlider;
@@ -37,6 +39,8 @@ namespace Game.Scripts.UI.Profile.Settings
 
         public void Setup()
         {
+            _NicknameText.text = YG2.player.name;
+
             ApplySetting(_soundSlider, YG2.saves.Sound);
             ApplySetting(_musicSlider, YG2.saves.Music);
             ApplySetting(_animotionSlider, YG2.saves.Animation);
@@ -63,9 +67,9 @@ namespace Game.Scripts.UI.Profile.Settings
 
             slider.maxValue = MAX_VALUE;
             slider.wholeNumbers = true;
-            
+
             if (!slider.handleRect || !slider.handleRect.TryGetComponent(out Image image)) return;
-            
+
             _handles[slider] = image;
             image.color = StatusColors.GetColor(slider.value >= ENABLED_THRESHOLD);
         }

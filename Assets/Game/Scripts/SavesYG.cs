@@ -26,8 +26,9 @@ namespace YG
         // --- Аватары ---
         public List<string> OpenedAvatarIds = new() { "1", "2" };
         public string SelectedAvatarId = "1";
-        
+
         // --- Настройки ---
+        public string Nickname = "Player1";
         public bool Music = true;
         public bool Sound = true;
         public bool Animation = true;
