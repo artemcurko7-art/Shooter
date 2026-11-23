@@ -90,7 +90,7 @@ namespace Game.Scripts.Equipment.DragInDrop
             base.ResetSettings();
             
             Slot.Rarity.color = Slot.Rarity.color.GetAlpha(1);
-            //Slot.Icon.color = Slot.Icon.color.GetAlpha(1);
+            Slot.Icon.color = Slot.Icon.color.GetAlpha(1);
             InvokeEndDragged(Slot);
         }
     }

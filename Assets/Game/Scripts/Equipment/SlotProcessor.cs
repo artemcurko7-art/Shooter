@@ -29,18 +29,6 @@ namespace Game.Scripts.Equipment
             
             DraggedSlot = slot;
         }
-
-        protected override void OnEndDragged(TSlot slot)
-        {
-            foreach (var dropSlot in DropSlots)
-            {
-                if (dropSlot.Slot == null)
-                {
-                    dropSlot.Icon.color = Color.white;
-                    dropSlot.Icon.color = dropSlot.Icon.color.GetAlpha(0f);
-                }
-            }
-        }
         
         protected override void OnDropped(TSlot slot)
         {

@@ -9,6 +9,7 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
     public class CharacterDropSlot : DropSlot<CharacterSlot>
     {
         [field: SerializeField] public SquadNumberType Type { get; private set; }
+        [field: SerializeField] public DropZoneIndicator DropZoneIndicator { get; private set; }
 
         public event Action<SquadNumberType> TypeDropped;
         
@@ -18,6 +19,7 @@ namespace Game.Scripts.Equipment.CharacterContext.DragInDrop
             {
                 TypeDropped?.Invoke(Type);
                 Set(slot);
+                Rarity.sprite = slot.RarityConfig.Runway;
             }
         }
     }

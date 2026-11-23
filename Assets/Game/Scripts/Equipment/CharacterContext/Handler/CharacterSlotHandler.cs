@@ -2,7 +2,6 @@
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Service.Equipment.Reward;
 using Game.Scripts.SquadContext.Type;
-using UnityEngine;
 
 namespace Game.Scripts.Equipment.CharacterContext.Handler
 {
@@ -36,6 +35,19 @@ namespace Game.Scripts.Equipment.CharacterContext.Handler
             
             foreach (var dropSlot in _dropSlots)
                 dropSlot.TypeDropped -= OnTypeDropped;
+        }
+        
+        protected override void Select(CharacterSlot slot)
+        {
+            foreach (var dropSlot in _dropSlots)
+                if (dropSlot.Slot == null)
+                    dropSlot.DropZoneIndicator.gameObject.SetActive(true);
+        }
+
+        protected override void Unselect(CharacterSlot slot)
+        {
+            foreach (var dropSlot in _dropSlots)
+                dropSlot.DropZoneIndicator.gameObject.SetActive(false);
         }
 
         private void OnTypeDropped(SquadNumberType type)

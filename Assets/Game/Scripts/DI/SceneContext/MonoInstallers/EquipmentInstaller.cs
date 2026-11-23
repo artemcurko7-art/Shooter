@@ -30,6 +30,7 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         [SerializeField] private DisplayPassiveAbility _displayPassiveAbility;
         [SerializeField] private ReplacementStatContainer _statContainer;
         [SerializeField] private EquipmentDropSlot[] _dropSlots;
+        [SerializeField] private DropZoneIndicator _dropZoneIndicator;
         [SerializeField] private Transform _equipmentContainer;
         [SerializeField] private GridLayoutGroup _gridLayoutGroup;
         
@@ -119,7 +120,8 @@ namespace Game.Scripts.DI.SceneContext.MonoInstallers
         {
             Container
                 .BindInterfacesAndSelfTo<EquipmentSlotHandler>()
-                .AsSingle();
+                .AsSingle()
+                .WithArguments(_dropZoneIndicator);
             
             Container
                 .Bind<ISubscriber>()

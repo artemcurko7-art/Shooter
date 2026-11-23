@@ -10,11 +10,10 @@ namespace Game.Scripts.Equipment.DragInDrop
     {
         private RectTransform _rectTransform;
         private Sprite _currentRarity;
-        private Sprite _currentIcon;
+        private Color _colorRarity;
         
         [field: SerializeField] public Image Icon { get; private set; }
         [field: SerializeField] protected Image Rarity { get; private set; }
-        
         
         public T Slot { get; private set; }
         
@@ -24,8 +23,8 @@ namespace Game.Scripts.Equipment.DragInDrop
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _currentIcon = Icon.sprite;
             _currentRarity = Rarity.sprite;
+            _colorRarity = Rarity.color;
         }
 
         public abstract void OnDrop(PointerEventData eventData);
@@ -39,6 +38,7 @@ namespace Game.Scripts.Equipment.DragInDrop
             Icon.color = Icon.color.GetAlpha(1);
             slot.Rarity.color = slot.Rarity.color.GetAlpha(0);
             slot.Icon.color = slot.Icon.color.GetAlpha(0);
+            Rarity.color = Rarity.color.GetAlpha(1);
             Icon.color = Color.white;
             Slot = slot;
             Dropped?.Invoke(slot);
@@ -48,9 +48,9 @@ namespace Game.Scripts.Equipment.DragInDrop
         {
             Removed?.Invoke(Slot);
             Icon.sprite = null;
-            Icon.sprite = _currentIcon;
             Rarity.sprite = _currentRarity;
             Icon.color = Icon.color.GetAlpha(0);
+            Rarity.color = _colorRarity;
             Slot = null;
         }
     }

@@ -14,11 +14,11 @@ namespace Game.Scripts.Equipment.CharacterContext
         private SquadNumberType _squadNumberType;
 
         protected CharacterSlotProcessor(
+            CharacterProvider provider,
             ISlotRewardService<CharacterSlot> service,
             SlotsRepository<CharacterSlot> repository,
             CharacterDropSlot[] dropSlots,
-            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry,
-            CharacterProvider provider)
+            FreeSlotRegistry<SquadNumberType, CharacterSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry)
         {
             _dropSlots = dropSlots;

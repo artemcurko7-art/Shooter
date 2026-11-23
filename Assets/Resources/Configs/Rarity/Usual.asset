@@ -16,6 +16,6 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: 0a6da14e67f355f46800af0af4b379cc, type: 3}
   <Background>k__BackingField: {fileID: 21300000, guid: 99a4f951f92f0b946822d310ae87a216, type: 3}
   <Circle>k__BackingField: {fileID: 21300000, guid: 0b2e4d1ed0160874f9206ce37e640077, type: 3}
-  <Runway>k__BackingField: {fileID: 0}
+  <Runway>k__BackingField: {fileID: 21300000, guid: b569b1c18d0c41e41901eb18eab161d4, type: 3}
   <MaxParameter>k__BackingField: 1
   <Multiplier>k__BackingField: 1

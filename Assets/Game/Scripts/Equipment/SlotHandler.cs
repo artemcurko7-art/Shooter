@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Game.Scripts.Equipment.DragInDrop;
 using Game.Scripts.Equipment.Repository;
 using Game.Scripts.Service.Equipment.Reward;
-using Game.Scripts.Static.Extensions;
-using UnityEngine;
 
 namespace Game.Scripts.Equipment
 {
@@ -13,14 +11,14 @@ namespace Game.Scripts.Equipment
         where TSlot : Slot
     {
         private readonly List<DropSlot<TSlot>> _equippedSlots = new();
-        
+
         public SlotHandler(
             ISlotRewardService<TSlot> service,
             SlotsRepository<TSlot> repository,
             DropSlot<TSlot>[] dropSlots,
             FreeSlotRegistry<TType, TSlot> freeRegistry)
             : base(service, repository, dropSlots, freeRegistry) { }
-
+        
         public event Action<bool> TabOpened;
         
         public void DisableTab()
@@ -40,13 +38,9 @@ namespace Game.Scripts.Equipment
                     _equippedSlots.Remove(dropSlot);
                     Release();
                 }
-
-                if (dropSlot.Slot == null)
-                {
-                    dropSlot.Icon.color = Color.green;
-                    dropSlot.Icon.color = dropSlot.Icon.color.GetAlpha( 0.5f);
-                }
             }
+            
+            Select(slot);
         }
         
         protected override void OnEndDragged(TSlot slot)
@@ -60,6 +54,8 @@ namespace Game.Scripts.Equipment
             }
             
             slot.Drag.CanvasGroup.blocksRaycasts = true;
+            
+            Unselect(slot);
         }
         
         protected override void OnDropped(TSlot slot)
@@ -81,5 +77,8 @@ namespace Game.Scripts.Equipment
             //Sorting.Sort(Repository.Slots);
             Assign(slot);
         }
+
+        protected abstract void Select(TSlot slot);
+        protected abstract void Unselect(TSlot slot);
     }
 }
