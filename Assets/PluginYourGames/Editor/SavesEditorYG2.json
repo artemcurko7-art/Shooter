@@ -1,18 +1,20 @@
 {
-    "IdSavedStatCount": 140,
-    "AttackStrength": 13.5,
-    "CriticalDamage": 13.5,
-    "Armor": 14.0,
-    "MovementSpeed": 13.5,
-    "ViewRange": 14.0,
-    "TakenDailyGiftDays": [],
+    "IdSavedStatCount": 146,
+    "AttackStrength": 14.5,
+    "CriticalDamage": 14.0,
+    "Armor": 14.5,
+    "MovementSpeed": 14.0,
+    "ViewRange": 14.5,
+    "TakenDailyGiftDays": [
+        1
+    ],
     "TakenDailyGiftBoxes": [
         1,
         2,
         3
     ],
-    "TotalCollectedGifts": 26,
-    "DailyGiftWeek": 202647,
+    "TotalCollectedGifts": 27,
+    "DailyGiftWeek": 202648,
     "GiftEndTime": 0,
     "Energy": 5,
     "NextEnergyRestoreTime": "",
@@ -21,6 +23,7 @@
         "2"
     ],
     "SelectedAvatarId": "2",
+    "Nickname": "Player1",
     "Music": false,
     "Sound": false,
     "Animation": false,
